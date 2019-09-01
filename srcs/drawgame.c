@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 19:36:14 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/01 19:13:16 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/09/01 19:16:17 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int			nline(int x1, int y1, int x2, int y2, int color, t_sdl *sdl)
 	return (0);
 }
 
-void		vline(int x, int y1,int y2, int top,int middle,int bottom, t_sdl *sdl)
+void		vline(int x, int y1,int y2, int top, int middle, int bottom, t_sdl *sdl)
 {
 	int		y;
 
@@ -143,7 +143,7 @@ int			drawgame(t_doom *doom, t_player *player)
 			n++;
 			goto again;
 		}
-		if (t1.z <= 0 || t2.z <= 0)
+		if (t1.z <= 0 || t2.z <= 0) //какая-то из двух точек за спиной
 		{
 			i1 = Intersect(t1.x,t1.z,t2.x,t2.z, -nearside,nearz, -farside,farz);
 			i2 = Intersect(t1.x,t1.z,t2.x,t2.z,  nearside,nearz,  farside,farz);
@@ -186,7 +186,7 @@ int			drawgame(t_doom *doom, t_player *player)
 			n++;
 			goto again;
 		}
-		yceil  = sect->ceil  - player->where.z;
+		yceil  = sect->ceil  - player->where.z; 
         yfloor = sect->floor - player->where.z;
 		w1.ya = HEIGHT / 2 - (int)(yceil * yscale1);
 		w1.yb = HEIGHT / 2 - (int)(yfloor * yscale1);
