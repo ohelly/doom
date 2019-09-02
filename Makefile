@@ -3,53 +3,60 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+         #
+#    By: lminta <lminta@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2019/08/23 19:23:50 by ohelly            #+#    #+#              #
-#    Updated: 2019/09/01 17:42:46 by dtoy             ###   ########.fr        #
+#    Created: 2019/04/02 20:58:32 by lminta            #+#    #+#              #
+#    Updated: 2019/09/02 15:08:00 by lminta           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-NAME = doom
-CC = gcc
-MAKE = make
-#FLAGS = -Wall -Wextra -Werror
-FRAMEWORKS = -l SDL2-2.0.0
-CFILES = \
-		srcs/main.c \
-		srcs/loadmap.c \
-		srcs/get_next_line.c \
-		srcs/loadsectors.c \
-		srcs/sdlstart.c \
-		srcs/hooks.c \
-		srcs/drawgame.c \
-		srcs/line.c
-OFILES = $(CFILES:%.c=%.o)
-LIBINC = libft/includes
-LIBPATH = libft/
-FT = ft
-LFTPATH = $(LIBPATH)
-LFT = $(addprefix lib, $(addsuffix .a, $(FT)))
-LIBFT = -L$(LFTPATH) -l$(FT)
-MKFT = $(MAKE) -C $(LFTPATH)
-SRC = $(CFILES)
-OBJS = $(OFILES)
-INC = include/
-SDL = includeSDL/
-SDLlib = lib/
-INCLUDES = -I$(LIBINC) -I$(INC) -I$(SDL)
-LIB = -lm $(LIBFT) -L $(SDLlib)
-all: $(NAME)
-$(NAME) : $(LFT) $(OBJS)
-		$(CC) -o $(NAME) $(INCLUDES) $(LIB) $(FRAMEWORKS) $(OBJS)
-%.o: %.c
-		$(CC) $(FLAGS) -o $@ $(INCLUDES) -c $<
-$(LFT):
-		$(MKFT)
+NAME = doom-nukem
+
+INC = -I $(FRAMEDIR)/SDL2.framework/Versions/A/Headers -I ./inc \
+-I $(FRAMEDIR)/SDL2_image.framework/Versions/A/Headers \
+-I $(FRAMEDIR)/SDL2_ttf.framework/Versions/A/Headers \
+-I $(FRAMEDIR)/SDL2_mixer.framework/Versions/A/Headers \
+
+FRAMEDIR = /Users/$(USER)/Library/Frameworks
+
+FRAME = $(FRAMEDIR)/SDL2.framework $(FRAMEDIR)/SDL2_image.framework \
+$(FRAMEDIR)/SDL2_mixer.framework $(FRAMEDIR)/SDL2_ttf.framework
+
+FLAGS = -Ofast -Wall -Werror -Wextra -c
+
+LIBS = lib
+
+FLAGS2 = -F ~/Library/Frameworks/ -framework SDL2 -framework SDL2_image \
+-framework SDL2_ttf -framework SDL2_mixer -lftgnl -lft -lm
+
+OBJ = src/main.o src/drawgame.o src/hooks.o src/line.o \
+src/loadmap.o src/loadsectors.o src/sdlstart.o
+
+all: $(FRAMEDIR) $(LIBS) $(FRAME) $(NAME)
+
+$(NAME): $(OBJ)
+	make -C Get_Next_Line
+	gcc $(OBJ) -L $(LIBS) $(INC) $(FLAGS2) -o $(NAME)
+
+$(OBJ): %.o: %.c
+	gcc $(FLAGS) $(INC) $< -o $@
+
 clean:
-		$(MKFT) clean
-		rm -rf $(OBJS)
+	make -C Get_Next_Line clean
+	rm -f $(OBJ)
+
 fclean: clean
-		$(MKFT) fclean
-		rm -rf $(NAME)
+	make -C Get_Next_Line fclean
+	rm -f $(NAME)
+	rm -rf $(FRAME)
+
+$(FRAMEDIR):
+	mkdir $(FRAMEDIR)
+
+$(FRAME): $(FRAMEDIR)/%: Frameworks/%
+	cp -R $< $(FRAMEDIR)
+
+$(LIBS):
+	mkdir lib
+
 re: fclean all
