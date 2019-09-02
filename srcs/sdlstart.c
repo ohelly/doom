@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 19:28:15 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/01 18:54:59 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/09/01 19:30:54 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int     sdlstart(t_doom *doom)
         SDL_LockSurface(doom->sdl->surface);
 		drawgame(doom, doom->player);
 		SDL_UnlockSurface(doom->sdl->surface);
-
 		SDL_SetRelativeMouseMode(1);
       	SDL_GetRelativeMouseState(&x,&y);
       	doom->player->angle += x * 0.005f;
@@ -68,7 +67,7 @@ int     sdlstart(t_doom *doom)
             }
         }
 		SDL_UpdateWindowSurface(doom->sdl->win);
-		SDL_Delay(5);
+		SDL_Delay(10);
 		SDL_memset(doom->sdl->pix, 0, WIDTH * HEIGHT * 4); 
 	}
 	return (0);
