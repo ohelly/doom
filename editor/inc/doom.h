@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/03 16:41:32 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/03 17:15:51 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ typedef struct			s_sdl
 {
 	SDL_Window			*win;
 	SDL_Renderer		*rend;
+	SDL_Texture			*tex;
+	int					*pix;
 	SDL_Event			ev;
 }						t_sdl;
 
@@ -78,7 +80,9 @@ typedef struct			s_doom
 void					output(t_doom *doom);
 void					key_and_mouse_press(t_doom *doom);
 int						get_next_line(const int fd, char **line);
-int						line(t_doom *doom);
+int						line(t_doom *doom, int color);
+int						output_pixel(t_doom *doom, int pos, int color);
+int						draw_rectangle(t_doom *doom, int x, int y, int color, int size);
 void					put_canvas(t_doom *doom);
 void					put_select(t_doom *doom, t_mouse *mouse);
 

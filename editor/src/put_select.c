@@ -27,17 +27,9 @@ void		draw_select(t_doom *doom, t_mouse *mouse)
 	else if (mouse->ppos_x + (doom->sh / 2) <= mouse->x && mouse->ppos_y + (doom->sh / 2) > mouse->y)
 		mouse->ppos_x += doom->sh / 2;
 	if (mouse->ppos_x != 0 && mouse->ppos_x != WIDTH && mouse->ppos_y != 0 && mouse->ppos_y != HEIGHT)
-    {
-		SDL_RenderDrawPoint(doom->sdl->rend, mouse->ppos_x - 1, mouse->ppos_y);
-		SDL_RenderDrawPoint(doom->sdl->rend, mouse->ppos_x, mouse->ppos_y);
-		SDL_RenderDrawPoint(doom->sdl->rend, mouse->ppos_x + 1, mouse->ppos_y);
-		SDL_RenderDrawPoint(doom->sdl->rend, mouse->ppos_x - 1, mouse->ppos_y - 1);
-		SDL_RenderDrawPoint(doom->sdl->rend, mouse->ppos_x, mouse->ppos_y - 1);
-		SDL_RenderDrawPoint(doom->sdl->rend, mouse->ppos_x + 1, mouse->ppos_y - 1);
-		SDL_RenderDrawPoint(doom->sdl->rend, mouse->ppos_x - 1, mouse->ppos_y + 1);
-		SDL_RenderDrawPoint(doom->sdl->rend, mouse->ppos_x, mouse->ppos_y + 1);
-		SDL_RenderDrawPoint(doom->sdl->rend, mouse->ppos_x + 1, mouse->ppos_y + 1);
-    }
+	{
+		draw_rectangle(doom, mouse->ppos_x, mouse->ppos_y, 0x990000, 3);
+	}
 }
 
 void		put_select(t_doom *doom, t_mouse *mouse)
