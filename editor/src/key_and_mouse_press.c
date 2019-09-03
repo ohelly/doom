@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 22:12:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/03 19:10:14 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/03 19:23:39 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,11 +19,12 @@ void	in_list(t_doom *doom)
 	if (doom->app == 0)
 	{
 		doom->sects->sectors[doom->sects->i].start = doom->verts->i;
+		doom->verts->sel_v = doom->verts->i;
 		doom->app = 1;
 	}
 	else
 	{
-		if (doom->verts->list[doom->verts->i].x == doom->verts->list[doom->verts->sel_v].x && doom->verts->list[doom->verts->i].y == doom->verts->list[doom->verts->sel_v].y)
+		if (doom->verts->list[doom->verts->i].pos.x == doom->verts->list[doom->verts->sel_v].pos.x && doom->verts->list[doom->verts->i].pos.y == doom->verts->list[doom->verts->sel_v].pos.y)
 			doom->app = 0;
 		doom->sects->sectors[doom->sects->i].end = doom->verts->i;
 		doom->sects->i++;
