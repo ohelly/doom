@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/25 16:45:32 by ohelly            #+#    #+#             */
-/*   Updated: 2019/08/30 16:59:55 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/03 18:53:48 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,5 @@ void		draw_select(t_doom *doom, t_mouse *mouse)
 
 void		put_select(t_doom *doom, t_mouse *mouse)
 {
-	SDL_SetRenderDrawColor(doom->sdl->rend, 255, 0, 0, 0);
 	draw_select(doom, mouse);
 }
