@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/03 17:52:18 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/03 19:07:00 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,37 +25,49 @@
 # define HEIGHT 720
 # define BUFF_SIZE 1
 
+typedef struct			s_sectors
+{
+	int					start;
+	int					end;
+}						t_sectors;
+
+typedef struct			s_all_sect
+{ 
+	int					count;
+	int					i;
+	t_sectors			sectors[2048];
+}						t_all_sect;
+
+typedef struct			s_vertex
+{
+	int					x;
+	int					y;
+}						t_v2;
+
 typedef struct			s_vertex
 {
 	int					num;
-	int					x;
-	int					y;
+	t_v2				pos;
 }						t_vertex;
 
 typedef struct			s_all_vert
 { 
 	int					count;
-	int					sel_v;
 	int					i;
 	t_vertex			list[2048];
 }						t_all_vert;
 
 typedef struct			s_mouse
 {
-	int					x;
-	int					y;
-	int					ppos_x;
-	int					ppos_y;
+	t_v2				pos;
+	t_v2				ppos;
 }						t_mouse;
 
 typedef struct			s_line
 {
-	int					x0;
-	int					y0;
-	int					x1;
-	int					y1;
-	int					dx;
-	int					dy;
+	t_v2				pos0;
+	t_v2				pos1;
+	t_v2				d;
 }						t_line;
 
 typedef struct			s_sdl
@@ -74,6 +86,7 @@ typedef struct			s_doom
 	t_line				*line;
 	t_mouse				*mouse;
 	t_all_vert			*verts;
+	t_all_sect			*sects;
 	int					sh;
 }						t_doom;
 
@@ -82,7 +95,7 @@ void					key_and_mouse_press(t_doom *doom);
 int						get_next_line(const int fd, char **line);
 int						line(t_doom *doom, int color);
 int						output_pixel(t_doom *doom, int pos, int color);
-int						draw_rectangle(t_doom *doom, int x, int y, int color, int size);
+int						draw_rectangle(t_doom *doom, t_v2 pos, int color, int size);
 void					put_canvas(t_doom *doom);
 void					put_select(t_doom *doom, t_mouse *mouse);
 

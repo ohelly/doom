@@ -6,17 +6,17 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/25 17:01:23 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/03 16:44:01 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/03 19:14:09 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-int		draw_rectangle(t_doom *doom, int x, int y, int color, int size)
+int		draw_rectangle(t_doom *doom, t_v2 pos, int color, int size)
 {
 	int i;
 	int j;
-	int pos;
+	int n;
 
 	i = -size;
 	while (i <= size)
@@ -24,9 +24,9 @@ int		draw_rectangle(t_doom *doom, int x, int y, int color, int size)
 		j = -size;
 		while (j <= size)
 		{
-			pos = (x + i) + (y + j) * WIDTH;
-			if (pos >= 0 && pos < WIDTH * HEIGHT)
-			doom->sdl->pix[pos] = color;
+			n = (pos.x + i) + (pos.y + j) * WIDTH;
+			output_pixel(doom, n, color);
+			doom->sdl->pix[n] = color;
 			j++;
 		}
 		i++;
@@ -49,20 +49,20 @@ void		draw_chto(t_doom *doom)
 	i = 0;
 	while (i + 1 < doom->verts->sel_v)
 	{
-		*doom->line = (t_line) { doom->verts->list[i].x, doom->verts->list[i].y, doom->verts->list[i + 1].x, doom->verts->list[i + 1].y, 0, 0 };
+		*doom->line = (t_line) { doom->verts->list[i].pos.x, doom->verts->list[i].pos.y, doom->verts->list[i + 1].pos.x, doom->verts->list[i + 1].pos.y, 0, 0 };
 		line(doom, 0x990000);
 		i++;
 	}
 	i = doom->verts->sel_v;
 	while (i + 1 < doom->verts->i)
 	{
-		*doom->line = (t_line) { doom->verts->list[i].x, doom->verts->list[i].y, doom->verts->list[i + 1].x, doom->verts->list[i + 1].y, 0, 0 };
+		*doom->line = (t_line) { doom->verts->list[i].pos.x, doom->verts->list[i].pos.y, doom->verts->list[i + 1].pos.x, doom->verts->list[i + 1].pos.y, 0, 0 };
 		line(doom, 0x990000);
 		i++;
 	}
 	if (doom->app == 1)
 	{
-		*doom->line = (t_line) { doom->verts->list[doom->verts->i - 1].x, doom->verts->list[doom->verts->i - 1].y, doom->mouse->ppos_x, doom->mouse->ppos_y, 0, 0 };
+		*doom->line = (t_line) { doom->verts->list[doom->verts->i - 1].pos.x, doom->verts->list[doom->verts->i - 1].pos.y, doom->mouse->ppos.x, doom->mouse->ppos.y, 0, 0 };
 		line(doom, 0x990000);
 	}
 }
