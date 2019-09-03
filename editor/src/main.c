@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:57:29 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/03 17:17:23 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/03 17:35:39 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int			sdl_init(t_doom *doom)
 		return (0);
 	if (!(doom->sdl->rend = SDL_CreateRenderer(doom->sdl->win, -1, 0)))
 		return (0);
-	if (!(doom->sdl->tex = SDL_CreateTexture(doom->sdl->rend, 8888, SDL_TEXTUREACCESS_STATIC, WIDTH, HEIGHT)))
+	if (!(doom->sdl->tex = SDL_CreateTexture(doom->sdl->rend, SDL_PIXELFORMAT_RGBA8888, SDL_TEXTUREACCESS_STATIC, WIDTH, HEIGHT)))
 		return (0);
 	if (!(doom->sdl->pix = (int*)ft_memalloc(sizeof(int) * (WIDTH * HEIGHT))))
 		return (0);
