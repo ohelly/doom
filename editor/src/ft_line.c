@@ -14,29 +14,29 @@
 
 static void		draw(t_doom *doom, t_line *line, int color)
 {
-	output_pixel(doom, line->x0 + line->y0 * WIDTH, color);
+	output_pixel(doom, line->pos0.x + line->pos0.y * WIDTH, color);
 }
 
-static int		ft_ifmin(int length, t_doom *doom, int lengthx, int lengthy, int color)
+static int		ft_ifmin(int length, t_doom *doom, t_v2 length_v, int color)
 {
 	int d;
 
-	d = -lengthx;
+	d = -length_v.x;
 	while (--length)
 	{
 		draw(doom, doom->line, color);
-		doom->line->x0 += doom->line->dx;
-		d += 2 * lengthy;
+		doom->line->pos0.x += doom->line->d.x;
+		d += 2 * length_v.y;
 		if (d > 0)
 		{
-			d -= 2 * lengthx;
-			doom->line->y0 += doom->line->dy;
+			d -= 2 * length_v.x;
+			doom->line->pos0.y += doom->line->d.y;
 		}
 	}
 	return (0);
 }
 
-static int		ft_ifmax(int length, t_doom *doom, int lengthx, int lengthy, int color)
+static int		ft_ifmax(int length, t_doom *doom, t_v2 length_v, int color)
 {
 	int d;
 
@@ -51,16 +51,16 @@ static int		ft_ifmax(int length, t_doom *doom, int lengthx, int lengthy, int col
 	//	add_sector(new_sector)
 	//
 
-	d = -lengthy;
+	d = -length_v.y;
 	while (--length)
 	{
 		draw(doom, doom->line, color);
-		doom->line->y0 += doom->line->dy;
-		d += 2 * lengthx;
+		doom->line->pos0.y += doom->line->d.y;
+		d += 2 * length_v.x;
 		if (d > 0)
 		{
-			d -= 2 * lengthy;
-			doom->line->x0 += doom->line->dx;
+			d -= 2 * length_v.y;
+			doom->line->pos0.x += doom->line->d.x;
 		}
 	}
 	return (0);
@@ -68,20 +68,19 @@ static int		ft_ifmax(int length, t_doom *doom, int lengthx, int lengthy, int col
 
 int				line(t_doom *doom, int color)
 {
-	int lengthx;
-	int lengthy;
+	t_v2 length_v;
 	int length;
 
-	lengthx = abs(doom->line->x1 - doom->line->x0);
-	lengthy = abs(doom->line->y1 - doom->line->y0);
-	length = fmax(lengthx, lengthy);
-	doom->line->dx = (doom->line->x1 - doom->line->x0 >= 0 ? 1 : -1);
-	doom->line->dy = (doom->line->y1 - doom->line->y0 >= 0 ? 1 : -1);
+	length_v.x = abs(doom->line->pos1.x - doom->line->pos0.x);
+	length_v.y = abs(doom->line->pos1.y - doom->line->pos0.y);
+	length = fmax(length_v.x, length_v.y);
+	doom->line->d.x = (doom->line->pos1.x - doom->line->pos0.x >= 0 ? 1 : -1);
+	doom->line->d.y = (doom->line->pos1.y - doom->line->pos0.y >= 0 ? 1 : -1);
 	if (length == 0)
 		draw(doom, doom->line, color);
-	if (lengthy <= lengthx)
-		ft_ifmin(++length, doom, lengthx, lengthy, color);
+	if (length_v.y <= length_v.x)
+		ft_ifmin(++length, doom, length_v, color);
 	else
-		ft_ifmax(++length, doom, lengthx, lengthy, color);
+		ft_ifmax(++length, doom, length_v, color);
 	return (0);
 }
