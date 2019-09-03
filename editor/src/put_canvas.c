@@ -22,20 +22,19 @@ void		draw_canvas(t_doom *doom)
 	while (y < HEIGHT)
 	{
 		*doom->line = (t_line){ x, y, WIDTH, y, 0, 0 };
-		line(doom);
+		line(doom, 0x999999);
 		y += doom->sh;
 	}
 	y = 0;
 	while (x < WIDTH)
 	{
 		*doom->line = (t_line){ x, y, x, HEIGHT, 0, 0, };
-		line(doom);
+		line(doom, 0x999999);
 		x += doom->sh;
 	}
 }
 
 void		put_canvas(t_doom *doom)
 {
-	SDL_SetRenderDrawColor(doom->sdl->rend, 255, 255, 255, 255);
 	draw_canvas(doom);
 }

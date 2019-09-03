@@ -80,7 +80,9 @@ typedef struct			s_doom
 void					output(t_doom *doom);
 void					key_and_mouse_press(t_doom *doom);
 int						get_next_line(const int fd, char **line);
-int						line(t_doom *doom);
+int						line(t_doom *doom, int color);
+int						output_pixel(t_doom *doom, int pos, int color);
+int						draw_rectangle(t_doom *doom, int x, int y, int color, int size);
 void					put_canvas(t_doom *doom);
 void					put_select(t_doom *doom, t_mouse *mouse);
 
