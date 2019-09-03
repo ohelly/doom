@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/03 16:41:32 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/03 17:52:18 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ typedef struct			s_sdl
 {
 	SDL_Window			*win;
 	SDL_Renderer		*rend;
+	SDL_Texture			*tex;
+	int					*pix;
 	SDL_Event			ev;
 }						t_sdl;
 

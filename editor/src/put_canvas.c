@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 22:07:45 by ohelly            #+#    #+#             */
-/*   Updated: 2019/08/30 16:24:44 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/03 18:43:55 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,20 +17,61 @@ void		draw_canvas(t_doom *doom)
 	int		x;
 	int		y;
 
-	x = 0;
-	y = 0;
+	x = WIDTH / 2;
+	y = HEIGHT / 2;
 	while (y < HEIGHT)
 	{
 		*doom->line = (t_line){ x, y, WIDTH, y, 0, 0 };
 		line(doom);
 		y += doom->sh;
 	}
-	y = 0;
+	y = HEIGHT / 2;
+	while (y > 0)
+	{
+		*doom->line = (t_line){ x, y, 0, y, 0, 0 };
+		line(doom);
+		y -= doom->sh;
+	}
+	y = HEIGHT / 2;
+	while (y < HEIGHT)
+	{
+		*doom->line = (t_line){ x, y, 0, y, 0, 0 };
+		line(doom);
+		y += doom->sh;
+	}
+	y = HEIGHT / 2;
+	while (y > 0)
+	{
+		*doom->line = (t_line){ x, y, WIDTH, y, 0, 0 };
+		line(doom);
+		y -= doom->sh;
+	}
+	y = HEIGHT / 2;
 	while (x < WIDTH)
 	{
-		*doom->line = (t_line){ x, y, x, HEIGHT, 0, 0, };
+		*doom->line = (t_line){ x, y, x, HEIGHT, 0, 0 };
 		line(doom);
 		x += doom->sh;
+	}
+	x = WIDTH / 2;
+	while (x > 0)
+	{
+		*doom->line = (t_line){ x, y, x, 0, 0, 0 };
+		line(doom);
+		x -= doom->sh;
+	}
+	x = WIDTH / 2;
+	while (x < WIDTH)
+	{
+		*doom->line = (t_line){ x, y, x, 0, 0, 0 };
+		line(doom);
+		x += doom->sh;
+	}
+	while (x > 0)
+	{
+		*doom->line = (t_line){ x, y, x, HEIGHT, 0, 0 };
+		line(doom);
+		x -= doom->sh;
 	}
 }
 
