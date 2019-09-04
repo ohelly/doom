@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/04 17:44:20 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/04 18:04:53 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,19 +56,19 @@ typedef struct			s_all_sect
 	WALLS
 			*/
 
-typedef struct			s_walls
+typedef struct			s_wall
 {
 	int					sectors;
 	t_v2				pos_one;
 	t_v2				pos_two;
 	int					portal;
-}						t_walls;
+}						t_wall;
 
 typedef struct			s_all_walls
 {
 	int					count;
 	int					i;
-	t_walls				walls[2048];
+	t_wall				wall[2048];
 }						t_all_walls;
 
 /*
