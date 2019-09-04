@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/25 17:01:23 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/03 16:44:01 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/04 16:15:35 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,13 +45,23 @@ int			output_pixel(t_doom *doom, int pos, int color)
 void		draw_chto(t_doom *doom)
 {
 	int		i;
+	int		ind_s;
 
-	i = 0;
-	while (i + 1 < doom->verts->sel_v)
+	i = -1;
+	if (doom->app == 1)
 	{
-		*doom->line = (t_line) { doom->verts->list[i].pos.x, doom->verts->list[i].pos.y, doom->verts->list[i + 1].pos.x, doom->verts->list[i + 1].pos.y, 0, 0 };
+		*doom->line = (t_line) { doom->verts->list[doom->verts->i - 1].pos.x, doom->verts->list[doom->verts->i - 1].pos.y, doom->mouse->ppos.x, doom->mouse->ppos.y, 0, 0 };
 		line(doom, 0x990000);
-		i++;
+	}
+	while (++i < doom->sects->count)
+	{
+		ind_s = doom->sects->sectors[i].start;
+		while (ind_s != doom->sects->sectors[i].end)
+		{
+			*doom->line = (t_line) { doom->verts->list[ind_s].pos.x, doom->verts->list[ind_s].pos.y, doom->verts->list[ind_s + 1].pos.x, doom->verts->list[ind_s + 1].pos.y, 0, 0 };
+			line(doom, 0x990000);
+			ind_s++;
+		}
 	}
 	i = doom->verts->sel_v;
 	while (i + 1 < doom->verts->i)
@@ -59,11 +69,6 @@ void		draw_chto(t_doom *doom)
 		*doom->line = (t_line) { doom->verts->list[i].pos.x, doom->verts->list[i].pos.y, doom->verts->list[i + 1].pos.x, doom->verts->list[i + 1].pos.y, 0, 0 };
 		line(doom, 0x990000);
 		i++;
-	}
-	if (doom->app == 1)
-	{
-		*doom->line = (t_line) { doom->verts->list[doom->verts->i - 1].pos.x, doom->verts->list[doom->verts->i - 1].pos.y, doom->mouse->ppos.x, doom->mouse->ppos.y, 0, 0 };
-		line(doom, 0x990000);
 	}
 }
 

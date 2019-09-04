@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/03 17:52:18 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/03 19:24:15 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,20 @@
 # define HEIGHT 720
 # define BUFF_SIZE 1
 
-typedef struct			s_v2
+typedef struct			s_sectors
+{
+	int					start;
+	int					end;
+}						t_sectors;
+
+typedef struct			s_all_sect
+{ 
+	int					count;
+	int					i;
+	t_sectors			sectors[2048];
+}						t_all_sect;
+
+typedef struct			s_v2_vertex
 {
 	int					x;
 	int					y;
@@ -40,8 +53,8 @@ typedef struct			s_vertex
 typedef struct			s_all_vert
 { 
 	int					count;
-	int					sel_v;
 	int					i;
+	int					sel_v;
 	t_vertex			list[2048];
 }						t_all_vert;
 
@@ -74,6 +87,7 @@ typedef struct			s_doom
 	t_line				*line;
 	t_mouse				*mouse;
 	t_all_vert			*verts;
+	t_all_sect			*sects;
 	int					sh;
 }						t_doom;
 

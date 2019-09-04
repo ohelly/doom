@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:57:29 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/03 17:35:39 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/03 19:25:15 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,8 @@ int			sdl_init(t_doom *doom)
 		return (die_msg("Failed to allocate mouse struct"));
 	if (!(doom->verts = (t_all_vert*)ft_memalloc(sizeof(t_all_vert))))
 		return (die_msg("Failed to allocate verts struct"));
+	if (!(doom->sects = (t_all_sect*)ft_memalloc(sizeof(t_all_sect))))
+		return (die_msg("Failed to allocate sects struct"));
 	doom->sh = 20;
 	return (1);
 }
