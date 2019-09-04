@@ -32,6 +32,10 @@ void	in_list(t_doom *doom)
 			doom->sects->count++;
 		}
 	}
+	if (doom->verts->count > 2 && doom->app == 0)
+	{
+		printf("dist to line is %f\n",line_distance(doom->verts->list[0].pos, doom->verts->list[1].pos, doom->mouse->pos, NULL));
+	}
 	doom->verts->i++;
 }
 
