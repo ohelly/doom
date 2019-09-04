@@ -31,7 +31,8 @@ FLAGS2 = -F /Users/$(USER)/Library/Frameworks/ -framework SDL2 -framework SDL2_i
 -framework SDL2_ttf -framework SDL2_mixer -lftgnl -lft -lm
 
 OBJ = src/main.o src/ft_line.o src/key_and_mouse_press.o src/output.o \
-src/put_canvas.o src/put_select.o
+src/put_canvas.o src/put_select.o src/math_line.o src/math_vectors.o \
+src/math_helpers.o
 
 all: $(FRAMEDIR) $(LIBS) $(FRAME) $(NAME)
 
