@@ -6,11 +6,28 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 22:12:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/04 18:16:45 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/04 18:45:15 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
+
+void	in_walls(t_doom *doom)
+{
+	int		i;
+
+	i = doom->sects->sectors[doom->sects->i].start;
+	while (i != doom->sects->sectors[doom->sects->i].end)
+	{
+		doom->walls->count++;
+		doom->walls->wall[doom->walls->i].vert_one = i;
+		doom->walls->wall[doom->walls->i].vert_two = i + 1;
+		doom->walls->wall[doom->walls->i].sectors = doom->sects->i;
+		doom->walls->wall[doom->walls->i].portal = -1;
+		doom->walls->i++;
+		i++;
+	}
+}
 
 void	in_list(t_doom *doom)
 {
@@ -28,10 +45,12 @@ void	in_list(t_doom *doom)
 		{
 			doom->app = 0;
 			doom->sects->sectors[doom->sects->i].end = doom->verts->i;
+			in_walls(doom);
 			doom->sects->i++;
 			doom->sects->count++;
 		}
 	}
+	doom->verts->count++;
 	doom->verts->i++;
 }
 
