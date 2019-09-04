@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/03 19:24:15 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/04 16:37:16 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,8 @@ typedef struct			s_doom
 	t_mouse				*mouse;
 	t_all_vert			*verts;
 	t_all_sect			*sects;
+	int					mov_x;
+	int					mov_y;
 	int					sh;
 }						t_doom;
 
