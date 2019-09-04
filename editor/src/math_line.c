@@ -1,5 +1,10 @@
 #include "doom.h"
 
+int		sqr(int x)
+{
+	return (x * x);
+}
+
 /*
 **	Возвращает расстояние между двумя точками
 */
@@ -28,16 +33,18 @@ float	line_distance(t_v2 l1, t_v2 l2, t_v2 p, t_v2 *hit)
 	float	t;
 	t_v2	proj;
 
-	dist = distance(l1, l2);
+	dist = (sqr(l1.x - l2.x) + sqr(l1.y - l2.y));
 	if (dist == 0)
 	{
 		*hit = l1;
 		return (distance(l1, p));
 	}
-	t = dot(v2_sub(p, l2), v2_sub(l1, l2)) / dist;
+	t = ((p.x - l1.x) * (l2.x - l1.x) + (p.y - l1.y) * (l2.y - l1.y)) / dist;
 	t = clamp(t, 0, 1);
-	proj = v2_mult(v2_addf(l1, t), v2_sub(l2, l1));
+	proj.x = l1.x + t * (l2.x - l1.x);
+	proj.y = l1.y + t * (l2.y - l1.y);
 	if (hit != NULL)
 		*hit = proj;
-	return (distance(p, proj));
+	dist = distance(p, proj);
+	return (dist);
 }

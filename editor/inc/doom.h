@@ -106,10 +106,6 @@ float					line_distance(t_v2 l1, t_v2 l2, t_v2 p, t_v2 *hit);
 */
 
 t_v2					v2_add(t_v2 v1, t_v2 v2);
-t_v2					v2_sub(t_v2 v1, t_v2 v2);
-t_v2					v2_dot(t_v2 v1, t_v2 v2);
-t_v2					v2_addf(t_v2 v, float f);
-t_v2					v2_mult(t_v2 v1, t_v2 v2);
 double					min(double a, double b);
 double					max(double a, double b);
 double					clamp(double a, double mi, double ma);

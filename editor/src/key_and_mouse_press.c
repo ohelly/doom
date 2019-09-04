@@ -22,7 +22,7 @@ void	in_list(t_doom *doom)
 		doom->verts->sel_v = doom->verts->i;
 		doom->app = 1;
 	}
-	else
+	else if (doom->app == 1)
 	{
 		if (doom->verts->list[doom->verts->i].pos.x == doom->verts->list[doom->verts->sel_v].pos.x && doom->verts->list[doom->verts->i].pos.y == doom->verts->list[doom->verts->sel_v].pos.y)
 		{
@@ -32,11 +32,19 @@ void	in_list(t_doom *doom)
 			doom->sects->count++;
 		}
 	}
-	if (doom->verts->count > 2 && doom->app == 0)
-	{
-		printf("dist to line is %f\n",line_distance(doom->verts->list[0].pos, doom->verts->list[1].pos, doom->mouse->pos, NULL));
-	}
 	doom->verts->i++;
+}
+
+void	calc_dist(t_doom *doom)
+{
+	if (doom->app == 2)
+	{
+		t_v2 p1 = doom->verts->list[0].pos;
+		t_v2 p2 = doom->verts->list[1].pos;
+		t_v2 m = doom->mouse->pos;
+		printf("point pos %d:%d, mouse pos %d:%d; ", p1.x, p1.y, m.x, m.y);
+		printf("dist to line is %f\n", line_distance(p1, p2, m, NULL));
+	}
 }
 
 void	key_and_mouse_press(t_doom *doom)
@@ -53,9 +61,12 @@ void	key_and_mouse_press(t_doom *doom)
 				doom->sh -= 1;
 			if (doom->sdl->ev.key.keysym.sym == ' ')
 				in_list(doom);
+			if (doom->sdl->ev.key.keysym.sym == '1')
+				doom->app = 2;
 		}
 		if (doom->sdl->ev.type == SDL_MOUSEMOTION)
 			*doom->mouse = (t_mouse){ doom->sdl->ev.motion.x, doom->sdl->ev.motion.y, 0 ,0 };
+		calc_dist(doom);
 		output(doom);
 	}
 }
