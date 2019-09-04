@@ -136,9 +136,11 @@ typedef struct			s_doom
 	t_all_vert			*verts;
 	t_all_sect			*sects;
 	t_all_walls			*walls;
+	char				*save_name;
 	int					sh;
 }						t_doom;
 
+int						save(t_doom *doom);
 void					output(t_doom *doom);
 void					key_and_mouse_press(t_doom *doom);
 int						get_next_line(const int fd, char **line);
@@ -148,6 +150,7 @@ int						draw_rectangle(t_doom *doom, t_v2 pos, int color, int size);
 void					put_canvas(t_doom *doom);
 void					put_select(t_doom *doom, t_mouse *mouse);
 float					line_distance(t_v2 l1, t_v2 l2, t_v2 p, t_v2 *hit);
+
 
 /*
 **	Math
