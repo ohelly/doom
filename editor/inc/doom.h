@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/04 16:37:16 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/04 17:44:20 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,20 @@
 # define HEIGHT 720
 # define BUFF_SIZE 1
 
+/*
+	POS OF X AND Y
+					*/
+
+typedef struct			s_v2_vertex
+{
+	int					x;
+	int					y;
+}						t_v2;
+
+/*
+	SECTORS
+			*/
+
 typedef struct			s_sectors
 {
 	int					start;
@@ -38,11 +52,28 @@ typedef struct			s_all_sect
 	t_sectors			sectors[2048];
 }						t_all_sect;
 
-typedef struct			s_v2_vertex
+/*
+	WALLS
+			*/
+
+typedef struct			s_walls
 {
-	int					x;
-	int					y;
-}						t_v2;
+	int					sectors;
+	t_v2				pos_one;
+	t_v2				pos_two;
+	int					portal;
+}						t_walls;
+
+typedef struct			s_all_walls
+{
+	int					count;
+	int					i;
+	t_walls				walls[2048];
+}						t_all_walls;
+
+/*
+	VERTEX
+			*/
 
 typedef struct			s_vertex
 {
@@ -58,11 +89,19 @@ typedef struct			s_all_vert
 	t_vertex			list[2048];
 }						t_all_vert;
 
+/*
+	POS MOUSE
+				*/
+
 typedef struct			s_mouse
 {
 	t_v2				pos;
 	t_v2				ppos;
 }						t_mouse;
+
+/*
+	BRAZENHAM
+				*/
 
 typedef struct			s_line
 {
@@ -70,6 +109,10 @@ typedef struct			s_line
 	t_v2				pos1;
 	t_v2				d;
 }						t_line;
+
+/*
+	SDL POINTER'S
+					*/
 
 typedef struct			s_sdl
 {
@@ -80,6 +123,10 @@ typedef struct			s_sdl
 	SDL_Event			ev;
 }						t_sdl;
 
+/*
+	MAIN STRUCT
+				*/
+
 typedef struct			s_doom
 {
 	int					app;
@@ -88,8 +135,7 @@ typedef struct			s_doom
 	t_mouse				*mouse;
 	t_all_vert			*verts;
 	t_all_sect			*sects;
-	int					mov_x;
-	int					mov_y;
+	t_all_walls			*walls;
 	int					sh;
 }						t_doom;
 

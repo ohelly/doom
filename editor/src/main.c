@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:57:29 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/04 16:39:09 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/04 17:39:57 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ int			sdl_init(t_doom *doom)
 		return (die_msg("Failed to allocate verts struct"));
 	if (!(doom->sects = (t_all_sect*)ft_memalloc(sizeof(t_all_sect))))
 		return (die_msg("Failed to allocate sects struct"));
+	if (!(doom->walls = (t_all_walls*)ft_memalloc(sizeof(t_all_walls))))
+		return (die_msg("Failed to allocate walls struct"));
 	doom->sh = 20;
 	return (1);
 }
