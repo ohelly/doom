@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 22:12:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/04 18:45:15 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/06 18:45:48 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,30 +27,43 @@ void	in_walls(t_doom *doom)
 		doom->walls->i++;
 		i++;
 	}
+	doom->walls->count++;
+	doom->walls->wall[doom->walls->i].vert_one = doom->sects->sectors[doom->sects->i].end;
+	doom->walls->wall[doom->walls->i].vert_two = doom->sects->sectors[doom->sects->i].start;
+	doom->walls->wall[doom->walls->i].sectors = doom->sects->i;
+	doom->walls->wall[doom->walls->i].portal = -1;
+	doom->walls->i++;
 }
 
 void	in_list(t_doom *doom)
 {
-	doom->verts->list[doom->verts->i].pos.x = doom->mouse->ppos.x;
-	doom->verts->list[doom->verts->i].pos.y = doom->mouse->ppos.y;
 	if (doom->app == 0)
 	{
+		doom->verts->list[doom->verts->i].pos.x = doom->mouse->ppos.x;
+		doom->verts->list[doom->verts->i].pos.y = doom->mouse->ppos.y;
 		doom->sects->sectors[doom->sects->i].start = doom->verts->i;
 		doom->verts->sel_v = doom->verts->i;
 		doom->app = 1;
+		doom->verts->count++;
 	}
 	else if (doom->app == 1)
 	{
-		if (doom->verts->list[doom->verts->i].pos.x == doom->verts->list[doom->verts->sel_v].pos.x && doom->verts->list[doom->verts->i].pos.y == doom->verts->list[doom->verts->sel_v].pos.y)
+		if (doom->mouse->ppos.x == doom->verts->list[doom->verts->sel_v].pos.x && doom->mouse->ppos.y == doom->verts->list[doom->verts->sel_v].pos.y)
 		{
 			doom->app = 0;
-			doom->sects->sectors[doom->sects->i].end = doom->verts->i;
+			doom->sects->sectors[doom->sects->i].end = doom->verts->i - 1;
 			in_walls(doom);
 			doom->sects->i++;
 			doom->sects->count++;
+			return ;
+		}
+		else
+		{
+			doom->verts->list[doom->verts->i].pos.x = doom->mouse->ppos.x;
+			doom->verts->list[doom->verts->i].pos.y = doom->mouse->ppos.y;
+			doom->verts->count++;
 		}
 	}
-	doom->verts->count++;
 	doom->verts->i++;
 }
 
