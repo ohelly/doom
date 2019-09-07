@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/25 17:01:23 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/06 18:42:28 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/06 18:57:30 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,16 +53,6 @@ void		draw_chto(t_doom *doom)
 		*doom->line = (t_line) { doom->verts->list[doom->verts->i - 1].pos.x, doom->verts->list[doom->verts->i - 1].pos.y, doom->mouse->ppos.x, doom->mouse->ppos.y, 0, 0 };
 		line(doom, 0x990000);
 	}
-	/*while (++i < doom->sects->count)
-	{
-		ind_s = doom->sects->sectors[i].start;
-		while (ind_s != doom->sects->sectors[i].end)
-		{
-			*doom->line = (t_line) { doom->verts->list[ind_s].pos.x, doom->verts->list[ind_s].pos.y, doom->verts->list[ind_s + 1].pos.x, doom->verts->list[ind_s + 1].pos.y, 0, 0 };
-			line(doom, 0x990000);
-			ind_s++;
-		}
-	}*/
 	while (++i < doom->walls->count)
 	{
 		*doom->line = (t_line) { doom->verts->list[doom->walls->wall[i].vert_one].pos.x, doom->verts->list[doom->walls->wall[i].vert_one].pos.y,
