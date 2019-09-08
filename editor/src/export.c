@@ -19,31 +19,54 @@ int		vertex_copy(t_vertex *source, t_vertex *dest)
 	return (1);
 }
 
-int		sort_vertecies(t_doom *doom)
+int		sort_vertecies_x(t_doom *doom)
 {
-	t_vertex	*v1;
-	t_vertex	*v2;
-	int i;
-	int j;
+	t_vertex	v1;
+	t_vertex	v2;
+	int			select;
+	int			index;
 
-	v1 = ft_memalloc(sizeof(t_vertex));
-	v2 = ft_memalloc(sizeof(t_vertex));
-	i = 0;
-	while (i < doom->verts->count)
+	select = -1;
+	while (++select < doom->verts->count - 1)
 	{
-		vertex_copy(&doom->verts->list[i], v1);
-		j = i;
-		while (j < doom->verts->count)
+		v1 = doom->verts->list[select];
+		index = select;
+		while (++index < doom->verts->count)
 		{
-			vertex_copy(&doom->verts->list[j], v2);
-			if (v1->pos.y > v2->pos.y)
+			v2 = doom->verts->list[index];
+			if (v1.pos.y == v2.pos.y && v1.pos.x > v2.pos.x)
 			{
-				vertex_copy(v2, &doom->verts->list[i]);
-				vertex_copy(v1, &doom->verts->list[j]);
+				doom->verts->list[select] = v2;
+				doom->verts->list[index] = v1;
+				v1 = v2;
 			}
-			j++;
 		}
-		i++;
+	}
+	return (1);
+}
+
+int		sort_vertecies_y(t_doom *doom)
+{
+	t_vertex	v1;
+	t_vertex	v2;
+	int			select;
+	int			index;
+
+	select = -1;
+	while (++select < doom->verts->count - 1)
+	{
+		v1 = doom->verts->list[select];
+		index = select;
+		while (++index < doom->verts->count)
+		{
+			v2 = doom->verts->list[index];
+			if (v1.pos.y > v2.pos.y)
+			{
+				doom->verts->list[select] = v2;
+				doom->verts->list[index] = v1;
+				v1 = v2;
+			}
+		}
 	}
 	return (1);
 }
@@ -63,7 +86,8 @@ int		save(t_doom *doom)
 	i = 0;
 	prev_y = 0;
 	str = ft_strnew(0);
-	sort_vertecies(doom);
+	sort_vertecies_y(doom);
+	sort_vertecies_x(doom);
 	while (i < doom->verts->count)
 	{
 		v = doom->verts->list[i];
