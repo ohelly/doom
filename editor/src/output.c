@@ -42,6 +42,23 @@ int			output_pixel(t_doom *doom, int pos, int color)
 	return (1);
 }
 
+void		draw_selected_sector(t_doom * doom)
+{
+	int i;
+	int index;
+
+	index = doom->sects->selected_sector;
+	if (index == -1)
+		return	;
+	i = doom->sects->sectors[index].start;
+	while (i != doom->sects->sectors[index].end)
+	{
+		*doom->line = (t_line) { doom->verts->list[i].pos.x, doom->verts->list[i].pos.y, doom->verts->list[i + 1].pos.x, doom->verts->list[i + 1].pos.y, 0, 0 };
+		line(doom, 0x009900);
+		i++;
+	}
+}
+
 void		draw_chto(t_doom *doom)
 {
 	int		i;
@@ -78,6 +95,7 @@ void		output(t_doom *doom)
 	put_canvas(doom);
 	put_select(doom, doom->mouse);
 	draw_chto(doom);
+	draw_selected_sector(doom);
 	SDL_UpdateTexture(doom->sdl->tex, NULL, doom->sdl->pix, WIDTH * sizeof(Uint32));
 	SDL_RenderClear(doom->sdl->rend);
 	SDL_RenderCopy(doom->sdl->rend, doom->sdl->tex, NULL, NULL);
