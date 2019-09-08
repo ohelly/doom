@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/25 17:01:23 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/06 18:57:30 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/08 20:37:52 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void		draw_chto(t_doom *doom)
 	i = -1;
 	if (doom->app == 1)
 	{
-		*doom->line = (t_line) { doom->verts->list[doom->verts->i - 1].pos.x, doom->verts->list[doom->verts->i - 1].pos.y, doom->mouse->ppos.x, doom->mouse->ppos.y, 0, 0 };
+		*doom->line = (t_line) { doom->verts->list[doom->verts->order[doom->verts->i_o - 1]].pos.x, doom->verts->list[doom->verts->order[doom->verts->i_o - 1]].pos.y, doom->mouse->ppos.x, doom->mouse->ppos.y, 0, 0 };
 		line(doom, 0x990000);
 	}
 	while (++i < doom->walls->count)
