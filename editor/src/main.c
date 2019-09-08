@@ -44,6 +44,7 @@ int			sdl_init(t_doom *doom)
 		return (die_msg("Failed to allocate walls struct"));
 	doom->sh = 20;
 	doom->save_name = "test.map";
+	doom->sects->selected_sector = -1;
 	return (1);
 }
 

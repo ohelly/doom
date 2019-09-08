@@ -50,6 +50,7 @@ typedef struct			s_all_sect
 	int					count;
 	int					i;
 	t_sectors			sectors[2048];
+	int					selected_sector;
 }						t_all_sect;
 
 /*
