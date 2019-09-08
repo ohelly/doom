@@ -49,6 +49,7 @@ void	in_list(t_doom *doom)
 			doom->sects->i++;
 			doom->sects->count++;
 		}
+		doom->verts->count++;
 	}
 	doom->verts->count++;
 	doom->verts->i++;
@@ -80,6 +81,8 @@ void	key_and_mouse_press(t_doom *doom)
 				doom->sh -= 1;
 			if (doom->sdl->ev.key.keysym.sym == ' ')
 				in_list(doom);
+			if (doom->sdl->ev.key.keysym.sym == 's')
+				save(doom);
 		}
 		if (doom->sdl->ev.type == SDL_MOUSEMOTION)
 			*doom->mouse = (t_mouse){ doom->sdl->ev.motion.x, doom->sdl->ev.motion.y, 0 ,0 };

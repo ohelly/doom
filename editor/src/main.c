@@ -43,6 +43,7 @@ int			sdl_init(t_doom *doom)
 	if (!(doom->walls = (t_all_walls*)ft_memalloc(sizeof(t_all_walls))))
 		return (die_msg("Failed to allocate walls struct"));
 	doom->sh = 20;
+	doom->save_name = "test.map";
 	return (1);
 }
 
