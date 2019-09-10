@@ -1,7 +1,0 @@
-vertex	0	0 28
-vertex  14  0 40
-vertex  28  0 28
-
-sector	0 20	 0 1 3 5 4 2            -1 -1 -1 -1 -1 -1
-
-player	5 10	90	0
