@@ -1,2 +1,5 @@
-vertex	60	760 780
-vertex	80	760 780
+vertex	170	580 780 960
+vertex	180	260 460
+vertex	360	220 430 460
+vertex	380	580 780 960
+vertex	540	580 960
