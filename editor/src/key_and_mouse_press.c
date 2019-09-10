@@ -6,11 +6,38 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 22:12:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/06 18:45:48 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/08 20:37:32 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
+
+int		check_wall(t_doom *doom, int ind)
+{
+	int		i;
+
+	i = -1;
+	while (++i < doom->walls->count)
+	{
+		if (ind != -1)
+		{
+			if ((doom->walls->wall[i].vert_one == doom->verts->order[ind] &&
+			doom->walls->wall[i].vert_two == doom->verts->order[ind + 1]) ||
+			(doom->walls->wall[i].vert_one == doom->verts->order[ind + 1] &&
+			doom->walls->wall[i].vert_two == doom->verts->order[ind]))
+				return (1);
+		}
+		else if (ind == -1)
+		{
+			if ((doom->walls->wall[i].vert_one == doom->verts->order[doom->sects->sectors[doom->sects->i].end] &&
+			doom->walls->wall[i].vert_two == doom->verts->order[doom->sects->sectors[doom->sects->i].start]) ||
+			(doom->walls->wall[i].vert_one == doom->verts->order[doom->sects->sectors[doom->sects->i].start] &&
+			doom->walls->wall[i].vert_two == doom->verts->order[doom->sects->sectors[doom->sects->i].end]))
+				return (1);
+		}
+	}
+	return (0);
+}
 
 void	in_walls(t_doom *doom)
 {
@@ -19,39 +46,100 @@ void	in_walls(t_doom *doom)
 	i = doom->sects->sectors[doom->sects->i].start;
 	while (i != doom->sects->sectors[doom->sects->i].end)
 	{
+		if (check_wall(doom, i))
+			;
+		else
+		{
+			doom->walls->count++;
+			doom->walls->wall[doom->walls->i].vert_one = doom->verts->order[i];
+			doom->walls->wall[doom->walls->i].vert_two = doom->verts->order[i + 1];
+			doom->walls->wall[doom->walls->i].sectors = doom->sects->i;
+			doom->walls->wall[doom->walls->i].portal = -1;
+			doom->walls->i++;
+		}
+		i++;
+	}
+	if (check_wall(doom, -1))
+		;
+	else
+	{
 		doom->walls->count++;
-		doom->walls->wall[doom->walls->i].vert_one = i;
-		doom->walls->wall[doom->walls->i].vert_two = i + 1;
+		doom->walls->wall[doom->walls->i].vert_one = doom->verts->order[doom->sects->sectors[doom->sects->i].end];
+		doom->walls->wall[doom->walls->i].vert_two = doom->verts->order[doom->sects->sectors[doom->sects->i].start];
 		doom->walls->wall[doom->walls->i].sectors = doom->sects->i;
 		doom->walls->wall[doom->walls->i].portal = -1;
 		doom->walls->i++;
-		i++;
 	}
-	doom->walls->count++;
-	doom->walls->wall[doom->walls->i].vert_one = doom->sects->sectors[doom->sects->i].end;
-	doom->walls->wall[doom->walls->i].vert_two = doom->sects->sectors[doom->sects->i].start;
-	doom->walls->wall[doom->walls->i].sectors = doom->sects->i;
-	doom->walls->wall[doom->walls->i].portal = -1;
-	doom->walls->i++;
+}
+
+int		check_vert(t_doom *doom)
+{
+	int		i;
+
+	i = -1;
+	while (++i < doom->verts->count)
+	{
+		if (doom->app == 0)
+		{
+			if (doom->mouse->ppos.x == doom->verts->list[i].pos.x &&
+			doom->mouse->ppos.y == doom->verts->list[i].pos.y)
+			{
+				doom->verts->order[doom->verts->i_o] = i;
+				doom->sects->sectors[doom->sects->i].start = doom->verts->i_o;
+				doom->verts->sel_v = i;
+				doom->app = 1;
+				doom->verts->i_o++;
+				return (1);
+			}
+		}
+		else if (doom->app == 1)
+		{
+			if (doom->mouse->ppos.x == doom->verts->list[i].pos.x &&
+			doom->mouse->ppos.y == doom->verts->list[i].pos.y)
+			{
+				doom->verts->order[doom->verts->i_o] = i;
+				doom->verts->i_o++;
+				return (1);
+			}
+		}
+	}
+	return (0);
 }
 
 void	in_list(t_doom *doom)
 {
+	if (doom->app == 1 &&
+		lines_intersect_loop(doom,
+		doom->verts->list[doom->verts->order[doom->verts->i_o - 1]].pos,
+		doom->mouse->ppos))
+	{
+		printf("Line intersects with something!!!\n");
+		//return ;
+	}
+	doom->verts->list[doom->verts->i].pos.x = doom->mouse->ppos.x;
+	doom->verts->list[doom->verts->i].pos.y = doom->mouse->ppos.y;
 	if (doom->app == 0)
 	{
-		doom->verts->list[doom->verts->i].pos.x = doom->mouse->ppos.x;
-		doom->verts->list[doom->verts->i].pos.y = doom->mouse->ppos.y;
-		doom->sects->sectors[doom->sects->i].start = doom->verts->i;
-		doom->verts->sel_v = doom->verts->i;
-		doom->app = 1;
-		doom->verts->count++;
+		if (check_vert(doom))
+			return ;
+		else
+		{
+			doom->verts->list[doom->verts->i].pos.x = doom->mouse->ppos.x;
+			doom->verts->list[doom->verts->i].pos.y = doom->mouse->ppos.y;
+			doom->verts->order[doom->verts->i_o] = doom->verts->i;
+			doom->sects->sectors[doom->sects->i].start = doom->verts->i_o;
+			doom->verts->sel_v = doom->verts->i;
+			doom->app = 1;
+			doom->verts->i_o++;
+			doom->verts->count++;
+		}
 	}
 	else if (doom->app == 1)
 	{
 		if (doom->mouse->ppos.x == doom->verts->list[doom->verts->sel_v].pos.x && doom->mouse->ppos.y == doom->verts->list[doom->verts->sel_v].pos.y)
 		{
 			doom->app = 0;
-			doom->sects->sectors[doom->sects->i].end = doom->verts->i - 1;
+			doom->sects->sectors[doom->sects->i].end = doom->verts->i_o - 1;
 			in_walls(doom);
 			doom->sects->i++;
 			doom->sects->count++;
@@ -59,24 +147,19 @@ void	in_list(t_doom *doom)
 		}
 		else
 		{
-			doom->verts->list[doom->verts->i].pos.x = doom->mouse->ppos.x;
-			doom->verts->list[doom->verts->i].pos.y = doom->mouse->ppos.y;
-			doom->verts->count++;
+			if (check_vert(doom))
+				return ;
+			else
+			{
+				doom->verts->list[doom->verts->i].pos.x = doom->mouse->ppos.x;
+				doom->verts->list[doom->verts->i].pos.y = doom->mouse->ppos.y;
+				doom->verts->order[doom->verts->i_o] = doom->verts->i;
+				doom->verts->i_o++;
+				doom->verts->count++;
+			}
 		}
 	}
 	doom->verts->i++;
-}
-
-void	calc_dist(t_doom *doom)
-{
-	if (doom->app == 2)
-	{
-		t_v2 p1 = doom->verts->list[0].pos;
-		t_v2 p2 = doom->verts->list[1].pos;
-		t_v2 m = doom->mouse->pos;
-		printf("point pos %d:%d, mouse pos %d:%d; ", p1.x, p1.y, m.x, m.y);
-		printf("dist to line is %f\n", line_distance(p1, p2, m, NULL));
-	}
 }
 
 void	key_and_mouse_press(t_doom *doom)
@@ -93,10 +176,15 @@ void	key_and_mouse_press(t_doom *doom)
 				doom->sh -= 1;
 			if (doom->sdl->ev.key.keysym.sym == ' ')
 				in_list(doom);
+			if (doom->sdl->ev.key.keysym.sym == 'e')
+				save(doom);
+			if (doom->sdl->ev.key.keysym.sym == 'w')
+				get_closest_wall(doom);
+			if (doom->sdl->ev.key.keysym.sym == 's')
+				get_closest_sector(doom);
 		}
 		if (doom->sdl->ev.type == SDL_MOUSEMOTION)
 			*doom->mouse = (t_mouse){ doom->sdl->ev.motion.x, doom->sdl->ev.motion.y, 0 ,0 };
-		calc_dist(doom);
 		output(doom);
 	}
 }
