@@ -6,13 +6,13 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 22:12:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/10 19:51:44 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/10 20:10:35 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-int		check_wall(t_doom *doom, int ind)
+int		check_wall(t_doom *doom, int ind, int *portal)
 {
 	int		i;
 
@@ -25,7 +25,11 @@ int		check_wall(t_doom *doom, int ind)
 			doom->walls->wall[i].vert_two == doom->verts->order[ind + 1]) ||
 			(doom->walls->wall[i].vert_one == doom->verts->order[ind + 1] &&
 			doom->walls->wall[i].vert_two == doom->verts->order[ind]))
-				return (1);
+			{
+				doom->walls->wall[i].portal = doom->sects->i;
+				*portal = doom->walls->wall[i].sectors;
+				return (0);
+			}
 		}
 		else if (ind == -1)
 		{
@@ -33,43 +37,42 @@ int		check_wall(t_doom *doom, int ind)
 			doom->walls->wall[i].vert_two == doom->verts->order[doom->sects->sectors[doom->sects->i].start]) ||
 			(doom->walls->wall[i].vert_one == doom->verts->order[doom->sects->sectors[doom->sects->i].start] &&
 			doom->walls->wall[i].vert_two == doom->verts->order[doom->sects->sectors[doom->sects->i].end]))
-				return (1);
+			{
+				doom->walls->wall[i].portal = doom->sects->i;
+				*portal = doom->walls->wall[i].sectors;
+				return (0);
+			}
 		}
 	}
+	*portal = -1;
 	return (0);
 }
 
 void	in_walls(t_doom *doom)
 {
 	int		i;
+	int		portal;
 
+	portal = -1;
 	i = doom->sects->sectors[doom->sects->i].start;
 	while (i != doom->sects->sectors[doom->sects->i].end)
 	{
-		if (check_wall(doom, i))
-			;
-		else
-		{
-			doom->walls->count++;
-			doom->walls->wall[doom->walls->i].vert_one = doom->verts->order[i];
-			doom->walls->wall[doom->walls->i].vert_two = doom->verts->order[i + 1];
-			doom->walls->wall[doom->walls->i].sectors = doom->sects->i;
-			doom->walls->wall[doom->walls->i].portal = -1;
-			doom->walls->i++;
-		}
+		check_wall(doom, i, &portal);
+		doom->walls->count++;
+		doom->walls->wall[doom->walls->i].vert_one = doom->verts->order[i];
+		doom->walls->wall[doom->walls->i].vert_two = doom->verts->order[i + 1];
+		doom->walls->wall[doom->walls->i].sectors = doom->sects->i;
+		doom->walls->wall[doom->walls->i].portal = portal;
+		doom->walls->i++;
 		i++;
 	}
-	if (check_wall(doom, -1))
-		;
-	else
-	{
-		doom->walls->count++;
-		doom->walls->wall[doom->walls->i].vert_one = doom->verts->order[doom->sects->sectors[doom->sects->i].end];
-		doom->walls->wall[doom->walls->i].vert_two = doom->verts->order[doom->sects->sectors[doom->sects->i].start];
-		doom->walls->wall[doom->walls->i].sectors = doom->sects->i;
-		doom->walls->wall[doom->walls->i].portal = -1;
-		doom->walls->i++;
-	}
+	check_wall(doom, -1, &portal);
+	doom->walls->count++;
+	doom->walls->wall[doom->walls->i].vert_one = doom->verts->order[doom->sects->sectors[doom->sects->i].end];
+	doom->walls->wall[doom->walls->i].vert_two = doom->verts->order[doom->sects->sectors[doom->sects->i].start];
+	doom->walls->wall[doom->walls->i].sectors = doom->sects->i;
+	doom->walls->wall[doom->walls->i].portal = portal;
+	doom->walls->i++;
 }
 
 int		check_vert(t_doom *doom)
@@ -162,6 +165,13 @@ void	in_list(t_doom *doom)
 	doom->verts->i++;
 }
 
+void	kek(t_doom *doom)
+{
+	int i = -1;
+	while (++i < doom->walls->count)
+		printf("i = %d  sect = %d  vert1 = %d  vert2 = %d  portal = %d\n", i, doom->walls->wall[i].sectors, doom->walls->wall[i].vert_one, doom->walls->wall[i].vert_two, doom->walls->wall[i].portal);
+}
+
 void	key_and_mouse_press(t_doom *doom)
 {
 	while (SDL_PollEvent(&doom->sdl->ev))
@@ -182,6 +192,8 @@ void	key_and_mouse_press(t_doom *doom)
 				get_closest_wall(doom);
 			if (doom->sdl->ev.key.keysym.sym == 's')
 				get_closest_sector(doom);
+			if (doom->sdl->ev.key.keysym.sym == 'k')
+				kek(doom);
 		}
 		if (doom->sdl->ev.type == SDL_MOUSEMOTION)
 			*doom->mouse = (t_mouse){ doom->sdl->ev.motion.x, doom->sdl->ev.motion.y, 0 ,0 };
