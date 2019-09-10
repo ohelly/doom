@@ -50,6 +50,7 @@ typedef struct			s_all_sect
 	int					count;
 	int					i;
 	t_sectors			sectors[2048];
+	int					selected_sector;
 }						t_all_sect;
 
 /*
@@ -138,9 +139,11 @@ typedef struct			s_doom
 	t_all_vert			*verts;
 	t_all_sect			*sects;
 	t_all_walls			*walls;
+	char				*save_name;
 	int					sh;
 }						t_doom;
 
+int						save(t_doom *doom);
 void					output(t_doom *doom);
 void					key_and_mouse_press(t_doom *doom);
 int						get_next_line(const int fd, char **line);
@@ -150,6 +153,9 @@ int						draw_rectangle(t_doom *doom, t_v2 pos, int color, int size);
 void					put_canvas(t_doom *doom);
 void					put_select(t_doom *doom, t_mouse *mouse);
 float					line_distance(t_v2 l1, t_v2 l2, t_v2 p, t_v2 *hit);
+void					get_closest_sector(t_doom *doom);
+int						get_closest_wall(t_doom *doom);
+int						lines_intersect_loop(t_doom *doom, t_v2 p1, t_v2 p2);
 
 /*
 **	Math
