@@ -55,14 +55,14 @@ void		draw_sector(t_doom *doom, t_sectors sector, int color)
 	i = sector.start;
 	while (i < sector.end)
 	{
-		v1 = doom->verts->list[i];
-		v2 = doom->verts->list[i + 1];
+		v1 = doom->verts->list[doom->verts->order[i]];
+		v2 = doom->verts->list[doom->verts->order[i + 1]];
 		*doom->line = (t_line){v1.pos, v2.pos};
 		line(doom, color);
 		i++;
 	}
-	v1 = doom->verts->list[i];
-	v2 = doom->verts->list[sector.start];
+	v1 = doom->verts->list[doom->verts->order[i]];
+	v2 = doom->verts->list[doom->verts->order[sector.start]];
 	*doom->line = (t_line){v1.pos, v2.pos};
 	line(doom, color);
 }
