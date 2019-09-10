@@ -111,7 +111,7 @@ void	in_list(t_doom *doom)
 	if (lines_intersect_loop(doom, doom->verts->list[doom->verts->count - 1].pos, doom->verts->list[doom->verts->count].pos))
 	{
 		printf("Line intersects with something!!!\n");
-		return ;
+		//return ;
 	}
 	doom->verts->list[doom->verts->i].pos.x = doom->mouse->ppos.x;
 	doom->verts->list[doom->verts->i].pos.y = doom->mouse->ppos.y;

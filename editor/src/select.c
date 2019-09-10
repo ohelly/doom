@@ -50,7 +50,7 @@ int		get_closest_wall(t_doom *doom)
 	}
 	if (saved_dist < 30)
 	{
-		printf("Closest wall is %d, with distance %f\n", saved_wall, saved_dist);
+		printf("Closest wall is %d, with distance %f. Linked sector %d.\n", saved_wall, saved_dist, doom->walls->wall[saved_wall].sectors);
 		return (saved_wall);
 	}
 	return (-1);
