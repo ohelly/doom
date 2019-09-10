@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/25 17:01:23 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/10 16:03:24 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/10 16:31:17 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,10 +105,10 @@ void		draw_building_walls(t_doom *doom, int color)
 	int			i;
 
 	i = doom->verts->sel_v;
-	while (i + 1 < doom->verts->i)
+	while (i + 1 < doom->verts->i_o)
 	{
-		v1 = doom->verts->list[i];
-		v2 = doom->verts->list[i + 1];
+		v1 = doom->verts->list[doom->verts->order[i]];
+		v2 = doom->verts->list[doom->verts->order[i + 1]];
 		*doom->line = (t_line){v1.pos, v2.pos, 0, 0};
 		line(doom, color);
 		i++;
