@@ -108,7 +108,10 @@ int		check_vert(t_doom *doom)
 
 void	in_list(t_doom *doom)
 {
-	if (lines_intersect_loop(doom, doom->verts->list[doom->verts->count - 1].pos, doom->verts->list[doom->verts->count].pos))
+	if (doom->app == 1 &&
+		lines_intersect_loop(doom,
+		doom->verts->list[doom->verts->order[doom->verts->i_o - 1]].pos,
+		doom->mouse->ppos))
 	{
 		printf("Line intersects with something!!!\n");
 		//return ;

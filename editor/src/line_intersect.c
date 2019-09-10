@@ -53,6 +53,30 @@ int	lines_intersect(t_v2 p1, t_v2 q1, t_v2 p2, t_v2 q2)
 	return (0);
 }
 
+/*
+**	Возвращает 1 если точка p принадлежит какой-либо из вершин
+*/
+
+int	point_belongs_to_vertex(t_doom *doom, t_v2 p)
+{
+	int			i;
+	t_vertex	v;
+
+	i = 0;
+	while (i < doom->verts->count - 1)
+	{
+		v = doom->verts->list[i];
+		if (p.x == v.pos.x && p.y == v.pos.y)
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
+/*
+**	Возвращает 1 если линия p1p2 пересекается с какой-либо из стен
+*/
+
 int	lines_intersect_loop(t_doom *doom, t_v2 p1, t_v2 p2)
 {
 	t_v2	p3;
@@ -62,9 +86,12 @@ int	lines_intersect_loop(t_doom *doom, t_v2 p1, t_v2 p2)
 	i = 0;
 	while (i < doom->walls->count)
 	{
-		p3 = doom->verts->list[doom->walls->wall[i].vert_one].pos;
-		p4 = doom->verts->list[doom->walls->wall[i].vert_two].pos;
-		if (lines_intersect(p1, p2, p3, p4))
+		p3 = doom->verts->list[doom->verts->order[doom->walls->wall[i].vert_one]].pos;
+		p4 = doom->verts->list[doom->verts->order[doom->walls->wall[i].vert_two]].pos;
+		if (!(p1.x == p3.x && p1.y == p3.y && p2.x == p4.x && p2.y == p4.y) &&
+			!point_belongs_to_vertex(doom, p1) &&
+			!point_belongs_to_vertex(doom, p2) &&
+			lines_intersect(p1, p2, p3, p4))
 			return (1);
 		i++;
 	}

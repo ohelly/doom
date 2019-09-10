@@ -55,14 +55,14 @@ void		draw_sector(t_doom *doom, t_sectors sector, int color)
 	i = sector.start;
 	while (i < sector.end)
 	{
-		v1 = doom->verts->list[i];
-		v2 = doom->verts->list[i + 1];
+		v1 = doom->verts->list[doom->verts->order[i]];
+		v2 = doom->verts->list[doom->verts->order[i + 1]];
 		*doom->line = (t_line){v1.pos, v2.pos};
 		line(doom, color);
 		i++;
 	}
-	v1 = doom->verts->list[i];
-	v2 = doom->verts->list[sector.start];
+	v1 = doom->verts->list[doom->verts->order[i]];
+	v2 = doom->verts->list[doom->verts->order[sector.start]];
 	*doom->line = (t_line){v1.pos, v2.pos};
 	line(doom, color);
 }
@@ -78,9 +78,24 @@ void		draw_wall(t_doom *doom, t_wall wall, int color)
 	line(doom, color);
 }
 
+void		draw_verts(t_doom *doom, int color)
+{
+	int			i;
+	t_vertex	v;
+
+	i = 0;
+	while (i < doom->verts->count)
+	{
+		v = doom->verts->list[i];
+		draw_rectangle(doom, v.pos, color, 2);
+		i++;
+	}
+}
+
 /*
 **	Рисует линии между последними точками,
 **	из которых еще не была сформированна стена
+**	(Эта часть испытывает трудности из-за порядка вершин)
 */
 
 void		draw_building_walls(t_doom *doom, int color)
@@ -130,8 +145,8 @@ void		draw_all(t_doom *doom)
 		draw_building_line(doom, color);
 		draw_building_walls(doom, color);
 	}
-	color = 0x009900;
-	draw_sector(doom, doom->sects->sectors[doom->sects->selected_sector], color);
+	draw_sector(doom, doom->sects->sectors[doom->sects->selected_sector], 0x009900);
+	draw_verts(doom, 0xff0000);
 }
 
 void		output(t_doom *doom)
