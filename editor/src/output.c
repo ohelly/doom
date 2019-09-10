@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/25 17:01:23 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/04 16:15:35 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/08 20:37:52 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,18 +67,14 @@ void		draw_chto(t_doom *doom)
 	i = -1;
 	if (doom->app == 1)
 	{
-		*doom->line = (t_line) { doom->verts->list[doom->verts->i - 1].pos.x, doom->verts->list[doom->verts->i - 1].pos.y, doom->mouse->ppos.x, doom->mouse->ppos.y, 0, 0 };
+		*doom->line = (t_line) { doom->verts->list[doom->verts->order[doom->verts->i_o - 1]].pos.x, doom->verts->list[doom->verts->order[doom->verts->i_o - 1]].pos.y, doom->mouse->ppos.x, doom->mouse->ppos.y, 0, 0 };
 		line(doom, 0x990000);
 	}
-	while (++i < doom->sects->count)
+	while (++i < doom->walls->count)
 	{
-		ind_s = doom->sects->sectors[i].start;
-		while (ind_s != doom->sects->sectors[i].end)
-		{
-			*doom->line = (t_line) { doom->verts->list[ind_s].pos.x, doom->verts->list[ind_s].pos.y, doom->verts->list[ind_s + 1].pos.x, doom->verts->list[ind_s + 1].pos.y, 0, 0 };
-			line(doom, 0x990000);
-			ind_s++;
-		}
+		*doom->line = (t_line) { doom->verts->list[doom->walls->wall[i].vert_one].pos.x, doom->verts->list[doom->walls->wall[i].vert_one].pos.y,
+		doom->verts->list[doom->walls->wall[i].vert_two].pos.x, doom->verts->list[doom->walls->wall[i].vert_two].pos.y, 0, 0 };
+		line(doom, 0x990000);
 	}
 	i = doom->verts->sel_v;
 	while (i + 1 < doom->verts->i)
