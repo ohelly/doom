@@ -6,11 +6,19 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/25 17:01:23 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/04 16:15:35 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/08 20:37:52 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
+
+int			output_pixel(t_doom *doom, int pos, int color)
+{
+	if (pos < 0 || pos >= WIDTH * HEIGHT)
+		return (0);
+	doom->sdl->pix[pos] = color;
+	return (1);
+}
 
 int		draw_rectangle(t_doom *doom, t_v2 pos, int color, int size)
 {
@@ -34,59 +42,96 @@ int		draw_rectangle(t_doom *doom, t_v2 pos, int color, int size)
 	return (1);
 }
 
-int			output_pixel(t_doom *doom, int pos, int color)
-{
-	if (pos < 0 || pos >= WIDTH * HEIGHT)
-		return (0);
-	doom->sdl->pix[pos] = color;
-	return (1);
-}
+/*
+**	Рисует сектор по входящим в него вершинам
+*/
 
-void		draw_selected_sector(t_doom * doom)
+void		draw_sector(t_doom *doom, t_sectors sector, int color)
 {
-	int i;
-	int index;
+	int			i;
+	t_vertex	v1;
+	t_vertex	v2;
 
-	index = doom->sects->selected_sector;
-	if (index == -1)
-		return	;
-	i = doom->sects->sectors[index].start;
-	while (i != doom->sects->sectors[index].end)
+	i = sector.start;
+	while (i < sector.end)
 	{
-		*doom->line = (t_line) { doom->verts->list[i].pos.x, doom->verts->list[i].pos.y, doom->verts->list[i + 1].pos.x, doom->verts->list[i + 1].pos.y, 0, 0 };
-		line(doom, 0x009900);
+		v1 = doom->verts->list[i];
+		v2 = doom->verts->list[i + 1];
+		*doom->line = (t_line){v1.pos, v2.pos};
+		line(doom, color);
 		i++;
 	}
+	v1 = doom->verts->list[i];
+	v2 = doom->verts->list[sector.start];
+	*doom->line = (t_line){v1.pos, v2.pos};
+	line(doom, color);
 }
 
-void		draw_chto(t_doom *doom)
+void		draw_wall(t_doom *doom, t_wall wall, int color)
 {
-	int		i;
-	int		ind_s;
+	t_vertex v1;
+	t_vertex v2;
 
-	i = -1;
-	if (doom->app == 1)
-	{
-		*doom->line = (t_line) { doom->verts->list[doom->verts->i - 1].pos.x, doom->verts->list[doom->verts->i - 1].pos.y, doom->mouse->ppos.x, doom->mouse->ppos.y, 0, 0 };
-		line(doom, 0x990000);
-	}
-	while (++i < doom->sects->count)
-	{
-		ind_s = doom->sects->sectors[i].start;
-		while (ind_s != doom->sects->sectors[i].end)
-		{
-			*doom->line = (t_line) { doom->verts->list[ind_s].pos.x, doom->verts->list[ind_s].pos.y, doom->verts->list[ind_s + 1].pos.x, doom->verts->list[ind_s + 1].pos.y, 0, 0 };
-			line(doom, 0x990000);
-			ind_s++;
-		}
-	}
+	v1 = doom->verts->list[wall.vert_one];
+	v2 = doom->verts->list[wall.vert_two];
+	*doom->line = (t_line){v1.pos, v2.pos};
+	line(doom, color);
+}
+
+/*
+**	Рисует линии между последними точками,
+**	из которых еще не была сформированна стена
+*/
+
+void		draw_building_walls(t_doom *doom, int color)
+{
+	t_vertex	v1;
+	t_vertex	v2;
+	int			i;
+
 	i = doom->verts->sel_v;
 	while (i + 1 < doom->verts->i)
 	{
-		*doom->line = (t_line) { doom->verts->list[i].pos.x, doom->verts->list[i].pos.y, doom->verts->list[i + 1].pos.x, doom->verts->list[i + 1].pos.y, 0, 0 };
-		line(doom, 0x990000);
+		v1 = doom->verts->list[i];
+		v2 = doom->verts->list[i + 1];
+		*doom->line = (t_line){v1.pos, v2.pos, 0, 0};
+		line(doom, color);
 		i++;
 	}
+}
+
+/*
+**	Рисует линию между курсором и последней точкой
+*/
+
+void		draw_building_line(t_doom *doom, int color)
+{
+	t_vertex v;
+
+	v = doom->verts->list[doom->verts->order[doom->verts->i_o - 1]];
+	*doom->line = (t_line){v.pos, doom->mouse->ppos, 0, 0};
+	line(doom, color);
+}
+
+void		draw_all(t_doom *doom)
+{
+	int i;
+	int color;
+
+	color = 0x990000;
+	i = 0;
+	while (i < doom->walls->count)
+	{
+		draw_wall(doom, doom->walls->wall[i], color);
+		i++;
+	}
+	if (doom->app == 1)
+	{
+		draw_building_line(doom, color);
+		draw_building_walls(doom, color);
+	}
+	color = 0x009900;
+	draw_sector(doom, doom->sects->sectors[doom->sects->selected_sector], color);
 }
 
 void		output(t_doom *doom)
@@ -94,8 +139,7 @@ void		output(t_doom *doom)
 	bzero(doom->sdl->pix, WIDTH * HEIGHT * sizeof(Uint32));
 	put_canvas(doom);
 	put_select(doom, doom->mouse);
-	draw_chto(doom);
-	draw_selected_sector(doom);
+	draw_all(doom);
 	SDL_UpdateTexture(doom->sdl->tex, NULL, doom->sdl->pix, WIDTH * sizeof(Uint32));
 	SDL_RenderClear(doom->sdl->rend);
 	SDL_RenderCopy(doom->sdl->rend, doom->sdl->tex, NULL, NULL);

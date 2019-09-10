@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/04 18:40:50 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/08 18:08:49 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,8 @@ typedef struct			s_all_vert
 { 
 	int					count;
 	int					i;
+	int					order[2048];
+	int					i_o;
 	int					sel_v;
 	t_vertex			list[2048];
 }						t_all_vert;
@@ -151,7 +153,9 @@ int						draw_rectangle(t_doom *doom, t_v2 pos, int color, int size);
 void					put_canvas(t_doom *doom);
 void					put_select(t_doom *doom, t_mouse *mouse);
 float					line_distance(t_v2 l1, t_v2 l2, t_v2 p, t_v2 *hit);
-
+void					get_closest_sector(t_doom *doom);
+int						get_closest_wall(t_doom *doom);
+int						lines_intersect_loop(t_doom *doom, t_v2 p1, t_v2 p2);
 
 /*
 **	Math
