@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/25 17:01:23 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/08 20:37:52 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/10 17:10:25 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,7 +95,6 @@ void		draw_verts(t_doom *doom, int color)
 /*
 **	Рисует линии между последними точками,
 **	из которых еще не была сформированна стена
-**	(Эта часть испытывает трудности из-за порядка вершин)
 */
 
 void		draw_building_walls(t_doom *doom, int color)
@@ -105,10 +104,10 @@ void		draw_building_walls(t_doom *doom, int color)
 	int			i;
 
 	i = doom->verts->sel_v;
-	while (i + 1 < doom->verts->i)
+	while (i + 1 < doom->verts->i_o)
 	{
-		v1 = doom->verts->list[i];
-		v2 = doom->verts->list[i + 1];
+		v1 = doom->verts->list[doom->verts->order[i]];
+		v2 = doom->verts->list[doom->verts->order[i + 1]];
 		*doom->line = (t_line){v1.pos, v2.pos, 0, 0};
 		line(doom, color);
 		i++;
