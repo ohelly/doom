@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 19:28:15 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/10 18:08:29 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/09/12 15:20:20 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,8 @@ int		isitwall(t_doom *doom, t_player *player)
 	float	py = player->where.y;
 	float	dx = player->velocity.x;
 	float	dy = player->velocity.y;
+	float	hole_low;
+	float	hole_high;
 	float	xd, yd;
 	int		n;
 	int		t = 0;
@@ -76,9 +78,9 @@ int		isitwall(t_doom *doom, t_player *player)
 		{
 			player->velocity.x = 0;
 			player->velocity.y = 0;
-			float hole_low  = sect->neighbors[n] < 0 ?  9e9 : max(sect->floor, doom->sectors[sect->neighbors[n]].floor);
-            float hole_high = sect->neighbors[n] < 0 ? -9e9 : min(sect->ceil,  doom->sectors[sect->neighbors[n]].ceil);
-            if(hole_high < player->where.z + HeadMargin
+			hole_low  = sect->neighbors[n] < 0 ?  9e9 : max(sect->floor, doom->sectors[sect->neighbors[n]].floor);
+            hole_high = sect->neighbors[n] < 0 ? -9e9 : min(sect->ceil,  doom->sectors[sect->neighbors[n]].ceil);
+            if (hole_high < player->where.z + HeadMargin
             || hole_low  > player->where.z - EyeHeight + KneeHeight)
             {
 				xd = v[n + 1].x - v[n].x;
@@ -121,7 +123,10 @@ int 	moving(t_doom *doom, t_player *player)
 	}
 	doom->push = doom->wsad[0] || doom->wsad[1] || doom->wsad[2] || doom->wsad[3];
 	//printf("Push - %d\n", doom->push);
-	acceleration = doom->push ? 0.5 : 0.4;
+	acceleration = doom->push ? 0.6 : 0.4;
+	//if (doom->sprint == 1)
+	//	acceleration = 2;
+	printf("acc - %f\n", acceleration);
 	if (doom->stop == 0)
 	{
 	    player->velocity.x = player->velocity.x * (1-acceleration) + move_vec[0] * acceleration;
@@ -133,8 +138,6 @@ int 	moving(t_doom *doom, t_player *player)
 		player->velocity.y = 0;
 		doom->stop = 0;
 	}
-	
-	//printf("vx - %f, vy - %f\n", doom->player->velocity.x, doom->player->velocity.y);
 	if (doom->push == 1)
 		doom->move = 1;
 	return (0);
@@ -153,7 +156,7 @@ int		mouse(t_player *player, float yaw)
 
 int     sdlstart(t_doom *doom)
 {
-	SDL_Event   ev;
+	SDL_Event	ev;
 	SDL_Init(SDL_INIT_EVERYTHING);
 	ft_memset(doom->wsad, 0, 4 * 4);
 	doom->sdl->win = SDL_CreateWindow("Doom", 0, 0, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
@@ -162,7 +165,11 @@ int     sdlstart(t_doom *doom)
 	doom->fall = 0;
 	while (1)
 	{
-		doom->player->where.z = doom->sectors[doom->player->sector].floor + EyeHeight;
+		if (doom->duck == 0)
+			doom->player->where.z = doom->sectors[doom->player->sector].floor + EyeHeight;
+		else
+			doom->player->where.z = doom->sectors[doom->player->sector].floor + DuckHeight;
+		
 		SDL_LockSurface(doom->sdl->surface);
 		drawgame(doom, doom->player);
 		SDL_UnlockSurface(doom->sdl->surface);
@@ -187,7 +194,6 @@ int     sdlstart(t_doom *doom)
 					doom->wsad[2] = 1;
 				if (ev.key.keysym.sym == 'd')
 					doom->wsad[3] = 1;
-				
 				if (ev.key.keysym.sym == '0')
 					doom->sectors[doom->player->sector].ceil -= 1;
 				if (ev.key.keysym.sym == '9')
@@ -199,7 +205,12 @@ int     sdlstart(t_doom *doom)
 				if (ev.key.keysym.sym == ' ')
 				{
 					doom->fall = 1;
+					doom->player->velocity.z = 0.05f;
 				}
+				if (ev.key.keysym.sym == SDLK_LCTRL)
+					doom->duck = 1;
+				if (ev.key.keysym.sym == SDLK_LSHIFT)
+					doom->sprint = 1;
 				break ;
 			}
 			if (ev.type == SDL_KEYUP)
@@ -212,6 +223,10 @@ int     sdlstart(t_doom *doom)
 					doom->wsad[2] = 0;
 				if (ev.key.keysym.sym == 'd')
 					doom->wsad[3] = 0;
+				if (ev.key.keysym.sym == SDLK_LCTRL)
+					doom->duck = 0;
+				if (ev.key.keysym.sym == SDLK_LSHIFT)
+					doom->sprint = 0;
 				break ;
 			}	
 		}

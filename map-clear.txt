@@ -1,10 +1,12 @@
-vertex	0      0 40
+vertex	0     0 40
 vertex	5     60
-vertex	20     72.5
-vertex	35     0 40 80
+vertex	20    72.5
+vertex	35    0 40 80
 vertex	50    72.5
 vertex	60    0 40 55
 vertex	90    0 40
+vertex  91    0 40
+vertex  100   0 40
 
 sector	0 40	 0 1 5 4                 -1 -1 1 -1
 sector	2 22	 1 2 5                   0 -1 2
@@ -14,6 +16,8 @@ sector	8 28	 5 6 7                   5 3 -1
 sector	10 30	 5 7 10                  6 4 -1
 sector	12 32	 5 10 9                  7 5 -1
 sector	14 34	 4 5 9 8                 -1 -1 6 8
-sector	14 34	 8 9 12 11               -1 7 -1 -1
+sector	14 34	 8 9 12 11               -1 7 -1 9
+sector	18 30	 11 12 14 13             -1 8 -1 10
+sector	14 34	 13 14 16 15             -1 9 -1 -1
 
 player	15 15	90	0
