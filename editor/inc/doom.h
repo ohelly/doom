@@ -41,8 +41,7 @@ typedef struct			s_v2_vertex
 
 typedef struct			s_sectors
 {
-	int					start;
-	int					end;
+	
 }						t_sectors;
 
 typedef struct			s_all_sect
@@ -86,10 +85,12 @@ typedef struct			s_all_vert
 { 
 	int					count;
 	int					i;
-	int					order[2048];
-	int					i_o;
 	int					sel_v;
 	t_vertex			list[2048];
+	int					built_v_count;
+	//Массив строящихся вершин
+	int					built_v_index[2048];
+	t_v2				projected_v;
 }						t_all_vert;
 
 /*
@@ -156,12 +157,14 @@ float					line_distance(t_v2 l1, t_v2 l2, t_v2 p, t_v2 *hit);
 void					get_closest_sector(t_doom *doom);
 int						get_closest_wall(t_doom *doom);
 int						lines_intersect_loop(t_doom *doom, t_v2 p1, t_v2 p2);
+int						vertex_is_free(t_doom *doom, t_v2 v);
 
 /*
 **	Math
 */
 
 t_v2					v2_add(t_v2 v1, t_v2 v2);
+int						compare_v2(t_v2 v1, t_v2 v2);
 double					min(double a, double b);
 double					max(double a, double b);
 double					clamp(double a, double mi, double ma);
