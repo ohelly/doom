@@ -32,7 +32,7 @@ FLAGS2 = -F /Users/$(USER)/Library/Frameworks/ -framework SDL2 -framework SDL2_i
 
 OBJ = src/main.o src/ft_line.o src/key_and_mouse_press.o src/output.o \
 src/put_canvas.o src/put_select.o src/math_line.o src/math_vectors.o \
-src/math_helpers.o src/export.o src/line_intersect.o src/select.o \
+src/math_helpers.o src/export.o src/line_intersect.o src/select.o src/build.o
 src/load_map.o
 
 all: $(FRAMEDIR) $(LIBS) $(FRAME) $(NAME)
