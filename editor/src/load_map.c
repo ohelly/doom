@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/12 16:27:03 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/12 18:54:50 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/12 19:52:38 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,30 @@ int		check_map(t_doom *doom)
 	return (0);
 }
 
+int		read_line(char *line, t_doom *doom)
+{
+	int		i;
 
+	if (ft_strnstr(line, "vertex\t", 7))
+	{
+		i = 7;
+		while (line[i] != '\t')
+			i++;
+		while (line[i] != '\0')
+		{
+			doom->verts->count++;
+			doom->verts->list[doom->verts->i].pos.y = atoi(&line[7]) * 10;
+			doom->verts->list[doom->verts->i].pos.x = atoi(&line[i]) * 10;
+		//	printf("i = %d  y = %d   x = %d\n", doom->verts->i, doom->verts->list[doom->verts->i].pos.y, doom->verts->list[doom->verts->i].pos.x);
+			doom->verts->i++;
+			while (line[i++] != ' ')
+				if (line[i] == '\0')
+					break;
+		}
+	}
+	//printf("%d\n", doom->verts->count);
+	return (0);
+}
 
 int		read_map(int fd, t_doom *doom)
 {
