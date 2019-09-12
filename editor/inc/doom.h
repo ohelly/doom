@@ -157,12 +157,14 @@ float					line_distance(t_v2 l1, t_v2 l2, t_v2 p, t_v2 *hit);
 void					get_closest_sector(t_doom *doom);
 int						get_closest_wall(t_doom *doom);
 int						lines_intersect_loop(t_doom *doom, t_v2 p1, t_v2 p2);
+int						vertex_is_free(t_doom *doom, t_v2 v);
 
 /*
 **	Math
 */
 
 t_v2					v2_add(t_v2 v1, t_v2 v2);
+int						compare_v2(t_v2 v1, t_v2 v2);
 double					min(double a, double b);
 double					max(double a, double b);
 double					clamp(double a, double mi, double ma);
