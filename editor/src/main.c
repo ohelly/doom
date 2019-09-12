@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:57:29 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/04 17:39:57 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/12 15:50:34 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int			die_msg(char *msg)
 {
 	ft_putendl(msg);
+	exit(0);
 	return (0);
 }
 
@@ -48,15 +49,27 @@ int			sdl_init(t_doom *doom)
 	return (1);
 }
 
+int			load_map(char *av, t_doom *doom)
+{
+	
+}
 
 int			main(int ac, char **av)
 {
 	t_doom		*doom;
 
+	/*if (ac == 1)
+		return (die_msg("Usage .map file"));
+	if (ac > 2)
+		return (die_msg("Too many arguments"));*/
+	/*if (!(check_map(av[1])))
+		return (die_msg("Not a valid map"));*/
 	if (!(doom = (t_doom*)ft_memalloc(sizeof(t_doom))))
 		return (die_msg("Failed to allocate doom struct"));
 	if (!(sdl_init(doom)))
 		return (die_msg("Failed to init doom"));
+	/*if (!(load_map(av[1], doom)))
+		return (die_msg("Failed to load map"));*/
 	while (1)
 		key_and_mouse_press(doom);
 	return (0);

@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/08 18:08:49 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/11 18:25:04 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -156,6 +156,7 @@ float					line_distance(t_v2 l1, t_v2 l2, t_v2 p, t_v2 *hit);
 void					get_closest_sector(t_doom *doom);
 int						get_closest_wall(t_doom *doom);
 int						lines_intersect_loop(t_doom *doom, t_v2 p1, t_v2 p2);
+int						load_map(char *av, t_doom *doom);
 
 /*
 **	Math
