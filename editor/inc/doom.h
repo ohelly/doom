@@ -90,6 +90,7 @@ typedef struct			s_all_vert
 	int					i_o;
 	int					sel_v;
 	t_vertex			list[2048];
+	t_v2				projected_v;
 }						t_all_vert;
 
 /*

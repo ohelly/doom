@@ -90,6 +90,7 @@ void		draw_verts(t_doom *doom, int color)
 		draw_rectangle(doom, v.pos, color, 2);
 		i++;
 	}
+	draw_rectangle(doom, doom->verts->projected_v, 0xffffff, 3);
 }
 
 /*
