@@ -12,157 +12,141 @@
 
 #include "doom.h"
 
-int		check_wall(t_doom *doom, int ind, int *portal)
-{
-	int		i;
+/*
+**	Возвращает 1 если v1 и v2 имеют общие координаты
+*/
 
-	i = -1;
-	while (++i < doom->walls->count)
-	{
-		if (ind != -1)
-		{
-			if ((doom->walls->wall[i].vert_one == doom->verts->order[ind] &&
-			doom->walls->wall[i].vert_two == doom->verts->order[ind + 1]) ||
-			(doom->walls->wall[i].vert_one == doom->verts->order[ind + 1] &&
-			doom->walls->wall[i].vert_two == doom->verts->order[ind]))
-			{
-				doom->walls->wall[i].portal = doom->sects->i;
-				*portal = doom->walls->wall[i].sectors;
-				return (0);
-			}
-		}
-		else if (ind == -1)
-		{
-			if ((doom->walls->wall[i].vert_one == doom->verts->order[doom->sects->sectors[doom->sects->i].end] &&
-			doom->walls->wall[i].vert_two == doom->verts->order[doom->sects->sectors[doom->sects->i].start]) ||
-			(doom->walls->wall[i].vert_one == doom->verts->order[doom->sects->sectors[doom->sects->i].start] &&
-			doom->walls->wall[i].vert_two == doom->verts->order[doom->sects->sectors[doom->sects->i].end]))
-			{
-				doom->walls->wall[i].portal = doom->sects->i;
-				*portal = doom->walls->wall[i].sectors;
-				return (0);
-			}
-		}
-	}
-	*portal = -1;
+int			compare_v2(t_v2 v1, t_v2 v2)
+{
+	if (v1.x == v2.x && v1.y == v2.y)
+		return (1);
 	return (0);
 }
 
-void	in_walls(t_doom *doom)
+/*
+**	Проверяет, не лежит ли в позиции v какая-либо вершина
+**	Возвращает номер вершины, если координаты v и вершины совпадают
+**	Возвращает -1 в других случаях
+*/
+int		vertex_is_free(t_doom *doom, t_v2 v)
 {
 	int		i;
-	int		portal;
+	t_v2	v2;
 
-	portal = -1;
-	i = doom->sects->sectors[doom->sects->i].start;
-	while (i != doom->sects->sectors[doom->sects->i].end)
+	i = 0;
+	while (i < doom->verts->count)
 	{
-		check_wall(doom, i, &portal);
-		doom->walls->count++;
-		doom->walls->wall[doom->walls->i].vert_one = doom->verts->order[i];
-		doom->walls->wall[doom->walls->i].vert_two = doom->verts->order[i + 1];
-		doom->walls->wall[doom->walls->i].sectors = doom->sects->i;
-		doom->walls->wall[doom->walls->i].portal = portal;
-		doom->walls->i++;
+		v2 = doom->verts->list[i].pos;
+		if (compare_v2(v, v2))
+			return (i);
 		i++;
 	}
-	check_wall(doom, -1, &portal);
-	doom->walls->count++;
-	doom->walls->wall[doom->walls->i].vert_one = doom->verts->order[doom->sects->sectors[doom->sects->i].end];
-	doom->walls->wall[doom->walls->i].vert_two = doom->verts->order[doom->sects->sectors[doom->sects->i].start];
-	doom->walls->wall[doom->walls->i].sectors = doom->sects->i;
-	doom->walls->wall[doom->walls->i].portal = portal;
-	doom->walls->i++;
+	return (-1);
 }
 
-int		check_vert(t_doom *doom)
-{
-	int		i;
+/*
+**	Создает сектор по точкам из built_v_index,
+**	назначает стенам внутри сектора номер сектора.
+**	Возвращает номер сектора, если удалось построить сектор
+**	Возвращает -1 в других ситуациях
+*/
 
-	i = -1;
-	while (++i < doom->verts->count)
+int		create_sector(t_doom *doom)
+{
+	int i;
+	int	w_index;
+
+	if (doom->verts->built_v_count <= 2)
+		return (-1);
+	i = 0;
+	while (i < doom->verts->built_v_count)
 	{
-		if (doom->app == 0)
-		{
-			if (doom->mouse->ppos.x == doom->verts->list[i].pos.x &&
-			doom->mouse->ppos.y == doom->verts->list[i].pos.y)
-			{
-				doom->verts->order[doom->verts->i_o] = i;
-				doom->sects->sectors[doom->sects->i].start = doom->verts->i_o;
-				doom->verts->sel_v = doom->verts->i_o;
-				doom->app = 1;
-				doom->verts->i_o++;
-				return (1);
-			}
-		}
-		else if (doom->app == 1)
-		{
-			if (doom->mouse->ppos.x == doom->verts->list[i].pos.x &&
-			doom->mouse->ppos.y == doom->verts->list[i].pos.y)
-			{
-				doom->verts->order[doom->verts->i_o] = i;
-				doom->verts->i_o++;
-				return (1);
-			}
-		}
+		w_index = (doom->walls->count - 1) - (doom->verts->built_v_count - 2 - i);
+		doom->walls->wall[w_index].sectors = doom->sects->count;
+		i++;
 	}
-	return (0);
+	doom->sects->count++;
+	return (doom->sects->count - 1);
 }
 
-void	in_list(t_doom *doom)
+/*
+**	Строит стену между предпоследней и последней точкой в built_v_index
+**	Не назначает стенам номер сектора
+*/
+
+int		put_wall(t_doom *doom)
 {
+	int		v1_index;
+	int		v2_index;
+	t_wall	w;
+
+	v1_index = doom->verts->built_v_index[doom->verts->built_v_count - 2];
+	v2_index = doom->verts->built_v_index[doom->verts->built_v_count - 1];
+	doom->walls->wall[doom->walls->count].vert_one = v1_index;
+	doom->walls->wall[doom->walls->count].vert_two = v2_index;
+	doom->walls->count++;
+	return (1);
+}
+
+/*
+**	Ставит вершину в точке mouse->ppos
+**	Добавляет индекс вершины в verts->built_v_index
+*/
+
+int		put_vert(t_doom *doom)
+{
+	int v_index;
+
+	v_index = vertex_is_free(doom, doom->mouse->ppos);
+	if (v_index == -1)
+	{
+		v_index = doom->verts->count;
+		doom->verts->list[v_index].pos = doom->mouse->ppos;
+		doom->verts->built_v_index[doom->verts->built_v_count] = v_index;
+		doom->verts->count++;
+		doom->verts->built_v_count++;
+	}
+	else
+	{
+		doom->verts->built_v_index[doom->verts->built_v_count] = v_index;
+		doom->verts->built_v_count++;
+	}
+	return (1);
+}
+
+void	build_sector(t_doom *doom)
+{
+	t_v2	start_v;
+	t_v2	curr_v;
+
 	if (doom->app == 1 &&
 		lines_intersect_loop(doom,
-		doom->verts->list[doom->verts->order[doom->verts->i_o - 1]].pos,
+		doom->verts->list[doom->verts->built_v_index[doom->verts->built_v_count - 1]].pos,
 		doom->mouse->ppos))
 	{
 		printf("Line intersects with something!!!\n");
 		//return ;
 	}
-	doom->verts->list[doom->verts->i].pos.x = doom->mouse->ppos.x;
-	doom->verts->list[doom->verts->i].pos.y = doom->mouse->ppos.y;
 	if (doom->app == 0)
 	{
-		if (check_vert(doom))
-			return ;
-		else
-		{
-			doom->verts->list[doom->verts->i].pos.x = doom->mouse->ppos.x;
-			doom->verts->list[doom->verts->i].pos.y = doom->mouse->ppos.y;
-			doom->verts->order[doom->verts->i_o] = doom->verts->i;
-			doom->sects->sectors[doom->sects->i].start = doom->verts->i_o;
-			doom->verts->sel_v = doom->verts->i_o;
-			doom->app = 1;
-			doom->verts->i_o++;
-			doom->verts->count++;
-		}
+		put_vert(doom);
+		doom->app = 1;
 	}
 	else if (doom->app == 1)
 	{
-		if (doom->mouse->ppos.x == doom->verts->list[doom->verts->order[doom->verts->sel_v]].pos.x && doom->mouse->ppos.y == doom->verts->list[doom->verts->order[doom->verts->sel_v]].pos.y)
+		put_vert(doom);
+		put_wall(doom);
+		start_v = doom->verts->list[doom->verts->built_v_index[0]].pos;
+		curr_v = doom->verts->list[doom->verts->built_v_index[doom->verts->built_v_count - 1]].pos;
+		if (compare_v2(start_v, curr_v) == 1)
 		{
-			doom->app = 0;
-			doom->sects->sectors[doom->sects->i].end = doom->verts->i_o - 1;
-			in_walls(doom);
-			doom->sects->i++;
-			doom->sects->count++;
-			return ;
-		}
-		else
-		{
-			if (check_vert(doom))
-				return ;
-			else
+			if (create_sector(doom) != -1)
 			{
-				doom->verts->list[doom->verts->i].pos.x = doom->mouse->ppos.x;
-				doom->verts->list[doom->verts->i].pos.y = doom->mouse->ppos.y;
-				doom->verts->order[doom->verts->i_o] = doom->verts->i;
-				doom->verts->i_o++;
-				doom->verts->count++;
+				doom->app = 0;
+				doom->verts->built_v_count = 0;
 			}
 		}
 	}
-	doom->verts->i++;
 }
 
 void	kek(t_doom *doom)
@@ -185,7 +169,7 @@ void	key_and_mouse_press(t_doom *doom)
 			if (doom->sdl->ev.key.keysym.sym == '=' && doom->sh > 5)
 				doom->sh -= 1;
 			if (doom->sdl->ev.key.keysym.sym == ' ')
-				in_list(doom);
+				build_sector(doom);
 			if (doom->sdl->ev.key.keysym.sym == 'e')
 				save(doom);
 			if (doom->sdl->ev.key.keysym.sym == 'w')

@@ -41,8 +41,7 @@ typedef struct			s_v2_vertex
 
 typedef struct			s_sectors
 {
-	int					start;
-	int					end;
+	
 }						t_sectors;
 
 typedef struct			s_all_sect
@@ -86,10 +85,11 @@ typedef struct			s_all_vert
 { 
 	int					count;
 	int					i;
-	int					order[2048];
-	int					i_o;
 	int					sel_v;
 	t_vertex			list[2048];
+	int					built_v_count;
+	//Массив строящихся вершин
+	int					built_v_index[2048];
 	t_v2				projected_v;
 }						t_all_vert;
 
