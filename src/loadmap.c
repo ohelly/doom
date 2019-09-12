@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loadmap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lminta <lminta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/28 17:47:36 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/02 15:19:18 by lminta           ###   ########.fr       */
+/*   Updated: 2019/09/08 20:21:32 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,10 @@ int		loadplayer(t_player *player, char *str)
 		else
 			j++;
 	}
+	player->velocity.x = 0;
+	player->velocity.y = 0;
+	player->velocity.z = 0;
+	
 	return (0);
 }
 
