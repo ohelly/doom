@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:57:29 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/12 15:50:34 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/12 15:52:34 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,11 +49,11 @@ int			sdl_init(t_doom *doom)
 	return (1);
 }
 
-int			load_map(char *av, t_doom *doom)
+/*int			load_map(char *av, t_doom *doom)
 {
 	
 }
-
+*/
 int			main(int ac, char **av)
 {
 	t_doom		*doom;
