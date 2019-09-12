@@ -86,8 +86,8 @@ int	lines_intersect_loop(t_doom *doom, t_v2 p1, t_v2 p2)
 	i = 0;
 	while (i < doom->walls->count)
 	{
-		p3 = doom->verts->list[doom->verts->order[doom->walls->wall[i].vert_one]].pos;
-		p4 = doom->verts->list[doom->verts->order[doom->walls->wall[i].vert_two]].pos;
+		p3 = doom->verts->list[doom->walls->wall[i].vert_one].pos;
+		p4 = doom->verts->list[doom->walls->wall[i].vert_two].pos;
 		if (!(p1.x == p3.x && p1.y == p3.y && p2.x == p4.x && p2.y == p4.y) &&
 			!point_belongs_to_vertex(doom, p1) &&
 			!point_belongs_to_vertex(doom, p2) &&
