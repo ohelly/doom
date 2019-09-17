@@ -12,11 +12,14 @@
 
 #include "doom.h"
 
-int			output_pixel(t_doom *doom, int pos, int color)
+int			output_pixel(t_doom *doom, t_v2 pos, int color)
 {
-	if (pos < 0 || pos >= WIDTH * HEIGHT)
+	int position;
+
+	if (v2_in_borders(pos, WIDTH, HEIGHT) == 0)
 		return (0);
-	doom->sdl->pix[pos] = color;
+	position = pos.x + pos.y * WIDTH;
+	doom->sdl->pix[position] = color;
 	return (1);
 }
 
@@ -32,9 +35,7 @@ int		draw_rectangle(t_doom *doom, t_v2 pos, int color, int size)
 		j = -size;
 		while (j <= size)
 		{
-			n = (pos.x + i) + (pos.y + j) * WIDTH;
-			output_pixel(doom, n, color);
-			doom->sdl->pix[n] = color;
+			output_pixel(doom, (t_v2){pos.x + i, pos.y + j}, color);
 			j++;
 		}
 		i++;
@@ -125,6 +126,7 @@ void		draw_all(t_doom *doom)
 void		output(t_doom *doom)
 {
 	bzero(doom->sdl->pix, WIDTH * HEIGHT * sizeof(Uint32));
+	move_map(doom);
 	put_canvas(doom);
 	put_select(doom, doom->mouse);
 	draw_all(doom);

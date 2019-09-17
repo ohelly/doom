@@ -83,6 +83,8 @@ int		save(t_doom *doom)
 		remove(doom->save_name);
 	fd = open(doom->save_name, O_WRONLY | O_CREAT, 444);
 
+	vertices_return_map_pos(doom);
+
 	i = 0;
 	prev_y = 0;
 	str = ft_strnew(0);

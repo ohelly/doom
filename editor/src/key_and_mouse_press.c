@@ -41,9 +41,25 @@ void	key_and_mouse_press(t_doom *doom)
 				get_closest_sector(doom);
 			if (doom->sdl->ev.key.keysym.sym == 'k')
 				kek(doom);
+			if (doom->sdl->ev.key.keysym.sym == SDLK_LEFT)
+				doom->move_vector = (t_v2){-1, doom->move_vector.y};
+			else if (doom->sdl->ev.key.keysym.sym == SDLK_RIGHT)
+				doom->move_vector = (t_v2){1, doom->move_vector.y};
+			else
+				doom->move_vector = (t_v2){0, doom->move_vector.y};
+			if (doom->sdl->ev.key.keysym.sym == SDLK_UP)
+				doom->move_vector = (t_v2){doom->move_vector.x, -1};
+			else if (doom->sdl->ev.key.keysym.sym == SDLK_DOWN)
+				doom->move_vector = (t_v2){doom->move_vector.x, 1};
+			else
+				doom->move_vector = (t_v2){doom->move_vector.x, 0};
+			
 		}
 		if (doom->sdl->ev.type == SDL_MOUSEMOTION)
+		{
 			*doom->mouse = (t_mouse){ doom->sdl->ev.motion.x, doom->sdl->ev.motion.y, 0 ,0 };
+			doom->move_vector = (t_v2){0, 0};
+		}
 		output(doom);
 	}
 }
