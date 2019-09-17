@@ -17,6 +17,11 @@ void	get_closest_sector(t_doom *doom)
 	int wall;
 	int i;
 
+	if (doom->sects->selected_sector != -1)
+	{
+		doom->sects->selected_sector = -1;
+		return ;
+	}
 	wall = get_closest_wall(doom);
 	if (wall == -1)
 	{
