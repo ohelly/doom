@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/08 18:08:49 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/12 16:47:35 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -115,6 +115,16 @@ typedef struct			s_line
 }						t_line;
 
 /*
+	FILE
+			*/
+
+typedef struct			s_file
+{
+	int					fd;
+	char				*file_name;
+}						t_file;
+
+/*
 	SDL POINTER'S
 					*/
 
@@ -140,6 +150,7 @@ typedef struct			s_doom
 	t_all_vert			*verts;
 	t_all_sect			*sects;
 	t_all_walls			*walls;
+	t_file				*file;
 	char				*save_name;
 	int					sh;
 }						t_doom;
@@ -158,6 +169,7 @@ void					get_closest_sector(t_doom *doom);
 int						get_closest_wall(t_doom *doom);
 int						lines_intersect_loop(t_doom *doom, t_v2 p1, t_v2 p2);
 int						vertex_is_free(t_doom *doom, t_v2 v);
+int						load_map(char *av, t_doom *doom);
 
 /*
 **	Math
