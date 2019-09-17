@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:57:29 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/12 18:53:40 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/15 20:10:15 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 int			die_msg(char *msg)
 {
 	ft_putendl(msg);
+	exit(0);
 	return (0);
 }
 
@@ -61,7 +62,6 @@ int			sdl_init(t_doom *doom)
 	return (1);
 }
 
-
 int			main(int ac, char **av)
 {
 	t_doom		*doom;
@@ -78,7 +78,7 @@ int			main(int ac, char **av)
 	err = load_map(av[1], doom);
 	if (err != 0)
 		return (puts_error(err));
-	/*while (1)
+	while (1)
 		key_and_mouse_press(doom);
-	return (0);*/
+	return (0);
 }
