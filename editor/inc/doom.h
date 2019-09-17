@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/12 16:47:35 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/17 17:49:32 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ typedef struct			s_all_walls
 	int					count;
 	int					i;
 	t_wall				wall[2048];
+	int					selected_wall;
+	int					adjacent_wall;
 }						t_all_walls;
 
 /*
@@ -170,6 +172,8 @@ int						get_closest_wall(t_doom *doom);
 int						lines_intersect_loop(t_doom *doom, t_v2 p1, t_v2 p2);
 int						vertex_is_free(t_doom *doom, t_v2 v);
 int						load_map(char *av, t_doom *doom);
+void					build_portal(t_doom *doom);
+void    				find_portal(t_doom *doom);
 
 /*
 **	Math
