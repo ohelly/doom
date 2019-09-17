@@ -14,7 +14,7 @@ int		vertex_is_free(t_doom *doom, t_v2 v)
 	while (i < doom->verts->count)
 	{
 		v2 = doom->verts->list[i].pos;
-		if (compare_v2(v, v2))
+		if (v2_compare(v, v2))
 			return (i);
 		i++;
 	}
@@ -115,7 +115,7 @@ void	build_sector(t_doom *doom)
 		put_wall(doom);
 		start_v = doom->verts->list[doom->verts->built_v_index[0]].pos;
 		curr_v = doom->verts->list[doom->verts->built_v_index[doom->verts->built_v_count - 1]].pos;
-		if (compare_v2(start_v, curr_v) == 1)
+		if (v2_compare(start_v, curr_v) == 1)
 		{
 			if (create_sector(doom) != -1)
 			{

@@ -68,8 +68,8 @@ int	lines_intersect_loop(t_doom *doom, t_v2 p1, t_v2 p2)
 	{
 		p3 = doom->verts->list[doom->walls->wall[i].vert_one].pos;
 		p4 = doom->verts->list[doom->walls->wall[i].vert_two].pos;
-		if (!(compare_v2(p1, p3) &&
-			  compare_v2(p2, p4)) &&
+		if (!(v2_compare(p1, p3) &&
+			  v2_compare(p2, p4)) &&
 			vertex_is_free(doom, p1) == -1 &&
 			vertex_is_free(doom, p2) == -1 &&
 			lines_intersect(p1, p2, p3, p4))
