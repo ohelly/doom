@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 22:12:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/17 15:10:29 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/17 17:58:14 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,11 +36,13 @@ void	key_and_mouse_press(t_doom *doom)
 			if (doom->sdl->ev.key.keysym.sym == 'e')
 				save(doom);
 			if (doom->sdl->ev.key.keysym.sym == 'w')
-				get_closest_wall(doom);
+				find_portal(doom);
 			if (doom->sdl->ev.key.keysym.sym == 's')
 				get_closest_sector(doom);
 			if (doom->sdl->ev.key.keysym.sym == 'k')
 				kek(doom);
+			if (doom->sdl->ev.key.keysym.sym == '\r')
+				build_portal(doom);
 		}
 		if (doom->sdl->ev.type == SDL_MOUSEMOTION)
 			*doom->mouse = (t_mouse){ doom->sdl->ev.motion.x, doom->sdl->ev.motion.y, 0 ,0 };

@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:57:29 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/15 20:10:15 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/17 17:49:56 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int			sdl_init(t_doom *doom)
 	doom->sh = 20;
 	doom->save_name = "test.map";
 	doom->sects->selected_sector = -1;
+	doom->walls->selected_wall = -1;
+	doom->walls->adjacent_wall = -1;
 	return (1);
 }
 
