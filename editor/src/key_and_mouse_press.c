@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 22:12:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/10 20:10:35 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/17 15:10:29 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,10 @@ void	key_and_mouse_press(t_doom *doom)
 		{
 			if (doom->sdl->ev.key.keysym.sym == '\033')
 				exit (0);
-			if (doom->sdl->ev.key.keysym.sym == '-')
+			/*if (doom->sdl->ev.key.keysym.sym == '-')
 				doom->sh += 1;
 			if (doom->sdl->ev.key.keysym.sym == '=' && doom->sh > 5)
-				doom->sh -= 1;
+				doom->sh -= 1;*/
 			if (doom->sdl->ev.key.keysym.sym == ' ')
 				build_sector(doom);
 			if (doom->sdl->ev.key.keysym.sym == 'e')
