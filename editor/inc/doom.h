@@ -155,6 +155,8 @@ typedef struct			s_doom
 	t_file				*file;
 	char				*save_name;
 	int					sh;
+	t_v2				map_pos;
+	t_v2				move_vector;
 }						t_doom;
 
 int						save(t_doom *doom);
@@ -162,7 +164,7 @@ void					output(t_doom *doom);
 void					key_and_mouse_press(t_doom *doom);
 int						get_next_line(const int fd, char **line);
 int						line(t_doom *doom, int color);
-int						output_pixel(t_doom *doom, int pos, int color);
+int						output_pixel(t_doom *doom, t_v2 pos, int color);
 int						draw_rectangle(t_doom *doom, t_v2 pos, int color, int size);
 void					put_canvas(t_doom *doom);
 void					put_select(t_doom *doom, t_mouse *mouse);
@@ -172,6 +174,8 @@ int						get_closest_wall(t_doom *doom);
 int						lines_intersect_loop(t_doom *doom, t_v2 p1, t_v2 p2);
 int						vertex_is_free(t_doom *doom, t_v2 v);
 int						load_map(char *av, t_doom *doom);
+int						move_map(t_doom *doom);
+int						vertices_return_map_pos(t_doom *doom);
 void					build_portal(t_doom *doom);
 void    				find_portal(t_doom *doom);
 
@@ -180,7 +184,8 @@ void    				find_portal(t_doom *doom);
 */
 
 t_v2					v2_add(t_v2 v1, t_v2 v2);
-int						compare_v2(t_v2 v1, t_v2 v2);
+int						v2_compare(t_v2 v1, t_v2 v2);
+int						v2_in_borders(t_v2 v2, int maxx, int maxy);
 double					min(double a, double b);
 double					max(double a, double b);
 double					clamp(double a, double mi, double ma);
