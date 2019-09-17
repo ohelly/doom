@@ -61,6 +61,8 @@ int		put_wall(t_doom *doom)
 	v2_index = doom->verts->built_v_index[doom->verts->built_v_count - 1];
 	doom->walls->wall[doom->walls->count].vert_one = v1_index;
 	doom->walls->wall[doom->walls->count].vert_two = v2_index;
+	doom->walls->wall[doom->walls->count].sectors = -1;
+	doom->walls->wall[doom->walls->count].portal = -1;
 	doom->walls->count++;
 	return (1);
 }

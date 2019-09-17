@@ -80,6 +80,8 @@ void		draw_sector(t_doom *doom, int sector, int color)
 	t_vertex	v1;
 	t_vertex	v2;
 
+	if (sector == -1)
+		return ;
 	i = 0;
 	while (i < doom->walls->count)
 	{
