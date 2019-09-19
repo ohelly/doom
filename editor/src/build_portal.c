@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 15:47:05 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/19 17:02:15 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/19 17:50:13 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,7 @@ void		build_portal(t_doom *doom)
 	{
 		doom->walls->wall[sw].portal = doom->walls->wall[aw].sectors;
 		doom->walls->wall[aw].portal = doom->walls->wall[sw].sectors;
-		doom->walls->selected_wall = -1;
-		doom->walls->adjacent_wall = -1;
 	}
+	doom->walls->selected_wall = -1;
+	doom->walls->adjacent_wall = -1;
 }

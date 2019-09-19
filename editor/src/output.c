@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/25 17:01:23 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/19 15:46:57 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/19 18:03:32 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,9 +124,9 @@ void		draw_all(t_doom *doom)
 	{
 		draw_building_line(doom, color);
 	}
+	draw_sector(doom, doom->sects->selected_sector, 0x009900);
 	if (doom->walls->selected_wall != -1)
 		draw_wall(doom, doom->walls->wall[doom->walls->selected_wall], 0x009900);
-	draw_sector(doom, doom->sects->selected_sector, 0x009900);
 	draw_verts(doom, 0xff0000);
 }
 
