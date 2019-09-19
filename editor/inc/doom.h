@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/17 17:49:32 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/19 16:52:07 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -178,6 +178,7 @@ int						move_map(t_doom *doom);
 int						vertices_return_map_pos(t_doom *doom);
 void					build_portal(t_doom *doom);
 void    				find_portal(t_doom *doom);
+void					build_sector(t_doom *doom);
 
 /*
 **	Math
