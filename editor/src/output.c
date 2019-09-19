@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/25 17:01:23 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/17 17:53:08 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/19 15:46:57 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void		draw_wall(t_doom *doom, t_wall wall, int color)
 	v1 = doom->verts->list[wall.vert_one];
 	v2 = doom->verts->list[wall.vert_two];
 	*doom->line = (t_line){v1.pos, v2.pos};
-	if (wall.portal != -1)
+	if (wall.portal != -1 && doom->sects->selected_sector != wall.sectors)
 		line(doom, 0xFFFF00);
 	else
 		line(doom, color);
@@ -124,9 +124,9 @@ void		draw_all(t_doom *doom)
 	{
 		draw_building_line(doom, color);
 	}
-	draw_sector(doom, doom->sects->selected_sector, 0x009900);
 	if (doom->walls->selected_wall != -1)
 		draw_wall(doom, doom->walls->wall[doom->walls->selected_wall], 0x009900);
+	draw_sector(doom, doom->sects->selected_sector, 0x009900);
 	draw_verts(doom, 0xff0000);
 }
 
