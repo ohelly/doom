@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 15:47:05 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/17 18:04:38 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/19 17:50:13 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,19 @@ void		find_portal(t_doom *doom)
 		doom->walls->wall[wall].vert_two == doom->walls->wall[ind].vert_one &&
 		doom->walls->wall[wall].sectors != doom->walls->wall[ind].sectors))
 		{
-			ft_putendl("Press return for set portal!");
-			doom->walls->adjacent_wall = ind;
-			return ;
+			if (doom->walls->wall[wall].portal == doom->walls->wall[ind].sectors &&
+			doom->walls->wall[ind].portal == doom->walls->wall[wall].sectors)
+			{
+				ft_putendl("Press return for delete portal!");
+				doom->walls->adjacent_wall = ind;
+				return ;
+			}
+			else
+			{
+				ft_putendl("Press return for set portal!");
+				doom->walls->adjacent_wall = ind;
+				return ;
+			}
 		}
 	}
 	doom->walls->adjacent_wall = -1;
@@ -52,8 +62,17 @@ void		build_portal(t_doom *doom)
 		return ;
 	sw = doom->walls->selected_wall;
 	aw = doom->walls->adjacent_wall;
-	doom->walls->wall[sw].portal = doom->walls->wall[aw].sectors;
-	doom->walls->wall[aw].portal = doom->walls->wall[sw].sectors;
+	if (doom->walls->wall[sw].portal == doom->walls->wall[aw].sectors &&
+	doom->walls->wall[aw].portal == doom->walls->wall[sw].sectors)
+	{
+		doom->walls->wall[sw].portal = -1;
+		doom->walls->wall[aw].portal = -1;
+	}
+	else
+	{
+		doom->walls->wall[sw].portal = doom->walls->wall[aw].sectors;
+		doom->walls->wall[aw].portal = doom->walls->wall[sw].sectors;
+	}
 	doom->walls->selected_wall = -1;
 	doom->walls->adjacent_wall = -1;
 }

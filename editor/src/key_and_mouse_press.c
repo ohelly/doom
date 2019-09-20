@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 22:12:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/17 17:58:14 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/19 14:36:10 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,9 @@ void	kek(t_doom *doom)
 	int i = -1;
 	while (++i < doom->walls->count)
 		printf("i = %d  sect = %d  vert1 = %d  vert2 = %d  portal = %d\n", i, doom->walls->wall[i].sectors, doom->walls->wall[i].vert_one, doom->walls->wall[i].vert_two, doom->walls->wall[i].portal);
+	i = -1;
+	//while (++i < doom->verts->count)
+	//	printf("x = %d   y = %d  i = %d\n", doom->verts->list[i].pos.x, doom->verts->list[i].pos.y, i);
 }
 
 void	key_and_mouse_press(t_doom *doom)
@@ -27,10 +30,6 @@ void	key_and_mouse_press(t_doom *doom)
 		{
 			if (doom->sdl->ev.key.keysym.sym == '\033')
 				exit (0);
-			/*if (doom->sdl->ev.key.keysym.sym == '-')
-				doom->sh += 1;
-			if (doom->sdl->ev.key.keysym.sym == '=' && doom->sh > 5)
-				doom->sh -= 1;*/
 			if (doom->sdl->ev.key.keysym.sym == ' ')
 				build_sector(doom);
 			if (doom->sdl->ev.key.keysym.sym == 'e')
@@ -59,7 +58,7 @@ void	key_and_mouse_press(t_doom *doom)
 		}
 		if (doom->sdl->ev.type == SDL_MOUSEMOTION)
 		{
-			*doom->mouse = (t_mouse){ doom->sdl->ev.motion.x, doom->sdl->ev.motion.y, 0 ,0 };
+			*doom->mouse = (t_mouse){ doom->sdl->ev.motion.x, doom->sdl->ev.motion.y, 0 , 0 };
 			doom->move_vector = (t_v2){0, 0};
 		}
 		output(doom);
