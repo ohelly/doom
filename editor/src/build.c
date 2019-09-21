@@ -98,12 +98,13 @@ void	build_sector(t_doom *doom)
 	t_v2	start_v;
 	t_v2	curr_v;
 
-	if (doom->app == 1 &&
-		lines_intersect_loop(doom,
-		doom->verts->list[doom->verts->built_v_index[doom->verts->built_v_count - 1]].pos,
-		doom->mouse->ppos))
+	if (doom->app == 1)
 	{
-		printf("Line intersects with something!!!\n");
+		if (lines_intersect_loop(doom,
+			doom->verts->list[doom->verts->built_v_index[doom->verts->built_v_count - 1]].pos,
+			doom->mouse->ppos))
+			return ;
+			//printf("Line intersects with something!!!\n");
 		//return ;
 	}
 	if (doom->app == 0)
