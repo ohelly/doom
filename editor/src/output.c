@@ -55,7 +55,8 @@ void		draw_verts(t_doom *doom, int color)
 		draw_rectangle(doom, v.pos, color, 2);
 		i++;
 	}
-	draw_rectangle(doom, doom->verts->projected_v, 0xffffff, 3);
+	if (doom->verts->projected_v.num != -1)
+		draw_rectangle(doom, doom->verts->projected_v.pos, 0xffffff, 3);
 }
 
 void		draw_wall(t_doom *doom, t_wall wall, int color)
