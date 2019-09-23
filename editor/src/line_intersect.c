@@ -49,7 +49,10 @@ int	lines_intersect_loop(t_doom *doom, t_v2 p1, t_v2 p2)
 		p3 = doom->verts->list[doom->walls->wall[i].vert_one].pos;
 		p4 = doom->verts->list[doom->walls->wall[i].vert_two].pos;
 		if (lines_intersect(p1, p2, p3, p4))
+		{
+			printf("Line intersects with another wall.\n");
 			return (1);
+		}
 		i++;
 	}
 	return (0);
