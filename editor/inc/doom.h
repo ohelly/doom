@@ -193,6 +193,7 @@ int						v2_in_borders(t_v2 v2, int maxx, int maxy);
 double					min(double a, double b);
 double					max(double a, double b);
 double					clamp(double a, double mi, double ma);
+float					distance(t_v2 p1, t_v2 p2);
 
 
 #endif
