@@ -12,10 +12,37 @@
 
 #include "doom.h"
 
+/*
+**	Находит стену с вершинами, совпадающими со стеной w1
+**	Возвращает индекс найденой стены, или -1 если такой стены нет
+*/
+
+int			get_duplicate_wall(t_doom *doom, t_wall w1)
+{
+	int		i;
+	t_wall	w2;
+
+	i = 0;
+	while (i < doom->walls->count)
+	{
+		w2 = doom->walls->wall[i];
+		if (((w1.vert_one == w2.vert_one && w1.vert_two == w2.vert_two) ||
+			(w1.vert_one == w2.vert_two && w1.vert_two == w2.vert_one)) &&
+			w1.sectors != w2.sectors)
+		{
+			return (i);
+		}
+		i++;
+	}
+	return (-1);
+}
+
 void		find_portal(t_doom *doom)
 {
 	int		ind;
 	int		wall;
+	t_wall	w1;
+	t_wall	w2;
 
 	ind = -1;
 	if (doom->walls->selected_wall != -1)
@@ -25,28 +52,22 @@ void		find_portal(t_doom *doom)
 	}
 	doom->walls->selected_wall = get_closest_wall(doom);
 	wall = doom->walls->selected_wall;
-	while (++ind < doom->walls->count)
+	w1 = doom->walls->wall[wall];
+	ind = get_duplicate_wall(doom, w1);
+	if (ind != -1)
 	{
-		if ((doom->walls->wall[wall].vert_one == doom->walls->wall[ind].vert_one
-		&& doom->walls->wall[wall].vert_two == doom->walls->wall[ind].vert_two &&
-		doom->walls->wall[wall].sectors != doom->walls->wall[ind].sectors) ||
-		(doom->walls->wall[wall].vert_one == doom->walls->wall[ind].vert_two &&
-		doom->walls->wall[wall].vert_two == doom->walls->wall[ind].vert_one &&
-		doom->walls->wall[wall].sectors != doom->walls->wall[ind].sectors))
+		w2 = doom->walls->wall[ind];
+		if (w1.portal == w2.sectors && w2.portal == w1.sectors)
 		{
-			if (doom->walls->wall[wall].portal == doom->walls->wall[ind].sectors &&
-			doom->walls->wall[ind].portal == doom->walls->wall[wall].sectors)
-			{
-				ft_putendl("Press return for delete portal!");
-				doom->walls->adjacent_wall = ind;
-				return ;
-			}
-			else
-			{
-				ft_putendl("Press return for set portal!");
-				doom->walls->adjacent_wall = ind;
-				return ;
-			}
+			ft_putendl("Press return to delete portal!");
+			doom->walls->adjacent_wall = ind;
+			return ;
+		}
+		else
+		{
+			ft_putendl("Press return to set portal!");
+			doom->walls->adjacent_wall = ind;
+			return ;
 		}
 	}
 	doom->walls->adjacent_wall = -1;
