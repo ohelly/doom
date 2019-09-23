@@ -92,7 +92,8 @@ typedef struct			s_all_vert
 	int					built_v_count;
 	//Массив строящихся вершин
 	int					built_v_index[2048];
-	t_v2				projected_v;
+	//num - номер стены на которой лежит проецируемая точка
+	t_vertex			projected_v;
 }						t_all_vert;
 
 /*
@@ -177,8 +178,10 @@ int						load_map(char *av, t_doom *doom);
 int						move_map(t_doom *doom);
 int						vertices_return_map_pos(t_doom *doom);
 void					build_portal(t_doom *doom);
-void    				find_portal(t_doom *doom);
+void					find_portal(t_doom *doom);
 void					build_sector(t_doom *doom);
+int						get_duplicate_wall(t_doom *doom, t_wall w1);
+int						split_wall(t_doom *doom);
 
 /*
 **	Math
