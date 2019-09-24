@@ -75,6 +75,7 @@ int		put_wall(t_doom *doom)
 int		put_vert(t_doom *doom)
 {
 	int v_index;
+	int i;
 
 	v_index = vertex_is_free(doom, doom->mouse->ppos);
 	if (v_index == -1)
@@ -87,6 +88,13 @@ int		put_vert(t_doom *doom)
 	}
 	else
 	{
+		i = 1;
+		while (i < doom->verts->built_v_count)
+		{
+			if (doom->verts->built_v_index[i] == v_index)
+				return (-1);
+			i++;
+		}
 		doom->verts->built_v_index[doom->verts->built_v_count] = v_index;
 		doom->verts->built_v_count++;
 	}
@@ -98,13 +106,12 @@ void	build_sector(t_doom *doom)
 	t_v2	start_v;
 	t_v2	curr_v;
 
-	if (doom->app == 1 &&
-		lines_intersect_loop(doom,
-		doom->verts->list[doom->verts->built_v_index[doom->verts->built_v_count - 1]].pos,
-		doom->mouse->ppos))
+	if (doom->app == 1)
 	{
-		printf("Line intersects with something!!!\n");
-		//return ;
+		if (lines_intersect_loop(doom,
+			doom->verts->list[doom->verts->built_v_index[doom->verts->built_v_count - 1]].pos,
+			doom->mouse->ppos))
+				return ;
 	}
 	if (doom->app == 0)
 	{
@@ -113,7 +120,8 @@ void	build_sector(t_doom *doom)
 	}
 	else if (doom->app == 1)
 	{
-		put_vert(doom);
+		if (put_vert(doom) == -1)
+			return ;
 		put_wall(doom);
 		start_v = doom->verts->list[doom->verts->built_v_index[0]].pos;
 		curr_v = doom->verts->list[doom->verts->built_v_index[doom->verts->built_v_count - 1]].pos;

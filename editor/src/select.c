@@ -60,8 +60,8 @@ int		get_closest_wall(t_doom *doom)
 	}
 	if (saved_dist < 30)
 	{
-		doom->verts->projected_v = saved_hit;
-		//printf("Closest wall is %d, with distance %f. Linked sector %d.\n", saved_wall, saved_dist, doom->walls->wall[saved_wall].sectors);
+		doom->verts->projected_v.num = saved_wall;
+		doom->verts->projected_v.pos = saved_hit;
 		return (saved_wall);
 	}
 	return (-1);
