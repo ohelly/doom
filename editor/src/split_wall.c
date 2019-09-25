@@ -23,8 +23,8 @@ int		split_wall(t_doom *doom)
 	doom->verts->list[i].pos = pos;
 	doom->verts->count++;
 	//разбиваем первую стену на две
-	doom->walls->wall[doom->walls->count].vert_one = doom->walls->wall[w1].vert_two;
-	doom->walls->wall[doom->walls->count].vert_two = doom->verts->count - 1;
+	doom->walls->wall[doom->walls->count].vert_one = doom->verts->count - 1;
+	doom->walls->wall[doom->walls->count].vert_two = doom->walls->wall[w1].vert_two;
 	doom->walls->wall[doom->walls->count].sectors = doom->walls->wall[w1].sectors;
 	doom->walls->wall[doom->walls->count].portal = -1;
 	doom->walls->count++;
@@ -32,8 +32,8 @@ int		split_wall(t_doom *doom)
 	//разбиваем вторую стену на две
 	if (w2 != -1)
 	{
-		doom->walls->wall[doom->walls->count].vert_one = doom->walls->wall[w2].vert_two;
-		doom->walls->wall[doom->walls->count].vert_two = doom->verts->count - 1;
+		doom->walls->wall[doom->walls->count].vert_one = doom->verts->count - 1;
+		doom->walls->wall[doom->walls->count].vert_two = doom->walls->wall[w2].vert_two;
 		doom->walls->wall[doom->walls->count].sectors = doom->walls->wall[w2].sectors;
 		doom->walls->wall[doom->walls->count].portal = -1;
 		doom->walls->wall[w2].vert_two = doom->verts->count - 1;

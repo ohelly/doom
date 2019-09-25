@@ -139,6 +139,7 @@ int		read_line(char *line, t_doom *doom)
 			return (1);
 		free(sub_line);
 		free(pr_line);
+		doom->sects->count++;
 	}
 	free(line);
 	return (0);
