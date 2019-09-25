@@ -74,6 +74,26 @@ void		find_portal(t_doom *doom)
 	doom->walls->selected_wall = -1;
 }
 
+/*
+**	Проверяет, можно ли сделать портал между секторами s1 и s2
+**	Возвращает -1 если портал уже существует, 1 если не существует
+*/
+
+int			can_build_portal(t_doom *doom, int s1, int s2)
+{
+	int	i;
+
+	i = 0;
+	while (i < doom->walls->count)
+	{
+		if ((doom->walls->wall[i].sectors == s1 && doom->walls->wall[i].portal == s2) ||
+			(doom->walls->wall[i].sectors == s2 && doom->walls->wall[i].portal == s1))
+			return (-1);
+		i++;
+	}
+	return (1);
+}
+
 void		build_portal(t_doom *doom)
 {
 	int		sw;
@@ -91,6 +111,11 @@ void		build_portal(t_doom *doom)
 	}
 	else
 	{
+		if (can_build_portal(doom, doom->walls->wall[aw].sectors, doom->walls->wall[sw].sectors) == -1)
+		{
+			printf("Error building portal: Portal between this two sectors already exists!\n");
+			return ;
+		}
 		doom->walls->wall[sw].portal = doom->walls->wall[aw].sectors;
 		doom->walls->wall[aw].portal = doom->walls->wall[sw].sectors;
 	}

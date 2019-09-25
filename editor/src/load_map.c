@@ -121,8 +121,8 @@ int		read_line(char *line, t_doom *doom)
 		while (line[i] != '\0')
 		{
 			doom->verts->count++;
-			doom->verts->list[doom->verts->i].pos.y = atoi(&line[7]) * 10;
-			doom->verts->list[doom->verts->i].pos.x = atoi(&line[i]) * 10;
+			doom->verts->list[doom->verts->i].pos.y = atoi(&line[7]);
+			doom->verts->list[doom->verts->i].pos.x = atoi(&line[i]);
 			doom->verts->i++;
 			while (line[i++] != ' ')
 				if (line[i] == '\0')
@@ -139,6 +139,7 @@ int		read_line(char *line, t_doom *doom)
 			return (1);
 		free(sub_line);
 		free(pr_line);
+		doom->sects->count++;
 	}
 	free(line);
 	return (0);
