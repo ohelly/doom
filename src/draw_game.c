@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   drawgame.c                                         :+:      :+:    :+:   */
+/*   draw_game.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/28 19:36:14 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/12 15:16:55 by dtoy             ###   ########.fr       */
+/*   Created: 2019/09/19 15:54:42 by dtoy              #+#    #+#             */
+/*   Updated: 2019/09/27 17:24:13 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,41 +45,6 @@ struct		item
 		int		ex;
 } queue[32], *head = queue, *tail = queue, now;
 
-int			findintersect(struct xyz1 t1, struct xyz1 t2)
-{	
-	float nearz = 1e-4f, farz = 5, nearside = 1e-5f, farside = 20.f;
-	
-	i1 = Intersect(t1.x,t1.z,t2.x,t2.z, -nearside,nearz, -farside,farz);
-    i2 = Intersect(t1.x,t1.z,t2.x,t2.z,  nearside,nearz,  farside,farz);
-    if (t1.z < nearz)
-	{ 
-		if(i1.y > 0)
-		{
-			t1.x = i1.x;
-			t1.z = i1.y;
-		}
-		else
-		{
-			t1.x = i2.x;
-			t1.z = i2.y;
-		}
-	}
-    if (t2.z < nearz)
-	{
-		if (i1.y > 0)
-		{
-			t2.x = i1.x;
-			t2.z = i1.y;
-		}
-		else
-		{
-			t2.x = i2.x;
-			t2.z = i2.y;
-		} 
-	}
-	return (0);
-}
-
 int			nline(int x1, int y1, int x2, int y2, int color, t_sdl *sdl)
 {
 	sdl->line->x0 = x1;
@@ -117,16 +82,132 @@ float			yaw(float y, float z, t_player *player)
 	return (y + z * player->yaw);
 }
 
+int				draw(int x, int beginx, int endx, int ya, int yb, int n, t_doom *doom)
+{
+	float	wscale, hscale;
+	float	ty = 0, tx = 0;
+	int		t = 0;
+	int		y;
+	int		ybot = HEIGHT - 1;
+	int		ytop = 0;;
+	int		w, h;
+
+	//h - 854
+	//w - 328
+	w = doom->textures->spr_data[doom->spr_stock[n].text_ind].w[doom->a];
+	h = doom->textures->spr_data[doom->spr_stock[n].text_ind].h[doom->a];
+	wscale = (float)w / (endx - beginx);
+	hscale = (float)h / (yb - ya);
+	y = ya;
+	tx = (x - beginx) * wscale;
+	if (doom->spr_stock[n].sector != doom->player->sector)
+	{
+		ytop = doom->item[doom->spr_stock[n].sector].ytop[x];
+		ybot = doom->item[doom->spr_stock[n].sector].ybot[x];
+	}
+	while (y < yb)
+	{
+		if (tx < w && ty < h && doom->textures->spr_data[doom->spr_stock[n].text_ind].data[doom->a][(int)ty * w + (int)tx] && y > ytop && y < ybot)
+			doom->sdl->pix[y * WIDTH + x] = doom->textures->spr_data[doom->spr_stock[n].text_ind].data[doom->a][(int)ty * w + (int)tx];
+		y++;
+		ty += hscale;
+	}
+
+	return (0);
+}
+
+int     drawsprites(t_doom *doom, t_player *player)
+{
+	float	vx, vy, tx, tz;
+	int		wx, wya, wyb;
+	float	px = player->where.x, py = player->where.y;
+	float	xscale, yscale;
+	float	yceil, yfloor;
+	float	w, h;
+	int		x, beginx, endx;
+	int		n = 0;
+	float	len[doom->numsprites];
+	float	l;
+	int		j;
+	t_xyzwh s;
+
+	while (n < doom->numsprites)
+	{
+		len[n] = sqrtf(powf(doom->spr_stock[n].x - px, 2) + powf(doom->spr_stock[n].y - py, 2));
+		n++;
+	}
+	n = 0;
+	j = 0;
+	while (j < doom->numsprites)
+	{
+		n = 0;
+		while (n < doom->numsprites - 1)
+		{
+			if (len[n] < len[n + 1])
+			{
+				s = doom->spr_stock[n + 1];
+				doom->spr_stock[n + 1] = doom->spr_stock[n];
+				doom->spr_stock[n] = s;
+				l = len[n + 1];
+				len[n + 1] = len[n];
+				len[n] = l;
+			}
+			n++;
+		}
+		j++;
+	}
+	
+	n = 0;
+	while (n < doom->numsprites)
+	{
+		if (!doom->item[doom->spr_stock[n].sector].sector)
+		{
+			n++;
+			continue ;
+		}
+		w = (float)doom->textures->spr_data[doom->spr_stock[n].text_ind].w[doom->a] / 150;
+		h = (float)doom->textures->spr_data[doom->spr_stock[n].text_ind].h[doom->a] / 40;
+		vx = doom->spr_stock[n].x - player->where.x;
+		vy = doom->spr_stock[n].y - player->where.y;
+		tx = vx * player->anglesin - vy * player->anglecos;
+		tz = vx * player->anglecos + vy * player->anglesin;
+		if (tz <= 0)
+		{
+			n++;
+			continue ;
+		}
+		xscale = (hfov * WIDTH) / tz;
+		yscale = (vfov * HEIGHT) / tz;
+		wx = WIDTH / 2 - (int)(tx * xscale);
+		
+		wya = HEIGHT / 2 - (int)(yaw(h + doom->sectors[doom->spr_stock[n].sector].floor - player->where.z, tz, player) * yscale);
+		wyb = HEIGHT / 2 - (int)(yaw(doom->sectors[doom->spr_stock[n].sector].floor - player->where.z, tz, player) * yscale);
+		w = w * xscale;
+		beginx = wx - w / 2;
+		endx = wx + w / 2;
+		x = beginx;
+		while (x < endx)
+		{
+			if (x >= doom->item[doom->spr_stock[n].sector].sx && x <= doom->item[doom->spr_stock[n].sector].ex)
+				draw(x, beginx, endx, wya, wyb, n, doom);
+			x++;
+		}
+		n++;
+	}
+
+    return (0);
+}
+
+
 int			drawgame(t_doom *doom, t_player *player)
 {
 	t_sector	*sect;
+	t_xy		org1, org2;
 	float		xscale1, xscale2;
 	float		yscale1, yscale2;
 	float		yceil, yfloor, nyceil, nyfloor;
 	int			n;
 	int			beginx, endx;
-	int			ytop[WIDTH] = {0};
-	int			ybot[WIDTH];
 	float		nearz = 1e-4f, farz = 5, nearside = 1e-5f, farside = 20.f;
 	int			x;
 	int			color;
@@ -138,11 +219,16 @@ int			drawgame(t_doom *doom, t_player *player)
 	head->sector = player->sector;
 	x = 0;
 	while (x < doom->numsectors)
-		rensects[x++] = 0;
+	{
+		rensects[x] = 0;
+		doom->item[x].sector = 0;
+		x++;
+	}
 	x = 0;
 	while (x < WIDTH)
 	{
-		ybot[x] = HEIGHT - 1;
+		doom->ytop[x] = 0;
+		doom->ybot[x] = HEIGHT - 1;
 		x++;
 	}
 	if(++head == queue + 32)
@@ -155,9 +241,11 @@ int			drawgame(t_doom *doom, t_player *player)
 			tail = queue;
 		if (rensects[now.sector] == 1) goto ren;		
 		++rensects[now.sector];
+		doom->item[now.sector].sx = now.sx;
+		doom->item[now.sector].ex = now.ex;
+		doom->item[now.sector].sector = rensects[now.sector];
 		sect = &doom->sectors[now.sector];
 		n = 0;
-		again:
 		while (n < sect->npoints)
 		{
 			v1.x = sect->vertex[n + 0].x - player->where.x;
@@ -171,7 +259,7 @@ int			drawgame(t_doom *doom, t_player *player)
 			if (t1.z <= 0 && t2.z <= 0) //стена за спиной
 			{
 				n++;
-				goto again;
+				continue ;
 			}
 			if (t1.z <= 0 || t2.z <= 0) //какая-то из двух точек за спиной
 			{
@@ -204,16 +292,16 @@ int			drawgame(t_doom *doom, t_player *player)
 					}
 				}
 			}
-			xscale1 = hfov / t1.z;
-			yscale1 = vfov / t1.z;
-			xscale2 = hfov / t2.z;
-			yscale2 = vfov / t2.z;
+			xscale1 = (hfov * WIDTH) / t1.z;
+			yscale1 = (vfov * HEIGHT) / t1.z;
+			xscale2 = (hfov * WIDTH) / t2.z;
+			yscale2 = (vfov * HEIGHT) / t2.z;
 			w1.x = WIDTH / 2 - (int)(t1.x * xscale1);
 			w2.x = WIDTH / 2 - (int)(t2.x * xscale2);
 			if(w1.x >= w2.x || w2.x < now.sx || w1.x > now.ex)
 			{
 				n++;
-				goto again;
+				continue ;
 			}
 			yceil  = sect->ceil  - player->where.z; 
 	        yfloor = sect->floor - player->where.z;
@@ -222,47 +310,47 @@ int			drawgame(t_doom *doom, t_player *player)
 			{
 				nyceil  = doom->sectors[neighbor].ceil  - player->where.z; 
 	       		nyfloor = doom->sectors[neighbor].floor - player->where.z;
+				n1.ya = HEIGHT / 2 - (int)(yaw(nyceil , t1.z, player) * yscale1);
+				n1.yb = HEIGHT / 2 - (int)(yaw(nyfloor, t1.z, player) * yscale1);
+	      		n2.ya = HEIGHT / 2 - (int)(yaw(nyceil , t2.z, player)* yscale2);
+				n2.yb = HEIGHT / 2 - (int)(yaw(nyfloor, t2.z, player) * yscale2);
 			}
 			w1.ya = HEIGHT / 2 - (int)(yaw(yceil , t1.z, player) * yscale1);
 			w1.yb = HEIGHT / 2 - (int)(yaw(yfloor, t1.z, player) * yscale1);
 	        w2.ya = HEIGHT / 2 - (int)(yaw(yceil , t2.z, player)* yscale2);
 			w2.yb = HEIGHT / 2 - (int)(yaw(yfloor, t2.z, player) * yscale2);
-			n1.ya = HEIGHT / 2 - (int)(yaw(nyceil , t1.z, player) * yscale1);
-			n1.yb = HEIGHT / 2 - (int)(yaw(nyfloor, t1.z, player) * yscale1);
-	        n2.ya = HEIGHT / 2 - (int)(yaw(nyceil , t2.z, player)* yscale2);
-			n2.yb = HEIGHT / 2 - (int)(yaw(nyfloor, t2.z, player) * yscale2);
-			beginx = max(w1.x, now.sx);      //<---------------------------------------
-			endx = min(w2.x, now.ex);//<---------------------------------------
+			beginx = max(w1.x, now.sx);		//<---------------------------------------
+			endx = min(w2.x, now.ex);	//<---------------------------------------
 			x = beginx;
 			while (x <= endx) //отрисовка
 			{
 				w.ya = (x - w1.x) * (w2.ya - w1.ya) / (w2.x - w1.x) + w1.ya;
-				c.ya = clamp(w.ya, ytop[x], ybot[x]);
+				c.ya = clamp(w.ya, doom->ytop[x], doom->ybot[x]);
 				w.yb = (x - w1.x) * (w2.yb - w1.yb) / (w2.x - w1.x) + w1.yb;
-				c.yb = clamp(w.yb, ytop[x], ybot[x]);
-				vline(x, ytop[x], c.ya - 1, 0x22222, 0x60cf4e, 0x222222, doom->sdl); //потолок
-				vline(x, c.yb + 1, ybot[x], 0x000000, 0x60cf4e, 0, doom->sdl); //пол
+				c.yb = clamp(w.yb, doom->ytop[x], doom->ybot[x]);
+				vline(x, doom->ytop[x], c.ya - 1, 0x22222, 0xFFFFFF, 0x222222, doom->sdl); //потолок
+				vline(x, c.yb + 1, doom->ybot[x], 0x000000, 0xFFFFFF, 0, doom->sdl); //пол
 				if (neighbor >= 0)
 				{
-					color = 0x38cf4e;
+					color = 0x46f057;
 					wn.ya = (x - w1.x) * (n2.ya - n1.ya) / (w2.x - w1.x) + n1.ya;
-					cn.ya = clamp(wn.ya, ytop[x], ybot[x]);
+					cn.ya = clamp(wn.ya, doom->ytop[x], doom->ybot[x]);
 					wn.yb = (x - w1.x) * (n2.yb - n1.yb) / (w2.x - w1.x) + n1.yb;
-					cn.yb = clamp(wn.yb, ytop[x], ybot[x]);
+					cn.yb = clamp(wn.yb, doom->ytop[x], doom->ybot[x]);
 					vline(x, c.ya, cn.ya - 1, 0, x == w1.x  || x == w2.x ? 0 : 0xeb6389, 0, doom->sdl);
-					ytop[x] = clamp(max(c.ya, cn.ya), ytop[x], HEIGHT - 1);
+					doom->ytop[x] = clamp(max(c.ya, cn.ya), doom->ytop[x], HEIGHT - 1);				
 	                vline(x, cn.yb + 1, c.yb, 0, x == w1.x  || x == w2.x ? 0 : 0xeb6389, 0, doom->sdl);
-	                ybot[x] = clamp(min(c.yb, cn.yb), 0, ybot[x]);
-				//	if (x == w1.x || x == w2.x)
-				//		vline(x, ytop[x], ybot[x], 0, 0, 0, doom->sdl);
+	                doom->ybot[x] = clamp(min(c.yb, cn.yb), 0, doom->ybot[x]);
 				}
 				else
 				{
-					color = 0x38cf4e;
-					vline(x, c.ya, c.yb, 0x000000, color, 0x000000, doom->sdl); //стена
+					color = 0xebd8d8;
+					vline(x, c.ya, c.yb, 0x000000, x == w1.x  || x == w2.x ? 0 : color, 0x000000, doom->sdl); //стена
 				}
 				x++;
 			}
+			ft_memmove(doom->item[now.sector].ytop, doom->ytop, WIDTH * 4);
+			ft_memmove(doom->item[now.sector].ybot, doom->ybot, WIDTH * 4);
 			n++;
 			if(neighbor >= 0 && endx >= beginx && (head + 32 + 1 - tail) % 32)
         	{
@@ -275,6 +363,6 @@ int			drawgame(t_doom *doom, t_player *player)
 		}
 		++rensects[now.sector];
 	}
-	
+	drawsprites(doom, doom->player);
 	return (0);
 }

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   loadmap.c                                          :+:      :+:    :+:   */
+/*   load_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/28 17:47:36 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/08 20:21:32 by dtoy             ###   ########.fr       */
+/*   Created: 2019/09/19 14:29:21 by dtoy              #+#    #+#             */
+/*   Updated: 2019/09/23 12:24:27 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,12 +41,12 @@ int		countvertexes(char *str, t_doom *doom)
 	size_t		j;
 
 	j = 0;
-	doom->numvertexes--;
+	doom->numvertices--;
 	while (j < ft_strlen(str))
 	{
 		if (ft_isdigit(str[j]))
 		{
-			doom->numvertexes++;
+			doom->numvertices++;
 			while (ft_isdigit(str[j]) || str[j] == '.')
 				j++;
 		}
@@ -59,124 +59,43 @@ int		countvertexes(char *str, t_doom *doom)
 int		countall(t_doom *doom)
 {
 	int		i;
-	//int		j;
 
 	i = 0;
-	doom->numvertexes = 0;
+	doom->numvertices = 0;
 	doom->numsectors = 0;
+	doom->numsprites = 0;
 	while (doom->map[i])
 	{
 		if (*doom->map[i] == 'v')
 			countvertexes(doom->map[i], doom);
 		if (*doom->map[i] == 's')
 			doom->numsectors++;
+		if (*doom->map[i] == 'o')
+			doom->numsprites++;
 		i++;
 	}
-	printf("NumVertexes - %d\n", doom->numvertexes);
+	printf("NumVertexes - %d\n", doom->numvertices);
 	printf("NumSectors - %d\n", doom->numsectors);
-	return (0);
-}
-
-int		loadvertexes(t_doom *doom, t_xy *vert, char *str)
-{
-	static int	n = 0;
-	int			t;
-	int			j;
-	float		y;
-
-	(void) doom;
-	j = 0;
-	t = 0;
-	while (str[j])
-	{
-		if (ft_isdigit(str[j]) && t == 0)
-		{
-			t = 1;
-			y = atof(&str[j]);
-			while (ft_isdigit(str[j]) || str[j] == '.')
-				j++;
-		}
-		else if (ft_isdigit(str[j]) && t == 1)
-		{
-			vert[n].y = y;
-			vert[n].x = atof(&str[j]);
-			while (ft_isdigit(str[j]) || str[j] == '.')
-				j++;
-			n++;
-		}
-		else
-			j++;
-	}
-	return (0);
-}
-
-int		loadplayer(t_player *player, char *str)
-{
-	size_t		j;
-	int		t;
-
-	t = 0;
-	j = 0;
-	printf("\n");
-	while (j < ft_strlen(str))
-	{
-		if (ft_isdigit(str[j]) && t == 0)
-		{
-			player->where.y = atoi(&str[j]);
-			printf("Py - %f\n", player->where.y);
-			t = 1;
-			while (ft_isdigit(str[j]) || str[j] == '.')
-				j++;
-		}
-		else if (ft_isdigit(str[j]) && t == 1)
-		{
-			player->where.x = atoi(&str[j]);
-			printf("Px - %f\n", player->where.x);
-			t = 2;
-			while (ft_isdigit(str[j]) || str[j] == '.')
-				j++;
-		}
-		else if (ft_isdigit(str[j]) && t == 2)
-		{
-			player->angle = atoi(&str[j]);
-			printf("Angle - %f\n", player->angle);
-			t = 3;
-			while (ft_isdigit(str[j]) || str[j] == '.')
-				j++;
-		}
-		else if (ft_isdigit(str[j]) && t == 3)
-		{
-			player->sector = atoi(&str[j]);
-			printf("Sector - %d\n", player->sector);
-			t = 4;
-			while (ft_isdigit(str[j]) || str[j] == '.')
-				j++;
-		}
-		else
-			j++;
-	}
-	player->velocity.x = 0;
-	player->velocity.y = 0;
-	player->velocity.z = 0;
-	
 	return (0);
 }
 
 int		loadall(t_doom *doom)
 {
 	int		i;
-	//int		j;
-	t_xy	v[doom->numvertexes];
+	t_xy	v[doom->numvertices];
 
 	doom->sectors = ft_memalloc(doom->numsectors * sizeof(t_sector));
 	doom->player = ft_memalloc(sizeof(t_player));
+	doom->spr_stock = ft_memalloc(sizeof(t_xyzwh) * doom->numsprites);
 	i = 0;
 	while (doom->map[i])
 	{
 		if (*doom->map[i] == 'v')
-			loadvertexes(doom, v, doom->map[i]);
+			loadvertices(doom, v, doom->map[i]);
 		else if (*doom->map[i] == 's')
 			loadsectors(doom, v, doom->map[i]);
+		else if (*doom->map[i] == 'o')
+			loadsprites(doom->spr_stock, doom->map[i]);
 		else if (*doom->map[i] == 'p')
 		{
 			loadplayer(doom->player, doom->map[i]);
@@ -190,9 +109,9 @@ int		loadall(t_doom *doom)
 int		loadmap(t_doom *doom)
 {
 	mapinarr(doom);
-	printf("here\n");
 	countall(doom);
-	printf("here\n");
 	loadall(doom);
+	doom->rensects = (int*)ft_memalloc(sizeof(int) * doom->numsectors);
+	doom->item = (t_item*)ft_memalloc(sizeof(t_item) * doom->numsectors);
 	return (0);
 }
