@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   loadsectors.c                                      :+:      :+:    :+:   */
+/*   load_sectors.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lminta <lminta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/28 18:28:02 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/02 15:03:34 by lminta           ###   ########.fr       */
+/*   Created: 2019/09/19 14:48:27 by dtoy              #+#    #+#             */
+/*   Updated: 2019/09/19 14:55:37 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,7 @@ int		loadsectors(t_doom *doom, t_xy *vert, char *str)
 	doom->sectors[n].npoints = v;
 	doom->sectors[n].vertex = ft_memalloc((v + 1) * sizeof(t_xy));
 	doom->sectors[n].neighbors = ft_memalloc(v * sizeof(int));
-	printf("v - %d\n",v);
 	j = 0;
-	printf("N - %d\n", n);
 	while (j < ft_strlen(str))
 	{
 		if (vnum == v)
