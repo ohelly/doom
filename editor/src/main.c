@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include "doom_editor.h"
 
 int			die_msg(char *msg)
 {
@@ -82,5 +82,5 @@ int			main(int ac, char **av)
 		return (puts_error(err));
 	while (1)
 		key_and_mouse_press(doom);
-	return (0);*/
+	return (0);
 }

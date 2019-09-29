@@ -1,4 +1,4 @@
-#include "doom.h"
+#include "doom_editor.h"
 
 char	*ft_strjoinc(char const *s1, char const *s2)
 {

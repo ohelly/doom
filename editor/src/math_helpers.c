@@ -1,4 +1,4 @@
-#include "doom.h"
+#include "doom_editor.h"
 
 double	ran(double l, double h)
 {

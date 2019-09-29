@@ -1,4 +1,4 @@
-#include "doom.h"
+#include "doom_editor.h"
 
 t_v2	v2_add(t_v2 v1, t_v2 v2)
 {

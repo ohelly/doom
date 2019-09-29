@@ -1,4 +1,4 @@
-#include "doom.h"
+#include "doom_editor.h"
 
 float	calc_dist(t_doom *doom, int vert1, int vert2, t_v2 *hit)
 {
