@@ -1,4 +1,4 @@
-#include "doom.h"
+#include "doom_editor.h"
 
 /*
 **	Возвращает 1 если отрезки p1q1 и p2q2 пересекаются

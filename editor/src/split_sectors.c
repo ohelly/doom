@@ -6,11 +6,11 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 17:09:53 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/29 19:34:14 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/29 19:43:11 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include "doom_editor.h"
 
 int			num_walls(t_doom *doom, int ver, int sec)
 {

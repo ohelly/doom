@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include "doom_editor.h"
 
 t_v2		magnet_to_vertex(t_doom *doom)
 {

@@ -1,4 +1,4 @@
-#include "doom.h"
+#include "doom_editor.h"
 
 char	*ft_strjoinc(char const *s1, char const *s2)
 {
@@ -101,6 +101,33 @@ int		save_vertecies(t_doom *doom, char **str)
 	}
 }
 
+int		sorted_vert(t_doom *doom, int index)
+{
+	int i;
+
+	i = 0;
+	while (i < doom->verts->count)
+	{
+		if (doom->verts->list[i].num == index)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+int		save_vert_indexes(t_doom *doom)
+{
+	int i;
+
+	i = 0;
+	while (i < doom->verts->count)
+	{
+		doom->verts->list[i].num = i;
+		i++;
+	}
+	return (1);
+}
+
 int		save_sectors(t_doom *doom, char **str)
 {
 	int		sector;
@@ -119,16 +146,13 @@ int		save_sectors(t_doom *doom, char **str)
 		{
 			if (doom->walls->wall[i].sectors == sector)
 			{
-				if (walls_total != 0)
-					*str = ft_strjoinc(*str, " ");
-				*str = ft_strjoinfree(*str, ft_itoa(i));
+				*str = ft_strjoinc(*str, " ");
+				*str = ft_strjoinfree(*str, ft_itoa(sorted_vert(doom, doom->walls->wall[i].vert_one)));
 				walls[walls_total] = doom->walls->wall[i];
 				walls_total++;
 			}
 			i++;
 		}
-		*str = ft_strjoinc(*str, "\t");
-		*str = ft_strjoinc(*str, "\t");
 		*str = ft_strjoinc(*str, "\t");
 		i = 0;
 		while (i < walls_total)
@@ -156,6 +180,7 @@ int		save(t_doom *doom)
 
 	str = ft_strnew(0);
 
+	save_vert_indexes(doom);
 	sort_vertecies_y(doom);
 	sort_vertecies_x(doom);
 	save_vertecies(doom, &str);
@@ -165,7 +190,6 @@ int		save(t_doom *doom)
 	save_sectors(doom, &str);
 	printf("saved sectors	\n");
 	
-	str = ft_strjoinc(str, "\n");
 	str = ft_strjoinc(str, "\0");
 	write(fd, str, ft_strlen(str) * sizeof(char));
 	close(fd);

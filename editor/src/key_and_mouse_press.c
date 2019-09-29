@@ -10,7 +10,7 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include "doom_editor.h"
 
 void	kek(t_doom *doom)
 {
@@ -46,6 +46,8 @@ void	key_and_mouse_press(t_doom *doom)
 				split_wall(doom);
 			if (doom->sdl->ev.key.keysym.sym == 'l')
 				split_sectors(doom);
+			if (doom->sdl->ev.key.keysym.sym == 'c')
+				remove_built_sector(doom);
 			if (doom->sdl->ev.key.keysym.sym == SDLK_LEFT)
 				doom->move_vector = (t_v2){-1, doom->move_vector.y};
 			else if (doom->sdl->ev.key.keysym.sym == SDLK_RIGHT)

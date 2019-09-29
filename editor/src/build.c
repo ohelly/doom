@@ -1,4 +1,4 @@
-#include "doom.h"
+#include "doom_editor.h"
 
 /*
 **	Проверяет, не лежит ли в позиции v какая-либо вершина
@@ -97,6 +97,7 @@ int		put_vert(t_doom *doom)
 		}
 		doom->verts->built_v_index[doom->verts->built_v_count] = v_index;
 		doom->verts->built_v_count++;
+		doom->verts->built_v_count_used++;
 	}
 	return (1);
 }
@@ -131,6 +132,7 @@ void	build_sector(t_doom *doom)
 			{
 				doom->app = 0;
 				doom->verts->built_v_count = 0;
+				doom->verts->built_v_count_used = 0;
 			}
 		}
 	}

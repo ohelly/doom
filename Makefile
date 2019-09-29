@@ -6,7 +6,7 @@
 #    By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/02 20:58:32 by lminta            #+#    #+#              #
-#    Updated: 2019/09/12 15:26:30 by dtoy             ###   ########.fr        #
+#    Updated: 2019/09/29 12:00:31 by dtoy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,22 +22,22 @@ FRAMEDIR = /Users/$(USER)/Library/Frameworks
 FRAME = $(FRAMEDIR)/SDL2.framework $(FRAMEDIR)/SDL2_image.framework \
 $(FRAMEDIR)/SDL2_mixer.framework $(FRAMEDIR)/SDL2_ttf.framework
 
-FLAGS = -Ofast -Wall -Werror -Wextra -c
+FLAGS = -Ofast -c
 
 LIBS = lib
 
 FLAGS2 = -F ~/Library/Frameworks/ -framework SDL2 -framework SDL2_image \
 -framework SDL2_ttf -framework SDL2_mixer -lftgnl -lft -lm
 
-OBJ = src/main.o src/drawgame.o src/hooks.o src/line.o \
-src/loadmap.o src/loadsectors.o src/sdlstart.o
+OBJ = src/main.o src/initall.o src/countall.o src/loadall.o src/loadvertexes.o \
+src/loadsectors.o src/utils.o src/loadobjs.o src/loadtxts.o src/loadplayer.o \
+src/loadpics.o src/drawscreen.o src/loadgame.o src/hooks.o src/drawsprites.o src/loadtextures.o
 
 all: $(FRAMEDIR) $(LIBS) $(FRAME) $(NAME)
 
 $(NAME): $(OBJ)
 	make -C Get_Next_Line
 	gcc $(OBJ) -L $(LIBS) $(INC) $(FLAGS2) -o $(NAME)
-
 $(OBJ): %.o: %.c
 	gcc $(FLAGS) $(INC) $< -o $@
 
