@@ -6,17 +6,20 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/25 17:01:23 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/10 17:10:25 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/26 16:28:17 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include "doom_editor.h"
 
-int			output_pixel(t_doom *doom, int pos, int color)
+int			output_pixel(t_doom *doom, t_v2 pos, int color)
 {
-	if (pos < 0 || pos >= WIDTH * HEIGHT)
+	int position;
+
+	if (v2_in_borders(pos, WIDTH, HEIGHT) == 0)
 		return (0);
-	doom->sdl->pix[pos] = color;
+	position = pos.x + pos.y * WIDTH;
+	doom->sdl->pix[position] = color;
 	return (1);
 }
 
@@ -32,9 +35,7 @@ int		draw_rectangle(t_doom *doom, t_v2 pos, int color, int size)
 		j = -size;
 		while (j <= size)
 		{
-			n = (pos.x + i) + (pos.y + j) * WIDTH;
-			output_pixel(doom, n, color);
-			doom->sdl->pix[n] = color;
+			output_pixel(doom, (t_v2){pos.x + i, pos.y + j}, color);
 			j++;
 		}
 		i++;
@@ -54,7 +55,20 @@ void		draw_verts(t_doom *doom, int color)
 		draw_rectangle(doom, v.pos, color, 2);
 		i++;
 	}
-	draw_rectangle(doom, doom->verts->projected_v, 0xffffff, 3);
+	i = 0;
+	while (i < doom->walls->count && doom->sects->selected_sector != -1)
+	{
+		if (doom->walls->wall[i].sectors == doom->sects->selected_sector)
+		{
+			v = doom->verts->list[doom->walls->wall[i].vert_one];
+			draw_rectangle(doom, v.pos, 0xffff00, 2);
+		}
+		i++;
+	}
+	if (doom->verts->built_v_count > 0)
+		draw_rectangle(doom, doom->verts->list[doom->verts->built_v_index[0]].pos, 0x999999, 3);
+	if (doom->verts->projected_v.num != -1)
+		draw_rectangle(doom, doom->verts->projected_v.pos, 0xffffff, 3);
 }
 
 void		draw_wall(t_doom *doom, t_wall wall, int color)
@@ -79,6 +93,8 @@ void		draw_sector(t_doom *doom, int sector, int color)
 	t_vertex	v1;
 	t_vertex	v2;
 
+	if (sector == -1)
+		return ;
 	i = 0;
 	while (i < doom->walls->count)
 	{
@@ -111,7 +127,10 @@ void		draw_all(t_doom *doom)
 	i = 0;
 	while (i < doom->walls->count)
 	{
-		draw_wall(doom, doom->walls->wall[i], color);
+		if (doom->walls->wall[i].portal != -1 && doom->sects->selected_sector != doom->walls->wall[i].sectors)
+			draw_wall(doom, doom->walls->wall[i], 0xFFFF00);
+		else
+			draw_wall(doom, doom->walls->wall[i], 0x990000);
 		i++;
 	}
 	if (doom->app == 1)
@@ -119,12 +138,15 @@ void		draw_all(t_doom *doom)
 		draw_building_line(doom, color);
 	}
 	draw_sector(doom, doom->sects->selected_sector, 0x009900);
+	if (doom->walls->selected_wall != -1)
+		draw_wall(doom, doom->walls->wall[doom->walls->selected_wall], 0x009900);
 	draw_verts(doom, 0xff0000);
 }
 
 void		output(t_doom *doom)
 {
 	bzero(doom->sdl->pix, WIDTH * HEIGHT * sizeof(Uint32));
+	move_map(doom);
 	put_canvas(doom);
 	put_select(doom, doom->mouse);
 	draw_all(doom);

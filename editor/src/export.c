@@ -1,4 +1,4 @@
-#include "doom.h"
+#include "doom_editor.h"
 
 char	*ft_strjoinc(char const *s1, char const *s2)
 {
@@ -71,44 +71,125 @@ int		sort_vertecies_y(t_doom *doom)
 	return (1);
 }
 
-int		save(t_doom *doom)
+int		save_vertecies(t_doom *doom, char **str)
 {
-	int			fd;
-	char		*str;
+	int			prev_y;
 	int			i;
 	t_vertex	v;
-	int			prev_y;
-
-	if (open(doom->save_name, O_RDONLY))
-		remove(doom->save_name);
-	fd = open(doom->save_name, O_WRONLY | O_CREAT, 444);
 
 	i = 0;
-	prev_y = 0;
-	str = ft_strnew(0);
-	sort_vertecies_y(doom);
-	sort_vertecies_x(doom);
+	prev_y = -1488;
 	while (i < doom->verts->count)
 	{
 		v = doom->verts->list[i];
 		if (prev_y == v.pos.y)
 		{
-			str = ft_strjoinc(str, " ");
-			str = ft_strjoinfree(str, ft_itoa(v.pos.x));
+			*str = ft_strjoinc(*str, " ");
+			*str = ft_strjoinfree(*str, ft_itoa(v.pos.x));
 		}
 		else
 		{
 			prev_y = v.pos.y;
 			if (i > 0)
-				str = ft_strjoinc(str, "\n");
-			str = ft_strjoinc(str, "vertex\t");
-			str = ft_strjoinfree(str, ft_itoa(v.pos.y));
-			str = ft_strjoinc(str, "\t");
-			str = ft_strjoinfree(str, ft_itoa(v.pos.x));
+				*str = ft_strjoinc(*str, "\n");
+			*str = ft_strjoinc(*str, "vertex\t");
+			*str = ft_strjoinfree(*str, ft_itoa(v.pos.y));
+			*str = ft_strjoinc(*str, "\t");
+			*str = ft_strjoinfree(*str, ft_itoa(v.pos.x));
 		}
 		i++;
 	}
-	str = ft_strjoinc(str, "\n");
+}
+
+int		sorted_vert(t_doom *doom, int index)
+{
+	int i;
+
+	i = 0;
+	while (i < doom->verts->count)
+	{
+		if (doom->verts->list[i].num == index)
+			return (i);
+		i++;
+	}
+	return (-1);
+}
+
+int		save_vert_indexes(t_doom *doom)
+{
+	int i;
+
+	i = 0;
+	while (i < doom->verts->count)
+	{
+		doom->verts->list[i].num = i;
+		i++;
+	}
+	return (1);
+}
+
+int		save_sectors(t_doom *doom, char **str)
+{
+	int		sector;
+	int		i;
+	t_wall	walls[512];
+	int		walls_total;
+
+	sector = 0;
+	while (sector < doom->sects->count)
+	{
+		*str = ft_strjoinc(*str, "sector\t");
+		*str = ft_strjoinc(*str, "0 20\t");
+		i = 0;
+		walls_total = 0;
+		while (i < doom->walls->count)
+		{
+			if (doom->walls->wall[i].sectors == sector)
+			{
+				*str = ft_strjoinc(*str, " ");
+				*str = ft_strjoinfree(*str, ft_itoa(sorted_vert(doom, doom->walls->wall[i].vert_one)));
+				walls[walls_total] = doom->walls->wall[i];
+				walls_total++;
+			}
+			i++;
+		}
+		*str = ft_strjoinc(*str, "\t");
+		i = 0;
+		while (i < walls_total)
+		{
+			if (i != 0)
+				*str = ft_strjoinc(*str, " ");
+			*str = ft_strjoinfree(*str, ft_itoa(walls[i].portal));
+			i++;
+		}
+		*str = ft_strjoinc(*str, "\n");
+		sector++;
+	}
+}
+
+int		save(t_doom *doom)
+{
+	int			fd;
+	char		*str;
+
+	if (open(doom->save_name, O_RDONLY))
+		remove(doom->save_name);
+	fd = open(doom->save_name, O_WRONLY | O_CREAT, 444);
+
+	vertices_return_map_pos(doom);
+
+	str = ft_strnew(0);
+
+	save_vert_indexes(doom);
+	sort_vertecies_y(doom);
+	sort_vertecies_x(doom);
+	save_vertecies(doom, &str);
+	printf("saved vertecies	\n");
+
+	str = ft_strjoinc(str, "\n\n");
+	save_sectors(doom, &str);
+	printf("saved sectors	\n");
+	
 	str = ft_strjoinc(str, "\0");
 	write(fd, str, ft_strlen(str) * sizeof(char));
 	close(fd);

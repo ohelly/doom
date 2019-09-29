@@ -1,4 +1,4 @@
-#include "doom.h"
+#include "doom_editor.h"
 
 float	calc_dist(t_doom *doom, int vert1, int vert2, t_v2 *hit)
 {
@@ -17,6 +17,11 @@ void	get_closest_sector(t_doom *doom)
 	int wall;
 	int i;
 
+	if (doom->sects->selected_sector != -1)
+	{
+		doom->sects->selected_sector = -1;
+		return ;
+	}
 	wall = get_closest_wall(doom);
 	if (wall == -1)
 	{
@@ -55,8 +60,8 @@ int		get_closest_wall(t_doom *doom)
 	}
 	if (saved_dist < 30)
 	{
-		doom->verts->projected_v = saved_hit;
-		//printf("Closest wall is %d, with distance %f. Linked sector %d.\n", saved_wall, saved_dist, doom->walls->wall[saved_wall].sectors);
+		doom->verts->projected_v.num = saved_wall;
+		doom->verts->projected_v.pos = saved_hit;
 		return (saved_wall);
 	}
 	return (-1);

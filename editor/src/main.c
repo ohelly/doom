@@ -6,15 +6,16 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:57:29 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/12 18:53:40 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/26 16:56:56 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include "doom_editor.h"
 
 int			die_msg(char *msg)
 {
 	ft_putendl(msg);
+	exit(0);
 	return (0);
 }
 
@@ -55,12 +56,16 @@ int			sdl_init(t_doom *doom)
 		return (die_msg("Failed to allocate walls struct"));
 	if (!(doom->file = (t_file*)ft_memalloc(sizeof(t_file))))
 		return (die_msg("Failed to allocate file struct"));
+	if (!(doom->swall = (t_swall*)ft_memalloc(sizeof(t_swall))))
+		return (die_msg("Failed to allocate swall struct"));
+	*doom->swall = (t_swall){ -1, -1, -1, -1, -1 };
 	doom->sh = 20;
 	doom->save_name = "test.map";
 	doom->sects->selected_sector = -1;
+	doom->walls->selected_wall = -1;
+	doom->walls->adjacent_wall = -1;
 	return (1);
 }
-
 
 int			main(int ac, char **av)
 {
@@ -78,7 +83,7 @@ int			main(int ac, char **av)
 	err = load_map(av[1], doom);
 	if (err != 0)
 		return (puts_error(err));
-	/*while (1)
+	while (1)
 		key_and_mouse_press(doom);
-	return (0);*/
+	return (0);
 }

@@ -10,72 +10,30 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include "doom_editor.h"
 
-void		draw_canvas(t_doom *doom)
+int			draw_grid(t_doom *doom)
 {
-	int		x;
-	int		y;
+	int x;
+	int y;
 
-	x = WIDTH / 2;
-	y = HEIGHT / 2;
+	y = (doom->map_pos.y % doom->sh == 0) ? 0 : doom->sh / 2;
 	while (y < HEIGHT)
 	{
-		*doom->line = (t_line){ x, y, WIDTH, y, 0, 0 };
+		*doom->line = (t_line){ 0, y, WIDTH, y, 0, 0 };
 		line(doom, 0x999999);
 		y += doom->sh;
 	}
-	y = HEIGHT / 2;
-	while (y > 0)
-	{
-		*doom->line = (t_line){ x, y, 0, y, 0, 0 };
-		line(doom, 0x999999);
-		y -= doom->sh;
-	}
-	y = HEIGHT / 2;
-	while (y < HEIGHT)
-	{
-		*doom->line = (t_line){ x, y, 0, y, 0, 0 };
-		line(doom, 0x999999);
-		y += doom->sh;
-	}
-	y = HEIGHT / 2;
-	while (y > 0)
-	{
-		*doom->line = (t_line){ x, y, WIDTH, y, 0, 0 };
-		line(doom, 0x999999);
-		y -= doom->sh;
-	}
-	y = HEIGHT / 2;
+	x = (doom->map_pos.x % doom->sh == 0) ? 0 : doom->sh / 2;
 	while (x < WIDTH)
 	{
-		*doom->line = (t_line){ x, y, x, HEIGHT, 0, 0, };
+		*doom->line = (t_line){ x, 0, x, HEIGHT, 0, 0 };
 		line(doom, 0x999999);
 		x += doom->sh;
-	}
-	x = WIDTH / 2;
-	while (x > 0)
-	{
-		*doom->line = (t_line){ x, y, x, 0, 0, 0 };
-		line(doom, 0x999999);
-		x -= doom->sh;
-	}
-	x = WIDTH / 2;
-	while (x < WIDTH)
-	{
-		*doom->line = (t_line){ x, y, x, 0, 0, 0 };
-		line(doom, 0x999999);
-		x += doom->sh;
-	}
-	while (x > 0)
-	{
-		*doom->line = (t_line){ x, y, x, HEIGHT, 0, 0 };
-		line(doom, 0x999999);
-		x -= doom->sh;
 	}
 }
 
 void		put_canvas(t_doom *doom)
 {
-	draw_canvas(doom);
+	draw_grid(doom);
 }

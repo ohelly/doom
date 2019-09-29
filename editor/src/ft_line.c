@@ -10,11 +10,11 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#include "doom_editor.h"
 
 static void		draw(t_doom *doom, t_line *line, int color)
 {
-	output_pixel(doom, line->pos0.x + line->pos0.y * WIDTH, color);
+	output_pixel(doom, line->pos0, color);
 }
 
 static int		ft_ifmin(int length, t_doom *doom, t_v2 length_v, int color)

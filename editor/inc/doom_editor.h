@@ -1,17 +1,17 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   doom.h                                             :+:      :+:    :+:   */
+/*   doom_editor.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/19 14:26:37 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/09/29 19:46:12 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef DOOM_H
-# define DOOM_H
+#ifndef DOOM_EDITOR_H
+# define DOOM_EDITOR_H
 # include "libft.h"
 # include <unistd.h>
 # include <string.h>
@@ -52,6 +52,16 @@ typedef struct			s_all_sect
 	int					selected_sector;
 }						t_all_sect;
 
+typedef struct			s_swall
+{
+	int					v1;
+	int					v2;
+	int					wall1;
+	int					wall2;
+	int					sec;
+}						t_swall;
+
+
 /*
 	WALLS
 			*/
@@ -69,6 +79,8 @@ typedef struct			s_all_walls
 	int					count;
 	int					i;
 	t_wall				wall[2048];
+	int					selected_wall;
+	int					adjacent_wall;
 }						t_all_walls;
 
 /*
@@ -88,9 +100,11 @@ typedef struct			s_all_vert
 	int					sel_v;
 	t_vertex			list[2048];
 	int					built_v_count;
+	int					built_v_count_used;
 	//Массив строящихся вершин
 	int					built_v_index[2048];
-	t_v2				projected_v;
+	//num - номер стены на которой лежит проецируемая точка
+	t_vertex			projected_v;
 }						t_all_vert;
 
 /*
@@ -152,7 +166,10 @@ typedef struct			s_doom
 	t_all_walls			*walls;
 	t_file				*file;
 	char				*save_name;
+	t_swall				*swall;
 	int					sh;
+	t_v2				map_pos;
+	t_v2				move_vector;
 }						t_doom;
 
 int						save(t_doom *doom);
@@ -160,7 +177,7 @@ void					output(t_doom *doom);
 void					key_and_mouse_press(t_doom *doom);
 int						get_next_line(const int fd, char **line);
 int						line(t_doom *doom, int color);
-int						output_pixel(t_doom *doom, int pos, int color);
+int						output_pixel(t_doom *doom, t_v2 pos, int color);
 int						draw_rectangle(t_doom *doom, t_v2 pos, int color, int size);
 void					put_canvas(t_doom *doom);
 void					put_select(t_doom *doom, t_mouse *mouse);
@@ -170,16 +187,26 @@ int						get_closest_wall(t_doom *doom);
 int						lines_intersect_loop(t_doom *doom, t_v2 p1, t_v2 p2);
 int						vertex_is_free(t_doom *doom, t_v2 v);
 int						load_map(char *av, t_doom *doom);
+int						move_map(t_doom *doom);
+int						vertices_return_map_pos(t_doom *doom);
+void					build_portal(t_doom *doom);
+void					find_portal(t_doom *doom);
+void					build_sector(t_doom *doom);
+int						get_duplicate_wall(t_doom *doom, t_wall w1);
+int						split_wall(t_doom *doom);
+int						remove_built_sector(t_doom *doom);
 
 /*
 **	Math
 */
 
 t_v2					v2_add(t_v2 v1, t_v2 v2);
-int						compare_v2(t_v2 v1, t_v2 v2);
+int						v2_compare(t_v2 v1, t_v2 v2);
+int						v2_in_borders(t_v2 v2, int maxx, int maxy);
 double					min(double a, double b);
 double					max(double a, double b);
 double					clamp(double a, double mi, double ma);
+float					distance(t_v2 p1, t_v2 p2);
 
 
 #endif

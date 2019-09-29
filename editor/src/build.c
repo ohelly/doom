@@ -1,4 +1,4 @@
-#include "doom.h"
+#include "doom_editor.h"
 
 /*
 **	Проверяет, не лежит ли в позиции v какая-либо вершина
@@ -14,7 +14,7 @@ int		vertex_is_free(t_doom *doom, t_v2 v)
 	while (i < doom->verts->count)
 	{
 		v2 = doom->verts->list[i].pos;
-		if (compare_v2(v, v2))
+		if (v2_compare(v, v2))
 			return (i);
 		i++;
 	}
@@ -61,6 +61,8 @@ int		put_wall(t_doom *doom)
 	v2_index = doom->verts->built_v_index[doom->verts->built_v_count - 1];
 	doom->walls->wall[doom->walls->count].vert_one = v1_index;
 	doom->walls->wall[doom->walls->count].vert_two = v2_index;
+	doom->walls->wall[doom->walls->count].sectors = -1;
+	doom->walls->wall[doom->walls->count].portal = -1;
 	doom->walls->count++;
 	return (1);
 }
@@ -73,6 +75,7 @@ int		put_wall(t_doom *doom)
 int		put_vert(t_doom *doom)
 {
 	int v_index;
+	int i;
 
 	v_index = vertex_is_free(doom, doom->mouse->ppos);
 	if (v_index == -1)
@@ -85,8 +88,16 @@ int		put_vert(t_doom *doom)
 	}
 	else
 	{
+		i = 1;
+		while (i < doom->verts->built_v_count)
+		{
+			if (doom->verts->built_v_index[i] == v_index)
+				return (-1);
+			i++;
+		}
 		doom->verts->built_v_index[doom->verts->built_v_count] = v_index;
 		doom->verts->built_v_count++;
+		doom->verts->built_v_count_used++;
 	}
 	return (1);
 }
@@ -96,13 +107,12 @@ void	build_sector(t_doom *doom)
 	t_v2	start_v;
 	t_v2	curr_v;
 
-	if (doom->app == 1 &&
-		lines_intersect_loop(doom,
-		doom->verts->list[doom->verts->built_v_index[doom->verts->built_v_count - 1]].pos,
-		doom->mouse->ppos))
+	if (doom->app == 1)
 	{
-		printf("Line intersects with something!!!\n");
-		//return ;
+		if (lines_intersect_loop(doom,
+			doom->verts->list[doom->verts->built_v_index[doom->verts->built_v_count - 1]].pos,
+			doom->mouse->ppos))
+				return ;
 	}
 	if (doom->app == 0)
 	{
@@ -111,16 +121,18 @@ void	build_sector(t_doom *doom)
 	}
 	else if (doom->app == 1)
 	{
-		put_vert(doom);
+		if (put_vert(doom) == -1)
+			return ;
 		put_wall(doom);
 		start_v = doom->verts->list[doom->verts->built_v_index[0]].pos;
 		curr_v = doom->verts->list[doom->verts->built_v_index[doom->verts->built_v_count - 1]].pos;
-		if (compare_v2(start_v, curr_v) == 1)
+		if (v2_compare(start_v, curr_v) == 1)
 		{
 			if (create_sector(doom) != -1)
 			{
 				doom->app = 0;
 				doom->verts->built_v_count = 0;
+				doom->verts->built_v_count_used = 0;
 			}
 		}
 	}
