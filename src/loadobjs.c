@@ -1,45 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   load_vertices.c                                    :+:      :+:    :+:   */
+/*   loadobjs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/19 14:33:32 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/19 15:19:48 by dtoy             ###   ########.fr       */
+/*   Created: 2019/09/27 12:50:34 by dtoy              #+#    #+#             */
+/*   Updated: 2019/09/27 13:43:49 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-int		loadvertices(t_doom *doom, t_xy *v, char *str)
+int		loadobjs(t_obj *obj, char *str)
 {
 	static int	n = 0;
-	int			j;
-	int			t;
-	float		y;
+	float		tmp;
 
-	j = 0;
-	t = 0;
-	while (j < ft_strlen(str))
-	{
-		if (ft_isdigit(str[j]) && t == 0)
-		{
-			t = 1;
-			y = atof(&str[j]);
-			while (ft_isdigit(str[j]) || str[j] == '.')
-				j++;
-		}
-		else if (ft_isdigit(str[j]) && t == 1)
-		{
-			v[n].y = y;
-			v[n].x = atof(&str[j]);
-			while (ft_isdigit(str[j]) || str[j] == '.')
-				j++;
-			n++;
-		}
-		else
-			j++;
-	}
+	str = todigit(str, &obj[n].p.y);
+	str = todigit(str, &obj[n].p.x);
+	str = todigit(str, &tmp);
+	obj[n].anim = (int)tmp;
+	str = todigit(str, &tmp);
+	obj[n].cnt_frms = (int)tmp;
+	str = todigit(str, &tmp);
+	obj[n].rotate = (int)tmp;
+	str = todigit(str, &obj[n].pov);
+	str = todigit(str, &tmp);
+	obj[n].txt_ind = (int)tmp;
+	str = todigit(str, &tmp);
+	obj[n].sector = (int)tmp;
+	n++;
 	return (0);
 }
