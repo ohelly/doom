@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/29 17:10:02 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/09/29 17:41:50 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -242,6 +242,9 @@ typedef struct		s_doom
 	int				wsad[4];
 	int				ybot[WIDTH];
 	int				ytop[WIDTH];
+	float			time_old;
+	float			time_new;
+	float			time_frame;
 }					t_doom;
 
 int		initall(t_doom *doom);

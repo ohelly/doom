@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/29 17:11:02 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/09/29 17:40:07 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,10 +15,10 @@
 int		keydown(t_doom *doom, SDL_Event ev)
 {
 	if (ev.key.keysym.sym == '\033')
-		{
-			SDL_Quit();
-			exit(0);
-		}
+	{
+		SDL_Quit();
+		exit(0);
+	}
 	if (ev.key.keysym.sym == 'w')
 		doom->wsad[0] = 1;
 	if (ev.key.keysym.sym == 's')
@@ -28,13 +28,10 @@ int		keydown(t_doom *doom, SDL_Event ev)
 	if (ev.key.keysym.sym == 'd')
 		doom->wsad[3] = 1;
 	if (ev.key.keysym.sym == SDLK_SPACE)
-		{
-			if (doom->player.ground)
-			{
-				doom->player.velocity.z = 1.5f;
-				doom->player.fall = 1;
-			}
-		}
+	{
+		doom->player.velocity.z = 1.5f;
+		doom->player.fall = 1;
+	}
 	return (0);
 }
 
