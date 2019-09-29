@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 22:12:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/19 14:36:10 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/26 16:30:58 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,8 +18,8 @@ void	kek(t_doom *doom)
 	while (++i < doom->walls->count)
 		printf("i = %d  sect = %d  vert1 = %d  vert2 = %d  portal = %d\n", i, doom->walls->wall[i].sectors, doom->walls->wall[i].vert_one, doom->walls->wall[i].vert_two, doom->walls->wall[i].portal);
 	i = -1;
-	//while (++i < doom->verts->count)
-	//	printf("x = %d   y = %d  i = %d\n", doom->verts->list[i].pos.x, doom->verts->list[i].pos.y, i);
+	while (++i < doom->verts->count)
+		printf("x = %d   y = %d  i = %d\n", doom->verts->list[i].pos.x, doom->verts->list[i].pos.y, i);
 }
 
 void	key_and_mouse_press(t_doom *doom)
@@ -44,6 +44,8 @@ void	key_and_mouse_press(t_doom *doom)
 				build_portal(doom);
 			if (doom->sdl->ev.key.keysym.sym == 'v')
 				split_wall(doom);
+			if (doom->sdl->ev.key.keysym.sym == 'l')
+				split_sectors(doom);
 			if (doom->sdl->ev.key.keysym.sym == 'c')
 				remove_built_sector(doom);
 			if (doom->sdl->ev.key.keysym.sym == SDLK_LEFT)
