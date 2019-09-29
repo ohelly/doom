@@ -90,6 +90,7 @@ typedef struct			s_all_vert
 	int					sel_v;
 	t_vertex			list[2048];
 	int					built_v_count;
+	int					built_v_count_used;
 	//Массив строящихся вершин
 	int					built_v_index[2048];
 	//num - номер стены на которой лежит проецируемая точка
@@ -182,6 +183,7 @@ void					find_portal(t_doom *doom);
 void					build_sector(t_doom *doom);
 int						get_duplicate_wall(t_doom *doom, t_wall w1);
 int						split_wall(t_doom *doom);
+int						remove_built_sector(t_doom *doom);
 
 /*
 **	Math
