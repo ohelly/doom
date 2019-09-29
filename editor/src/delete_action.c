@@ -1,4 +1,4 @@
-#include "doom.h"
+#include "doom_editor.h"
 
 int	remove_built_sector(t_doom *doom)
 {
