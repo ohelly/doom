@@ -6,7 +6,7 @@
 #    By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/02 20:58:32 by lminta            #+#    #+#              #
-#    Updated: 2019/09/19 16:05:25 by dtoy             ###   ########.fr        #
+#    Updated: 2019/09/29 12:00:31 by dtoy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,8 +29,9 @@ LIBS = lib
 FLAGS2 = -F ~/Library/Frameworks/ -framework SDL2 -framework SDL2_image \
 -framework SDL2_ttf -framework SDL2_mixer -lftgnl -lft -lm
 
-OBJ = src/main.o src/init_all.o src/load_map.o src/load_vertices.o src/load_sectors.o src/load_player.o src/load_sprites.o \
-src/load_game.o src/draw_game.o src/line.o
+OBJ = src/main.o src/initall.o src/countall.o src/loadall.o src/loadvertexes.o \
+src/loadsectors.o src/utils.o src/loadobjs.o src/loadtxts.o src/loadplayer.o \
+src/loadpics.o src/drawscreen.o src/loadgame.o src/hooks.o src/drawsprites.o src/loadtextures.o
 
 all: $(FRAMEDIR) $(LIBS) $(FRAME) $(NAME)
 
