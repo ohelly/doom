@@ -44,6 +44,8 @@ void	key_and_mouse_press(t_doom *doom)
 				build_portal(doom);
 			if (doom->sdl->ev.key.keysym.sym == 'v')
 				split_wall(doom);
+			if (doom->sdl->ev.key.keysym.sym == 'c')
+				remove_built_sector(doom);
 			if (doom->sdl->ev.key.keysym.sym == SDLK_LEFT)
 				doom->move_vector = (t_v2){-1, doom->move_vector.y};
 			else if (doom->sdl->ev.key.keysym.sym == SDLK_RIGHT)

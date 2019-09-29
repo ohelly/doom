@@ -7,7 +7,7 @@ int		split_wall(t_doom *doom)
 	int		w2;
 	t_v2	pos;
 
-	if (doom->verts->projected_v.num == -1)
+	if (doom->verts->projected_v.num == -1 || doom->app != 0)
 		return (-1);
 
 	w1 = doom->verts->projected_v.num;
