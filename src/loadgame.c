@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:13:26 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/29 17:14:11 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/09/29 17:29:15 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,6 +112,8 @@ int		calcnewsector(float dx, float dy, t_doom *doom, t_player *player)
 		PointSide(px + dx, py + dy, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) < 0)
 		{
 			player->sector = sect->neighbors[n];
+			if (player->where.z != doom->sector[player->sector].floor)
+				doom->player.fall = 1;
 			break ;
 		}
 		n++;
