@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:57:29 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/18 17:08:08 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/26 16:56:56 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,9 @@ int			sdl_init(t_doom *doom)
 		return (die_msg("Failed to allocate walls struct"));
 	if (!(doom->file = (t_file*)ft_memalloc(sizeof(t_file))))
 		return (die_msg("Failed to allocate file struct"));
+	if (!(doom->swall = (t_swall*)ft_memalloc(sizeof(t_swall))))
+		return (die_msg("Failed to allocate swall struct"));
+	*doom->swall = (t_swall){ -1, -1, -1, -1, -1 };
 	doom->sh = 20;
 	doom->save_name = "test.map";
 	doom->sects->selected_sector = -1;

@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/19 16:52:07 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/26 16:55:14 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,19 @@ typedef struct			s_all_sect
 	t_sectors			sectors[2048];
 	int					selected_sector;
 }						t_all_sect;
+
+/*
+** STRUCT FOR SPLIT SECTORS
+*/
+
+typedef struct			s_swall
+{
+	int					v1;
+	int					v2;
+	int					wall1;
+	int					wall2;
+	int					sec;
+}						t_swall;
 
 /*
 	WALLS
@@ -154,6 +167,7 @@ typedef struct			s_doom
 	t_all_sect			*sects;
 	t_all_walls			*walls;
 	t_file				*file;
+	t_swall				*swall;
 	char				*save_name;
 	int					sh;
 	t_v2				map_pos;
@@ -182,6 +196,7 @@ void					find_portal(t_doom *doom);
 void					build_sector(t_doom *doom);
 int						get_duplicate_wall(t_doom *doom, t_wall w1);
 int						split_wall(t_doom *doom);
+void					split_sectors(t_doom *doom);
 
 /*
 **	Math
