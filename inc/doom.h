@@ -188,6 +188,9 @@ typedef struct  	s_doom
 	int					endx;			
 	int					a;
 	int				jopa;
+	float			time_old;
+	float			time_new;
+	float			time_frame;
 }               	t_doom;
 
 
@@ -200,5 +203,6 @@ int		loadplayer(t_player *player, char *str);
 int		loadsprites(t_xyzwh *spr_stock, char *str);
 int		drawgame(t_doom *doom, t_player *player);
 int		line(t_sdl *sdl);
+int		rgb_multiply(int color, float value);
 
 #endif

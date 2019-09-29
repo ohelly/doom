@@ -224,6 +224,10 @@ int		loadgame(t_doom *doom)
 	doom->player->fall = 0;
 	while (1)
 	{
+		doom->time_old = doom->time_new;
+		doom->time_new = SDL_GetTicks();
+		doom->time_frame = (doom->time_new - doom->time_old) / 1000;
+		//printf("fps %f\n", 1 /doom->time_frame);
 		if (t == 10)
 		{
 			doom->a++;
