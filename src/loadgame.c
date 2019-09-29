@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:13:26 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/29 18:09:12 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/09/29 20:04:24 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -168,14 +168,14 @@ int		calciswall(t_doom *doom, t_player *player)
 	return (0);
 }
 
-int		calcjump(t_player *player, t_sector *sectors)
+int		calcjump(t_doom *doom, t_player *player, t_sector *sectors)
 {
 	float 	nextz;
 
 	player->ground = !player->fall;
 	if (player->fall)
 	{
-		player->velocity.z -= 0.05f;
+		player->velocity.z -= 0.05f * doom->time_frame * 60;
 		nextz = player->where.z + player->velocity.z;
         if (player->velocity.z < 0 && nextz  < sectors[player->sector].floor + EyeHeight)
         {
@@ -203,7 +203,19 @@ int		fps(t_doom *doom)
 	doom->time_old = doom->time_new;
 	doom->time_new = SDL_GetTicks();
 	doom->time_frame = (doom->time_new - doom->time_old) / 1000;
-	printf("fps %f\n", 1 / doom->time_frame);
+	return (0);
+}
+
+int		animation(t_doom *doom)
+{
+	static float	t = 0;
+
+	t += doom->time_frame;
+	if (t >= 0.15f)
+	{
+		doom->a = 1;
+		t = 0;
+	}	
 	return (0);
 }
 
@@ -215,8 +227,9 @@ int		loadgame(t_doom *doom)
 	while (1)
 	{	
 		fps(doom);
+		animation(doom);
 		drawscreen(doom);
-		calcjump(&doom->player, doom->sector);
+		calcjump(doom, &doom->player, doom->sector);
 		if (doom->player.move == 1)
 			calciswall(doom, &doom->player);
 		while(SDL_PollEvent(&ev))
@@ -224,6 +237,8 @@ int		loadgame(t_doom *doom)
 		calcmouse(&doom->player, doom->player.yaw);
 		calcmove(doom, &doom->player);
 		SDL_UpdateWindowSurface(doom->sdl->win);
+		if (doom->a)
+			doom->a = 0;
 	}
 	return (0);
 }
