@@ -1,4 +1,4 @@
-#include "doom.h"
+#include "doom_editor.h"
 
 /*
 **	Проверяет, не лежит ли в позиции v какая-либо вершина

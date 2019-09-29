@@ -1,4 +1,4 @@
-#include "doom.h"
+#include "doom_editor.h"
 
 /*
 **	Двигает каждую вершину карты на move_vector

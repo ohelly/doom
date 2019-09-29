@@ -1,0 +1,36 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   utils.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/09/27 12:15:54 by dtoy              #+#    #+#             */
+/*   Updated: 2019/09/29 12:23:38 by dtoy             ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#include "doom.h"
+
+char		*todigit(char *str, float *data)
+{
+	int		j;
+
+	j = 0;
+	while (str[j] && !(ft_isdigit(str[j])) && str[j] != '.' && str[j] != '-')
+		j++;
+	*data = atof(&str[j]);
+	while (str[j] && (ft_isdigit(str[j]) || str[j] == '.' || str[j] == '-'))
+		j++;
+	return (&str[j]);
+}
+
+float		vxs(float x0, float y0, float x1, float y1)
+{
+	return (x0 * y1 - x1 * y0);
+}
+
+float		yaw(float y, float z, t_player player)
+{
+	return (y + z * player.yaw);
+}

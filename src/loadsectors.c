@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loadsectors.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: lminta <lminta@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/08/28 18:28:02 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/02 15:03:34 by lminta           ###   ########.fr       */
+/*   Created: 2019/09/27 12:15:03 by dtoy              #+#    #+#             */
+/*   Updated: 2019/09/28 15:36:43 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,66 +33,74 @@ int		takencount(char *str)
 	return (count);
 }
 
-int		loadsectors(t_doom *doom, t_xy *vert, char *str)
+char	*vertinsect(char *str, t_xy *vert, t_xy *v, int vnum)
+{
+	int		j;
+	float	tmp;
+
+	j = 0;
+	while (j < vnum)
+	{
+		str = todigit(str, &tmp);
+		vert[j + 1] = v[(int)tmp];
+		j++;
+	}
+	vert[0] = vert[j];
+	return (str);
+}
+
+char	*neighinsect(char *str, t_sector s, int vnum)
+{
+	int		j;
+	float	tmp;
+
+	j = 0;
+	while (j < vnum)
+	{
+		str = todigit(str, &tmp);
+		s.neighbors[j] = (int)tmp;
+		j++;
+	}
+	return (str);
+}
+
+int		gettxtind(char *str, t_sector s)
+{
+	float		tmp;
+
+	str = todigit(str, &tmp);
+	s.txtf = (int)tmp;
+	str = todigit(str, &tmp);
+	s.txtc = (int)tmp;
+	return (0);
+}
+
+int		loadsectors(t_sector *s, t_xy *v, char *str)
 {
 	static int	n = 0;
-	size_t		j;
-	int			v;
-	int			t;
-	int			vnum;
+	int		vnum;
+	int		j;
 
-	vnum = 0;
-	t = 0;
-	v = (takencount(str) - 2) / 2;
-	doom->sectors[n].npoints = v;
-	doom->sectors[n].vertex = ft_memalloc((v + 1) * sizeof(t_xy));
-	doom->sectors[n].neighbors = ft_memalloc(v * sizeof(int));
-	printf("v - %d\n",v);
+	vnum = ((takencount(str) - 2) / 2) - 1;
+	printf("vnum - %d\n",vnum);
+	printf("%s\n", str);
+	s[n].npoints = vnum;
+	if (!(s[n].vert = ft_memalloc(sizeof(t_xy) * (vnum + 1))))
+		return (0);
+	if (!(s[n].neighbors = ft_memalloc(sizeof(int) * vnum)))
+		return (0);
+	str = todigit(str, &s[n].floor);
+	str = todigit(str, &s[n].ceil);
+	str = vertinsect(str, s[n].vert, v, vnum);
 	j = 0;
-	printf("N - %d\n", n);
-	while (j < ft_strlen(str))
+	
+	while (j < s[n].npoints)
 	{
-		if (vnum == v)
-			vnum = 0;
-		if (ft_isdigit(str[j]) && t == 0)
-		{
-			doom->sectors[n].floor = atof(&str[j]);
-			printf("Floor - %f\n", doom->sectors[n].floor);
-			while (ft_isdigit(str[j]))
-				j++;
-			t = 1;
-		}
-		else if (ft_isdigit(str[j]) && t == 1)
-		{
-			doom->sectors[n].ceil = atof(&str[j]);
-			printf("Ceil - %f\n", doom->sectors[n].ceil);
-			while (ft_isdigit(str[j]))
-				j++;
-			t = 2;
-		}
-		else if (ft_isdigit(str[j]) && vnum < v && t == 2)
-		{
-			doom->sectors[n].vertex[vnum + 1] = vert[atoi(&str[j])];
-			printf("y - %f, x - %f\n", doom->sectors[n].vertex[vnum + 1].y, doom->sectors[n].vertex[vnum + 1].x);
-			vnum++;
-			while (ft_isdigit(str[j]))
-				j++;
-			if (vnum == v)
-				t = 3;
-		}
-		else if ((ft_isdigit(str[j]) || str[j] == '-') && vnum < v && t == 3)
-		{
-			doom->sectors[n].neighbors[vnum] = atoi(&str[j]);
-			printf("vnum - %d\n", vnum);
-			printf("Neigb - %d\n", doom->sectors[n].neighbors[vnum]);
-			vnum++;
-			while (ft_isdigit(str[j]) || str[j] == '-')
-				j++;
-		}
-		else
-			j++;
+		printf("y - %f, x - %f\n", s[n].vert[j].y, s[n].vert[j].x);
+		j++;
 	}
-	doom->sectors[n].vertex[0] = doom->sectors[n].vertex[v];
+	str = neighinsect(str, s[n], vnum);
+	gettxtind(str, s[n]);
 	n++;
-	return (0);
+	return (1);
 }
