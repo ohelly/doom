@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:50:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/27 13:43:49 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/09/29 19:05:13 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int		loadobjs(t_obj *obj, char *str)
 	obj[n].rotate = (int)tmp;
 	str = todigit(str, &obj[n].pov);
 	str = todigit(str, &tmp);
-	obj[n].txt_ind = (int)tmp;
+	obj[n].txt_ind = 0;
 	str = todigit(str, &tmp);
 	obj[n].sector = (int)tmp;
 	n++;

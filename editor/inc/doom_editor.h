@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   doom_editor.                                       :+:      :+:    :+:   */
+/*   doom_editor.h                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/19 16:52:07 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/09/29 19:46:12 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,16 @@ typedef struct			s_all_sect
 	t_sectors			sectors[2048];
 	int					selected_sector;
 }						t_all_sect;
+
+typedef struct			s_swall
+{
+	int					v1;
+	int					v2;
+	int					wall1;
+	int					wall2;
+	int					sec;
+}						t_swall;
+
 
 /*
 	WALLS
@@ -156,6 +166,7 @@ typedef struct			s_doom
 	t_all_walls			*walls;
 	t_file				*file;
 	char				*save_name;
+	t_swall				*swall;
 	int					sh;
 	t_v2				map_pos;
 	t_v2				move_vector;

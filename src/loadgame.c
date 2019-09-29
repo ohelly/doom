@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:13:26 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/29 17:29:15 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/09/29 20:04:24 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,8 @@ int		direction(t_doom *doom, t_player *player, float *move_vec)
 		move_vec[0] -= player->anglesin * 0.4f;
 		move_vec[1] += player->anglecos * 0.4f;
 	}
+	move_vec[0] *= doom->time_frame * 60;
+	move_vec[1] *= doom->time_frame * 60;
 	return (0);
 }
 
@@ -166,14 +168,14 @@ int		calciswall(t_doom *doom, t_player *player)
 	return (0);
 }
 
-int		calcjump(t_player *player, t_sector *sectors)
+int		calcjump(t_doom *doom, t_player *player, t_sector *sectors)
 {
 	float 	nextz;
 
 	player->ground = !player->fall;
 	if (player->fall)
 	{
-		player->velocity.z -= 0.05f;
+		player->velocity.z -= 0.05f * doom->time_frame * 60;
 		nextz = player->where.z + player->velocity.z;
         if (player->velocity.z < 0 && nextz  < sectors[player->sector].floor + EyeHeight)
         {
@@ -196,15 +198,38 @@ int		calcjump(t_player *player, t_sector *sectors)
 	return (0);
 }
 
+int		fps(t_doom *doom)
+{
+	doom->time_old = doom->time_new;
+	doom->time_new = SDL_GetTicks();
+	doom->time_frame = (doom->time_new - doom->time_old) / 1000;
+	return (0);
+}
+
+int		animation(t_doom *doom)
+{
+	static float	t = 0;
+
+	t += doom->time_frame;
+	if (t >= 0.15f)
+	{
+		doom->a = 1;
+		t = 0;
+	}	
+	return (0);
+}
+
 int		loadgame(t_doom *doom)
 {
 	SDL_Event	ev;
 
 	initsdl(doom, doom->sdl);
 	while (1)
-	{
+	{	
+		fps(doom);
+		animation(doom);
 		drawscreen(doom);
-		calcjump(&doom->player, doom->sector);
+		calcjump(doom, &doom->player, doom->sector);
 		if (doom->player.move == 1)
 			calciswall(doom, &doom->player);
 		while(SDL_PollEvent(&ev))
@@ -212,7 +237,8 @@ int		loadgame(t_doom *doom)
 		calcmouse(&doom->player, doom->player.yaw);
 		calcmove(doom, &doom->player);
 		SDL_UpdateWindowSurface(doom->sdl->win);
-		SDL_Delay(10);
+		if (doom->a)
+			doom->a = 0;
 	}
 	return (0);
 }

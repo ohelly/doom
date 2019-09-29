@@ -6,7 +6,7 @@
 #    By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/02 20:58:32 by lminta            #+#    #+#              #
-#    Updated: 2019/09/18 17:31:59 by ohelly           ###   ########.fr        #
+#    Updated: 2019/09/29 19:47:12 by ohelly           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,7 +33,7 @@ FLAGS2 = -F /Users/$(USER)/Library/Frameworks/ -framework SDL2 -framework SDL2_i
 OBJ = src/main.o src/ft_line.o src/key_and_mouse_press.o src/output.o \
 src/put_canvas.o src/put_select.o src/math_line.o src/math_vectors.o \
 src/math_helpers.o src/export.o src/line_intersect.o src/select.o src/build.o \
-src/load_map.o src/build_portal.o src/move_map.o src/split_wall.o src/delete_action.o \
+src/load_map.o src/build_portal.o src/move_map.o src/split_wall.o src/delete_action.o src/split_sectors.o \
 
 all: $(FRAMEDIR) $(LIBS) $(FRAME) $(NAME)
 
