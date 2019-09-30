@@ -12,69 +12,59 @@
 
 #include "doom.h"
 
+int		new_image(t_doom *doom, char *texture_name)
+{
+	t_img		img;
+	SDL_Surface	*surface;
+
+	surface = IMG_Load(texture_name);
+	img.data = (int*)surface->pixels;
+	img.w = surface->w;
+	img.h = surface->h;
+	
+	doom->images[doom->images_count] = img;
+	doom->images_count++;
+	return (doom->images_count - 1);
+}
+
 int		loadtextureobjs(t_doom *doom, t_obj *obj, t_player player)
 {
 	SDL_Surface *surface;
-	
-	obj[0].img.data = (int**)ft_memalloc(sizeof(int*) * obj[0].cnt_frms);
-	surface = IMG_Load("textures/obj/bar/BAR1A0.png");
-	obj[0].img.data[0] = (int*)surface->pixels;
-	surface = IMG_Load("textures/obj/bar/BAR1B0.png");
-	obj[0].img.data[1] = (int*)surface->pixels;
-	surface = IMG_Load("textures/obj/bar/BAR1C0.png");
-	obj[0].img.data[2] = (int*)surface->pixels;
-	surface = IMG_Load("textures/obj/bar/BAR1D0.png");
-	obj[0].img.data[3] = (int*)surface->pixels;
-	surface = IMG_Load("textures/obj/bar/BAR1E0.png");
-	obj[0].img.data[4] = (int*)surface->pixels;
-	surface = IMG_Load("textures/obj/bar/BAR1F0.png");
-	obj[0].img.data[5] = (int*)surface->pixels;
-	surface = IMG_Load("textures/obj/bar/BAR1G0.png");
-	obj[0].img.data[6] = (int*)surface->pixels;
-	surface = IMG_Load("textures/obj/bar/BAR1H0.png");
-	obj[0].img.data[7] = (int*)surface->pixels;
-	surface = IMG_Load("textures/obj/bar/BAR1I0.png");
-	obj[0].img.data[8] = (int*)surface->pixels;
-	surface = IMG_Load("textures/obj/bar/BAR1J0.png");
-	obj[0].img.data[9] = (int*)surface->pixels;
-	surface = IMG_Load("textures/obj/bar/BAR1K0.png");
-	obj[0].img.data[10] = (int*)surface->pixels;
-	surface = IMG_Load("textures/obj/bar/BAR1L0.png");
-	obj[0].img.data[11] = (int*)surface->pixels;
-	surface = IMG_Load("textures/obj/bar/BAR1M0.png");
-	obj[0].img.data[12] = (int*)surface->pixels;
-	obj[0].img.w = surface->w;
-	obj[0].img.h = surface->h;
 
-	obj[1].img.data = (int**)ft_memalloc(sizeof(int*) * obj[1].cnt_frms);
-	surface = IMG_Load("textures/obj/people/devka/devka.png");
-	obj[1].img.data[0] = (int*)surface->pixels;
-	surface = IMG_Load("textures/obj/people/devka/devka1.png");
-	obj[1].img.data[1] = (int*)surface->pixels;
-	obj[1].img.w = surface->w;
-	obj[1].img.h = surface->h;
+	printf("obj 0 img 0 1.\n");
+	obj[0].images[0][0] = new_image(doom, "textures/obj/bar/BAR1A0.png");
+	printf("obj 0 img 0 2.\n");
+	obj[0].images[0][1] = new_image(doom, "textures/obj/bar/BAR1B0.png");
+	printf("obj 0 img 0 3.\n");
+	obj[0].images[0][2] = new_image(doom, "textures/obj/bar/BAR1C0.png");
+	obj[0].images[0][3] = new_image(doom, "textures/obj/bar/BAR1D0.png");
+	obj[0].images[0][4] = new_image(doom, "textures/obj/bar/BAR1E0.png");
+	obj[0].images[0][5] = new_image(doom, "textures/obj/bar/BAR1F0.png");
+	obj[0].images[0][6] = new_image(doom, "textures/obj/bar/BAR1G0.png");
+	obj[0].images[0][7] = new_image(doom, "textures/obj/bar/BAR1H0.png");
+	obj[0].images[0][8] = new_image(doom, "textures/obj/bar/BAR1I0.png");
+	obj[0].images[0][9] = new_image(doom, "textures/obj/bar/BAR1J0.png");
+	obj[0].images[0][10] = new_image(doom, "textures/obj/bar/BAR1K0.png");
+	obj[0].images[0][11] = new_image(doom, "textures/obj/bar/BAR1L0.png");
+	obj[0].images[0][12] = new_image(doom, "textures/obj/bar/BAR1M0.png");
 
-	obj[2].img.data = (int**)ft_memalloc(sizeof(int*) * obj[2].cnt_frms);
-	surface = IMG_Load("textures/obj/head/HEADA1.png");
-	obj[2].img.data[0] = (int*)surface->pixels;
-	surface = IMG_Load("textures/obj/head/HEADB1.png");
-	obj[2].img.data[1] = (int*)surface->pixels;
-	surface = IMG_Load("textures/obj/head/HEADC1.png");
-	obj[2].img.data[2] = (int*)surface->pixels;
-	surface = IMG_Load("textures/obj/head/HEADD1.png");
-	obj[2].img.data[3] = (int*)surface->pixels;
-	surface = IMG_Load("textures/obj/head/HEADE1.png");
-	obj[2].img.data[4] = (int*)surface->pixels;
-	surface = IMG_Load("textures/obj/head/HEADF1.png");
-	obj[2].img.data[5] = (int*)surface->pixels;
-	obj[2].img.w = surface->w;
-	obj[2].img.h = surface->h;
+	printf("obj 1 img 0 1.\n");
+	obj[1].images[0][0] = new_image(doom, "textures/obj/people/devka/devka.png");
+	printf("obj 1 img 0 2.\n");
+	obj[1].images[0][1] = new_image(doom, "textures/obj/people/devka/devka1.png");
+	printf("hmmm.\n");
 
-	obj[3].img.data = (int**)ft_memalloc(sizeof(int*) * obj[3].cnt_frms);
-	surface = IMG_Load("textures/obj/people/svidetel/svidetel.png");
-	obj[3].img.data[0] = (int*)surface->pixels;
-	obj[3].img.w = surface->w;
-	obj[3].img.h = surface->h;
+	printf("obj 2 img 0 1.\n");
+	obj[2].images[0][0] = new_image(doom, "textures/obj/head/HEADA1.png");
+	obj[2].images[0][1] = new_image(doom, "textures/obj/head/HEADB1.png");
+	obj[2].images[0][2] = new_image(doom, "textures/obj/head/HEADC1.png");
+	obj[2].images[0][3] = new_image(doom, "textures/obj/head/HEADD1.png");
+	obj[2].images[0][4] = new_image(doom, "textures/obj/head/HEADE1.png");
+	obj[2].images[0][5] = new_image(doom, "textures/obj/head/HEADF1.png");
+
+	printf("obj 3 img 0 1.\n");
+	obj[3].images[0][0] = new_image(doom, "textures/obj/people/svidetel/svidetel.png");
+	printf("finished.\n");
 	return (0);
 }
 

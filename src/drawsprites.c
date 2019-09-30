@@ -69,8 +69,9 @@ int		vlineobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom)
 	t.y = 0;
 	ytop = 0;
 	ybot = HEIGHT - 1;
-	scale.x = (float)obj->img.w / (px.end - px.begin);
-	scale.y = (float)obj->img.h / (wy.b - wy.a);
+	scale.x = (float)(obj->get_img(doom, obj)).w / (px.end - px.begin);
+	scale.x = (float)(obj->get_img(doom, obj)).w / (px.end - px.begin);
+	scale.y = (float)(obj->get_img(doom, obj)).h / (wy.b - wy.a);
 	t.x = (px.x - px.begin) * scale.x;
 	y = wy.a;
 	if (obj->sector != doom->player.sector)
@@ -81,8 +82,8 @@ int		vlineobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom)
 	while (y < wy.b)
 	{
 		
-		if (t.x < obj->img.w && t.y < obj->img.h && obj->img.data[obj->txt_ind][(int)t.y * obj->img.w + (int)t.x] && y >= ytop && y <= ybot) //0 is num of animation frame
-			doom->sdl->pix[y * WIDTH + px.x] = obj->img.data[obj->txt_ind][(int)t.y * obj->img.w + (int)t.x];
+		if (t.x < (obj->get_img(doom, obj)).w && t.y < (obj->get_img(doom, obj)).h && (obj->get_img(doom, obj)).data[(int)t.y * (obj->get_img(doom, obj)).w + (int)t.x] && y >= ytop && y <= ybot) //0 is num of animation frame
+			doom->sdl->pix[y * WIDTH + px.x] = (obj->get_img(doom, obj)).data[(int)t.y * (obj->get_img(doom, obj)).w + (int)t.x];
 		y++;
 		t.y += scale.y;
 	}
@@ -109,8 +110,8 @@ int		findobjxy2(t_xyz t, t_xy scale, t_obj *obj, t_doom *doom)
 	t_ab_i	wy;
 	t_be	x;
 	
-	h = (float)(obj->img.h / 32);
-	w = (float)(obj->img.w / 105);
+	h = (float)((obj->get_img(doom, obj)).h / 32);
+	w = (float)((obj->get_img(doom, obj)).w / 105);
 	wx = WIDTH / 2 - (int)(t.x * scale.x); 
 	wy.a = HEIGHT / 2 - (int)(yaw(h + doom->sector[obj->sector].floor - doom->player.where.z, t.z, doom->player) * scale.y); 
 	wy.b = HEIGHT / 2 - (int)(yaw(doom->sector[obj->sector].floor - doom->player.where.z, t.z, doom->player) * scale.y);
@@ -131,15 +132,11 @@ int      drawobj(float x, float y, t_obj *obj, t_doom *doom)
 	v.y = obj->p.y - doom->player.where.y;
 	t.x = v.x * doom->player.anglesin - v.y * doom->player.anglecos;
 	t.z = v.x * doom->player.anglecos + v.y * doom->player.anglesin;
-	if (obj->anim)
+	if (obj->anim_count > 0)
 	{
 		if (doom->a == 1)
-			obj->txt_ind++;
-		if (obj->txt_ind == obj->cnt_frms)
-			obj->txt_ind = 0;
+			obj->anim_next(obj);
 	}
-	else
-		obj->txt_ind = 0;
 	if (t.z <= 0)
 		return (0);
 	scale.x = (HFOV * WIDTH) / t.z;

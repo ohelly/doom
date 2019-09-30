@@ -59,7 +59,7 @@ typedef struct		s_line
 
 typedef	struct		s_img
 {
-	int				**data;
+	int				*data;
 	int				w;
 	int				h;
 }					t_img;
@@ -137,6 +137,21 @@ typedef struct		s_sector
 
 typedef struct		s_obj
 {
+	t_xy			p;
+	int				sector;
+	int				**images;
+	int				anim_count;
+	int				anim_frame;
+	int				states_count;
+	int				states_frame;
+	void			(*state_change)(struct s_obj *obj, int state);
+	void			(*anim_next)(struct s_obj *obj);
+	t_img			(*get_img)(struct s_doom *doom, struct s_obj *obj);
+}					t_obj;
+
+/*
+typedef struct		s_obj
+{
 	t_img			img;
 	int				anim;
 	int				cnt_frms;
@@ -146,6 +161,7 @@ typedef struct		s_obj
 	int				sector;
 	t_xy			p;
 }					t_obj;
+*/
 
 typedef struct		s_pic
 {
@@ -249,7 +265,31 @@ typedef struct		s_doom
 	float			time_old;
 	float			time_new;
 	float			time_frame;
+	struct s_enemy	*enemy;
+	t_img			images[512];
+	int				images_count;
 }					t_doom;
+
+typedef struct		s_enemy
+{
+	t_obj			*obj;
+	//direction vector
+	t_xy			dir;
+	//rotation is stored in radians
+	float			rot;
+	//0 - wandering, 1 - attacking
+	float			view_distance;
+	float			move_speed;
+	int				state;
+	int				health;
+	int				txt_index;
+	float			attack_speed;
+	float			attack_cd;
+	int				attack_damage;
+	void			(*on_attack)(t_doom *doom, struct s_enemy *enemy);
+	void			(*on_hit)(t_doom *doom, struct s_enemy *enemy);
+	void			(*on_framestart)(t_doom *doom, struct s_enemy *enemy);
+}					t_enemy;
 
 int		initall(t_doom *doom);
 int		loadall(t_doom *doom);
