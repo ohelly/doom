@@ -227,7 +227,8 @@ int		loadgame(t_doom *doom)
 	while (1)
 	{	
 		fps(doom);
-		printf("fps: %f\n", 1 / doom->time_frame);
+		//printf("fps: %f\n", 1 / doom->time_frame);
+		enemies_update(doom);
 		animation(doom);
 		drawscreen(doom);
 		calcjump(doom, &doom->player, doom->sector);

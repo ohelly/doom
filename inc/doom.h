@@ -303,13 +303,15 @@ int		loadplayer(t_player *player, char *str);
 
 int		loadtextures(t_doom *doom);
 
-float		vxs(float x0, float y0, float x1, float y1);
+float	vxs(float x0, float y0, float x1, float y1);
 char	*todigit(char *str, float *data);
 int		hooks(t_doom *doom, SDL_Event ev);
 int		loadgame(t_doom *doom);
 int		drawscreen(t_doom *doom);
-int     drawsprites(t_doom *doom, t_obj *obj, t_player player);
-float		yaw(float y, float z, t_player player);
+int		drawsprites(t_doom *doom, t_obj *obj, t_player player);
+float	yaw(float y, float z, t_player player);
+t_enemy	*create_enemy(t_doom *doom, t_obj *obj);
+void	enemies_update(t_doom *doom);
 
 
 #endif

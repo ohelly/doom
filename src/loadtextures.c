@@ -24,18 +24,17 @@ int		new_image(t_doom *doom, char *texture_name)
 	
 	doom->images[doom->images_count] = img;
 	doom->images_count++;
+	printf("Image %s loaded.\n", texture_name);
 	return (doom->images_count - 1);
 }
 
 int		loadtextureobjs(t_doom *doom, t_obj *obj, t_player player)
 {
 	SDL_Surface *surface;
+	int a;
 
-	printf("obj 0 img 0 1.\n");
 	obj[0].images[0][0] = new_image(doom, "textures/obj/bar/BAR1A0.png");
-	printf("obj 0 img 0 2.\n");
 	obj[0].images[0][1] = new_image(doom, "textures/obj/bar/BAR1B0.png");
-	printf("obj 0 img 0 3.\n");
 	obj[0].images[0][2] = new_image(doom, "textures/obj/bar/BAR1C0.png");
 	obj[0].images[0][3] = new_image(doom, "textures/obj/bar/BAR1D0.png");
 	obj[0].images[0][4] = new_image(doom, "textures/obj/bar/BAR1E0.png");
@@ -48,23 +47,38 @@ int		loadtextureobjs(t_doom *doom, t_obj *obj, t_player player)
 	obj[0].images[0][11] = new_image(doom, "textures/obj/bar/BAR1L0.png");
 	obj[0].images[0][12] = new_image(doom, "textures/obj/bar/BAR1M0.png");
 
-	printf("obj 1 img 0 1.\n");
-	obj[1].images[0][0] = new_image(doom, "textures/obj/people/devka/devka.png");
-	printf("obj 1 img 0 2.\n");
-	obj[1].images[0][1] = new_image(doom, "textures/obj/people/devka/devka1.png");
-	printf("hmmm.\n");
+	doom->enemy = create_enemy(doom, &obj[0]);
+	printf("a\n");
+	a = new_image(doom, "textures/obj/head/HEADA1.png");
+	obj[0].images[1][0] = a;
+	printf("ab\n");
+	obj[0].images[2][0] = a;
+	obj[0].images[3][0] = a;
+	obj[0].images[4][0] = a;
+	obj[0].images[5][0] = a;
+	printf("abc\n");
+	obj[0].images[6][0] = a;
+	obj[0].images[7][0] = a;
+	printf("f\n");
 
-	printf("obj 2 img 0 1.\n");
+	printf("1 %d\n", obj[1].anim_count);
+	printf("1 %d\n", obj[1].states_count);
+	printf("2 %d\n", obj[1].images[0][0]);
+	obj[1].images[0][0] = new_image(doom, "textures/obj/people/devka/devka.png");
+	printf("f2\n");
+	obj[1].images[0][1] = new_image(doom, "textures/obj/people/devka/devka1.png");
+
+	printf("fa\n");
 	obj[2].images[0][0] = new_image(doom, "textures/obj/head/HEADA1.png");
+	printf("fb\n");
 	obj[2].images[0][1] = new_image(doom, "textures/obj/head/HEADB1.png");
 	obj[2].images[0][2] = new_image(doom, "textures/obj/head/HEADC1.png");
 	obj[2].images[0][3] = new_image(doom, "textures/obj/head/HEADD1.png");
 	obj[2].images[0][4] = new_image(doom, "textures/obj/head/HEADE1.png");
 	obj[2].images[0][5] = new_image(doom, "textures/obj/head/HEADF1.png");
+	printf("ffs\n");
 
-	printf("obj 3 img 0 1.\n");
 	obj[3].images[0][0] = new_image(doom, "textures/obj/people/svidetel/svidetel.png");
-	printf("finished.\n");
 	return (0);
 }
 

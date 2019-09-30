@@ -132,7 +132,7 @@ int      drawobj(float x, float y, t_obj *obj, t_doom *doom)
 	v.y = obj->p.y - doom->player.where.y;
 	t.x = v.x * doom->player.anglesin - v.y * doom->player.anglecos;
 	t.z = v.x * doom->player.anglecos + v.y * doom->player.anglesin;
-	if (obj->anim_count > 0)
+	if (obj->anim_count > 1)
 	{
 		if (doom->a == 1)
 			obj->anim_next(obj);

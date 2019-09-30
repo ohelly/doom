@@ -45,7 +45,6 @@ int		loaddata(t_doom *doom, char **map)
 	t_xy	v[doom->numvertexes];
 
 	i = 0;
-	printf("Loading map...\n");
 	while (map[i])
 	{
 		if (ft_strncmp(map[i], "vertex", ft_strlen("vertex")) == 0)
@@ -66,7 +65,6 @@ int		loaddata(t_doom *doom, char **map)
 		i++;
 	}
 	doom->player.where.z = doom->sector[doom->player.sector].floor + EyeHeight;
-	printf("Map loaded successfully.\n");
 	return (1);
 }
 
