@@ -22,6 +22,8 @@ void	get_closest_sector(t_doom *doom)
 		doom->sects->selected_sector = -1;
 		return ;
 	}
+	if (doom->walls->selected_wall != -1)
+		doom->walls->selected_wall = -1;
 	wall = get_closest_wall(doom);
 	if (wall == -1)
 	{

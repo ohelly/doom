@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 22:12:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/26 16:30:58 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/01 19:14:38 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,12 @@ void	key_and_mouse_press(t_doom *doom)
 			if (doom->sdl->ev.key.keysym.sym == 'k')
 				kek(doom);
 			if (doom->sdl->ev.key.keysym.sym == '\r')
-				build_portal(doom);
+			{
+				if (doom->walls->selected_wall != -1)
+					build_portal(doom);
+				//else if (doom->sects->selected_sector != -1)
+				//	config_sector(doom);
+			}
 			if (doom->sdl->ev.key.keysym.sym == 'v')
 				split_wall(doom);
 			if (doom->sdl->ev.key.keysym.sym == 'l')

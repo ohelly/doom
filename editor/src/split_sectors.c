@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 17:09:53 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/01 16:55:53 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/01 17:06:06 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,7 @@ int			check_portal(t_doom *doom)
 			if (doom->walls->wall[i].portal != -1)
 			{
 				ft_putendl("Remove portal");
+				doom->sects->selected_sector = -1;
 				return (1);
 			}
 		}

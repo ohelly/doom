@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 15:47:05 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/19 17:50:13 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/01 19:12:23 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void		find_portal(t_doom *doom)
 		doom->walls->selected_wall = -1;
 		return ;
 	}
+	if (doom->sects->selected_sector != -1)
+		doom->sects->selected_sector = -1;
 	doom->walls->selected_wall = get_closest_wall(doom);
 	wall = doom->walls->selected_wall;
 	w1 = doom->walls->wall[wall];
