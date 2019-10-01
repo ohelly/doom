@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/29 16:14:04 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/01 20:01:51 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,9 @@ struct Scaler { int result, bop, fd, ca, cache; };
 
 static int Scaler_Next(struct Scaler* i)
 {
-    for(i->cache += i->fd; i->cache >= i->ca; i->cache -= i->ca) i->result += i->bop;
-    return i->result;
+    for (i->cache += i->fd; i->cache >= i->ca; i->cache -= i->ca)
+		i->result += i->bop;
+    return (i->result);
 }
 
 void		vline(int x, int y1,int y2, int top, int middle, int bottom, t_sdl *sdl)
@@ -55,8 +56,7 @@ void	vline2(int x, int y1,int y2, struct Scaler ty, int txtx, t_texture *txt, t_
     for (int y = y1; y <= y2; ++y)
     {
         int txty = Scaler_Next(&ty);
-//		printf("txtx - %d, txty - %d\n", txtx, txty);
-        *pix = txt->data[(txty % 1024) * txt->w + (txtx % 1024)];
+        *pix = txt->data[(txty % txt->h) * txt->w + (txtx % txt->w)];
         pix += WIDTH;
     }
 }
@@ -83,8 +83,8 @@ int			checkneighbor(t_doom *doom, t_cood *cood, int x, t_ab cy)
 	else
 	{
 		color = 0xebd8d8;
-		vline(x, cy.a, cy.b, 0, x == cood->w1.x  || x == cood->w2.x ? 0 : color, 0, doom->sdl); //стена
-		//vline2(x, cy.a, cy.b, (struct Scaler)Scaler_Init(cood->wy.a, cy.a, cood->wy.b, 0, 1023), cood->txtx, doom->txt, doom->sdl);
+		//vline(x, cy.a, cy.b, 0, x == cood->w1.x  || x == cood->w2.x ? 0 : color, 0, doom->sdl); //стена
+		vline2(x, cy.a, cy.b, (struct Scaler)Scaler_Init(cood->wy.a, cy.a, cood->wy.b, 0, 1023), cood->txtx, &doom->txt[0], doom->sdl);
 	}
 	return (0);
 }
@@ -105,10 +105,6 @@ int			beginrender(t_doom *doom, t_cood *cood, t_player player, int n)
 	while (x <= endx)
 	{
 		cood->txtx = (cood->u0 * ((cood->w2.x - x) * cood->t2.z) + cood->u1 * ((x - cood->w1.x) * cood->t1.z)) / ((cood->w2.x - x) * cood->t2.z + (x - cood->w1.x) * cood->t1.z);
-		//printf("txtx - %d, x - %d\n", cood->txtx, x);
-		//printf("u0 - %d, u1 - %d\n", cood->u0, cood->u1);
-		//printf("org1x - %f, org1y - %f\n", cood->org1.x, cood->org1.y);
-		//txtx = (u0*((x2-x)*tz2) + u1*((x-x1)*tz1)) / ((x2-x)*tz2 + (x-x1)*tz1);
 		wy.a = (x - cood->w1.x) * (cood->w2y.a - cood->w1y.a) / (cood->w2.x - cood->w1.x) + cood->w1y.a;
 		cy.a = clamp(wy.a, doom->ytop[x], doom->ybot[x]);
 		wy.b = (x - cood->w1.x) * (cood->w2y.b - cood->w1y.b) / (cood->w2.x - cood->w1.x) + cood->w1y.b;
@@ -219,16 +215,7 @@ int			intersect(t_xyz *t1, t_xyz *t2, t_cood *cood)
 		iflower(t1, i1, i2);
 	if (t2->z < NEARZ)
 		iflower(t2, i1, i2);
-	if (fabs(t2->x - t1->x) > fabs(t2->z - t1->z))
-	{
-		cood->u0 = (t1->x - cood->org1.x) * 1023 / (cood->org2.x - cood->org1.x);
-		cood->u1 = (t2->x - cood->org1.x) * 1023 / (cood->org2.x - cood->org1.x);
-	}
-	else
-	{
-		cood->u0 = (t1->z - cood->org1.y) * 1023 / (cood->org2.y - cood->org1.y);
-		cood->u1 = (t2->z - cood->org1.y) * 1023 / (cood->org2.y - cood->org1.y);
-	}
+	
 	return (0);
 }
 
@@ -244,7 +231,19 @@ int			calc_points(t_doom *doom, t_player player, t_cood *cood, int n)
 	cood->u0 = 0;
 	cood->u1 = 1023;
 	if (cood->t1.z <= 0 || cood->t2.z <= 0)
+	{
 		intersect(&cood->t1, &cood->t2, cood);
+		if (fabs(cood->t2.x - cood->t1.x) > fabs(cood->t2.z - cood->t1.z))
+		{
+			cood->u0 = (cood->t1.x - cood->org1.x) * 1023 / (cood->org2.x - cood->org1.x);
+			cood->u1 = (cood->t2.x - cood->org1.x) * 1023 / (cood->org2.x - cood->org1.x);
+		}
+		else
+		{
+			cood->u0 = (cood->t1.z - cood->org1.y) * 1023 / (cood->org2.y - cood->org1.y);
+			cood->u1 = (cood->t2.z - cood->org1.y) * 1023 / (cood->org2.y - cood->org1.y);
+		}
+	}
 	if (!(findxscale(doom, cood, player, n)))
 		return (0);
 	return (1);
@@ -304,7 +303,7 @@ int			assignvalue(t_item *item, t_item now, int *rensects)
 	return (0);
 }
 
-int			drawwalls(t_doom *doom, t_texture *txt, t_player player)
+int			drawwalls(t_doom *doom, t_player player)
 {
 	int		rensects[doom->numsectors];
 
@@ -319,7 +318,7 @@ int			drawwalls(t_doom *doom, t_texture *txt, t_player player)
 		if (++doom->tail == doom->queue + 32)
 			doom->tail = doom->queue;
 		if (rensects[doom->now.sector] == 1)
-			continue ;	
+			continue ;
 		++rensects[doom->now.sector];
 		assignvalue(&doom->item[doom->now.sector], doom->now, rensects);
 		doom->cood.s = &doom->sector[doom->now.sector];
@@ -331,7 +330,7 @@ int			drawwalls(t_doom *doom, t_texture *txt, t_player player)
 
 int			drawscreen(t_doom *doom)
 {	
-	drawwalls(doom, doom->txt, doom->player);
+	drawwalls(doom, doom->player);
 	drawsprites(doom, doom->obj, doom->player);
 	return (0);
 }

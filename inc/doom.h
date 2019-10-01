@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/29 20:06:18 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/01 19:29:17 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,48 +147,6 @@ typedef struct		s_obj
 	t_xy			p;
 }					t_obj;
 
-typedef struct		s_pic
-{
-	t_img			*img;
-	int				cnt_frms;
-	int				anim;
-	int				sector;
-	int				wall;
-	int				txt_ind;
-	float			z;
-	t_xy			p;
-	t_xy			p1;
-	t_xy			p2;
-}					t_pic;
-
-typedef struct 		s_item
-{
-	int				sx;
-	int				ex;
-	int				sector;
-	int				*ytop;
-	int				*ybot;
-}					t_item;
-
-typedef struct		s_texture
-{
-	int				*data;
-	int				w;
-	int				h;
-	int				sector;
-	int				ind;
-	int				wall;
-	int				txt_ind;
-}					t_texture;
-
-typedef struct s_be
-{
-	int				begin;
-	int				end;
-	int				x;
-}					t_be;
-
-
 typedef struct		s_cood
 {
 	int				neighbor;
@@ -218,6 +176,51 @@ typedef struct		s_cood
 	t_f				y;
 	t_sector		*s;
 }					t_cood;
+
+typedef struct		s_pic
+{
+	t_img			img;
+	int				cnt_frms;
+	int				anim;
+	int				sector;
+	int				wall;
+	int				txt_ind;
+	float			z;
+	t_cood			cood;
+	t_xy			p;
+	t_xy			p1;
+	t_xy			p2;
+}					t_pic;
+
+typedef struct 		s_item
+{
+	int				sx;
+	int				ex;
+	int				sector;
+	int				*ytop;
+	int				*ybot;
+}					t_item;
+
+typedef struct		s_texture
+{
+	int				*data;
+	int				w;
+	int				h;
+	int				sector;
+	int				ind;
+	int				wall;
+	int				txt_ind;
+}					t_texture;
+
+typedef struct 		s_be
+{
+	int				begin;
+	int				end;
+	int				x;
+}					t_be;
+
+
+
 
 typedef struct		s_doom
 {
