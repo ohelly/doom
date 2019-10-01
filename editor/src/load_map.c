@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/12 16:27:03 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/19 15:15:29 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/01 16:50:02 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,8 +121,8 @@ int		read_line(char *line, t_doom *doom)
 		while (line[i] != '\0')
 		{
 			doom->verts->count++;
-			doom->verts->list[doom->verts->i].pos.y = atoi(&line[7]);
-			doom->verts->list[doom->verts->i].pos.x = atoi(&line[i]);
+			doom->verts->list[doom->verts->i].pos.y = atoi(&line[7]) * 10;
+			doom->verts->list[doom->verts->i].pos.x = atoi(&line[i]) * 10;
 			doom->verts->i++;
 			while (line[i++] != ' ')
 				if (line[i] == '\0')
