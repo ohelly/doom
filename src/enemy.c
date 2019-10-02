@@ -70,15 +70,21 @@ float	rad_to_deg(float rad)
 
 int		rotate_enemy(t_doom *doom, t_enemy *enemy)
 {
-	float player_deg;
-	float enemy_deg;
-	float angle;
+	float	player_deg;
+	float	enemy_deg;
+	float	angle;
+	int		state;
 
+	/*
 	player_deg = doom->player.angle;
 	if (player_deg < 0)
 		player_deg = -player_deg;
+
 	while (player_deg > 6)
 		player_deg -= 6;
+	player_deg = rad_to_deg(player_deg);
+	*/
+	player_deg = v2_to_rot(v2_subtract((t_xy){doom->player.where.x, doom->player.where.y}, enemy->obj->p));
 	player_deg = rad_to_deg(player_deg);
 	enemy_deg = enemy->rot;
 	if (enemy_deg < 0)
@@ -87,17 +93,17 @@ int		rotate_enemy(t_doom *doom, t_enemy *enemy)
 	angle = enemy_deg - player_deg + 22.5f;
 	if (angle < 0)
 		angle += 360;
-	printf("pl %f, en %f, angle %f\n", player_deg, enemy_deg, angle);
-	printf("state %d\n", (int)(angle / 45));
-	return ((int)(angle / 45));
+	//printf("pl %f, en %f, angle %f\n", player_deg, enemy_deg, angle);
+	state = (int)(angle / 45);
+	//printf("state %d\n", state);
+	return (state);
 }
 
 int		detect_player(t_doom *doom, t_enemy *enemy)
 {
 	t_xy player_pos;
 
-	return (0);
-	player_pos = (t_xy){0, 0};
+	player_pos = (t_xy){doom->player.where.x, doom->player.where.y};
 	if (distance(player_pos, enemy->obj->p) > enemy->view_distance)
 		return (0);
 	//if player is within enemy's range and is seen		return 1
@@ -146,13 +152,16 @@ void	enemy_on_framestart(t_doom *doom, t_enemy *enemy)
 			enemy->dir.y *= -1;
 		}
 		if (detect_player(doom, enemy))
+		{
+			printf("Player is in range \n");
 			enemy->state = 1;
+		}
 		enemy->obj->state_change(enemy->obj, rotate_enemy(doom, enemy));
 	}
 	else if (enemy->state == 1)
 	{
 		//rotate towards player
-		enemy->obj->state_change(enemy->obj, 0);
+		enemy->obj->state_change(enemy->obj, 8);
 		if (enemy->attack_cd > 0)
 			enemy->attack_cd -= doom->time_frame;
 		else
@@ -167,15 +176,16 @@ t_enemy	*create_enemy(t_doom *doom, t_obj *obj)
 
 	enemy = (t_enemy*)malloc(sizeof(t_enemy));
 	enemy->obj = obj;
-	enemy->obj->p = (t_xy){0, 0};
+	enemy->obj->p = (t_xy){40, 10};
 	//dir is normalized vector and shouldn't be 0
-	enemy->dir = (t_xy){1, 1};
+	enemy->dir = (t_xy){0, 1};
 	enemy->state = 0;
 	enemy->health = 3;
 	enemy->txt_index = 0;
 	enemy->attack_speed = 3.0f;
 	enemy->attack_damage = 5;
 	enemy->move_speed = 2;
+	enemy->view_distance = 3;
 	enemy->on_framestart = enemy_on_framestart;
 	enemy->on_attack = enemy_on_attack;
 	enemy->on_hit = enemy_on_hit;

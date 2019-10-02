@@ -14,8 +14,9 @@
 
 void	obj_state_change(t_obj *obj, int state)
 {
-	if (state >= obj->states_count)
+	if (state >= obj->states_count || state == obj->states_frame)
 		return ;
+	printf("Changing state from %d to %d. States count %d.\n", obj->states_frame, state, obj->states_count);
 	obj->states_frame = state;
 	obj->anim_frame = 0;
 }
