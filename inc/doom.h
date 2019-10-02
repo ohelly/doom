@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/29 17:10:02 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/09/29 20:06:18 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define FARZ 5
 # define NEARSIDE 1e-5f
 # define FARSIDE 20.f
-# define EyeHeight  10
+# define EyeHeight  15
 # define DuckHeight 2.5
 # define HeadMargin 1
 # define KneeHeight 2
@@ -59,7 +59,7 @@ typedef struct		s_line
 
 typedef	struct		s_img
 {
-	int				**data;
+	int				*data;
 	int				w;
 	int				h;
 }					t_img;
@@ -137,6 +137,21 @@ typedef struct		s_sector
 
 typedef struct		s_obj
 {
+	t_xy			p;
+	int				sector;
+	int				**images;
+	int				anim_count;
+	int				anim_frame;
+	int				states_count;
+	int				states_frame;
+	void			(*state_change)(struct s_obj *obj, int state);
+	void			(*anim_next)(struct s_obj *obj);
+	t_img			(*get_img)(struct s_doom *doom, struct s_obj *obj);
+}					t_obj;
+
+/*
+typedef struct		s_obj
+{
 	t_img			img;
 	int				anim;
 	int				cnt_frms;
@@ -146,6 +161,7 @@ typedef struct		s_obj
 	int				sector;
 	t_xy			p;
 }					t_obj;
+*/
 
 typedef struct		s_pic
 {
@@ -176,16 +192,17 @@ typedef struct		s_texture
 	int				w;
 	int				h;
 	int				sector;
-	int				txt_ind;
+	int				ind;
 	int				wall;
+	int				txt_ind;
 }					t_texture;
 
 typedef struct s_be
 {
-	int		begin;
-	int		end;
-	int		x;
-}				t_be;
+	int				begin;
+	int				end;
+	int				x;
+}					t_be;
 
 
 typedef struct		s_cood
@@ -232,6 +249,8 @@ typedef struct		s_doom
 	t_item			*head;
 	t_item			*tail;
 	t_cood			cood;
+	int				a;
+	int				olda;
 	int				*data;
 	int     		numvertexes;
     int     		numsectors;
@@ -242,7 +261,35 @@ typedef struct		s_doom
 	int				wsad[4];
 	int				ybot[WIDTH];
 	int				ytop[WIDTH];
+	float			*len;
+	float			time_old;
+	float			time_new;
+	float			time_frame;
+	struct s_enemy	*enemy;
+	t_img			images[512];
+	int				images_count;
 }					t_doom;
+
+typedef struct		s_enemy
+{
+	t_obj			*obj;
+	//direction vector
+	t_xy			dir;
+	//rotation is stored in radians
+	float			rot;
+	//0 - wandering, 1 - attacking
+	float			view_distance;
+	float			move_speed;
+	int				state;
+	int				health;
+	int				txt_index;
+	float			attack_speed;
+	float			attack_cd;
+	int				attack_damage;
+	void			(*on_attack)(t_doom *doom, struct s_enemy *enemy);
+	void			(*on_hit)(t_doom *doom, struct s_enemy *enemy);
+	void			(*on_framestart)(t_doom *doom, struct s_enemy *enemy);
+}					t_enemy;
 
 int		initall(t_doom *doom);
 int		loadall(t_doom *doom);
@@ -256,13 +303,15 @@ int		loadplayer(t_player *player, char *str);
 
 int		loadtextures(t_doom *doom);
 
-float		vxs(float x0, float y0, float x1, float y1);
+float	vxs(float x0, float y0, float x1, float y1);
 char	*todigit(char *str, float *data);
 int		hooks(t_doom *doom, SDL_Event ev);
 int		loadgame(t_doom *doom);
 int		drawscreen(t_doom *doom);
-int     drawsprites(t_doom *doom, t_obj *obj, t_player player);
-float		yaw(float y, float z, t_player player);
+int		drawsprites(t_doom *doom, t_obj *obj, t_player player);
+float	yaw(float y, float z, t_player player);
+t_enemy	*create_enemy(t_doom *doom, t_obj *obj);
+void	enemies_update(t_doom *doom);
 
 
 #endif

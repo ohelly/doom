@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 11:56:24 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/29 17:26:25 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/09/29 20:09:47 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,7 @@ int			sortobjs(t_doom *doom, t_obj *obj, t_player player)
     t_obj   tmp;
     
 	findobjslen(doom, obj, len, player);
+	ft_memmove(doom->len, len, doom->numobjs * 4);
 	n = 0;
 	j = 0;
 	while (j < doom->numobjs)
@@ -66,8 +67,11 @@ int		vlineobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom)
 	int		y;
 
 	t.y = 0;
-	scale.x = (float)obj->img.w / (px.end - px.begin);
-	scale.y = (float)obj->img.h / (wy.b - wy.a);
+	ytop = 0;
+	ybot = HEIGHT - 1;
+	scale.x = (float)(obj->get_img(doom, obj)).w / (px.end - px.begin);
+	scale.x = (float)(obj->get_img(doom, obj)).w / (px.end - px.begin);
+	scale.y = (float)(obj->get_img(doom, obj)).h / (wy.b - wy.a);
 	t.x = (px.x - px.begin) * scale.x;
 	y = wy.a;
 	if (obj->sector != doom->player.sector)
@@ -75,15 +79,11 @@ int		vlineobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom)
 		ytop = doom->item[obj->sector].ytop[px.x];
 		ybot = doom->item[obj->sector].ybot[px.x];
 	}
-	else
-	{
-		ytop = 0;
-		ybot = HEIGHT - 1;
-	}
 	while (y < wy.b)
 	{
-		if (t.x < obj->img.w && t.y < obj->img.h && obj->img.data[0][(int)t.y * obj->img.w + (int)t.x] && y >= ytop && y <= ybot) //0 is num of animation frame
-			doom->sdl->pix[y * WIDTH + px.x] = obj->img.data[0][(int)t.y * obj->img.w + (int)t.x];
+		
+		if (t.x < (obj->get_img(doom, obj)).w && t.y < (obj->get_img(doom, obj)).h && (obj->get_img(doom, obj)).data[(int)t.y * (obj->get_img(doom, obj)).w + (int)t.x] && y >= ytop && y <= ybot) //0 is num of animation frame
+			doom->sdl->pix[y * WIDTH + px.x] = (obj->get_img(doom, obj)).data[(int)t.y * (obj->get_img(doom, obj)).w + (int)t.x];
 		y++;
 		t.y += scale.y;
 	}
@@ -110,8 +110,8 @@ int		findobjxy2(t_xyz t, t_xy scale, t_obj *obj, t_doom *doom)
 	t_ab_i	wy;
 	t_be	x;
 	
-	h = (float)(obj->img.h / 28);
-	w = (float)(obj->img.w / 100);
+	h = (float)((obj->get_img(doom, obj)).h / 32);
+	w = (float)((obj->get_img(doom, obj)).w / 105);
 	wx = WIDTH / 2 - (int)(t.x * scale.x); 
 	wy.a = HEIGHT / 2 - (int)(yaw(h + doom->sector[obj->sector].floor - doom->player.where.z, t.z, doom->player) * scale.y); 
 	wy.b = HEIGHT / 2 - (int)(yaw(doom->sector[obj->sector].floor - doom->player.where.z, t.z, doom->player) * scale.y);
@@ -132,6 +132,11 @@ int      drawobj(float x, float y, t_obj *obj, t_doom *doom)
 	v.y = obj->p.y - doom->player.where.y;
 	t.x = v.x * doom->player.anglesin - v.y * doom->player.anglecos;
 	t.z = v.x * doom->player.anglecos + v.y * doom->player.anglesin;
+	if (obj->anim_count > 1)
+	{
+		if (doom->a == 1)
+			obj->anim_next(obj);
+	}
 	if (t.z <= 0)
 		return (0);
 	scale.x = (HFOV * WIDTH) / t.z;
@@ -150,7 +155,7 @@ int     drawsprites(t_doom *doom, t_obj *obj, t_player player)
     while (n < doom->numobjs)
     {
         o = &obj[n];
-		if (!doom->item[obj->sector].sector)
+		if (!doom->item[obj->sector].sector || doom->len[n] < 1.5f)
 		{
 			n++;
 			continue ;

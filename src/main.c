@@ -22,7 +22,10 @@ int		main()
 		return (0);
 	if (!(loadall(doom)))
 		return (0);
+	printf("Map loaded.\n");
 	loadtextures(doom);
+	printf("Textures loaded.\n");
 	loadgame(doom);
+	printf("Game loaded.\n");
 	return (0);
 }

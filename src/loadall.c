@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:21:04 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/29 16:23:58 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/09/29 19:43:38 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,12 @@ int		loadall(t_doom *doom)
 		return (0);
 	if (!(doom->obj = (t_obj*)ft_memalloc(sizeof(t_obj) * doom->numobjs)))
 		return (0);
+	if (!(doom->len = (float*)ft_memalloc(sizeof(float) * doom->numobjs)))
+		return (0);
 	if (!(doom->item = (t_item*)ft_memalloc(sizeof(t_item) * doom->numsectors)))
 		return (0);
+
+
 	if (!(doom->pic = (t_pic*)ft_memalloc(sizeof(t_pic) * doom->numpics)))
 		return (0);
 	if (!(doom->txt = (t_texture*)ft_memalloc(sizeof(t_texture) * doom->numtxts)))
