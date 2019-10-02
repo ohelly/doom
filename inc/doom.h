@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/01 19:29:17 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/02 16:23:09 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,15 @@
 //# define Intersect(x1,y1, x2,y2, x3,y3, x4,y4) ((t_xy) { \
     vxs(vxs(x1,y1, x2,y2), (x1)-(x2), vxs(x3,y3, x4,y4), (x3)-(x4)) / vxs((x1)-(x2), (y1)-(y2), (x3)-(x4), (y3)-(y4)), \
     vxs(vxs(x1,y1, x2,y2), (y1)-(y2), vxs(x3,y3, x4,y4), (y3)-(y4)) / vxs((x1)-(x2), (y1)-(y2), (x3)-(x4), (y3)-(y4)) })
+
+typedef struct	s_scaler
+{
+	int 		result;
+	int			bop;
+	int			fd; 
+	int			ca;
+	int			cache; 
+}				t_scaler;
 
 typedef struct		s_line
 {

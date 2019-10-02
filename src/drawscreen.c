@@ -6,19 +6,24 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/01 20:01:51 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/02 16:39:53 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-struct Scaler { int result, bop, fd, ca, cache; };
+t_scaler	scaler_init(t_ab_i wy, int cya, int u0, int u1)
+{
+	t_scaler t;
+	t.result = u0 + (cya - 1 - wy.a) * (u1 - u0) / (wy.b - wy.a);
+	t.bop = ((u1 < u0) ^ ((wy.b < wy.a)) ? -1 : 1);
+	t.fd = abs(u1 - u0);
+	t.ca = abs(wy.b - wy.a);
+	t.cache = ((cya - 1 - wy.a) * abs(u1 - u0) % abs(wy.b - wy.a));
+	return (t);
+}
 
-#define Scaler_Init(a,b,c,d,f) \
-    { d + (b-1 - a) * (f-d) / (c-a), ((f<d) ^ (c<a)) ? -1 : 1, \
-      abs(f-d), abs(c-a), (int)((b-1-a) * abs(f-d)) % abs(c-a) }
-
-static int Scaler_Next(struct Scaler* i)
+static int scaler_next(t_scaler* i)
 {
     for (i->cache += i->fd; i->cache >= i->ca; i->cache -= i->ca)
 		i->result += i->bop;
@@ -46,18 +51,23 @@ void		vline(int x, int y1,int y2, int top, int middle, int bottom, t_sdl *sdl)
     }
 }
 
-void	vline2(int x, int y1,int y2, struct Scaler ty, int txtx, t_texture *txt, t_sdl *sdl)
+void	vline2(int x, int y1,int y2, t_scaler ty, int txtx, t_texture *txt, t_sdl *sdl)
 {
-	int		*pix = sdl->pix;
+	int		*pix;
+	int		txty;
+	int		y;
+
+	pix = sdl->pix;
     y1 = clamp(y1, 0, HEIGHT - 1);
     y2 = clamp(y2, 0, HEIGHT - 1);
     pix += y1 * WIDTH + x;
-
-    for (int y = y1; y <= y2; ++y)
+	y = y1;
+    while (y <= y2)
     {
-        int txty = Scaler_Next(&ty);
+        txty = scaler_next(&ty);
         *pix = txt->data[(txty % txt->h) * txt->w + (txtx % txt->w)];
         pix += WIDTH;
+		y++;
     }
 }
 
@@ -75,16 +85,14 @@ int			checkneighbor(t_doom *doom, t_cood *cood, int x, t_ab cy)
 		wny.b = (x - cood->w1.x) * (cood->n2y.b - cood->n1y.b) / (cood->w2.x - cood->w1.x) + cood->n1y.b;
 		cny.b = clamp(wny.b, doom->ytop[x], doom->ybot[x]);
 		vline(x, cy.a, cny.a - 1, 0, x == cood->w1.x || x == cood->w2.x ? 0 : 0xeb6389, 0, doom->sdl);
-		//vline2(x, cy.a, cny.a-1, (struct Scaler)Scaler_Init(cood->wy.a, cy.a, cood->wy.b, 0,1023), cood->txtx, doom->txt, doom->sdl);
+		//vline2(x, cy.a, cny.a-1, (struct Scaler)Scaler_Init(cood->wy.a, cy.a, cood->wy.b, 0,512), cood->txtx, doom->txt, doom->sdl);
 		doom->ytop[x] = clamp(max(cy.a, cny.a), doom->ytop[x], HEIGHT - 1);
 	    vline(x, cny.b + 1, cy.b, 0, x == cood->w1.x || x == cood->w2.x ? 0 : 0xeb6389, 0, doom->sdl);
 	    doom->ybot[x] = clamp(min(cy.b, cny.b), 0, doom->ybot[x]);
 	}
 	else
 	{
-		color = 0xebd8d8;
-		//vline(x, cy.a, cy.b, 0, x == cood->w1.x  || x == cood->w2.x ? 0 : color, 0, doom->sdl); //стена
-		vline2(x, cy.a, cy.b, (struct Scaler)Scaler_Init(cood->wy.a, cy.a, cood->wy.b, 0, 1023), cood->txtx, &doom->txt[0], doom->sdl);
+		vline2(x, cy.a, cy.b, scaler_init(cood->wy, cy.a,  0, 512), cood->txtx, &doom->txt[0], doom->sdl);
 	}
 	return (0);
 }
@@ -229,19 +237,19 @@ int			calc_points(t_doom *doom, t_player player, t_cood *cood, int n)
 	if (cood->t1.z <= 0 && cood->t2.z <= 0)
 		return (0);
 	cood->u0 = 0;
-	cood->u1 = 1023;
+	cood->u1 = 512;
 	if (cood->t1.z <= 0 || cood->t2.z <= 0)
 	{
 		intersect(&cood->t1, &cood->t2, cood);
 		if (fabs(cood->t2.x - cood->t1.x) > fabs(cood->t2.z - cood->t1.z))
 		{
-			cood->u0 = (cood->t1.x - cood->org1.x) * 1023 / (cood->org2.x - cood->org1.x);
-			cood->u1 = (cood->t2.x - cood->org1.x) * 1023 / (cood->org2.x - cood->org1.x);
+			cood->u0 = (cood->t1.x - cood->org1.x) * 512 / (cood->org2.x - cood->org1.x);
+			cood->u1 = (cood->t2.x - cood->org1.x) * 512 / (cood->org2.x - cood->org1.x);
 		}
 		else
 		{
-			cood->u0 = (cood->t1.z - cood->org1.y) * 1023 / (cood->org2.y - cood->org1.y);
-			cood->u1 = (cood->t2.z - cood->org1.y) * 1023 / (cood->org2.y - cood->org1.y);
+			cood->u0 = (cood->t1.z - cood->org1.y) * 512 / (cood->org2.y - cood->org1.y);
+			cood->u1 = (cood->t2.z - cood->org1.y) * 512 / (cood->org2.y - cood->org1.y);
 		}
 	}
 	if (!(findxscale(doom, cood, player, n)))
