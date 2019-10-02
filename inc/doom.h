@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/02 16:23:09 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/02 19:00:49 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,6 +140,7 @@ typedef struct		s_sector
 	int				*neighbors;
 	int				txtf;
 	int				txtc;
+	int				txtw;
 	t_img			imgfloor;
 	t_img			imgceil;
 }					t_sector;
@@ -177,8 +178,8 @@ typedef struct		s_cood
 	int				neighbor;
 	int				beginx;
 	int				endx;
-	int				u0;
-	int				u1;
+	float			u0;
+	float				u1;
 	t_xyz			v1;
 	t_xyz			v2;
 	t_xyz			t1;

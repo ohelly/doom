@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/02 16:39:53 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/02 19:00:10 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 t_scaler	scaler_init(t_ab_i wy, int cya, int u0, int u1)
 {
 	t_scaler t;
+
 	t.result = u0 + (cya - 1 - wy.a) * (u1 - u0) / (wy.b - wy.a);
 	t.bop = ((u1 < u0) ^ ((wy.b < wy.a)) ? -1 : 1);
 	t.fd = abs(u1 - u0);
@@ -51,21 +52,26 @@ void		vline(int x, int y1,int y2, int top, int middle, int bottom, t_sdl *sdl)
     }
 }
 
-void	vline2(int x, int y1,int y2, t_scaler ty, int txtx, t_texture *txt, t_sdl *sdl)
+void	vline2(int x, t_ab wy, t_scaler ty, t_doom *doom)
 {
 	int		*pix;
 	int		txty;
 	int		y;
+	int		y1 = wy.a;
+	int		y2 = wy.b;
+	int		t;
 
-	pix = sdl->pix;
+	pix = doom->sdl->pix;
     y1 = clamp(y1, 0, HEIGHT - 1);
     y2 = clamp(y2, 0, HEIGHT - 1);
     pix += y1 * WIDTH + x;
 	y = y1;
+//	printf("txtw - %d\n", doom->sector[doom->player.sector].txtw);
+	t = doom->sector[doom->now.sector].txtw;
     while (y <= y2)
     {
         txty = scaler_next(&ty);
-        *pix = txt->data[(txty % txt->h) * txt->w + (txtx % txt->w)];
+		*pix = doom->txt[t].data[txty % doom->txt[t].h * doom->txt[t].w + doom->cood.txtx % doom->txt[t].w];
         pix += WIDTH;
 		y++;
     }
@@ -73,26 +79,29 @@ void	vline2(int x, int y1,int y2, t_scaler ty, int txtx, t_texture *txt, t_sdl *
 
 int			checkneighbor(t_doom *doom, t_cood *cood, int x, t_ab cy)
 {
-	t_ab	wny;
-	t_ab	cny;
-	int		color;
+	t_ab_i	wny;
+	t_ab_i	cny;
+	t_scaler t;
+	t_ab	rny;
 
 	if (cood->neighbor >= 0)
 	{
-		color = 0x46f057;
 		wny.a = (x - cood->w1.x) * (cood->n2y.a - cood->n1y.a) / (cood->w2.x - cood->w1.x) + cood->n1y.a;
 		cny.a = clamp(wny.a, doom->ytop[x], doom->ybot[x]);
 		wny.b = (x - cood->w1.x) * (cood->n2y.b - cood->n1y.b) / (cood->w2.x - cood->w1.x) + cood->n1y.b;
 		cny.b = clamp(wny.b, doom->ytop[x], doom->ybot[x]);
-		vline(x, cy.a, cny.a - 1, 0, x == cood->w1.x || x == cood->w2.x ? 0 : 0xeb6389, 0, doom->sdl);
-		//vline2(x, cy.a, cny.a-1, (struct Scaler)Scaler_Init(cood->wy.a, cy.a, cood->wy.b, 0,512), cood->txtx, doom->txt, doom->sdl);
+		rny.a = cy.a;
+		rny.b = cny.a - 1;
+		vline2(x, rny, scaler_init(cood->wy, cy.a, 0, 128), doom);
 		doom->ytop[x] = clamp(max(cy.a, cny.a), doom->ytop[x], HEIGHT - 1);
-	    vline(x, cny.b + 1, cy.b, 0, x == cood->w1.x || x == cood->w2.x ? 0 : 0xeb6389, 0, doom->sdl);
+		rny.a = cny.b;
+		rny.b = cy.b - 1;
+	    vline2(x, rny, scaler_init(cood->wy, cny.b + 1, 0, 128), doom);
 	    doom->ybot[x] = clamp(min(cy.b, cny.b), 0, doom->ybot[x]);
 	}
 	else
 	{
-		vline2(x, cy.a, cy.b, scaler_init(cood->wy, cy.a,  0, 512), cood->txtx, &doom->txt[0], doom->sdl);
+		vline2(x, cy, scaler_init(cood->wy, cy.a, 0, 128), doom);
 	}
 	return (0);
 }
@@ -237,19 +246,19 @@ int			calc_points(t_doom *doom, t_player player, t_cood *cood, int n)
 	if (cood->t1.z <= 0 && cood->t2.z <= 0)
 		return (0);
 	cood->u0 = 0;
-	cood->u1 = 512;
+	cood->u1 = doom->txt[0].w; // если приравнять размеру текстуры, то растянет по всей стене
 	if (cood->t1.z <= 0 || cood->t2.z <= 0)
 	{
 		intersect(&cood->t1, &cood->t2, cood);
 		if (fabs(cood->t2.x - cood->t1.x) > fabs(cood->t2.z - cood->t1.z))
 		{
-			cood->u0 = (cood->t1.x - cood->org1.x) * 512 / (cood->org2.x - cood->org1.x);
-			cood->u1 = (cood->t2.x - cood->org1.x) * 512 / (cood->org2.x - cood->org1.x);
+			cood->u0 = (cood->t1.x - cood->org1.x) * doom->txt[0].w / (cood->org2.x - cood->org1.x);
+			cood->u1 = (cood->t2.x - cood->org1.x) * doom->txt[0].w / (cood->org2.x - cood->org1.x);
 		}
 		else
 		{
-			cood->u0 = (cood->t1.z - cood->org1.y) * 512 / (cood->org2.y - cood->org1.y);
-			cood->u1 = (cood->t2.z - cood->org1.y) * 512 / (cood->org2.y - cood->org1.y);
+			cood->u0 = (cood->t1.z - cood->org1.y) * doom->txt[0].w / (cood->org2.y - cood->org1.y);
+			cood->u1 = (cood->t2.z - cood->org1.y) * doom->txt[0].w / (cood->org2.y - cood->org1.y);
 		}
 	}
 	if (!(findxscale(doom, cood, player, n)))

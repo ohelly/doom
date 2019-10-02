@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:15:03 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/28 15:36:43 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/02 17:53:12 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ char	*vertinsect(char *str, t_xy *vert, t_xy *v, int vnum)
 	return (str);
 }
 
-char	*neighinsect(char *str, t_sector s, int vnum)
+char	*neighinsect(char *str, t_sector *s, int vnum)
 {
 	int		j;
 	float	tmp;
@@ -58,20 +58,23 @@ char	*neighinsect(char *str, t_sector s, int vnum)
 	while (j < vnum)
 	{
 		str = todigit(str, &tmp);
-		s.neighbors[j] = (int)tmp;
+		s->neighbors[j] = (int)tmp;
 		j++;
 	}
 	return (str);
 }
 
-int		gettxtind(char *str, t_sector s)
+int		gettxtind(char *str, t_sector *s)
 {
 	float		tmp;
 
 	str = todigit(str, &tmp);
-	s.txtf = (int)tmp;
+	s->txtf = (int)tmp;
 	str = todigit(str, &tmp);
-	s.txtc = (int)tmp;
+	s->txtc = (int)tmp;
+	str = todigit(str, &tmp);
+	s->txtw = (int)tmp;
+//	printf("txtw - %d\n", s->txtw);
 	return (0);
 }
 
@@ -97,10 +100,11 @@ int		loadsectors(t_sector *s, t_xy *v, char *str)
 	while (j < s[n].npoints)
 	{
 		printf("y - %f, x - %f\n", s[n].vert[j].y, s[n].vert[j].x);
+		printf("y - %f, x - %f\n", s[n].vert[j].y, s[n].vert[j].x);
 		j++;
 	}
-	str = neighinsect(str, s[n], vnum);
-	gettxtind(str, s[n]);
+	str = neighinsect(str, &s[n], vnum);
+	gettxtind(str, &s[n]);
 	n++;
 	return (1);
 }
