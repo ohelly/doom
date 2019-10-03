@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 14:53:36 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/02 18:08:42 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/03 16:09:10 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,10 @@ int		loadtextureobjs(t_doom *doom, t_obj *obj, t_player player)
 	doom->txt[0].w = surface->w;
 	doom->txt[0].h = surface->h;
 
+	//SDL_RWops *rwop;
+	//rwop = IMG_LoadXPM_RW("textures/walls/WALL1.xpm", "rgb");
 	surface = IMG_Load("textures/walls/WALL1.png");
+	//surface = IMG_LoadXPM_RW(rwop);
 	doom->txt[1].data = (int*)surface->pixels;
 	doom->txt[1].w = surface->w;
 	doom->txt[1].h = surface->h;

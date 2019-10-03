@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/02 19:00:10 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/03 18:08:03 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,6 @@ void	vline2(int x, t_ab wy, t_scaler ty, t_doom *doom)
     y2 = clamp(y2, 0, HEIGHT - 1);
     pix += y1 * WIDTH + x;
 	y = y1;
-//	printf("txtw - %d\n", doom->sector[doom->player.sector].txtw);
 	t = doom->sector[doom->now.sector].txtw;
     while (y <= y2)
     {
@@ -93,7 +92,7 @@ int			checkneighbor(t_doom *doom, t_cood *cood, int x, t_ab cy)
 		rny.a = cy.a;
 		rny.b = cny.a - 1;
 		vline2(x, rny, scaler_init(cood->wy, cy.a, 0, 128), doom);
-		doom->ytop[x] = clamp(max(cy.a, cny.a), doom->ytop[x], HEIGHT - 1);
+		doom->ytop[x] = clamp(max(cy.a, cny.a), doom->ytop[x], HEIGHT - 1);	
 		rny.a = cny.b;
 		rny.b = cy.b - 1;
 	    vline2(x, rny, scaler_init(cood->wy, cny.b + 1, 0, 128), doom);
@@ -106,6 +105,59 @@ int			checkneighbor(t_doom *doom, t_cood *cood, int x, t_ab cy)
 	return (0);
 }
 
+/*
+#define CeilingFloorScreenCoordinatesToMapCoordinates(mapY, screenX,screenY, X,Z) \
+    do { Z = (mapY) * HEIGHT * VFOV / ((HEIGHT / 2 - (screenY)) - doom->player.yaw * HEIGHT * VFOV); \
+    X = (Z) * (WIDTH / 2 - (screenX)) / (WIDTH * HFOV); \
+    RelativeMapCoordinatesToAbsoluteOnes(X,Z); } while(0)
+                //
+ #define RelativeMapCoordinatesToAbsoluteOnes(X,Z) \
+    do { float rtx = (Z) * doom->player.anglecos + (X) * doom->player.anglesin; \
+    float rtz = (Z) * doom->player.anglesin - (X) * doom->player.anglecos; \
+    X = rtx + doom->player.where.x; Z = rtz + doom->player.where.y; \
+	} while(0)
+*/
+
+void	RelativeMapCoordinatesToAbsoluteOnes(float *X, float *Z, t_player player) \
+{
+    do { float rtx = (*Z) * player.anglecos + (*X) * player.anglesin; \
+    float rtz = (*Z) * player.anglesin - (*X) * player.anglecos; \
+    *X = rtx + player.where.x; *Z = rtz + player.where.y; \
+	} while(0);
+}
+
+void	CeilingFloorScreenCoordinatesToMapCoordinates(float mapY, int screenX, int screenY, float *X, float *Z, t_player player)
+{
+	do {
+    *Z = (mapY) * HEIGHT * VFOV / ((HEIGHT / 2 - (screenY)) - player.yaw * HEIGHT * VFOV); \
+    *X = (*Z) * (WIDTH / 2 - (screenX)) / (WIDTH * HFOV); \
+    RelativeMapCoordinatesToAbsoluteOnes(X, Z, player);
+	} while (0);
+}
+                //
+
+
+/*
+void		RelativeMapCoordinatesToAbsoluteOnes(float *X, float *Z, t_player player)
+{
+	do {
+	float rtx = *Z * player.anglecos + *X * player.anglesin;
+    float rtz = *Z * player.anglesin - *X * player.anglecos;
+    *X = rtx + player.where.x;
+	*Z = rtz + player.where.y;
+	} while (0);
+}
+
+void		CeilingFloorScreenCoordinatesToMapCoordinates(float mapy, int screenx, int screeny, float *X, float *Z, t_player player)
+{
+	do {
+	*Z = mapy * HEIGHT * VFOV / ((HEIGHT / 2) - screeny) - player.yaw * HEIGHT * VFOV;
+	*X = *Z * (WIDTH / 2 - screenx) / (WIDTH * HFOV);
+	RelativeMapCoordinatesToAbsoluteOnes(X,Z, player);
+	} while (0);
+}
+*/
+
 int			beginrender(t_doom *doom, t_cood *cood, t_player player, int n)
 {
 	t_ab	cy;
@@ -113,6 +165,9 @@ int			beginrender(t_doom *doom, t_cood *cood, t_player player, int n)
 	int		beginx;
 	int		endx;
 	int		x;
+	int		y;
+	float	hei;
+	float 	mapx, mapz;
 
 	beginx = max(cood->w1.x, doom->now.sx);
 	endx = min(cood->w2.x, doom->now.ex);
@@ -126,9 +181,26 @@ int			beginrender(t_doom *doom, t_cood *cood, t_player player, int n)
 		cy.a = clamp(wy.a, doom->ytop[x], doom->ybot[x]);
 		wy.b = (x - cood->w1.x) * (cood->w2y.b - cood->w1y.b) / (cood->w2.x - cood->w1.x) + cood->w1y.b;
 		cy.b = clamp(wy.b, doom->ytop[x], doom->ybot[x]);
+	//	y = doom->ytop[x];
+		doom->ybot[x] = clamp(doom->ybot[x], 0, HEIGHT - 1);
+		for (int y = doom->ytop[x]; y <= doom->ybot[x]; ++y)
+		{
+			if (y >= cy.a && y <= cy.b)
+			{
+				y = cy.b;
+				continue ;
+			}
+			hei = y < cy.a ? cood->s->ceil - player.where.z : cood->s->floor - player.where.z;
+			CeilingFloorScreenCoordinatesToMapCoordinates(hei, x,y, &mapx, &mapz, player);
+            int txtx = (mapx * 8);
+			int txtz = (mapz * 8);
+			int pel = doom->txt[0].data[(txtz % doom->txt[0].h) * doom->txt[0].w + (txtx % doom->txt[0].w)];
+			//pel = 0xFFFFFF;
+        	doom->sdl->pix[y * WIDTH + x] = pel;
+		}
 		cood->wy = wy;
-		vline(x, doom->ytop[x], cy.a - 1, 0x22222, 0xFFFFFF, 0x222222, doom->sdl); //потолок
-		vline(x, cy.b + 1, doom->ybot[x], 0, 0xFFFFFF, 0, doom->sdl); //пол
+		//vline(x, doom->ytop[x], cy.a - 1, 0x22222, 0xFFFFFF, 0x222222, doom->sdl); //потолок
+		//vline(x, cy.b + 1, doom->ybot[x], 0, 0xFFFFFF, 0, doom->sdl); //пол
 		checkneighbor(doom, cood, x, cy);
 		x++;
 	}
