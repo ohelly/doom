@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/03 19:59:55 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/03 20:11:48 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,6 @@ typedef struct			s_swall
 	int					wall2;
 	int					sec;
 }						t_swall;
-
 
 /*
 	WALLS
