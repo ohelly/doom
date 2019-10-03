@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/03 19:41:09 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/03 20:26:18 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ void	vline2(int x, t_ab wy, t_scaler ty, t_doom *doom)
     while (y <= y2)
     {
         txty = scaler_next(&ty);
-		*pix = doom->txt[t].data[txty % doom->txt[t].h * doom->txt[t].w + doom->cood.txtx % doom->txt[t].w];
+		*pix = doom->txt->img[t].data[txty % doom->txt->img[t].h * doom->txt->img[t].w + doom->cood.txtx % doom->txt->img[t].w];
         pix += WIDTH;
 		y++;
     }
@@ -91,16 +91,16 @@ int			checkneighbor(t_doom *doom, t_cood *cood, int x, t_ab cy)
 		cny.b = clamp(wny.b, doom->ytop[x], doom->ybot[x]);
 		rny.a = cy.a;
 		rny.b = cny.a - 1;
-		vline2(x, rny, scaler_init(cood->wy, cy.a, 0,  doom->txt[doom->sector[doom->now.sector].txtw].w * 8), doom);
+		vline2(x, rny, scaler_init(cood->wy, cy.a, 0, doom->txt->img[doom->sector[doom->now.sector].txtw].w * 8), doom);
 		doom->ytop[x] = clamp(max(cy.a, cny.a), doom->ytop[x], HEIGHT - 1);	
 		rny.a = cny.b;
 		rny.b = cy.b - 1;
-	    vline2(x, rny, scaler_init(cood->wy, cny.b + 1, 0,  doom->txt[doom->sector[doom->now.sector].txtw].w * 8), doom);
+	    vline2(x, rny, scaler_init(cood->wy, cny.b + 1, 0,  doom->txt->img[doom->sector[doom->now.sector].txtw].w * 8), doom);
 	    doom->ybot[x] = clamp(min(cy.b, cny.b), 0, doom->ybot[x]);
 	}
 	else
 	{
-		vline2(x, cy, scaler_init(cood->wy, cy.a, 0, doom->txt[doom->sector[doom->now.sector].txtw].w * 8), doom);
+		vline2(x, cy, scaler_init(cood->wy, cy.a, 0, doom->txt->img[doom->sector[doom->now.sector].txtw].w * 8), doom);
 	}
 	return (0);
 }
@@ -168,6 +168,8 @@ int			beginrender(t_doom *doom, t_cood *cood, t_player player, int n)
 	int		y;
 	float	hei;
 	float 	mapx, mapz;
+	int		t;
+	t_img 	set;
 
 	beginx = max(cood->w1.x, doom->now.sx);
 	endx = min(cood->w2.x, doom->now.ex);
@@ -181,22 +183,25 @@ int			beginrender(t_doom *doom, t_cood *cood, t_player player, int n)
 		cy.a = clamp(wy.a, doom->ytop[x], doom->ybot[x]);
 		wy.b = (x - cood->w1.x) * (cood->w2y.b - cood->w1y.b) / (cood->w2.x - cood->w1.x) + cood->w1y.b;
 		cy.b = clamp(wy.b, doom->ytop[x], doom->ybot[x]);
-	//	y = doom->ytop[x];
 		doom->ybot[x] = clamp(doom->ybot[x], 0, HEIGHT - 1);
-		for (int y = doom->ytop[x]; y <= doom->ybot[x]; ++y)
+		t = cood->s->txtw;
+		y = doom->ytop[x];
+		while (y <= doom->ybot[x])
 		{
 			if (y >= cy.a - 1 && y <= cy.b)
 			{
-				y = cy.b + 1;
+				y = cy.b;
+				y++;
 				continue ;
 			}
 			hei = y < cy.a ? cood->s->ceil - player.where.z : cood->s->floor - player.where.z;
 			CeilingFloorScreenCoordinatesToMapCoordinates(hei, x,y, &mapx, &mapz, player);
             int txtx = (mapx * 32);
 			int txtz = (mapz * 32);
-			int pel = doom->txt[0].data[(txtz % doom->txt[0].h) * doom->txt[0].w + (txtx % doom->txt[0].w)];
-			//pel = 0xFFFFFF;
+			set = y < cy.a ? doom->txt->img[cood->s->txtc] : doom->txt->img[cood->s->txtf];
+			int pel = set.data[(txtz % set.h) * set.w + (txtx % set.w)];
         	doom->sdl->pix[y * WIDTH + x] = pel;
+			y++;
 		}
 		cood->wy = wy;
 		//vline(x, doom->ytop[x], cy.a - 1, 0x22222, 0xFFFFFF, 0x222222, doom->sdl); //потолок
@@ -310,6 +315,7 @@ int			intersect(t_xyz *t1, t_xyz *t2, t_cood *cood)
 
 int			calc_points(t_doom *doom, t_player player, t_cood *cood, int n)
 {
+	int		t;
 
 	difference(cood->s->vert[n], doom->player.where, &cood->v1); //v1 = vert - player
 	difference(cood->s->vert[n + 1], doom->player.where, &cood->v2);
@@ -317,8 +323,9 @@ int			calc_points(t_doom *doom, t_player player, t_cood *cood, int n)
 	rotation(cood->v2, doom->player.anglesin, doom->player.anglecos, &cood->t2);
 	if (cood->t1.z <= 0 && cood->t2.z <= 0)
 		return (0);
+	t = doom->now.sector;
 	cood->u0 = 0;
-	cood->u1 = doom->txt[0].w * 4; // если приравнять размеру текстуры, то растянет по всей стене
+	cood->u1 = doom->txt->img[t].w * 4; // если приравнять размеру текстуры, то растянет по всей стене
 	if (cood->t1.z <= 0 || cood->t2.z <= 0)
 	{
 		intersect(&cood->t1, &cood->t2, cood);
