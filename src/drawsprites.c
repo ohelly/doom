@@ -90,7 +90,8 @@ int		vlineobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom)
 	{
 		
 		if (t.x < img.w && t.y < img.h && img.data[(int)t.y * img.w + (int)t.x] && y >= ybord.y && y <= ybord.x) //0 is num of animation frame
-			doom->sdl->pix[y * WIDTH + px.x] = img.data[(int)t.y * img.w + (int)t.x];
+			doom->sdl->pix[y * WIDTH + px.x] = rgb_multiply(img.data[(int)t.y * img.w + (int)t.x], doom->sector[obj->sector].light);
+			//doom->sdl->pix[y * WIDTH + px.x] = img.data[(int)t.y * img.w + (int)t.x];
 		y++;
 		t.y += scale.y;
 	}

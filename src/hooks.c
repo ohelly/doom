@@ -34,6 +34,10 @@ int		keydown(t_doom *doom, SDL_Event ev)
 	}
 	if (ev.key.keysym.sym == 'p')
 		profile_output(doom);
+	if (ev.key.keysym.sym == 'm')
+		doom->sector[doom->player.sector].light += 0.1f;
+	if (ev.key.keysym.sym == 'n')
+		doom->sector[doom->player.sector].light -= 0.1f;
 	return (0);
 }
 
