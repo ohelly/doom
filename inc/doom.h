@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/29 20:06:18 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/03 20:08:21 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,15 @@
 //# define Intersect(x1,y1, x2,y2, x3,y3, x4,y4) ((t_xy) { \
     vxs(vxs(x1,y1, x2,y2), (x1)-(x2), vxs(x3,y3, x4,y4), (x3)-(x4)) / vxs((x1)-(x2), (y1)-(y2), (x3)-(x4), (y3)-(y4)), \
     vxs(vxs(x1,y1, x2,y2), (y1)-(y2), vxs(x3,y3, x4,y4), (y3)-(y4)) / vxs((x1)-(x2), (y1)-(y2), (x3)-(x4), (y3)-(y4)) })
+
+typedef struct	s_scaler
+{
+	int 		result;
+	int			bop;
+	int			fd; 
+	int			ca;
+	int			cache; 
+}				t_scaler;
 
 typedef struct		s_line
 {
@@ -126,11 +135,13 @@ typedef struct		s_sector
 {
 	float			ceil;
 	float			floor;
+	float			light;
 	t_xy			*vert;
 	int				npoints;
 	int				*neighbors;
 	int				txtf;
 	int				txtc;
+	int				txtw;
 	t_img			imgfloor;
 	t_img			imgceil;
 }					t_sector;
@@ -144,9 +155,6 @@ typedef struct		s_obj
 	int				anim_frame;
 	int				states_count;
 	int				states_frame;
-	void			(*state_change)(struct s_obj *obj, int state);
-	void			(*anim_next)(struct s_obj *obj);
-	t_img			(*get_img)(struct s_doom *doom, struct s_obj *obj);
 }					t_obj;
 
 /*
@@ -163,15 +171,44 @@ typedef struct		s_obj
 }					t_obj;
 */
 
+typedef struct		s_cood
+{
+	int				neighbor;
+	int				beginx;
+	int				endx;
+	float			u0;
+	float			u1;
+	t_xyz			v1;
+	t_xyz			v2;
+	t_xyz			t1;
+	t_xyz			t2;
+	t_xy			org1;
+	t_xy			org2;
+	int				txtx;
+	t_xy			scale1;
+	t_xy			scale2;
+	t_xy_i			w1;
+	t_xy_i			w2;
+	t_ab_i			wy;
+	t_ab_i			wx;
+	t_ab_i			w1y;
+	t_ab_i			w2y;
+	t_ab_i			n1y;
+	t_ab_i			n2y;
+	t_f				y;
+	t_sector		*s;
+}					t_cood;
+
 typedef struct		s_pic
 {
-	t_img			*img;
+	t_img			img;
 	int				cnt_frms;
 	int				anim;
 	int				sector;
 	int				wall;
 	int				txt_ind;
 	float			z;
+	t_cood			cood;
 	t_xy			p;
 	t_xy			p1;
 	t_xy			p2;
@@ -188,16 +225,10 @@ typedef struct 		s_item
 
 typedef struct		s_texture
 {
-	int				*data;
-	int				w;
-	int				h;
-	int				sector;
-	int				ind;
-	int				wall;
-	int				txt_ind;
+	t_img			*img;
 }					t_texture;
 
-typedef struct s_be
+typedef struct 		s_be
 {
 	int				begin;
 	int				end;
@@ -205,35 +236,7 @@ typedef struct s_be
 }					t_be;
 
 
-typedef struct		s_cood
-{
-	int				neighbor;
-	int				beginx;
-	int				endx;
-	int				u0;
-	int				u1;
-	t_xyz			v1;
-	t_xyz			v2;
-	t_xyz			t1;
-	t_xyz			t2;
 
-	t_xy			org1;
-	t_xy			org2;
-	int				txtx;
-	t_xy			scale1;
-	t_xy			scale2;
-
-	t_xy_i			w1;
-	t_xy_i			w2;
-	t_ab_i			wy;
-	t_ab_i			wx;
-	t_ab_i			w1y;
-	t_ab_i			w2y;
-	t_ab_i			n1y;
-	t_ab_i			n2y;
-	t_f				y;
-	t_sector		*s;
-}					t_cood;
 
 typedef struct		s_doom
 {
@@ -262,8 +265,7 @@ typedef struct		s_doom
 	int				ybot[WIDTH];
 	int				ytop[WIDTH];
 	float			*len;
-	float			time_old;
-	float			time_new;
+	float			times[32];
 	float			time_frame;
 	struct s_enemy	*enemy;
 	t_img			images[512];
@@ -312,6 +314,12 @@ int		drawsprites(t_doom *doom, t_obj *obj, t_player player);
 float	yaw(float y, float z, t_player player);
 t_enemy	*create_enemy(t_doom *doom, t_obj *obj);
 void	enemies_update(t_doom *doom);
+int		profile(t_doom *doom, int profiling_index);
+int		profile_output(t_doom *doom);
+t_img	obj_get_image(t_doom *doom, t_obj *obj);
+void	obj_anim_next(t_obj *obj);
+void	obj_state_change(t_obj *obj, int state);
+int		rgb_multiply(int color, float value);
 
 
 #endif

@@ -6,22 +6,29 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/29 16:14:04 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/03 20:26:18 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-struct Scaler { int result, bop, fd, ca, cache; };
-
-#define Scaler_Init(a,b,c,d,f) \
-    { d + (b-1 - a) * (f-d) / (c-a), ((f<d) ^ (c<a)) ? -1 : 1, \
-      abs(f-d), abs(c-a), (int)((b-1-a) * abs(f-d)) % abs(c-a) }
-
-static int Scaler_Next(struct Scaler* i)
+t_scaler	scaler_init(t_ab_i wy, int cya, int u0, int u1)
 {
-    for(i->cache += i->fd; i->cache >= i->ca; i->cache -= i->ca) i->result += i->bop;
-    return i->result;
+	t_scaler t;
+
+	t.result = u0 + (cya - 1 - wy.a) * (u1 - u0) / (wy.b - wy.a);
+	t.bop = ((u1 < u0) ^ ((wy.b < wy.a)) ? -1 : 1);
+	t.fd = abs(u1 - u0);
+	t.ca = abs(wy.b - wy.a);
+	t.cache = ((cya - 1 - wy.a) * abs(u1 - u0) % abs(wy.b - wy.a));
+	return (t);
+}
+
+static int scaler_next(t_scaler* i)
+{
+    for (i->cache += i->fd; i->cache >= i->ca; i->cache -= i->ca)
+		i->result += i->bop;
+    return (i->result);
 }
 
 void		vline(int x, int y1,int y2, int top, int middle, int bottom, t_sdl *sdl)
@@ -45,49 +52,113 @@ void		vline(int x, int y1,int y2, int top, int middle, int bottom, t_sdl *sdl)
     }
 }
 
-void	vline2(int x, int y1,int y2, struct Scaler ty, int txtx, t_texture *txt, t_sdl *sdl)
+void	vline2(int x, t_ab wy, t_scaler ty, t_doom *doom)
 {
-	int		*pix = sdl->pix;
+	int		*pix;
+	int		txty;
+	int		y;
+	int		y1 = wy.a;
+	int		y2 = wy.b;
+	int		t;
+
+	pix = doom->sdl->pix;
     y1 = clamp(y1, 0, HEIGHT - 1);
     y2 = clamp(y2, 0, HEIGHT - 1);
     pix += y1 * WIDTH + x;
-
-    for (int y = y1; y <= y2; ++y)
+	y = y1;
+	t = doom->sector[doom->now.sector].txtw;
+    while (y <= y2)
     {
-        int txty = Scaler_Next(&ty);
-//		printf("txtx - %d, txty - %d\n", txtx, txty);
-        *pix = txt->data[(txty % 1024) * txt->w + (txtx % 1024)];
+        txty = scaler_next(&ty);
+		*pix = rgb_multiply(doom->txt->img[t].data[txty % doom->txt->img[t].h * doom->txt->img[t].w + doom->cood.txtx % doom->txt->img[t].w], doom->sector[doom->now.sector].light);
+		//*pix = doom->txt[t].data[txty % doom->txt[t].h * doom->txt[t].w + doom->cood.txtx % doom->txt[t].w];
+		//*pix = rgb_multiply(doom->txt[t].data[txty % doom->txt[t].h * doom->txt[t].w + doom->cood.txtx % doom->txt[t].w], doom->sector[doom->now.sector].light);
         pix += WIDTH;
+		y++;
     }
 }
 
 int			checkneighbor(t_doom *doom, t_cood *cood, int x, t_ab cy)
 {
-	t_ab	wny;
-	t_ab	cny;
-	int		color;
+	t_ab_i	wny;
+	t_ab_i	cny;
+	t_scaler t;
+	t_ab	rny;
 
 	if (cood->neighbor >= 0)
 	{
-		color = 0x46f057;
 		wny.a = (x - cood->w1.x) * (cood->n2y.a - cood->n1y.a) / (cood->w2.x - cood->w1.x) + cood->n1y.a;
 		cny.a = clamp(wny.a, doom->ytop[x], doom->ybot[x]);
 		wny.b = (x - cood->w1.x) * (cood->n2y.b - cood->n1y.b) / (cood->w2.x - cood->w1.x) + cood->n1y.b;
 		cny.b = clamp(wny.b, doom->ytop[x], doom->ybot[x]);
-		vline(x, cy.a, cny.a - 1, 0, x == cood->w1.x || x == cood->w2.x ? 0 : 0xeb6389, 0, doom->sdl);
-		//vline2(x, cy.a, cny.a-1, (struct Scaler)Scaler_Init(cood->wy.a, cy.a, cood->wy.b, 0,1023), cood->txtx, doom->txt, doom->sdl);
-		doom->ytop[x] = clamp(max(cy.a, cny.a), doom->ytop[x], HEIGHT - 1);
-	    vline(x, cny.b + 1, cy.b, 0, x == cood->w1.x || x == cood->w2.x ? 0 : 0xeb6389, 0, doom->sdl);
+		rny.a = cy.a;
+		rny.b = cny.a - 1;
+		vline2(x, rny, scaler_init(cood->wy, cy.a, 0, doom->txt->img[doom->sector[doom->now.sector].txtw].w * 8), doom);
+		doom->ytop[x] = clamp(max(cy.a, cny.a), doom->ytop[x], HEIGHT - 1);	
+		rny.a = cny.b;
+		rny.b = cy.b - 1;
+	    vline2(x, rny, scaler_init(cood->wy, cny.b + 1, 0,  doom->txt->img[doom->sector[doom->now.sector].txtw].w * 8), doom);
 	    doom->ybot[x] = clamp(min(cy.b, cny.b), 0, doom->ybot[x]);
 	}
 	else
 	{
-		color = 0xebd8d8;
-		vline(x, cy.a, cy.b, 0, x == cood->w1.x  || x == cood->w2.x ? 0 : color, 0, doom->sdl); //стена
-		//vline2(x, cy.a, cy.b, (struct Scaler)Scaler_Init(cood->wy.a, cy.a, cood->wy.b, 0, 1023), cood->txtx, doom->txt, doom->sdl);
+		vline2(x, cy, scaler_init(cood->wy, cy.a, 0, doom->txt->img[doom->sector[doom->now.sector].txtw].w * 8), doom);
 	}
 	return (0);
 }
+
+/*
+#define CeilingFloorScreenCoordinatesToMapCoordinates(mapY, screenX,screenY, X,Z) \
+    do { Z = (mapY) * HEIGHT * VFOV / ((HEIGHT / 2 - (screenY)) - doom->player.yaw * HEIGHT * VFOV); \
+    X = (Z) * (WIDTH / 2 - (screenX)) / (WIDTH * HFOV); \
+    RelativeMapCoordinatesToAbsoluteOnes(X,Z); } while(0)
+                //
+ #define RelativeMapCoordinatesToAbsoluteOnes(X,Z) \
+    do { float rtx = (Z) * doom->player.anglecos + (X) * doom->player.anglesin; \
+    float rtz = (Z) * doom->player.anglesin - (X) * doom->player.anglecos; \
+    X = rtx + doom->player.where.x; Z = rtz + doom->player.where.y; \
+	} while(0)
+*/
+
+void	RelativeMapCoordinatesToAbsoluteOnes(float *X, float *Z, t_player player) \
+{
+    do { float rtx = (*Z) * player.anglecos + (*X) * player.anglesin; \
+    float rtz = (*Z) * player.anglesin - (*X) * player.anglecos; \
+    *X = rtx + player.where.x; *Z = rtz + player.where.y; \
+	} while(0);
+}
+
+void	CeilingFloorScreenCoordinatesToMapCoordinates(float mapY, int screenX, int screenY, float *X, float *Z, t_player player)
+{
+	do {
+    *Z = (mapY) * HEIGHT * VFOV / ((HEIGHT / 2 - (screenY)) - player.yaw * HEIGHT * VFOV); \
+    *X = (*Z) * (WIDTH / 2 - (screenX)) / (WIDTH * HFOV); \
+    RelativeMapCoordinatesToAbsoluteOnes(X, Z, player);
+	} while (0);
+}
+                //
+
+
+/*
+void		RelativeMapCoordinatesToAbsoluteOnes(float *X, float *Z, t_player player)
+{
+	do {
+	float rtx = *Z * player.anglecos + *X * player.anglesin;
+    float rtz = *Z * player.anglesin - *X * player.anglecos;
+    *X = rtx + player.where.x;
+	*Z = rtz + player.where.y;
+	} while (0);
+}
+
+void		CeilingFloorScreenCoordinatesToMapCoordinates(float mapy, int screenx, int screeny, float *X, float *Z, t_player player)
+{
+	do {
+	*Z = mapy * HEIGHT * VFOV / ((HEIGHT / 2) - screeny) - player.yaw * HEIGHT * VFOV;
+	*X = *Z * (WIDTH / 2 - screenx) / (WIDTH * HFOV);
+	RelativeMapCoordinatesToAbsoluteOnes(X,Z, player);
+	} while (0);
+}
+*/
 
 int			beginrender(t_doom *doom, t_cood *cood, t_player player, int n)
 {
@@ -96,6 +167,11 @@ int			beginrender(t_doom *doom, t_cood *cood, t_player player, int n)
 	int		beginx;
 	int		endx;
 	int		x;
+	int		y;
+	float	hei;
+	float 	mapx, mapz;
+	int		t;
+	t_img 	set;
 
 	beginx = max(cood->w1.x, doom->now.sx);
 	endx = min(cood->w2.x, doom->now.ex);
@@ -105,17 +181,34 @@ int			beginrender(t_doom *doom, t_cood *cood, t_player player, int n)
 	while (x <= endx)
 	{
 		cood->txtx = (cood->u0 * ((cood->w2.x - x) * cood->t2.z) + cood->u1 * ((x - cood->w1.x) * cood->t1.z)) / ((cood->w2.x - x) * cood->t2.z + (x - cood->w1.x) * cood->t1.z);
-		//printf("txtx - %d, x - %d\n", cood->txtx, x);
-		//printf("u0 - %d, u1 - %d\n", cood->u0, cood->u1);
-		//printf("org1x - %f, org1y - %f\n", cood->org1.x, cood->org1.y);
-		//txtx = (u0*((x2-x)*tz2) + u1*((x-x1)*tz1)) / ((x2-x)*tz2 + (x-x1)*tz1);
 		wy.a = (x - cood->w1.x) * (cood->w2y.a - cood->w1y.a) / (cood->w2.x - cood->w1.x) + cood->w1y.a;
 		cy.a = clamp(wy.a, doom->ytop[x], doom->ybot[x]);
 		wy.b = (x - cood->w1.x) * (cood->w2y.b - cood->w1y.b) / (cood->w2.x - cood->w1.x) + cood->w1y.b;
 		cy.b = clamp(wy.b, doom->ytop[x], doom->ybot[x]);
+		doom->ybot[x] = clamp(doom->ybot[x], 0, HEIGHT - 1);
+		t = cood->s->txtw;
+		y = doom->ytop[x];
+		while (y <= doom->ybot[x])
+		{
+			if (y >= cy.a - 1 && y <= cy.b)
+			{
+				y = cy.b;
+				y++;
+				continue ;
+			}
+			hei = y < cy.a ? cood->s->ceil - player.where.z : cood->s->floor - player.where.z;
+			CeilingFloorScreenCoordinatesToMapCoordinates(hei, x,y, &mapx, &mapz, player);
+            int txtx = (mapx * 32);
+			int txtz = (mapz * 32);
+			set = y < cy.a ? doom->txt->img[cood->s->txtc] : doom->txt->img[cood->s->txtf];
+			int pel = set.data[(txtz % set.h) * set.w + (txtx % set.w)];
+        	//doom->sdl->pix[y * WIDTH + x] = pel;
+			doom->sdl->pix[y * WIDTH + x] = rgb_multiply(pel, doom->sector[doom->now.sector].light);
+			y++;
+		}
 		cood->wy = wy;
-		vline(x, doom->ytop[x], cy.a - 1, 0x22222, 0xFFFFFF, 0x222222, doom->sdl); //потолок
-		vline(x, cy.b + 1, doom->ybot[x], 0, 0xFFFFFF, 0, doom->sdl); //пол
+		//vline(x, doom->ytop[x], cy.a - 1, 0x22222, 0xFFFFFF, 0x222222, doom->sdl); //потолок
+		//vline(x, cy.b + 1, doom->ybot[x], 0, 0xFFFFFF, 0, doom->sdl); //пол
 		checkneighbor(doom, cood, x, cy);
 		x++;
 	}
@@ -219,21 +312,13 @@ int			intersect(t_xyz *t1, t_xyz *t2, t_cood *cood)
 		iflower(t1, i1, i2);
 	if (t2->z < NEARZ)
 		iflower(t2, i1, i2);
-	if (fabs(t2->x - t1->x) > fabs(t2->z - t1->z))
-	{
-		cood->u0 = (t1->x - cood->org1.x) * 1023 / (cood->org2.x - cood->org1.x);
-		cood->u1 = (t2->x - cood->org1.x) * 1023 / (cood->org2.x - cood->org1.x);
-	}
-	else
-	{
-		cood->u0 = (t1->z - cood->org1.y) * 1023 / (cood->org2.y - cood->org1.y);
-		cood->u1 = (t2->z - cood->org1.y) * 1023 / (cood->org2.y - cood->org1.y);
-	}
+	
 	return (0);
 }
 
 int			calc_points(t_doom *doom, t_player player, t_cood *cood, int n)
 {
+	int		t;
 
 	difference(cood->s->vert[n], doom->player.where, &cood->v1); //v1 = vert - player
 	difference(cood->s->vert[n + 1], doom->player.where, &cood->v2);
@@ -241,10 +326,23 @@ int			calc_points(t_doom *doom, t_player player, t_cood *cood, int n)
 	rotation(cood->v2, doom->player.anglesin, doom->player.anglecos, &cood->t2);
 	if (cood->t1.z <= 0 && cood->t2.z <= 0)
 		return (0);
+	t = doom->now.sector;
 	cood->u0 = 0;
-	cood->u1 = 1023;
+	cood->u1 = doom->txt->img[t].w * 4; // если приравнять размеру текстуры, то растянет по всей стене
 	if (cood->t1.z <= 0 || cood->t2.z <= 0)
+	{
 		intersect(&cood->t1, &cood->t2, cood);
+		if (fabs(cood->t2.x - cood->t1.x) > fabs(cood->t2.z - cood->t1.z))
+		{
+			cood->u0 = (cood->t1.x - cood->org1.x) * cood->u1 / (cood->org2.x - cood->org1.x);
+			cood->u1 = (cood->t2.x - cood->org1.x) * cood->u1 / (cood->org2.x - cood->org1.x);
+		}
+		else
+		{
+			cood->u0 = (cood->t1.z - cood->org1.y) * cood->u1 / (cood->org2.y - cood->org1.y);
+			cood->u1 = (cood->t2.z - cood->org1.y) * cood->u1 / (cood->org2.y - cood->org1.y);
+		}
+	}
 	if (!(findxscale(doom, cood, player, n)))
 		return (0);
 	return (1);
@@ -304,7 +402,7 @@ int			assignvalue(t_item *item, t_item now, int *rensects)
 	return (0);
 }
 
-int			drawwalls(t_doom *doom, t_texture *txt, t_player player)
+int			drawwalls(t_doom *doom, t_player player)
 {
 	int		rensects[doom->numsectors];
 
@@ -319,7 +417,7 @@ int			drawwalls(t_doom *doom, t_texture *txt, t_player player)
 		if (++doom->tail == doom->queue + 32)
 			doom->tail = doom->queue;
 		if (rensects[doom->now.sector] == 1)
-			continue ;	
+			continue ;
 		++rensects[doom->now.sector];
 		assignvalue(&doom->item[doom->now.sector], doom->now, rensects);
 		doom->cood.s = &doom->sector[doom->now.sector];
@@ -331,7 +429,7 @@ int			drawwalls(t_doom *doom, t_texture *txt, t_player player)
 
 int			drawscreen(t_doom *doom)
 {	
-	drawwalls(doom, doom->txt, doom->player);
+	drawwalls(doom, doom->player);
 	drawsprites(doom, doom->obj, doom->player);
 	return (0);
 }

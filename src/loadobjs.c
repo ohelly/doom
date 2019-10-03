@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:50:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/29 19:05:13 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/02 16:58:17 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 void	obj_state_change(t_obj *obj, int state)
 {
-	if (state >= obj->states_count || state == obj->states_frame)
+	if (state >= obj->states_count || state < 0 || state == obj->states_frame)
 		return ;
-	printf("Changing state from %d to %d. States count %d.\n", obj->states_frame, state, obj->states_count);
 	obj->states_frame = state;
 	obj->anim_frame = 0;
 }
@@ -63,13 +62,9 @@ int		loadobjs(t_obj *obj, char *str)
 		}
 		i--;
 	}
-
+ 
 	str = todigit(str, &tmp);
 	obj[n].sector = (int)tmp;
-
-	obj[n].state_change = obj_state_change;
-	obj[n].anim_next = obj_anim_next;
-	obj[n].get_img = obj_get_image;
 
 	n++;
 	return (0);
