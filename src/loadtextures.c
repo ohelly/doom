@@ -70,7 +70,7 @@ int		loadtextureobjs(t_doom *doom, t_obj *obj, t_player player)
 	obj[0].images[5][0] = a;
 	obj[0].images[6][0] = a;
 	obj[0].images[7][0] = a;
-
+	*/
 	obj[1].images[0][0] = new_image(doom, "textures/obj/people/devka/devka.png");
 	obj[1].images[0][1] = new_image(doom, "textures/obj/people/devka/devka1.png");
 
@@ -82,7 +82,6 @@ int		loadtextureobjs(t_doom *doom, t_obj *obj, t_player player)
 	obj[2].images[0][5] = new_image(doom, "textures/obj/head/HEADF1.png");
 
 	obj[3].images[0][0] = new_image(doom, "textures/obj/people/svidetel/svidetel.png");
-	*/
 	return (0);
 }
 

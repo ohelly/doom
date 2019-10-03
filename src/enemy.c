@@ -156,12 +156,12 @@ void	enemy_on_framestart(t_doom *doom, t_enemy *enemy)
 			printf("Player is in range \n");
 			enemy->state = 1;
 		}
-		enemy->obj->state_change(enemy->obj, rotate_enemy(doom, enemy));
+		obj_state_change(enemy->obj, rotate_enemy(doom, enemy));
 	}
 	else if (enemy->state == 1)
 	{
 		//rotate towards player
-		enemy->obj->state_change(enemy->obj, 8);
+		obj_state_change(enemy->obj, 8);
 		if (enemy->attack_cd > 0)
 			enemy->attack_cd -= doom->time_frame;
 		else

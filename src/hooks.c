@@ -32,6 +32,8 @@ int		keydown(t_doom *doom, SDL_Event ev)
 		doom->player.velocity.z = 1.f;
 		doom->player.fall = 1;
 	}
+	if (ev.key.keysym.sym == 'p')
+		profile_output(doom);
 	return (0);
 }
 

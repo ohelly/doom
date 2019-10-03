@@ -330,7 +330,7 @@ int			drawwalls(t_doom *doom, t_texture *txt, t_player player)
 }
 
 int			drawscreen(t_doom *doom)
-{	
+{
 	drawwalls(doom, doom->txt, doom->player);
 	drawsprites(doom, doom->obj, doom->player);
 	return (0);
