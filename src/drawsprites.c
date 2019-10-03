@@ -71,6 +71,9 @@ int		vlineobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom)
 	t_xy	ybord;	//ybot, ytop
 	int		y;
 	t_img	img;
+	int		color;
+	int		prev_color;
+	int		prev_light;
 
 	img = obj_get_image(doom, obj);
 	t.y = 0;
@@ -86,11 +89,20 @@ int		vlineobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom)
 		ybord.y = doom->item[obj->sector].ytop[px.x];
 		ybord.x = doom->item[obj->sector].ybot[px.x];
 	}
+	prev_light = 0;
+	prev_color = 0;
 	while (y < wy.b)
 	{
-		
-		if (t.x < img.w && t.y < img.h && img.data[(int)t.y * img.w + (int)t.x] && y >= ybord.y && y <= ybord.x) //0 is num of animation frame
-			doom->sdl->pix[y * WIDTH + px.x] = rgb_multiply(img.data[(int)t.y * img.w + (int)t.x], doom->sector[obj->sector].light);
+		color = img.data[(int)t.y * img.w + (int)t.x];
+		if (t.x < img.w && t.y < img.h && color && y >= ybord.y && y <= ybord.x) //0 is num of animation frame
+		{
+			if (prev_color != color)
+			{
+				prev_color = color;
+				prev_light = rgb_multiply(color, doom->sector[obj->sector].light);
+			}
+			doom->sdl->pix[y * WIDTH + px.x] = prev_light;
+		}
 			//doom->sdl->pix[y * WIDTH + px.x] = img.data[(int)t.y * img.w + (int)t.x];
 		y++;
 		t.y += scale.y;

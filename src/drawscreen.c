@@ -60,6 +60,9 @@ void	vline2(int x, t_ab wy, t_scaler ty, t_doom *doom)
 	int		y1 = wy.a;
 	int		y2 = wy.b;
 	int		t;
+	int		color;
+	int		prev_color;
+	int		prev_light;
 
 	pix = doom->sdl->pix;
     y1 = clamp(y1, 0, HEIGHT - 1);
@@ -70,9 +73,14 @@ void	vline2(int x, t_ab wy, t_scaler ty, t_doom *doom)
     while (y <= y2)
     {
         txty = scaler_next(&ty);
-		*pix = rgb_multiply(doom->txt->img[t].data[txty % doom->txt->img[t].h * doom->txt->img[t].w + doom->cood.txtx % doom->txt->img[t].w], doom->sector[doom->now.sector].light);
-		//*pix = doom->txt[t].data[txty % doom->txt[t].h * doom->txt[t].w + doom->cood.txtx % doom->txt[t].w];
-		//*pix = rgb_multiply(doom->txt[t].data[txty % doom->txt[t].h * doom->txt[t].w + doom->cood.txtx % doom->txt[t].w], doom->sector[doom->now.sector].light);
+		color = doom->txt->img[t].data[txty % doom->txt->img[t].h * doom->txt->img[t].w + doom->cood.txtx % doom->txt->img[t].w];
+		if (color != prev_color)
+		{
+			prev_color = color;
+			prev_light = rgb_multiply(color, doom->sector[doom->now.sector].light);
+		}
+		*pix = prev_light;
+		//*pix = rgb_multiply(doom->txt->img[t].data[txty % doom->txt->img[t].h * doom->txt->img[t].w + doom->cood.txtx % doom->txt->img[t].w], doom->sector[doom->now.sector].light);
         pix += WIDTH;
 		y++;
     }
@@ -172,6 +180,8 @@ int			beginrender(t_doom *doom, t_cood *cood, t_player player, int n)
 	float 	mapx, mapz;
 	int		t;
 	t_img 	set;
+	int		prev_color;
+	int		prev_light;
 
 	beginx = max(cood->w1.x, doom->now.sx);
 	endx = min(cood->w2.x, doom->now.ex);
@@ -202,8 +212,12 @@ int			beginrender(t_doom *doom, t_cood *cood, t_player player, int n)
 			int txtz = (mapz * 32);
 			set = y < cy.a ? doom->txt->img[cood->s->txtc] : doom->txt->img[cood->s->txtf];
 			int pel = set.data[(txtz % set.h) * set.w + (txtx % set.w)];
-        	//doom->sdl->pix[y * WIDTH + x] = pel;
-			doom->sdl->pix[y * WIDTH + x] = rgb_multiply(pel, doom->sector[doom->now.sector].light);
+			if (pel != prev_color)
+			{
+				prev_light = rgb_multiply(pel, doom->sector[doom->now.sector].light);
+				prev_color = pel;
+			}
+			doom->sdl->pix[y * WIDTH + x] = prev_light;
 			y++;
 		}
 		cood->wy = wy;
