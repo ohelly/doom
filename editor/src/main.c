@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:57:29 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/26 16:56:56 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/03 19:34:40 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ int			sdl_init(t_doom *doom)
 {
 	if (SDL_Init(SDL_INIT_EVERYTHING))
 		return (die_msg("SDL failed to init"));
+	if ((TTF_Init()) == -1)
+		return (die_msg("Failed to init TTF"));
 	if (!(doom->sdl = (t_sdl*)ft_memalloc(sizeof(t_sdl))))
 		return (die_msg("Failed to allocate sdl struct"));
 	if (!(doom->sdl->win = SDL_CreateWindow("domm", 500, 500, WIDTH, HEIGHT, 0)))
@@ -58,12 +60,17 @@ int			sdl_init(t_doom *doom)
 		return (die_msg("Failed to allocate file struct"));
 	if (!(doom->swall = (t_swall*)ft_memalloc(sizeof(t_swall))))
 		return (die_msg("Failed to allocate swall struct"));
+	if (!(doom->hud = (t_hud*)ft_memalloc(sizeof(t_hud))))
+		return (die_msg("Failed to allocate hud struct"));
+	if (!(load_img_for_hud(doom)))
+		return (die_msg("Failed to load IMG for hud"));
 	*doom->swall = (t_swall){ -1, -1, -1, -1, -1 };
 	doom->sh = 20;
 	doom->save_name = "test.map";
 	doom->sects->selected_sector = -1;
 	doom->walls->selected_wall = -1;
 	doom->walls->adjacent_wall = -1;
+	doom->hud->msg = 0;
 	return (1);
 }
 

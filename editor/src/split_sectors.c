@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 17:09:53 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/01 17:06:06 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/03 20:02:30 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ int			check_portal(t_doom *doom)
 		{
 			if (doom->walls->wall[i].portal != -1)
 			{
-				ft_putendl("Remove portal");
+				doom->hud->msg = "Remove portal";
 				doom->sects->selected_sector = -1;
 				return (1);
 			}
@@ -106,7 +106,7 @@ void		split_sectors(t_doom *doom)
 	{
 		if (doom->sects->selected_sector == -1)
 		{
-			ft_putendl("Select sector!");
+			doom->hud->msg = "Select sector!";
 			return ;
 		}
 		doom->swall->sec = doom->sects->selected_sector;
@@ -114,7 +114,7 @@ void		split_sectors(t_doom *doom)
 		doom->swall->wall1 = num_walls(doom, doom->swall->v1, doom->swall->sec);
 		if (doom->swall->v1 == -1 || doom->swall->wall1 == -1)
 		{
-			ft_putendl("Select valid vertex");
+			doom->hud->msg = "Select valid vertex";
 			return ;
 		}
 	}
@@ -122,7 +122,7 @@ void		split_sectors(t_doom *doom)
 	{
 		if (doom->sects->selected_sector == -1)
 		{
-			ft_putendl("Select sector");
+			doom->hud->msg = "Select sector";
 			doom->swall->sec = -1;
 			doom->swall->v1 = -1;
 			doom->swall->wall1 = -1;
@@ -133,7 +133,7 @@ void		split_sectors(t_doom *doom)
 		doom->swall->v1 == doom->swall->v2 || check_adjacent_wall(doom, doom->swall->v1, doom->swall->v2, doom->swall->sec))
 		{
 			doom->swall->v2 = -1;
-			ft_putendl("Select valid vertex");
+			doom->hud->msg = "Select valid vertex";
 			return ;
 		}
 		doom->swall->wall2 = num_walls(doom, doom->swall->v2, doom->swall->sec);

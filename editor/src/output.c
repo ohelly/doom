@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/25 17:01:23 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/26 16:28:17 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/03 19:18:29 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -153,5 +153,7 @@ void		output(t_doom *doom)
 	SDL_UpdateTexture(doom->sdl->tex, NULL, doom->sdl->pix, WIDTH * sizeof(Uint32));
 	SDL_RenderClear(doom->sdl->rend);
 	SDL_RenderCopy(doom->sdl->rend, doom->sdl->tex, NULL, NULL);
+	put_image_on_screen(doom);
+	put_string_on_screen(doom);
 	SDL_RenderPresent(doom->sdl->rend);
 }

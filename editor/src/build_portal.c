@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 15:47:05 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/01 19:12:23 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/03 20:00:25 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,13 +61,13 @@ void		find_portal(t_doom *doom)
 		w2 = doom->walls->wall[ind];
 		if (w1.portal == w2.sectors && w2.portal == w1.sectors)
 		{
-			ft_putendl("Press return to delete portal!");
+			doom->hud->msg = "Press return to delete portal!";
 			doom->walls->adjacent_wall = ind;
 			return ;
 		}
 		else
 		{
-			ft_putendl("Press return to set portal!");
+			doom->hud->msg = "Press return to set portal!";
 			doom->walls->adjacent_wall = ind;
 			return ;
 		}
@@ -115,7 +115,7 @@ void		build_portal(t_doom *doom)
 	{
 		if (can_build_portal(doom, doom->walls->wall[aw].sectors, doom->walls->wall[sw].sectors) == -1)
 		{
-			printf("Error building portal: Portal between this two sectors already exists!\n");
+			doom->hud->msg = "Error building portal: Portal between this two sectors already exists!";
 			return ;
 		}
 		doom->walls->wall[sw].portal = doom->walls->wall[aw].sectors;
