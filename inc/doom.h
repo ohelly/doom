@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/03 16:09:33 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/03 20:08:21 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -177,18 +177,16 @@ typedef struct		s_cood
 	int				beginx;
 	int				endx;
 	float			u0;
-	float				u1;
+	float			u1;
 	t_xyz			v1;
 	t_xyz			v2;
 	t_xyz			t1;
 	t_xyz			t2;
-
 	t_xy			org1;
 	t_xy			org2;
 	int				txtx;
 	t_xy			scale1;
 	t_xy			scale2;
-
 	t_xy_i			w1;
 	t_xy_i			w2;
 	t_ab_i			wy;
@@ -227,13 +225,7 @@ typedef struct 		s_item
 
 typedef struct		s_texture
 {
-	int				*data;
-	int				w;
-	int				h;
-	int				sector;
-	int				ind;
-	int				wall;
-	int				txt_ind;
+	t_img			*img;
 }					t_texture;
 
 typedef struct 		s_be

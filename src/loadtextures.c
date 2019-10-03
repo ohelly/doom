@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 14:53:36 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/03 16:09:10 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/03 20:18:59 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,18 +83,7 @@ int		loadtextureobjs(t_doom *doom, t_obj *obj, t_player player)
 
 	obj[3].images[0][0] = new_image(doom, "textures/obj/people/svidetel/svidetel.png");
 	//doom->txt[0].data = (int**)ft_memalloc(sizeof(int*) * 1);
-	surface = IMG_Load("textures/walls/WALL3.png");
-	doom->txt[0].data = (int*)surface->pixels;
-	doom->txt[0].w = surface->w;
-	doom->txt[0].h = surface->h;
 
-	//SDL_RWops *rwop;
-	//rwop = IMG_LoadXPM_RW("textures/walls/WALL1.xpm", "rgb");
-	surface = IMG_Load("textures/walls/WALL1.png");
-	//surface = IMG_LoadXPM_RW(rwop);
-	doom->txt[1].data = (int*)surface->pixels;
-	doom->txt[1].w = surface->w;
-	doom->txt[1].h = surface->h;
 	return (0);
 }
 
@@ -140,6 +129,7 @@ int		loadtexturepics(t_doom *doom, t_pic *pic)
 {
 	SDL_Surface *surface;
 	
+	
 	//pic[0].img.data = (int**)ft_memalloc(sizeof(int*) * pic[0].cnt_frms);
 	//surface = IMG_Load("textures/pic/pepe.png");
 	//pic[0].img.data[0] = (int*)surface->pixels;
@@ -149,9 +139,33 @@ int		loadtexturepics(t_doom *doom, t_pic *pic)
 	return (0);
 }
 
+int		loadimage(t_img *img, char *str)
+{
+	SDL_Surface *surface;
+
+	surface = IMG_Load(str);
+	img->data = (int*)surface->pixels;
+	img->w = surface->w;
+	img->h = surface->h;
+	return (0);
+}
+
+int		loadtexturewalls(t_doom *doom, t_texture *txt)
+{
+	txt->img = (t_img*)ft_memalloc(sizeof(t_img) * 5);
+	loadimage(&txt->img[0], "textures/walls/1.png");
+	loadimage(&txt->img[1], "textures/walls/2.png");
+	loadimage(&txt->img[2], "textures/walls/3.png");
+	loadimage(&txt->img[3], "textures/walls/4.png");
+	loadimage(&txt->img[4], "textures/walls/5.png");
+
+	return (0);
+}
+
 int		loadtextures(t_doom *doom)
 {
 	loadtextureobjs(doom, doom->obj, doom->player);
+	loadtexturewalls(doom, doom->txt);
 	//loadtexturepics(doom, doom->pic);
 	printf("ok\n");
 	return (0);
