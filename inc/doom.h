@@ -135,6 +135,7 @@ typedef struct		s_sector
 {
 	float			ceil;
 	float			floor;
+	float			light;
 	t_xy			*vert;
 	int				npoints;
 	int				*neighbors;
@@ -154,9 +155,6 @@ typedef struct		s_obj
 	int				anim_frame;
 	int				states_count;
 	int				states_frame;
-	void			(*state_change)(struct s_obj *obj, int state);
-	void			(*anim_next)(struct s_obj *obj);
-	t_img			(*get_img)(struct s_doom *doom, struct s_obj *obj);
 }					t_obj;
 
 /*
@@ -267,8 +265,7 @@ typedef struct		s_doom
 	int				ybot[WIDTH];
 	int				ytop[WIDTH];
 	float			*len;
-	float			time_old;
-	float			time_new;
+	float			times[32];
 	float			time_frame;
 	struct s_enemy	*enemy;
 	t_img			images[512];
@@ -317,6 +314,12 @@ int		drawsprites(t_doom *doom, t_obj *obj, t_player player);
 float	yaw(float y, float z, t_player player);
 t_enemy	*create_enemy(t_doom *doom, t_obj *obj);
 void	enemies_update(t_doom *doom);
+int		profile(t_doom *doom, int profiling_index);
+int		profile_output(t_doom *doom);
+t_img	obj_get_image(t_doom *doom, t_obj *obj);
+void	obj_anim_next(t_obj *obj);
+void	obj_state_change(t_obj *obj, int state);
+int		rgb_multiply(int color, float value);
 
 
 #endif

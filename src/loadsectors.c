@@ -105,6 +105,8 @@ int		loadsectors(t_sector *s, t_xy *v, char *str)
 	}
 	str = neighinsect(str, &s[n], vnum);
 	gettxtind(str, &s[n]);
+	s[n].light = s[n].floor + 20;
+	s[n].light = s[n].light / 100.0f;
 	n++;
 	return (1);
 }

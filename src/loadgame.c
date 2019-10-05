@@ -200,9 +200,9 @@ int		calcjump(t_doom *doom, t_player *player, t_sector *sectors)
 
 int		fps(t_doom *doom)
 {
-	doom->time_old = doom->time_new;
-	doom->time_new = SDL_GetTicks();
-	doom->time_frame = (doom->time_new - doom->time_old) / 1000;
+	doom->times[1] = doom->times[0];
+	doom->times[0] = SDL_GetTicks();
+	doom->time_frame = (doom->times[0] - doom->times[1]) / 1000;
 	return (0);
 }
 
