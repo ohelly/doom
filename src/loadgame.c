@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:13:26 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/05 20:16:00 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/05 20:19:09 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -203,6 +203,7 @@ int		fps(t_doom *doom)
 	doom->times[1] = doom->times[0];
 	doom->times[0] = SDL_GetTicks();
 	doom->time_frame = (doom->times[0] - doom->times[1]) / 1000;
+	
 	return (0);
 }
 
