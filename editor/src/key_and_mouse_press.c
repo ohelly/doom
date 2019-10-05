@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 22:12:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/05 18:08:54 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/05 19:27:13 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,8 +58,8 @@ void	key_and_mouse_press(t_doom *doom)
 					get_closest_sector(doom);
 				if (doom->sdl->ev.key.keysym.sym == '\r')
 				{
-					if (doom->sects->selected_sector != -1)
-						edit_sector(doom);
+					//if (doom->sects->selected_sector != -1)
+					//	edit_sector(doom);
 				}
 			}
 			if (doom->sdl->ev.key.keysym.sym == '1')

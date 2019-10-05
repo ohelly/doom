@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:57:29 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/03 19:34:40 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/05 20:14:27 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int			sdl_init(t_doom *doom)
 		return (die_msg("Failed to allocate swall struct"));
 	if (!(doom->hud = (t_hud*)ft_memalloc(sizeof(t_hud))))
 		return (die_msg("Failed to allocate hud struct"));
+	if (!(doom->txt = (t_txt*)ft_memalloc(sizeof(t_txt))))
+		return (die_msg("Failed to allocate txt struct"));
 	if (!(load_img_for_hud(doom)))
 		return (die_msg("Failed to load IMG for hud"));
 	*doom->swall = (t_swall){ -1, -1, -1, -1, -1 };

@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/05 18:09:52 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/05 20:15:15 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,11 @@
 # define HEIGHT 720
 # define BUFF_SIZE 1
 # define DELAY_ERR 50
+# define COUNT_W 21
+# define COUNT_F 21
+# define COUNT_HS 3
+# define COUNT_HO 21
+# define COUNT_O 21
 
 /*
 	POS OF X AND Y
@@ -175,6 +180,19 @@ typedef struct			s_sdl
 }						t_sdl;
 
 /*
+	TEXTURES STRUCT
+					*/
+
+typedef struct			s_txt
+{
+	SDL_Texture			*wall[21];
+	SDL_Texture			*floor[21];
+	SDL_Texture			*obj[21];
+	SDL_Texture			*huds[COUNT_HS];
+	SDL_Texture			*hudo[21];
+}						t_txt;
+
+/*
 	MAIN STRUCT
 				*/
 
@@ -191,6 +209,7 @@ typedef struct			s_doom
 	char				*save_name;
 	t_swall				*swall;
 	t_hud				*hud;
+	t_txt				*txt;
 	int					sh;
 	t_v2				map_pos;
 	t_v2				move_vector;
