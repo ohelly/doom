@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/05 20:17:52 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/05 20:39:12 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,8 +17,8 @@ int		finddoor(t_doom *doom, t_player player)
 	t_sector	*s;
 	t_xy		*v;
 	int			n;
-	float		dx = player.anglecos * 10;
-	float		dy = player.anglesin * 10;
+	float		dx = player.anglecos * 8;
+	float		dy = player.anglesin * 8;
 	float		px = player.where.x;
 	float		py = player.where.y;
 

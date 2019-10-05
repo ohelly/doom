@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/05 20:16:47 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/05 20:41:51 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_scaler	scaler_init(t_ab_i wy, int cya, int u0, int u1)
 	return (t);
 }
 
-static int scaler_next(t_scaler* i)
+int			scaler_next(t_scaler* i)
 {
     for (i->cache += i->fd; i->cache >= i->ca; i->cache -= i->ca)
 		i->result += i->bop;
@@ -103,16 +103,16 @@ int			checkneighbor(t_doom *doom, t_cood *cood, int x, t_ab_i cy)
 		cny.b = clamp(wny.b, doom->ytop[x], doom->ybot[x]);
 		rny.a = cy.a;
 		rny.b = cny.a - 1;
-		vline2(x, rny, scaler_init(cood->wy, cy.a, 0, doom->txt->img[doom->sector[doom->now.sector].txtw].w * 8), doom);
+		vline2(x, rny, scaler_init(cood->wy, cy.a, 0, doom->txt->img[doom->sector[doom->now.sector].txtw].w), doom);
 		doom->ytop[x] = clamp(max(cy.a, cny.a), doom->ytop[x], HEIGHT - 1);	
 		rny.a = cny.b;
 		rny.b = cy.b - 1;
-	    vline2(x, rny, scaler_init(cood->wy, cny.b + 1, 0,  doom->txt->img[doom->sector[doom->now.sector].txtw].w * 8), doom);
+	    vline2(x, rny, scaler_init(cood->wy, cny.b + 1, 0,  doom->txt->img[doom->sector[doom->now.sector].txtw].w), doom);
 	    doom->ybot[x] = clamp(min(cy.b, cny.b), 0, doom->ybot[x]);
 	}
 	else
 	{
-		vline2(x, cy, scaler_init(cood->wy, cy.a, 0, doom->txt->img[doom->sector[doom->now.sector].txtw].w * 8), doom);
+		vline2(x, cy, scaler_init(cood->wy, cy.a, 0, doom->txt->img[doom->sector[doom->now.sector].txtw].w), doom);
 	}
 	return (0);
 }
@@ -207,8 +207,8 @@ int			beginrender(t_doom *doom, t_cood *cood, t_player player, int n)
 			}
 			hei = y < cy.a ? cood->s->ceil - player.where.z : cood->s->floor - player.where.z;
 			CeilingFloorScreenCoordinatesToMapCoordinates(hei, x,y, &mapx, &mapz, player);
-            int txtx = (mapx * 32);
-			int txtz = (mapz * 32);
+            int txtx = (mapx);
+			int txtz = (mapz);
 			set = y < cy.a ? doom->txt->img[cood->s->txtc] : doom->txt->img[cood->s->txtf];
 			int pel = set.data[(txtz % set.h) * set.w + (txtx % set.w)];
 			if (pel != prev_color)
@@ -344,7 +344,7 @@ int			calc_points(t_doom *doom, t_player player, t_cood *cood, int n)
 		return (0);
 	t = doom->now.sector;
 	cood->u0 = 0;
-	cood->u1 = doom->txt->img[t].w * 4; // если приравнять размеру текстуры, то растянет по всей стене
+	cood->u1 = doom->txt->img[t].w; // если приравнять размеру текстуры, то растянет по всей стене
 	if (cood->t1.z <= 0 || cood->t2.z <= 0)
 	{
 		intersect(&cood->t1, &cood->t2, cood);
