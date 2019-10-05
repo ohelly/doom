@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:13:26 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/05 19:02:59 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/05 20:16:00 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,7 +175,7 @@ int		calcjump(t_doom *doom, t_player *player, t_sector *sectors)
 	player->ground = !player->fall;
 	if (player->fall)
 	{
-		player->velocity.z -= 0.05f * doom->time_frame * 60;
+		player->velocity.z -= doom->time_frame * 5.f;
 		nextz = player->where.z + player->velocity.z;
         if (player->velocity.z < 0 && nextz  < sectors[player->sector].floor + EyeHeight)
         {
@@ -219,41 +219,54 @@ int		animation(t_doom *doom)
 	return (0);
 }
 
+int		doors(t_doom *doom, t_player player)
+{
+	int		n;
+	int		neigh;
+	int		j;
+	t_sector *s;
+
+	j = 0;
+	while (j < doom->numsectors)
+	{
+		s = &doom->sector[j];
+		if (s->door && s->up && s->open)
+		{
+			s->ceil -= doom->time_frame * 60.f;
+			if (s->ceil <= s->floor)
+			{
+				s->ceil = s->floor;
+				s->up = 0;
+				s->open = 0;
+				s->close = 1;
+			}
+		}
+		else if (s->door && s->up && s->close)
+		{
+			s->ceil += doom->time_frame * 60.f;
+			if (s->ceil >= s->tmpceil)
+			{
+				s->ceil = s->tmpceil;
+				s->up = 0;
+				s->open = 1;
+				s->close = 0;
+			}
+		}
+		j++;
+	}
+	return (0);
+}
+
 int		loadgame(t_doom *doom)
 {
 	SDL_Event	ev;
 
 	initsdl(doom, doom->sdl);
-	doom->open = !doom->close;
 	while (1)
 	{	
-		if (doom->up && doom->open)
-		{
-			doom->sector[1].ceil -= doom->time_frame * 60.f;
-			//doom->sector[1].floor += 1.f;
-			if (doom->sector[1].ceil <= doom->sector[1].floor)
-			{
-				doom->sector[1].ceil = doom->sector[1].floor;
-				doom->close = 1;
-				doom->open = 0;
-				doom->up = 0;
-			}
-			
-		}
-		else if (doom->up && doom->close)
-		{
-			doom->sector[1].ceil += doom->time_frame * 60.f;
-			//doom->sector[1].floor += 1.f;
-			if (doom->sector[1].ceil >= doom->sector[1].tmpceil)
-			{
-				doom->sector[1].ceil = doom->sector[1].tmpceil;
-				doom->close = 0;
-				doom->open = 1;
-				doom->up = 0;
-			}
-		}
+		
 		fps(doom);
-		//printf("fps: %f\n", 1 / doom->time_frame);
+		doors(doom, doom->player);
 		enemies_update(doom);
 		animation(doom);
 		drawscreen(doom);

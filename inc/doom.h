@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/05 18:46:56 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/05 19:23:25 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -138,6 +138,9 @@ typedef struct		s_sector
 	float			floor;
 	float			light;
 	int				door;
+	int				open;
+	int				close;
+	int				up;
 	t_xy			*vert;
 	int				npoints;
 	int				*neighbors;
@@ -254,9 +257,6 @@ typedef struct		s_doom
 	t_item			*head;
 	t_item			*tail;
 	t_cood			cood;
-	int				open;
-	int				close;
-	int				up;
 	int				a;
 	int				olda;
 	int				*data;

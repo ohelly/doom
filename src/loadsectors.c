@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:15:03 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/05 18:48:55 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/05 20:04:53 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,6 +102,8 @@ int		loadsectors(t_sector *s, t_xy *v, char *str)
 	str = vertinsect(str, s[n].vert, v, vnum);
 	str = neighinsect(str, &s[n], vnum);
 	gettxtind(str, &s[n]);
+	s[n].open = 1;
+	s[n].close = 0;
 	n++;
 	return (1);
 }
