@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/05 19:23:25 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/05 21:30:07 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include <SDL_image.h>
 # include <get_next_line.h>
 
-# define WIDTH 1920
-# define HEIGHT 1080
+# define WIDTH 1280
+# define HEIGHT 720
 # define NEARZ 1e-4f
 # define FARZ 5
 # define NEARSIDE 1e-5f
@@ -33,8 +33,8 @@
 # define DuckHeight 2.5
 # define HeadMargin 1
 # define KneeHeight 2
-# define HFOV (1.0 * 0.73f * HEIGHT / WIDTH)
-# define VFOV (1.0 * .2f)
+# define HFOV (0.73f * HEIGHT / WIDTH)
+# define VFOV (0.2f)
 # define min(a,b)             (((a) < (b)) ? (a) : (b))
 # define max(a,b)             (((a) > (b)) ? (a) : (b))
 # define clamp(a, mi,ma)      min(max(a,mi),ma)
