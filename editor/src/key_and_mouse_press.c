@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 22:12:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/03 19:59:50 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/05 18:08:54 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,29 +30,50 @@ void	key_and_mouse_press(t_doom *doom)
 		{
 			if (doom->sdl->ev.key.keysym.sym == '\033')
 				exit (0);
-			if (doom->sdl->ev.key.keysym.sym == ' ')
-				build_sector(doom);
-			if (doom->sdl->ev.key.keysym.sym == 'e')
-				save(doom);
-			if (doom->sdl->ev.key.keysym.sym == 'w')
-				find_portal(doom);
-			if (doom->sdl->ev.key.keysym.sym == 's')
-				get_closest_sector(doom);
-			if (doom->sdl->ev.key.keysym.sym == 'k')
-				kek(doom);
-			if (doom->sdl->ev.key.keysym.sym == '\r')
+			if (doom->app != 2)
 			{
-				if (doom->walls->selected_wall != -1)
-					build_portal(doom);
-				//else if (doom->sects->selected_sector != -1)
-				//	config_sector(doom);
+				if (doom->sdl->ev.key.keysym.sym == ' ')
+					build_sector(doom);
+				if (doom->sdl->ev.key.keysym.sym == 'e')
+					save(doom);
+				if (doom->sdl->ev.key.keysym.sym == 'w')
+					find_portal(doom);
+				if (doom->sdl->ev.key.keysym.sym == 's')
+					get_closest_sector(doom);
+				if (doom->sdl->ev.key.keysym.sym == 'k')
+					kek(doom);
+				if (doom->sdl->ev.key.keysym.sym == '\r')
+					if (doom->walls->selected_wall != -1)
+						build_portal(doom);
+				if (doom->sdl->ev.key.keysym.sym == 'v')
+					split_wall(doom);
+				if (doom->sdl->ev.key.keysym.sym == 'l')
+					split_sectors(doom);
+				if (doom->sdl->ev.key.keysym.sym == 'c')
+					remove_built_sector(doom);
 			}
-			if (doom->sdl->ev.key.keysym.sym == 'v')
-				split_wall(doom);
-			if (doom->sdl->ev.key.keysym.sym == 'l')
-				split_sectors(doom);
-			if (doom->sdl->ev.key.keysym.sym == 'c')
-				remove_built_sector(doom);
+			if (doom->app == 2)
+			{
+				if (doom->sdl->ev.key.keysym.sym == 's')
+					get_closest_sector(doom);
+				if (doom->sdl->ev.key.keysym.sym == '\r')
+				{
+					if (doom->sects->selected_sector != -1)
+						edit_sector(doom);
+				}
+			}
+			if (doom->sdl->ev.key.keysym.sym == '1')
+			{
+				doom->app = 0;
+				doom->walls->selected_wall = -1;
+				doom->sects->selected_sector = -1;
+			}
+			if (doom->sdl->ev.key.keysym.sym == '2')
+			{
+				doom->app = 2;
+				doom->walls->selected_wall = -1;
+				doom->sects->selected_sector = -1;
+			}
 			if (doom->sdl->ev.key.keysym.sym == SDLK_LEFT)
 				doom->move_vector = (t_v2){-1, doom->move_vector.y};
 			else if (doom->sdl->ev.key.keysym.sym == SDLK_RIGHT)

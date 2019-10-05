@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/03 20:11:48 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/05 18:09:52 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,13 @@ typedef struct			s_v2_vertex
 
 typedef struct			s_sectors
 {
-	
+	int					floor;
+	int					ceiling;
+	int					txtf;
+	int					txtc;
+	int					skyb;
+	int					door;
+	float				light;
 }						t_sectors;
 
 typedef struct			s_all_sect
@@ -74,6 +80,7 @@ typedef struct			s_wall
 	int					vert_one;
 	int					vert_two;
 	int					portal;
+	int					txt;
 }						t_wall;
 
 typedef struct			s_all_walls
@@ -216,6 +223,7 @@ int						remove_built_sector(t_doom *doom);
 int						load_img_for_hud(t_doom *doom);
 void					put_image_on_screen(t_doom *doom);
 void					put_string_on_screen(t_doom *doom);
+void					edit_sector(t_doom *doom);
 
 /*
 **	Math
@@ -228,6 +236,5 @@ double					min(double a, double b);
 double					max(double a, double b);
 double					clamp(double a, double mi, double ma);
 float					distance(t_v2 p1, t_v2 p2);
-
 
 #endif
