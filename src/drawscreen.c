@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/03 20:26:18 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/05 18:59:10 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,8 @@ t_scaler	scaler_init(t_ab_i wy, int cya, int u0, int u1)
 {
 	t_scaler t;
 
+	if ((wy.b - wy.a) == 0)
+		wy.b -= 1;
 	t.result = u0 + (cya - 1 - wy.a) * (u1 - u0) / (wy.b - wy.a);
 	t.bop = ((u1 < u0) ^ ((wy.b < wy.a)) ? -1 : 1);
 	t.fd = abs(u1 - u0);
@@ -52,7 +54,7 @@ void		vline(int x, int y1,int y2, int top, int middle, int bottom, t_sdl *sdl)
     }
 }
 
-void	vline2(int x, t_ab wy, t_scaler ty, t_doom *doom)
+void	vline2(int x, t_ab_i wy, t_scaler ty, t_doom *doom)
 {
 	int		*pix;
 	int		txty;
@@ -86,15 +88,15 @@ void	vline2(int x, t_ab wy, t_scaler ty, t_doom *doom)
     }
 }
 
-int			checkneighbor(t_doom *doom, t_cood *cood, int x, t_ab cy)
+int			checkneighbor(t_doom *doom, t_cood *cood, int x, t_ab_i cy)
 {
 	t_ab_i	wny;
 	t_ab_i	cny;
 	t_scaler t;
-	t_ab	rny;
-
+	t_ab_i	rny;
 	if (cood->neighbor >= 0)
 	{
+		
 		wny.a = (x - cood->w1.x) * (cood->n2y.a - cood->n1y.a) / (cood->w2.x - cood->w1.x) + cood->n1y.a;
 		cny.a = clamp(wny.a, doom->ytop[x], doom->ybot[x]);
 		wny.b = (x - cood->w1.x) * (cood->n2y.b - cood->n1y.b) / (cood->w2.x - cood->w1.x) + cood->n1y.b;
@@ -130,19 +132,16 @@ int			checkneighbor(t_doom *doom, t_cood *cood, int x, t_ab cy)
 
 void	RelativeMapCoordinatesToAbsoluteOnes(float *X, float *Z, t_player player) \
 {
-    do { float rtx = (*Z) * player.anglecos + (*X) * player.anglesin; \
+	float rtx = (*Z) * player.anglecos + (*X) * player.anglesin; \
     float rtz = (*Z) * player.anglesin - (*X) * player.anglecos; \
     *X = rtx + player.where.x; *Z = rtz + player.where.y; \
-	} while(0);
 }
 
 void	CeilingFloorScreenCoordinatesToMapCoordinates(float mapY, int screenX, int screenY, float *X, float *Z, t_player player)
 {
-	do {
     *Z = (mapY) * HEIGHT * VFOV / ((HEIGHT / 2 - (screenY)) - player.yaw * HEIGHT * VFOV); \
     *X = (*Z) * (WIDTH / 2 - (screenX)) / (WIDTH * HFOV); \
     RelativeMapCoordinatesToAbsoluteOnes(X, Z, player);
-	} while (0);
 }
                 //
 
@@ -170,7 +169,7 @@ void		CeilingFloorScreenCoordinatesToMapCoordinates(float mapy, int screenx, int
 
 int			beginrender(t_doom *doom, t_cood *cood, t_player player, int n)
 {
-	t_ab	cy;
+	t_ab_i	cy;
 	t_ab_i	wy;
 	int		beginx;
 	int		endx;
@@ -223,6 +222,7 @@ int			beginrender(t_doom *doom, t_cood *cood, t_player player, int n)
 		cood->wy = wy;
 		//vline(x, doom->ytop[x], cy.a - 1, 0x22222, 0xFFFFFF, 0x222222, doom->sdl); //потолок
 		//vline(x, cy.b + 1, doom->ybot[x], 0, 0xFFFFFF, 0, doom->sdl); //пол
+		
 		checkneighbor(doom, cood, x, cy);
 		x++;
 	}
@@ -245,6 +245,7 @@ int			findnyceilandnyfloor(t_doom *doom, t_cood *cood, t_player player, int n)
 int			findyceilandyfloor(t_doom *doom, t_cood *cood, t_player player, int n)
 {
 	t_f		y;
+	
 	y.ceil = cood->s->ceil - player.where.z;
 	y.floor = cood->s->floor - player.where.z;
 	cood->neighbor = doom->sector[doom->now.sector].neighbors[n];
@@ -255,6 +256,7 @@ int			findyceilandyfloor(t_doom *doom, t_cood *cood, t_player player, int n)
 	cood->w2y.a = HEIGHT / 2 - (int)(yaw(y.ceil , cood->t2.z, player) * cood->scale2.y);
 	cood->w2y.b = HEIGHT / 2 - (int)(yaw(y.floor, cood->t2.z, player) * cood->scale2.y);
 	beginrender(doom, cood, player, n);
+	
 	return (0);
 }
 

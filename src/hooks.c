@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/29 18:34:20 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/05 18:45:39 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,10 @@ int		keydown(t_doom *doom, SDL_Event ev)
 		doom->wsad[2] = 1;
 	if (ev.key.keysym.sym == 'd')
 		doom->wsad[3] = 1;
+	if (ev.key.keysym.sym == 'e')
+	{
+		doom->up = 1;
+	}
 	if (ev.key.keysym.sym == SDLK_SPACE)
 	{
 		doom->player.velocity.z = 1.f;

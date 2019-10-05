@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:13:26 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/03 17:26:40 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/05 19:02:59 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -224,8 +224,34 @@ int		loadgame(t_doom *doom)
 	SDL_Event	ev;
 
 	initsdl(doom, doom->sdl);
+	doom->open = !doom->close;
 	while (1)
 	{	
+		if (doom->up && doom->open)
+		{
+			doom->sector[1].ceil -= doom->time_frame * 60.f;
+			//doom->sector[1].floor += 1.f;
+			if (doom->sector[1].ceil <= doom->sector[1].floor)
+			{
+				doom->sector[1].ceil = doom->sector[1].floor;
+				doom->close = 1;
+				doom->open = 0;
+				doom->up = 0;
+			}
+			
+		}
+		else if (doom->up && doom->close)
+		{
+			doom->sector[1].ceil += doom->time_frame * 60.f;
+			//doom->sector[1].floor += 1.f;
+			if (doom->sector[1].ceil >= doom->sector[1].tmpceil)
+			{
+				doom->sector[1].ceil = doom->sector[1].tmpceil;
+				doom->close = 0;
+				doom->open = 1;
+				doom->up = 0;
+			}
+		}
 		fps(doom);
 		//printf("fps: %f\n", 1 / doom->time_frame);
 		enemies_update(doom);
