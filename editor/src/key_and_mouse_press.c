@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 22:12:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/05 19:27:13 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/06 15:37:36 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,8 +29,8 @@ void	key_and_mouse_press(t_doom *doom)
 		if (doom->sdl->ev.type == SDL_KEYDOWN)
 		{
 			if (doom->sdl->ev.key.keysym.sym == '\033')
-				exit (0);
-			if (doom->app != 2)
+				exit(0);
+			if (doom->app < 2)
 			{
 				if (doom->sdl->ev.key.keysym.sym == ' ')
 					build_sector(doom);
@@ -53,15 +53,8 @@ void	key_and_mouse_press(t_doom *doom)
 					remove_built_sector(doom);
 			}
 			if (doom->app == 2)
-			{
 				if (doom->sdl->ev.key.keysym.sym == 's')
 					get_closest_sector(doom);
-				if (doom->sdl->ev.key.keysym.sym == '\r')
-				{
-					//if (doom->sects->selected_sector != -1)
-					//	edit_sector(doom);
-				}
-			}
 			if (doom->sdl->ev.key.keysym.sym == '1')
 			{
 				doom->app = 0;
@@ -72,7 +65,7 @@ void	key_and_mouse_press(t_doom *doom)
 			{
 				doom->app = 2;
 				doom->walls->selected_wall = -1;
-				doom->sects->selected_sector = -1;
+				doom->sects->selected_sector = 0;
 			}
 			if (doom->sdl->ev.key.keysym.sym == SDLK_LEFT)
 				doom->move_vector = (t_v2){-1, doom->move_vector.y};
@@ -87,6 +80,12 @@ void	key_and_mouse_press(t_doom *doom)
 			else
 				doom->move_vector = (t_v2){doom->move_vector.x, 0};
 			
+		}
+		if (doom->app == 2)
+		{
+			if (doom->sdl->ev.type == SDL_MOUSEBUTTONDOWN)
+				if (doom->sdl->ev.button.button == SDL_BUTTON_LEFT)
+					mouse_press(doom, doom->sdl->ev.button.x, doom->sdl->ev.button.y);
 		}
 		if (doom->sdl->ev.type == SDL_MOUSEMOTION)
 		{

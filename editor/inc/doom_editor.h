@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/05 20:15:15 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/06 16:12:25 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define DELAY_ERR 50
 # define COUNT_W 21
 # define COUNT_F 21
-# define COUNT_HS 3
+# define COUNT_HS 10
 # define COUNT_HO 21
 # define COUNT_O 21
 
@@ -243,6 +243,7 @@ int						load_img_for_hud(t_doom *doom);
 void					put_image_on_screen(t_doom *doom);
 void					put_string_on_screen(t_doom *doom);
 void					edit_sector(t_doom *doom);
+void					mouse_press(t_doom *doom, int x, int y);
 
 /*
 **	Math
