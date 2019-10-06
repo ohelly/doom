@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 14:53:36 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/06 20:17:35 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/06 20:35:25 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,14 +152,15 @@ int		loadimage(t_img *img, char *str)
 
 int		loadtexturewalls(t_doom *doom, t_texture *txt)
 {
-	txt->img = (t_img*)ft_memalloc(sizeof(t_img) * 6);
+	txt->img = (t_img*)ft_memalloc(sizeof(t_img) * 7);
 	loadimage(&txt->img[0], "textures/walls/1.png");
 	loadimage(&txt->img[1], "textures/walls/2.png");
 	txt->img[1].vis = 0;
 	loadimage(&txt->img[2], "textures/walls/3.png");
 	loadimage(&txt->img[3], "textures/walls/4.png");
-	loadimage(&txt->img[4], "textures/walls/5.png");
+	loadimage(&txt->img[4], "textures/walls/ceil3.png");
 	loadimage(&txt->img[5], "textures/walls/space5.png");
+	loadimage(&txt->img[6], "textures/walls/5.png");
 
 	return (0);
 }

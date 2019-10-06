@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:13:26 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/06 19:40:19 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/06 20:44:00 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -245,10 +245,11 @@ int		doors(t_doom *doom, t_player player)
 	while (j < doom->numsectors)
 	{
 		s = &doom->sector[j];
+		if (s->up && j == player.sector)
+			return (0);
 		if (s->door && s->up && s->open)
 		{
 			s->ceil -= doom->time_frame * 120.f;
-			
 			if (s->ceil <= s->floor)
 			{
 				s->ceil = s->floor;

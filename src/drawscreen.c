@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/06 20:18:12 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/06 20:42:06 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,15 +76,12 @@ void	vline2(int x, t_ab_i wy, t_scaler ty, t_doom *doom)
     {
         txty = scaler_next(&ty);
 		color = doom->txt->img[t].data[txty % doom->txt->img[t].h * doom->txt->img[t].w + doom->cood.txtx % doom->txt->img[t].w];
-		//if (doom->txt->img[t].data[txty % doom->txt->img[t].h * doom->txt->img[t].w + doom->cood.txtx % doom->txt->img[t].w] && doom->txt->img[t].vis == 0)
-		//	doom->visible[y][x] = 1;
 		if (color != prev_color)
 		{
 			prev_color = color;
 			prev_light = rgb_multiply(color, doom->sector[doom->now.sector].light);
 		}
-		//if (doom->visible[y][x] != 1)
-			*pix = prev_light;
+		*pix = prev_light;
         pix += WIDTH;
 		y++;
     }
@@ -207,17 +204,18 @@ int			beginrender(t_doom *doom, t_cood *cood, t_player player, int n)
 			}
 			hei = y < cy.a ? cood->s->ceil - player.where.z : cood->s->floor - player.where.z;
 			
-			if (cood->s->sky && hei == cood->s->ceil - player.where.z)
+			
+			CeilingFloorScreenCoordinatesToMapCoordinates(hei, x,y, &mapx, &mapz, player);
+            int txtx = (mapx * 16);
+			int txtz = (mapz * 16);
+			set = y < cy.a ? doom->txt->img[cood->s->txtc] : doom->txt->img[cood->s->txtf];
+			int pel = set.data[(txtz % set.h) * set.w + (txtx % set.w)];
+			if (cood->s->sky && hei == cood->s->ceil - player.where.z && !set.data[(txtz % set.h) * set.w + (txtx % set.w)])
 			{
 				doom->visible[y][x] = 1;
 				y++;
 				continue ;
 			}
-			CeilingFloorScreenCoordinatesToMapCoordinates(hei, x,y, &mapx, &mapz, player);
-            int txtx = (mapx * 8);
-			int txtz = (mapz * 8);
-			set = y < cy.a ? doom->txt->img[cood->s->txtc] : doom->txt->img[cood->s->txtf];
-			int pel = set.data[(txtz % set.h) * set.w + (txtx % set.w)];
 			if (pel != prev_color)
 			{
 				prev_light = rgb_multiply(pel, doom->sector[doom->now.sector].light);
@@ -392,8 +390,6 @@ int			renew(t_item *head, t_doom *doom, int *rensects)
 		y++;
 	}
 	x = 0;
-//	ft_memset(doom->ybot, HEIGHT - 1, WIDTH * 4);
-	//ft_memset(doom->ytop, 0, WIDTH * 4);
 	ft_memset(rensects, 0, doom->numsectors);
 	x = 0;
 	while (x < doom->numsectors)
@@ -493,10 +489,13 @@ int			drawsky(t_doom *doom, t_texture *txt)
 		if (t.x >= set->w)
 		{
 			while (t.x >= set->w)
-				t.x = t.x - set->w;
+				t.x -= set->w;
 		}
 		else if (t.x < 0)
-			t.x = set->w - t.x;
+		{
+			while (t.x < 0)
+				t.x += set->w;
+		}
 		y = 0;
 		while (y < HEIGHT)
 		{
