@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/06 16:12:25 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/06 19:25:49 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@
 # define DELAY_ERR 50
 # define COUNT_W 21
 # define COUNT_F 21
-# define COUNT_HS 10
+# define COUNT_HS 14
 # define COUNT_HO 21
 # define COUNT_O 21
 
@@ -55,7 +55,7 @@ typedef struct			s_sectors
 	int					txtc;
 	int					skyb;
 	int					door;
-	float				light;
+	int					light;
 }						t_sectors;
 
 typedef struct			s_all_sect
@@ -185,7 +185,7 @@ typedef struct			s_sdl
 
 typedef struct			s_txt
 {
-	SDL_Texture			*wall[21];
+	SDL_Texture			*wall[COUNT_W];
 	SDL_Texture			*floor[21];
 	SDL_Texture			*obj[21];
 	SDL_Texture			*huds[COUNT_HS];
@@ -244,6 +244,7 @@ void					put_image_on_screen(t_doom *doom);
 void					put_string_on_screen(t_doom *doom);
 void					edit_sector(t_doom *doom);
 void					mouse_press(t_doom *doom, int x, int y);
+void					my_itoa(char *str, int num);
 
 /*
 **	Math
