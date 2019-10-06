@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 14:53:36 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/03 20:18:59 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/06 20:17:35 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,7 +129,6 @@ int		loadtexturepics(t_doom *doom, t_pic *pic)
 {
 	SDL_Surface *surface;
 	
-	
 	//pic[0].img.data = (int**)ft_memalloc(sizeof(int*) * pic[0].cnt_frms);
 	//surface = IMG_Load("textures/pic/pepe.png");
 	//pic[0].img.data[0] = (int*)surface->pixels;
@@ -147,17 +146,20 @@ int		loadimage(t_img *img, char *str)
 	img->data = (int*)surface->pixels;
 	img->w = surface->w;
 	img->h = surface->h;
+	img->vis = 1;
 	return (0);
 }
 
 int		loadtexturewalls(t_doom *doom, t_texture *txt)
 {
-	txt->img = (t_img*)ft_memalloc(sizeof(t_img) * 5);
+	txt->img = (t_img*)ft_memalloc(sizeof(t_img) * 6);
 	loadimage(&txt->img[0], "textures/walls/1.png");
 	loadimage(&txt->img[1], "textures/walls/2.png");
+	txt->img[1].vis = 0;
 	loadimage(&txt->img[2], "textures/walls/3.png");
 	loadimage(&txt->img[3], "textures/walls/4.png");
 	loadimage(&txt->img[4], "textures/walls/5.png");
+	loadimage(&txt->img[5], "textures/walls/space5.png");
 
 	return (0);
 }

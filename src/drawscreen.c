@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/05 21:35:50 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/06 20:18:12 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,13 +76,15 @@ void	vline2(int x, t_ab_i wy, t_scaler ty, t_doom *doom)
     {
         txty = scaler_next(&ty);
 		color = doom->txt->img[t].data[txty % doom->txt->img[t].h * doom->txt->img[t].w + doom->cood.txtx % doom->txt->img[t].w];
+		//if (doom->txt->img[t].data[txty % doom->txt->img[t].h * doom->txt->img[t].w + doom->cood.txtx % doom->txt->img[t].w] && doom->txt->img[t].vis == 0)
+		//	doom->visible[y][x] = 1;
 		if (color != prev_color)
 		{
 			prev_color = color;
 			prev_light = rgb_multiply(color, doom->sector[doom->now.sector].light);
 		}
-		*pix = prev_light;
-		//*pix = rgb_multiply(doom->txt->img[t].data[txty % doom->txt->img[t].h * doom->txt->img[t].w + doom->cood.txtx % doom->txt->img[t].w], doom->sector[doom->now.sector].light);
+		//if (doom->visible[y][x] != 1)
+			*pix = prev_light;
         pix += WIDTH;
 		y++;
     }
@@ -132,6 +134,37 @@ void	CeilingFloorScreenCoordinatesToMapCoordinates(float mapY, int screenX, int 
     RelativeMapCoordinatesToAbsoluteOnes(X, Z, player);
 }
 
+int			vlinesky(t_doom *doom, t_img *set, int x, int ya, int yb)
+{
+	t_xy scale;
+	float	ty;
+	int		y;
+
+	scale.y = (float)set->h / (yb - ya);
+	while (y < yb)
+	{
+		//color = img.data[(int)t.y * img.w + (int)t.x];
+		//if (t.x < img.w && t.y < img.h && color && y >= ybord.y && y <= ybord.x) //0 is num of animation frame
+		//{
+			//if (prev_color != color)
+			//{
+			//	prev_color = color;
+			//	prev_light = rgb_multiply(color, doom->sector[obj->sector].light);
+			//}
+			//doom->sdl->pix[y * WIDTH + px.x] = prev_light;
+		//}
+			//doom->sdl->pix[y * WIDTH + px.x] = img.data[(int)t.y * img.w + (int)t.x];
+		//if (y >= 0 && y < set.h && x >= 0 && x < set.w)
+		if (x > set->w)
+			x = 0;
+		doom->sdl->pix[y * WIDTH + x] = set->data[(int)ty * set->w + (int)x];
+		y++;
+		ty += scale.y;
+	}
+	
+	return (0);
+}
+
 int			beginrender(t_doom *doom, t_cood *cood, t_player player, int n)
 {
 	t_ab_i	cy;
@@ -152,7 +185,6 @@ int			beginrender(t_doom *doom, t_cood *cood, t_player player, int n)
 	cood->beginx = beginx;
 	cood->endx = endx;
 	x = beginx;
-	//printf("beginx - %d, endx - %d\n", beginx, endx);
 	while (x <= endx)
 	{
 		cood->txtx = (cood->u0 * ((cood->w2.x - x) * cood->t2.z) + cood->u1 * ((x - cood->w1.x) * cood->t1.z)) / ((cood->w2.x - x) * cood->t2.z + (x - cood->w1.x) * cood->t1.z);
@@ -160,12 +192,13 @@ int			beginrender(t_doom *doom, t_cood *cood, t_player player, int n)
 		cy.a = clamp(wy.a, doom->ytop[x], doom->ybot[x]);
 		wy.b = (x - cood->w1.x) * (cood->w2y.b - cood->w1y.b) / (cood->w2.x - cood->w1.x) + cood->w1y.b;
 		cy.b = clamp(wy.b, doom->ytop[x], doom->ybot[x]);
-		//printf("wya - %d, wyb - %d\n", doom->ytop[x], doom->ybot[x]);
-		//doom->ybot[x] = clamp(doom->ybot[x], 0, HEIGHT - 1);
 		t = cood->s->txtw;
 		y = doom->ytop[x];
+		int		ty = 0;
+		int		tx = 0;
 		while (y <= doom->ybot[x])
 		{
+	
 			if (y >= cy.a - 1 && y <= cy.b)
 			{
 				y = cy.b;
@@ -173,6 +206,13 @@ int			beginrender(t_doom *doom, t_cood *cood, t_player player, int n)
 				continue ;
 			}
 			hei = y < cy.a ? cood->s->ceil - player.where.z : cood->s->floor - player.where.z;
+			
+			if (cood->s->sky && hei == cood->s->ceil - player.where.z)
+			{
+				doom->visible[y][x] = 1;
+				y++;
+				continue ;
+			}
 			CeilingFloorScreenCoordinatesToMapCoordinates(hei, x,y, &mapx, &mapz, player);
             int txtx = (mapx * 8);
 			int txtz = (mapz * 8);
@@ -183,13 +223,10 @@ int			beginrender(t_doom *doom, t_cood *cood, t_player player, int n)
 				prev_light = rgb_multiply(pel, doom->sector[doom->now.sector].light);
 				prev_color = pel;
 			}
-			doom->sdl->pix[y * WIDTH + x] = prev_light;
+			doom->sdl->pix[y * WIDTH + x] = prev_light;	
 			y++;
 		}
 		cood->wy = wy;
-		//vline(x, doom->ytop[x], cy.a - 1, 0x22222, 0xFFFFFF, 0x222222, doom->sdl); //потолок
-		//vline(x, cy.b + 1, doom->ybot[x], 0, 0xFFFFFF, 0, doom->sdl); //пол
-		
 		checkneighbor(doom, cood, x, cy);
 		x++;
 	}
@@ -335,7 +372,7 @@ int			calc_points(t_doom *doom, t_player player, t_cood *cood, int n)
 int			renew(t_item *head, t_doom *doom, int *rensects)
 {
 	int		x;
-
+	int		y;
 	x = 0;
 	while (x < WIDTH)
 	{
@@ -343,6 +380,18 @@ int			renew(t_item *head, t_doom *doom, int *rensects)
 		doom->ytop[x] = 0;
 		x++;
 	}
+	y = 0;
+	while (y < HEIGHT)
+	{
+		x = 0;
+		while (x < WIDTH)
+		{
+			doom->visible[y][x] = 0;
+			x++;
+		}
+		y++;
+	}
+	x = 0;
 //	ft_memset(doom->ybot, HEIGHT - 1, WIDTH * 4);
 	//ft_memset(doom->ytop, 0, WIDTH * 4);
 	ft_memset(rensects, 0, doom->numsectors);
@@ -421,9 +470,54 @@ int			drawwalls(t_doom *doom, t_player player)
 	return (0);
 }
 
+int			drawsky(t_doom *doom, t_texture *txt)
+{
+	int		y;
+	int		x;
+	int		mx;
+	int		my;
+	t_xy 	scale;
+	t_xy	t;
+	t_img	*set;
+
+	set = &txt->img[5];
+	x = 0;
+	//SDL_GetRelativeMouseState(&mx, &my);
+	while (x < WIDTH)
+	{
+
+		scale.x = (float)set->w / (WIDTH);
+		scale.y = (float)set->h / (HEIGHT);
+		t.y = doom->player.yaw * 25;
+		t.x = (x * scale.x) + doom->player.angle * 50;
+		if (t.x >= set->w)
+		{
+			while (t.x >= set->w)
+				t.x = t.x - set->w;
+		}
+		else if (t.x < 0)
+			t.x = set->w - t.x;
+		y = 0;
+		while (y < HEIGHT)
+		{
+			if (t.y > set->h)
+				t.y = set->h - t.y;
+			else if (t.y < 0)
+				t.y = set->h + t.y;
+			if (doom->visible[y][x] == 1)
+				doom->sdl->pix[y * WIDTH + x] = set->data[(int)t.y * set->w + (int)t.x];
+			t.y += scale.y;
+			y++;
+		}
+		x++;
+	}
+	return (0);
+}
+
 int			drawscreen(t_doom *doom)
 {	
 	drawwalls(doom, doom->player);
+	drawsky(doom, doom->txt);
 	drawsprites(doom, doom->obj, doom->player);
 	return (0);
 }

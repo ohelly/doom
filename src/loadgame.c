@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:13:26 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/05 20:36:39 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/06 19:40:19 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@ int		calcmouse(t_player *player, float yaw)
 	SDL_GetRelativeMouseState(&x, &y);
 	player->yaw = clamp(yaw + y * 0.01f, -5, 5);
 	player->angle += x * 0.003f;
+	// if (player->angle > 6.283184)
+	// 	player->angle -= 6.283184;
+	// else if (player->angle < -6.283184)
+	// 	player->angle += 6.283184;
 	player->anglesin = sinf(player->angle);
 	player->anglecos = cosf(player->angle);
 	return (0);
@@ -139,10 +143,20 @@ int		calciswall(t_doom *doom, t_player *player)
 	float	hole_high;
 	float	xd, yd;
 	int		n;
+	int		t = 0;
 
 	n = 0;
 	sect = &doom->sector[player->sector];
 	v = sect->vert;
+	while (n < sect->npoints)
+	{
+		if (PointSide(px + dx, py + dy, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) < 0)
+			t++;
+		if (t >= 2)
+			return (0);
+		n++;
+	}
+	n = 0;
 	while (n < sect->npoints)
 	{
 		if ((IntersectBox(px, py, px + dx, py + dy, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) &&
@@ -279,6 +293,7 @@ int		loadgame(t_doom *doom)
 			hooks(doom, ev);
 		calcmouse(&doom->player, doom->player.yaw);
 		calcmove(doom, &doom->player);
+		SDL_memset(doom->sdl->pix, 0, WIDTH * 4);
 		SDL_UpdateWindowSurface(doom->sdl->win);
 		if (doom->a)
 			doom->a = 0;

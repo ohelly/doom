@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:15:03 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/05 20:21:36 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/06 16:56:36 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,6 +78,8 @@ int		gettxtind(char *str, t_sector *s)
 	s->light = s->light / 100.0f;
 	str = todigit(str, &tmp);
 	s->door = (int)tmp;
+	str = todigit(str, &tmp);
+	s->sky = (int)tmp;
 	printf("txtw - %d\n", s->txtw);
 	printf("light - %f\n", s->light);
 	printf("door - %d\n", s->door);
@@ -90,7 +92,7 @@ int		loadsectors(t_sector *s, t_xy *v, char *str)
 	int		vnum;
 	int		j;
 
-	vnum = ((takencount(str) - 2) / 2) - 2;
+	vnum = ((takencount(str) - 2) / 2) - 3;
 	s[n].npoints = vnum;
 	if (!(s[n].vert = ft_memalloc(sizeof(t_xy) * (vnum + 1))))
 		return (0);

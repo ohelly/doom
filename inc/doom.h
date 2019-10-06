@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/05 21:30:07 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/06 16:56:23 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef	struct		s_img
 	int				*data;
 	int				w;
 	int				h;
+	int				vis;
 }					t_img;
 
 typedef	struct 		s_f
@@ -147,6 +148,7 @@ typedef struct		s_sector
 	int				txtf;
 	int				txtc;
 	int				txtw;
+	int				sky;
 	t_img			imgfloor;
 	t_img			imgceil;
 }					t_sector;
@@ -178,6 +180,7 @@ typedef struct		s_obj
 
 typedef struct		s_cood
 {
+	
 	int				neighbor;
 	int				beginx;
 	int				endx;
@@ -257,6 +260,7 @@ typedef struct		s_doom
 	t_item			*head;
 	t_item			*tail;
 	t_cood			cood;
+	int				visible[HEIGHT][WIDTH];
 	int				a;
 	int				olda;
 	int				*data;
