@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:15:03 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/02 17:53:12 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/06 16:56:36 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,15 @@ int		gettxtind(char *str, t_sector *s)
 	s->txtc = (int)tmp;
 	str = todigit(str, &tmp);
 	s->txtw = (int)tmp;
-//	printf("txtw - %d\n", s->txtw);
+	str = todigit(str, &s->light);
+	s->light = s->light / 100.0f;
+	str = todigit(str, &tmp);
+	s->door = (int)tmp;
+	str = todigit(str, &tmp);
+	s->sky = (int)tmp;
+	printf("txtw - %d\n", s->txtw);
+	printf("light - %f\n", s->light);
+	printf("door - %d\n", s->door);
 	return (0);
 }
 
@@ -84,9 +92,7 @@ int		loadsectors(t_sector *s, t_xy *v, char *str)
 	int		vnum;
 	int		j;
 
-	vnum = ((takencount(str) - 2) / 2) - 1;
-	printf("vnum - %d\n",vnum);
-	printf("%s\n", str);
+	vnum = ((takencount(str) - 2) / 2) - 3;
 	s[n].npoints = vnum;
 	if (!(s[n].vert = ft_memalloc(sizeof(t_xy) * (vnum + 1))))
 		return (0);
@@ -94,19 +100,14 @@ int		loadsectors(t_sector *s, t_xy *v, char *str)
 		return (0);
 	str = todigit(str, &s[n].floor);
 	str = todigit(str, &s[n].ceil);
+	s[n].tmpceil = s[n].ceil;
 	str = vertinsect(str, s[n].vert, v, vnum);
-	j = 0;
-	
-	while (j < s[n].npoints)
-	{
-		printf("y - %f, x - %f\n", s[n].vert[j].y, s[n].vert[j].x);
-		printf("y - %f, x - %f\n", s[n].vert[j].y, s[n].vert[j].x);
-		j++;
-	}
 	str = neighinsect(str, &s[n], vnum);
 	gettxtind(str, &s[n]);
-	s[n].light = s[n].floor + 20;
-	s[n].light = s[n].light / 100.0f;
+	s[n].open = 0;
+	s[n].close = 1;
+	if (s[n].door)
+		s[n].ceil = s[n].floor;
 	n++;
 	return (1);
 }

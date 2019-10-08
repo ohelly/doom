@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 11:56:24 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/29 20:09:47 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/06 18:50:03 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ int		vlineobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom)
 	t.y = 0;
 	ybord.y = 0;
 	ybord.x = HEIGHT - 1;
-	scale.x = (float)img.w / (px.end - px.begin);
 	scale.x = (float)img.w / (px.end - px.begin);
 	scale.y = (float)img.h / (wy.b - wy.a);
 	t.x = (px.x - px.begin) * scale.x;

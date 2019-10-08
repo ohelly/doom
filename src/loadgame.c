@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:13:26 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/03 17:26:40 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/06 20:44:00 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,10 @@ int		calcmouse(t_player *player, float yaw)
 	SDL_GetRelativeMouseState(&x, &y);
 	player->yaw = clamp(yaw + y * 0.01f, -5, 5);
 	player->angle += x * 0.003f;
+	// if (player->angle > 6.283184)
+	// 	player->angle -= 6.283184;
+	// else if (player->angle < -6.283184)
+	// 	player->angle += 6.283184;
 	player->anglesin = sinf(player->angle);
 	player->anglecos = cosf(player->angle);
 	return (0);
@@ -139,10 +143,20 @@ int		calciswall(t_doom *doom, t_player *player)
 	float	hole_high;
 	float	xd, yd;
 	int		n;
+	int		t = 0;
 
 	n = 0;
 	sect = &doom->sector[player->sector];
 	v = sect->vert;
+	while (n < sect->npoints)
+	{
+		if (PointSide(px + dx, py + dy, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) < 0)
+			t++;
+		if (t >= 2)
+			return (0);
+		n++;
+	}
+	n = 0;
 	while (n < sect->npoints)
 	{
 		if ((IntersectBox(px, py, px + dx, py + dy, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) &&
@@ -175,7 +189,7 @@ int		calcjump(t_doom *doom, t_player *player, t_sector *sectors)
 	player->ground = !player->fall;
 	if (player->fall)
 	{
-		player->velocity.z -= 0.05f * doom->time_frame * 60;
+		player->velocity.z -= doom->time_frame * 5.f;
 		nextz = player->where.z + player->velocity.z;
         if (player->velocity.z < 0 && nextz  < sectors[player->sector].floor + EyeHeight)
         {
@@ -203,6 +217,7 @@ int		fps(t_doom *doom)
 	doom->times[1] = doom->times[0];
 	doom->times[0] = SDL_GetTicks();
 	doom->time_frame = (doom->times[0] - doom->times[1]) / 1000;
+	
 	return (0);
 }
 
@@ -219,6 +234,46 @@ int		animation(t_doom *doom)
 	return (0);
 }
 
+int		doors(t_doom *doom, t_player player)
+{
+	int		n;
+	int		neigh;
+	int		j;
+	t_sector *s;
+
+	j = 0;
+	while (j < doom->numsectors)
+	{
+		s = &doom->sector[j];
+		if (s->up && j == player.sector)
+			return (0);
+		if (s->door && s->up && s->open)
+		{
+			s->ceil -= doom->time_frame * 120.f;
+			if (s->ceil <= s->floor)
+			{
+				s->ceil = s->floor;
+				s->up = 0;
+				s->open = 0;
+				s->close = 1;
+			}
+		}
+		else if (s->door && s->up && s->close)
+		{
+			s->ceil += doom->time_frame * 120.f;
+			if (s->ceil >= s->tmpceil)
+			{
+				s->ceil = s->tmpceil;
+				s->up = 0;
+				s->open = 1;
+				s->close = 0;
+			}
+		}
+		j++;
+	}
+	return (0);
+}
+
 int		loadgame(t_doom *doom)
 {
 	SDL_Event	ev;
@@ -226,8 +281,9 @@ int		loadgame(t_doom *doom)
 	initsdl(doom, doom->sdl);
 	while (1)
 	{	
+		
 		fps(doom);
-		//printf("fps: %f\n", 1 / doom->time_frame);
+		doors(doom, doom->player);
 		enemies_update(doom);
 		animation(doom);
 		drawscreen(doom);
@@ -238,6 +294,7 @@ int		loadgame(t_doom *doom)
 			hooks(doom, ev);
 		calcmouse(&doom->player, doom->player.yaw);
 		calcmove(doom, &doom->player);
+		SDL_memset(doom->sdl->pix, 0, WIDTH * 4);
 		SDL_UpdateWindowSurface(doom->sdl->win);
 		if (doom->a)
 			doom->a = 0;
