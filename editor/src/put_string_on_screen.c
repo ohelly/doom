@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 18:32:49 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/06 19:26:34 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/09 17:51:10 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,8 @@ void	put_string_on_screen(t_doom *doom)
 	}
 	if (doom->app == 2)
 	{
+		if (doom->sects->selected_sector == -1)
+			return ;
 		doom->hud->color = (SDL_Color) { 0, 0, 0 };
 		my_itoa(floor, doom->sects->sectors[doom->sects->selected_sector].floor);
 		doom->hud->sur = TTF_RenderText_Solid(doom->hud->font, floor, doom->hud->color);

@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:57:29 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/05 20:14:27 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/09 18:51:17 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,10 @@ int			sdl_init(t_doom *doom)
 		return (die_msg("Failed to allocate txt struct"));
 	if (!(load_img_for_hud(doom)))
 		return (die_msg("Failed to load IMG for hud"));
+	if (!(doom->aspr = (t_all_spr_wall*)ft_memalloc(sizeof(t_all_spr_wall))))
+		return (die_msg("Failed to allocate aspr struct"));
+	if (!(doom->obj = (t_all_spr_floor*)ft_memalloc(sizeof(t_all_spr_floor))))
+		return (die_msg("Failed to allocate obj struct"));
 	*doom->swall = (t_swall){ -1, -1, -1, -1, -1 };
 	doom->sh = 20;
 	doom->save_name = "test.map";

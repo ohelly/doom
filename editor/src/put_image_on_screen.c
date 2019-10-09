@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 18:32:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/06 18:31:55 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/09 17:59:24 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,15 +55,15 @@ void		put_image_on_screen(t_doom *doom)
 		/*--*/
 		// skybox &
 		renderTextures(doom->txt->huds[7], doom->sdl->rend, 1000, 357, 200, 50);
-		if (doom->sects->sectors[doom->sects->selected_sector].skyb == 0)
+		if (doom->sects->sectors[doom->sects->selected_sector].skyb == 0 && doom->sects->selected_sector != -1)
 			renderTextures(doom->txt->huds[8], doom->sdl->rend, 1200, 360, 50, 50);
-		else
+		else if (doom->sects->sectors[doom->sects->selected_sector].skyb == 1 && doom->sects->selected_sector != -1)
 			renderTextures(doom->txt->huds[9], doom->sdl->rend, 1200, 360, 50, 50);
 		// door &
 		renderTextures(doom->txt->huds[10], doom->sdl->rend, 1000, 407, 200, 50);
-		if (doom->sects->sectors[doom->sects->selected_sector].door == 0)
+		if (doom->sects->sectors[doom->sects->selected_sector].door == 0 && doom->sects->selected_sector != -1)
 			renderTextures(doom->txt->huds[8], doom->sdl->rend, 1200, 410, 50, 50);
-		else
+		else if (doom->sects->sectors[doom->sects->selected_sector].door == 1 && doom->sects->selected_sector != -1)
 			renderTextures(doom->txt->huds[9], doom->sdl->rend, 1200, 410, 50, 50);
 		// < light >
 		renderTextures(doom->txt->huds[0], doom->sdl->rend, 950, 460, 50, 50);

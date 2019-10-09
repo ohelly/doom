@@ -60,11 +60,11 @@ int		get_closest_wall(t_doom *doom)
 		}
 		i++;
 	}
-	if (saved_dist < 30)
-	{
+	//if (saved_dist < 30)
+	//{
 		doom->verts->projected_v.num = saved_wall;
 		doom->verts->projected_v.pos = saved_hit;
 		return (saved_wall);
-	}
-	return (-1);
+	//}
+	//return (-1);
 }

@@ -6,21 +6,11 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 22:12:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/06 15:37:36 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/09 18:42:43 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom_editor.h"
-
-void	kek(t_doom *doom)
-{
-	int i = -1;
-	while (++i < doom->walls->count)
-		printf("i = %d  sect = %d  vert1 = %d  vert2 = %d  portal = %d\n", i, doom->walls->wall[i].sectors, doom->walls->wall[i].vert_one, doom->walls->wall[i].vert_two, doom->walls->wall[i].portal);
-	i = -1;
-	while (++i < doom->verts->count)
-		printf("x = %d   y = %d  i = %d\n", doom->verts->list[i].pos.x, doom->verts->list[i].pos.y, i);
-}
 
 void	key_and_mouse_press(t_doom *doom)
 {
@@ -40,8 +30,6 @@ void	key_and_mouse_press(t_doom *doom)
 					find_portal(doom);
 				if (doom->sdl->ev.key.keysym.sym == 's')
 					get_closest_sector(doom);
-				if (doom->sdl->ev.key.keysym.sym == 'k')
-					kek(doom);
 				if (doom->sdl->ev.key.keysym.sym == '\r')
 					if (doom->walls->selected_wall != -1)
 						build_portal(doom);
@@ -51,6 +39,10 @@ void	key_and_mouse_press(t_doom *doom)
 					split_sectors(doom);
 				if (doom->sdl->ev.key.keysym.sym == 'c')
 					remove_built_sector(doom);
+				if (doom->sdl->ev.key.keysym.sym == 'p')
+					set_sprite_on_wall(doom);
+				if (doom->sdl->ev.key.keysym.sym == 'o')
+					set_object(doom);
 			}
 			if (doom->app == 2)
 				if (doom->sdl->ev.key.keysym.sym == 's')
@@ -84,8 +76,12 @@ void	key_and_mouse_press(t_doom *doom)
 		if (doom->app == 2)
 		{
 			if (doom->sdl->ev.type == SDL_MOUSEBUTTONDOWN)
+			{
 				if (doom->sdl->ev.button.button == SDL_BUTTON_LEFT)
-					mouse_press(doom, doom->sdl->ev.button.x, doom->sdl->ev.button.y);
+					mouse_press_left(doom, doom->sdl->ev.button.x, doom->sdl->ev.button.y);
+				if (doom->sdl->ev.button.button == SDL_BUTTON_RIGHT)
+					mouse_press_right(doom, doom->sdl->ev.button.x, doom->sdl->ev.button.y);
+			}
 		}
 		if (doom->sdl->ev.type == SDL_MOUSEMOTION)
 		{

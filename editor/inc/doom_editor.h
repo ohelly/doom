@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/06 19:25:49 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/09 18:46:58 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -193,6 +193,44 @@ typedef struct			s_txt
 }						t_txt;
 
 /*
+	SPRITE ON WALL
+					*/
+
+typedef struct			s_spr_wall
+{
+	int					wall;
+	int					z;
+	t_v2				pos;
+	int					anim;
+	int					frame;
+	int					sector;
+}						t_spr_wall;
+
+typedef struct			s_all_spr_wall
+{
+	int					count;
+	t_spr_wall			spr[1000];
+}						t_all_spr_wall;
+
+/*
+	OBJECT ON FLOOR
+					*/
+
+typedef struct			s_spr_floor
+{
+	int					sector;
+	t_v2				pos;
+	int					anim;
+	int					frame;
+}						t_spr_floor;
+
+typedef struct			s_all_spr_floor
+{
+	int					count;
+	t_spr_floor			obj[1000];
+}						t_all_spr_floor;
+
+/*
 	MAIN STRUCT
 				*/
 
@@ -210,6 +248,8 @@ typedef struct			s_doom
 	t_swall				*swall;
 	t_hud				*hud;
 	t_txt				*txt;
+	t_all_spr_wall		*aspr;
+	t_all_spr_floor		*obj;
 	int					sh;
 	t_v2				map_pos;
 	t_v2				move_vector;
@@ -242,9 +282,12 @@ int						remove_built_sector(t_doom *doom);
 int						load_img_for_hud(t_doom *doom);
 void					put_image_on_screen(t_doom *doom);
 void					put_string_on_screen(t_doom *doom);
-void					edit_sector(t_doom *doom);
-void					mouse_press(t_doom *doom, int x, int y);
+void					mouse_press_left(t_doom *doom, int x, int y);
+void					mouse_press_right(t_doom *doom, int x, int y);
 void					my_itoa(char *str, int num);
+void					set_sprite_on_wall(t_doom *doom);
+int						check_portal(t_doom *doom);
+void					set_object(t_doom *doom);
 
 /*
 **	Math

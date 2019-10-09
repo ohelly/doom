@@ -6,13 +6,47 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/06 15:16:30 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/06 19:26:25 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/09 18:18:56 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom_editor.h"
 
-void		mouse_press(t_doom *doom, int x, int y)
+void		mouse_press_right(t_doom *doom, int x, int y)
+{
+	if (x >= 950 && x <= 1000 && y >= 60 && y <= 110)
+	{
+		if (doom->sects->sectors[doom->sects->selected_sector].floor >= 10)
+			doom->sects->sectors[doom->sects->selected_sector].floor -= 10;
+	}
+	else if (x >= 1200 && x <= 1250 && y >= 60 && y <= 110)
+	{
+		if (doom->sects->sectors[doom->sects->selected_sector].floor <= 989)
+			doom->sects->sectors[doom->sects->selected_sector].floor += 10;
+	}
+	else if (x >= 950 && x <= 1000 && y >= 110 && y <= 160)
+	{
+		if (doom->sects->sectors[doom->sects->selected_sector].ceiling >= 10)
+			doom->sects->sectors[doom->sects->selected_sector].ceiling -= 10;
+	}
+	else if (x >= 1200 && x <= 1250 && y >= 110 && y <= 160)
+	{
+		if (doom->sects->sectors[doom->sects->selected_sector].ceiling <= 989)
+			doom->sects->sectors[doom->sects->selected_sector].ceiling += 10;
+	}
+	else if (x >= 950 && x <= 1000 && y >= 460 && y <= 510)
+	{
+		if (doom->sects->sectors[doom->sects->selected_sector].light >= 10)
+			doom->sects->sectors[doom->sects->selected_sector].light -= 10;
+	}
+	else if (x >= 1200 && x <= 1250 && y >= 460 && y <= 510)
+	{
+		if (doom->sects->sectors[doom->sects->selected_sector].light <= 90)
+			doom->sects->sectors[doom->sects->selected_sector].light += 10;
+	}
+}
+
+void		mouse_press_left(t_doom *doom, int x, int y)
 {
 	if (x >= 950 && x <= 1000 && y >= 10 && y <= 60)
 	{
@@ -22,6 +56,8 @@ void		mouse_press(t_doom *doom, int x, int y)
 			doom->walls->selected_wall = -1;
 			return ;
 		}
+		if (doom->sects->count < 2)
+			return ;
 		if (doom->sects->selected_sector == 0)
 			doom->sects->selected_sector = doom->sects->count;
 		doom->sects->selected_sector--;
@@ -34,6 +70,8 @@ void		mouse_press(t_doom *doom, int x, int y)
 			doom->walls->selected_wall = -1;
 			return ;
 		}
+		if (doom->sects->count < 2)
+			return ;
 		if (doom->sects->selected_sector == doom->sects->count - 1)
 			doom->sects->selected_sector = -1;
 		doom->sects->selected_sector++;
@@ -115,7 +153,7 @@ void		mouse_press(t_doom *doom, int x, int y)
 	}
 	else if (x >= 1200 && x <= 1250 && y >= 460 && y <= 510)
 	{
-		if (doom->sects->sectors[doom->sects->selected_sector].light < 99)
+		if (doom->sects->sectors[doom->sects->selected_sector].light < 100)
 			doom->sects->sectors[doom->sects->selected_sector].light += 1;
 	}
 }
