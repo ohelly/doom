@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/06 20:42:06 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/09 09:57:08 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,14 @@ void	vline2(int x, t_ab_i wy, t_scaler ty, t_doom *doom)
 	t = doom->sector[doom->now.sector].txtw;
     while (y <= y2)
     {
+		if (doom->cood.neighbor == -2)
+		{
+			doom->visible[y][x] = 1;
+			y++;
+			if (y == y2 + 1)
+				return ;
+			continue ;
+		}
         txty = scaler_next(&ty);
 		color = doom->txt->img[t].data[txty % doom->txt->img[t].h * doom->txt->img[t].w + doom->cood.txtx % doom->txt->img[t].w];
 		if (color != prev_color)
@@ -131,37 +139,6 @@ void	CeilingFloorScreenCoordinatesToMapCoordinates(float mapY, int screenX, int 
     RelativeMapCoordinatesToAbsoluteOnes(X, Z, player);
 }
 
-int			vlinesky(t_doom *doom, t_img *set, int x, int ya, int yb)
-{
-	t_xy scale;
-	float	ty;
-	int		y;
-
-	scale.y = (float)set->h / (yb - ya);
-	while (y < yb)
-	{
-		//color = img.data[(int)t.y * img.w + (int)t.x];
-		//if (t.x < img.w && t.y < img.h && color && y >= ybord.y && y <= ybord.x) //0 is num of animation frame
-		//{
-			//if (prev_color != color)
-			//{
-			//	prev_color = color;
-			//	prev_light = rgb_multiply(color, doom->sector[obj->sector].light);
-			//}
-			//doom->sdl->pix[y * WIDTH + px.x] = prev_light;
-		//}
-			//doom->sdl->pix[y * WIDTH + px.x] = img.data[(int)t.y * img.w + (int)t.x];
-		//if (y >= 0 && y < set.h && x >= 0 && x < set.w)
-		if (x > set->w)
-			x = 0;
-		doom->sdl->pix[y * WIDTH + x] = set->data[(int)ty * set->w + (int)x];
-		y++;
-		ty += scale.y;
-	}
-	
-	return (0);
-}
-
 int			beginrender(t_doom *doom, t_cood *cood, t_player player, int n)
 {
 	t_ab_i	cy;
@@ -203,14 +180,18 @@ int			beginrender(t_doom *doom, t_cood *cood, t_player player, int n)
 				continue ;
 			}
 			hei = y < cy.a ? cood->s->ceil - player.where.z : cood->s->floor - player.where.z;
-			
-			
+			if (cood->s->sky == 1 && hei == cood->s->ceil - player.where.z)
+			{
+				doom->visible[y][x] = 1;
+				y++;
+				continue ;
+			}
 			CeilingFloorScreenCoordinatesToMapCoordinates(hei, x,y, &mapx, &mapz, player);
             int txtx = (mapx * 16);
 			int txtz = (mapz * 16);
 			set = y < cy.a ? doom->txt->img[cood->s->txtc] : doom->txt->img[cood->s->txtf];
 			int pel = set.data[(txtz % set.h) * set.w + (txtx % set.w)];
-			if (cood->s->sky && hei == cood->s->ceil - player.where.z && !set.data[(txtz % set.h) * set.w + (txtx % set.w)])
+			if (!set.data[(txtz % set.h) * set.w + (txtx % set.w)])
 			{
 				doom->visible[y][x] = 1;
 				y++;
