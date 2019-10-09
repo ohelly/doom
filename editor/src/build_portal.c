@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 15:47:05 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/19 17:50:13 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/03 20:00:25 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,8 @@ void		find_portal(t_doom *doom)
 		doom->walls->selected_wall = -1;
 		return ;
 	}
+	if (doom->sects->selected_sector != -1)
+		doom->sects->selected_sector = -1;
 	doom->walls->selected_wall = get_closest_wall(doom);
 	wall = doom->walls->selected_wall;
 	w1 = doom->walls->wall[wall];
@@ -59,13 +61,13 @@ void		find_portal(t_doom *doom)
 		w2 = doom->walls->wall[ind];
 		if (w1.portal == w2.sectors && w2.portal == w1.sectors)
 		{
-			ft_putendl("Press return to delete portal!");
+			doom->hud->msg = "Press return to delete portal!";
 			doom->walls->adjacent_wall = ind;
 			return ;
 		}
 		else
 		{
-			ft_putendl("Press return to set portal!");
+			doom->hud->msg = "Press return to set portal!";
 			doom->walls->adjacent_wall = ind;
 			return ;
 		}
@@ -113,7 +115,7 @@ void		build_portal(t_doom *doom)
 	{
 		if (can_build_portal(doom, doom->walls->wall[aw].sectors, doom->walls->wall[sw].sectors) == -1)
 		{
-			printf("Error building portal: Portal between this two sectors already exists!\n");
+			doom->hud->msg = "Error building portal: Portal between this two sectors already exists!";
 			return ;
 		}
 		doom->walls->wall[sw].portal = doom->walls->wall[aw].sectors;
