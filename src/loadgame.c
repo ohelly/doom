@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:13:26 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/06 20:44:00 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/09 13:55:09 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -239,13 +239,26 @@ int		doors(t_doom *doom, t_player player)
 	int		n;
 	int		neigh;
 	int		j;
+	int		a = 0;
+	static float t = 0;
 	t_sector *s;
-
+	
 	j = 0;
 	while (j < doom->numsectors)
 	{
 		s = &doom->sector[j];
-		if (s->up && j == player.sector)
+		if (s->open)
+		{
+			t += doom->time_frame;
+			if (t >= 1.5f)
+			{
+				a = 1;
+				t = 0;
+			}	
+		}
+		if (s->open && a == 1)
+			s->up = 1;
+		if (s->up && j == player.sector && s->open)
 			return (0);
 		if (s->door && s->up && s->open)
 		{
@@ -281,7 +294,6 @@ int		loadgame(t_doom *doom)
 	initsdl(doom, doom->sdl);
 	while (1)
 	{	
-		
 		fps(doom);
 		doors(doom, doom->player);
 		enemies_update(doom);

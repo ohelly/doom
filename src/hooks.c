@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/09 09:49:26 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/09 10:42:46 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,10 @@ int		keydown(t_doom *doom, SDL_Event ev)
 	if (ev.key.keysym.sym == 'e')
 	{
 		finddoor(doom, doom->player);
+	}
+	if (ev.key.keysym.sym == '\t')
+	{
+		//drawmap(doom, doom->sector, doom->sdl);
 	}
 	if (ev.key.keysym.sym == SDLK_SPACE)
 	{
