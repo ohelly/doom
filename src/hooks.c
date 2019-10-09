@@ -17,19 +17,15 @@ int		finddoor(t_doom *doom, t_player player)
 	t_sector	*s;
 	t_xy		*v;
 	int			n;
-	float		dx = player.anglecos * 8;
-	float		dy = player.anglesin * 8;
-	float		px = player.where.x;
-	float		py = player.where.y;
+	t_xy		p = (t_xy){player.where.x, player.where.y};
+	t_xy		d = (t_xy){player.anglecos * 8, player.anglesin * 8};
 
 	s = &doom->sector[player.sector];
 	v = s->vert;
-	n = 0;	
+	n = 0;
 	while (n < s->npoints)
 	{
-		if (s->neighbors[n] >= 0 &&
-		IntersectBox(px, py, px + dx, py + dy, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) &&
-		PointSide(px + dx, py + dy, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) < 0)
+		if (s->neighbors[n] >= 0 && intersects_collider(p, v2_add(p, d), v[n], v[n + 1]))
 		{
 			doom->sector[s->neighbors[n]].up = 1;
 			break ;

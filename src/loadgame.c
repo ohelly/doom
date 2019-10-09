@@ -99,23 +99,32 @@ int		pointside(t_xy p, t_xy d, t_xy v1, t_xy v2)
 	return (vxs(v1.x - (p.x + d.x), v1.y - (p.y + d.y), p.x - (p.x + d.x), p.y - (p.y + d.y)));
 }
 
+//Returns 1 if colliders intersects
+int		intersects_collider(t_xy pos, t_xy dest_pos, t_xy col_pos1, t_xy col_pos2)
+{
+	if ((IntersectBox(pos.x, pos.y, dest_pos.x, dest_pos.y, col_pos1.x, col_pos1.y, col_pos2.x, col_pos2.y) &&
+		PointSide(dest_pos.x, dest_pos.y, col_pos1.x, col_pos1.y, col_pos2.x, col_pos2.y) <= 0))
+		return (1);
+	return (0);
+}
+
 int		calcnewsector(float dx, float dy, t_doom *doom, t_player *player)
 {
-	int		n;
-	float	px, py;
-	t_sector *sect;
-	t_xy	*v;
+	int			n;
+	t_xy		p;
+	t_xy		d;
+	t_sector	*sect;
+	t_xy		*v;
 
-	px = player->where.x;
-	py = player->where.y;
+	p = (t_xy){player->where.x, player->where.y};
+	d = (t_xy){dx, dy};
 	sect = &doom->sector[player->sector];
 	v = sect->vert;
 	n = 0;
 	while (n < sect->npoints)
 	{
 		if (sect->neighbors[n] >= 0 &&
-		IntersectBox(px, py, px + dx, py + dy, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) &&
-		PointSide(px + dx, py + dy, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) < 0)
+			intersects_collider(p, v2_add(p, v2_multf(d, 8.0f)), v[n], v[n + 1]))
 		{
 			player->sector = sect->neighbors[n];
 			if (player->where.z != doom->sector[player->sector].floor)
@@ -135,10 +144,8 @@ int		calciswall(t_doom *doom, t_player *player)
 {
 	t_sector *sect;
 	t_xy	*v;
-	float	px = player->where.x;
-	float	py = player->where.y;
-	float	dx = player->velocity.x;
-	float	dy = player->velocity.y;
+	t_xy	p = (t_xy){player->where.x, player->where.y};
+	t_xy	d = (t_xy){player->velocity.x, player->velocity.y};
 	float	hole_low;
 	float	hole_high;
 	float	xd, yd;
@@ -150,7 +157,7 @@ int		calciswall(t_doom *doom, t_player *player)
 	v = sect->vert;
 	while (n < sect->npoints)
 	{
-		if (PointSide(px + dx, py + dy, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) < 0)
+		if (PointSide(p.x + d.x * 8.0f, p.y + d.y * 8.0f, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) < 0)
 			t++;
 		if (t >= 2)
 			return (0);
@@ -159,26 +166,25 @@ int		calciswall(t_doom *doom, t_player *player)
 	n = 0;
 	while (n < sect->npoints)
 	{
-		if ((IntersectBox(px, py, px + dx, py + dy, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) &&
-		PointSide(px + dx, py + dy, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) < 0))
+		if (intersects_collider(p, v2_add(p, v2_multf(d, 8.0f)), v[n], v[n + 1]))
 		{
 			player->velocity.x = 0;
 			player->velocity.y = 0;
 			hole_low  = sect->neighbors[n] < 0 ?  9e9 : max(sect->floor, doom->sector[sect->neighbors[n]].floor);
-            hole_high = sect->neighbors[n] < 0 ? -9e9 : min(sect->ceil,  doom->sector[sect->neighbors[n]].ceil);
-            if (hole_high < player->where.z + HeadMargin
-            || hole_low  > player->where.z - EyeHeight + KneeHeight)
-            {
-				xd = v[n + 1].x - v[n].x;
-				yd = v[n + 1].y - v[n].y;
-           		dx = xd * (dx * xd + yd * dy) / (xd * xd + yd * yd);
-           		dy = yd * (dx * xd + yd * dy) / (xd * xd + yd * yd);
+			hole_high = sect->neighbors[n] < 0 ? -9e9 : min(sect->ceil,  doom->sector[sect->neighbors[n]].ceil);
+			if (hole_high < player->where.z + HeadMargin ||
+				hole_low  > player->where.z - EyeHeight + KneeHeight)
+			{
+				xd = v[n + 1].x - v[n].x + (d.x * -8.0f);
+				yd = v[n + 1].y - v[n].y + (d.y * -8.0f);
+				d.x = xd * (d.x * xd + yd * d.y) / (xd * xd + yd * yd);
+				d.y = yd * (d.x * xd + yd * d.y) / (xd * xd + yd * yd);
 				break ;
 			}
 		}
 		n++;
 	}
-	calcnewsector(dx, dy, doom, player);
+	calcnewsector(d.x, d.y, doom, player);
 	return (0);
 }
 
