@@ -42,7 +42,7 @@ int		can_move(t_doom *doom, t_enemy *enemy, t_xy new_pos)
 	s = &doom->sector[enemy->obj->sector];
 	v = s->vert;
 	n = 0;
-	new_pos = v2_add(new_pos, v2_multf(enemy->dir, enemy->col_size));
+	new_pos = v2_add(new_pos, v2_multf(enemy->dir, enemy->obj->col_size));
 	while (n < s->npoints)
 	{
 		if (intersects_collider(enemy->obj->p, new_pos, v[n], v[n + 1]))
@@ -76,7 +76,7 @@ void	enemy_on_framestart(t_doom *doom, t_enemy *enemy)
 {
 	t_xy	move_pos;
 
-	if (enemy->health <= 0)
+	if (enemy->health <= 0 || enemy->obj->enabled == 0)
 		return ;
 	if (enemy->state == 0)
 	{
@@ -112,6 +112,8 @@ t_enemy	*create_enemy(t_doom *doom, t_obj *obj)
 
 	enemy = (t_enemy*)malloc(sizeof(t_enemy));
 	enemy->obj = obj;
+	enemy->obj->enabled = 1;
+	enemy->obj->col_size = 8.0f;
 	enemy->obj->p = (t_xy){40, 10};
 	//dir is normalized vector and shouldn't be 0
 	enemy->dir = (t_xy){-1, 1};
@@ -121,7 +123,6 @@ t_enemy	*create_enemy(t_doom *doom, t_obj *obj)
 	enemy->attack_damage = 5;
 	enemy->move_speed = 8;
 	enemy->view_distance = 3;
-	enemy->col_size = 8.0f;
 	enemy->on_framestart = enemy_on_framestart;
 	enemy->on_attack = enemy_on_attack;
 	enemy->on_hit = enemy_on_hit;

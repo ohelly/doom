@@ -303,6 +303,7 @@ int		loadgame(t_doom *doom)
 		fps(doom);
 		doors(doom, doom->player);
 		enemies_update(doom);
+		objects_update(doom);
 		animation(doom);
 		drawscreen(doom);
 		calcjump(doom, &doom->player, doom->sector);

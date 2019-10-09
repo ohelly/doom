@@ -73,6 +73,9 @@ int		loadtextureobjs(t_doom *doom, t_obj *obj, t_player player)
 	*/
 	obj[1].images[0][0] = new_image(doom, "textures/obj/people/devka/devka.png");
 	obj[1].images[0][1] = new_image(doom, "textures/obj/people/devka/devka1.png");
+	obj[1].on_collision = on_collision_key;
+	obj[1].col_size = 3.0f;
+	obj[1].enabled = 1;
 
 	obj[2].images[0][0] = new_image(doom, "textures/obj/head/HEADA1.png");
 	obj[2].images[0][1] = new_image(doom, "textures/obj/head/HEADB1.png");
@@ -82,6 +85,7 @@ int		loadtextureobjs(t_doom *doom, t_obj *obj, t_player player)
 	obj[2].images[0][5] = new_image(doom, "textures/obj/head/HEADF1.png");
 
 	obj[3].images[0][0] = new_image(doom, "textures/obj/people/svidetel/svidetel.png");
+	obj[3].enabled = 1;
 	//doom->txt[0].data = (int**)ft_memalloc(sizeof(int*) * 1);
 
 	return (0);

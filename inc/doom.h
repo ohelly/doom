@@ -160,12 +160,15 @@ typedef struct		s_obj
 {
 	t_xy			p;
 
+	int				enabled;
 	int				sector;
 	int				**images;
 	int				anim_count;
 	int				anim_frame;
 	int				states_count;
 	int				states_frame;
+	float			col_size;
+	void			(*on_collision)(struct t_doom *doom, struct s_obj *obj);
 }					t_obj;
 
 /*
@@ -300,7 +303,6 @@ typedef struct		s_enemy
 	float			attack_speed;
 	float			attack_cd;
 	int				attack_damage;
-	float			col_size;
 	void			(*on_attack)(t_doom *doom, struct s_enemy *enemy);
 	void			(*on_hit)(t_doom *doom, struct s_enemy *enemy);
 	void			(*on_framestart)(t_doom *doom, struct s_enemy *enemy);
@@ -333,6 +335,8 @@ t_img	obj_get_image(t_doom *doom, t_obj *obj);
 void	obj_anim_next(t_obj *obj);
 void	obj_state_change(t_obj *obj, int state);
 int		rgb_multiply(int color, float value);
+int		objects_update(t_doom *doom);
+void	on_collision_key(t_doom *doom, t_obj *obj);
 
 int		intersects_collider(t_xy pos, t_xy dest_pos, t_xy col_pos1, t_xy col_pos2);
 t_xy	rot_to_v2(float rot);
