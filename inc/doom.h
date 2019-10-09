@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/03 20:08:21 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/06 16:56:23 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,8 +23,8 @@
 # include <SDL_image.h>
 # include <get_next_line.h>
 
-# define WIDTH 1920
-# define HEIGHT 1080
+# define WIDTH 1280
+# define HEIGHT 720
 # define NEARZ 1e-4f
 # define FARZ 5
 # define NEARSIDE 1e-5f
@@ -33,13 +33,16 @@
 # define DuckHeight 2.5
 # define HeadMargin 1
 # define KneeHeight 2
-# define HFOV (1.0 * 0.73f * HEIGHT / WIDTH)
-# define VFOV (1.0 * .2f)
+# define HFOV (0.73f * HEIGHT / WIDTH)
+# define VFOV (0.2f)
 # define min(a,b)             (((a) < (b)) ? (a) : (b))
 # define max(a,b)             (((a) > (b)) ? (a) : (b))
 # define clamp(a, mi,ma)      min(max(a,mi),ma)
 //# define VXS(x0,y0, x1,y1)    ((x0)*(y1) - (x1)*(y0))
+
+//Whether two number ranges overlap
 # define Overlap(a0,a1,b0,b1) (min(a0,a1) <= max(b0,b1) && min(b0,b1) <= max(a0,a1))
+//Whether two 2D boxes intersect
 # define IntersectBox(x0,y0, x1,y1, x2,y2, x3,y3) (Overlap(x0,x1,x2,x3) && Overlap(y0,y1,y2,y3))
 # define PointSide(px,py, x0,y0, x1,y1) vxs((x1)-(x0), (y1)-(y0), (px)-(x0), (py)-(y0))
 //# define Intersect(x1,y1, x2,y2, x3,y3, x4,y4) ((t_xy) { \
@@ -71,6 +74,7 @@ typedef	struct		s_img
 	int				*data;
 	int				w;
 	int				h;
+	int				vis;
 }					t_img;
 
 typedef	struct 		s_f
@@ -134,14 +138,20 @@ typedef struct		s_sdl
 typedef struct		s_sector
 {
 	float			ceil;
+	float			tmpceil;
 	float			floor;
 	float			light;
+	int				door;
+	int				open;
+	int				close;
+	int				up;
 	t_xy			*vert;
 	int				npoints;
 	int				*neighbors;
 	int				txtf;
 	int				txtc;
 	int				txtw;
+	int				sky;
 	t_img			imgfloor;
 	t_img			imgceil;
 }					t_sector;
@@ -149,12 +159,16 @@ typedef struct		s_sector
 typedef struct		s_obj
 {
 	t_xy			p;
+
+	int				enabled;
 	int				sector;
 	int				**images;
 	int				anim_count;
 	int				anim_frame;
 	int				states_count;
 	int				states_frame;
+	float			col_size;
+	void			(*on_collision)(struct t_doom *doom, struct s_obj *obj);
 }					t_obj;
 
 /*
@@ -173,6 +187,7 @@ typedef struct		s_obj
 
 typedef struct		s_cood
 {
+	
 	int				neighbor;
 	int				beginx;
 	int				endx;
@@ -252,6 +267,7 @@ typedef struct		s_doom
 	t_item			*head;
 	t_item			*tail;
 	t_cood			cood;
+	int				visible[HEIGHT][WIDTH];
 	int				a;
 	int				olda;
 	int				*data;
@@ -284,7 +300,6 @@ typedef struct		s_enemy
 	float			move_speed;
 	int				state;
 	int				health;
-	int				txt_index;
 	float			attack_speed;
 	float			attack_cd;
 	int				attack_damage;
@@ -320,6 +335,19 @@ t_img	obj_get_image(t_doom *doom, t_obj *obj);
 void	obj_anim_next(t_obj *obj);
 void	obj_state_change(t_obj *obj, int state);
 int		rgb_multiply(int color, float value);
+int		objects_update(t_doom *doom);
+void	on_collision_key(t_doom *doom, t_obj *obj);
+
+int		intersects_collider(t_xy pos, t_xy dest_pos, t_xy col_pos1, t_xy col_pos2);
+t_xy	rot_to_v2(float rot);
+float	v2_to_rot(t_xy v2);
+t_xy	v2_add(t_xy v1, t_xy v2);
+t_xy	v2_addf(t_xy v2, float f);
+t_xy	v2_subtract(t_xy v1, t_xy v2);
+t_xy	v2_multf(t_xy v2, float f);
+t_xy	v2_normalize(t_xy v2);
+float	distance(t_xy p1, t_xy p2);
+float	rad_to_deg(float rad);
 
 
 #endif

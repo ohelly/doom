@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/29 19:46:12 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/09 18:46:58 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,10 +20,18 @@
 # include <stdio.h>
 # include <math.h>
 # include <SDL.h>
+# include "SDL_image.h"
+# include "SDL_ttf.h"
 # include "get_next_line.h"
 # define WIDTH 1280
 # define HEIGHT 720
 # define BUFF_SIZE 1
+# define DELAY_ERR 50
+# define COUNT_W 21
+# define COUNT_F 21
+# define COUNT_HS 14
+# define COUNT_HO 21
+# define COUNT_O 21
 
 /*
 	POS OF X AND Y
@@ -41,7 +49,13 @@ typedef struct			s_v2_vertex
 
 typedef struct			s_sectors
 {
-	
+	int					floor;
+	int					ceiling;
+	int					txtf;
+	int					txtc;
+	int					skyb;
+	int					door;
+	int					light;
 }						t_sectors;
 
 typedef struct			s_all_sect
@@ -61,7 +75,6 @@ typedef struct			s_swall
 	int					sec;
 }						t_swall;
 
-
 /*
 	WALLS
 			*/
@@ -72,6 +85,7 @@ typedef struct			s_wall
 	int					vert_one;
 	int					vert_two;
 	int					portal;
+	int					txt;
 }						t_wall;
 
 typedef struct			s_all_walls
@@ -139,6 +153,20 @@ typedef struct			s_file
 }						t_file;
 
 /*
+	STRUCT FOR HUD
+					*/
+
+typedef struct			s_hud
+{
+	SDL_Color			color;
+	TTF_Font			*font;
+	SDL_Surface			*sur;
+	SDL_Texture			*text_for_app;
+	SDL_Texture			*string;
+	char				*msg;
+}						t_hud;
+
+/*
 	SDL POINTER'S
 					*/
 
@@ -150,6 +178,57 @@ typedef struct			s_sdl
 	int					*pix;
 	SDL_Event			ev;
 }						t_sdl;
+
+/*
+	TEXTURES STRUCT
+					*/
+
+typedef struct			s_txt
+{
+	SDL_Texture			*wall[COUNT_W];
+	SDL_Texture			*floor[21];
+	SDL_Texture			*obj[21];
+	SDL_Texture			*huds[COUNT_HS];
+	SDL_Texture			*hudo[21];
+}						t_txt;
+
+/*
+	SPRITE ON WALL
+					*/
+
+typedef struct			s_spr_wall
+{
+	int					wall;
+	int					z;
+	t_v2				pos;
+	int					anim;
+	int					frame;
+	int					sector;
+}						t_spr_wall;
+
+typedef struct			s_all_spr_wall
+{
+	int					count;
+	t_spr_wall			spr[1000];
+}						t_all_spr_wall;
+
+/*
+	OBJECT ON FLOOR
+					*/
+
+typedef struct			s_spr_floor
+{
+	int					sector;
+	t_v2				pos;
+	int					anim;
+	int					frame;
+}						t_spr_floor;
+
+typedef struct			s_all_spr_floor
+{
+	int					count;
+	t_spr_floor			obj[1000];
+}						t_all_spr_floor;
 
 /*
 	MAIN STRUCT
@@ -167,6 +246,10 @@ typedef struct			s_doom
 	t_file				*file;
 	char				*save_name;
 	t_swall				*swall;
+	t_hud				*hud;
+	t_txt				*txt;
+	t_all_spr_wall		*aspr;
+	t_all_spr_floor		*obj;
 	int					sh;
 	t_v2				map_pos;
 	t_v2				move_vector;
@@ -194,7 +277,17 @@ void					find_portal(t_doom *doom);
 void					build_sector(t_doom *doom);
 int						get_duplicate_wall(t_doom *doom, t_wall w1);
 int						split_wall(t_doom *doom);
+void					split_sectors(t_doom *doom);
 int						remove_built_sector(t_doom *doom);
+int						load_img_for_hud(t_doom *doom);
+void					put_image_on_screen(t_doom *doom);
+void					put_string_on_screen(t_doom *doom);
+void					mouse_press_left(t_doom *doom, int x, int y);
+void					mouse_press_right(t_doom *doom, int x, int y);
+void					my_itoa(char *str, int num);
+void					set_sprite_on_wall(t_doom *doom);
+int						check_portal(t_doom *doom);
+void					set_object(t_doom *doom);
 
 /*
 **	Math
@@ -207,6 +300,5 @@ double					min(double a, double b);
 double					max(double a, double b);
 double					clamp(double a, double mi, double ma);
 float					distance(t_v2 p1, t_v2 p2);
-
 
 #endif
