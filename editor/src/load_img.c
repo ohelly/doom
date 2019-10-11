@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 16:33:37 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/06 18:30:30 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/11 14:27:55 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int		load_img_for_hud(t_doom *doom)
 	if (!(doom->txt->huds[12] = IMG_LoadTexture(doom->sdl->rend, "img/hud/wall.png")))
 		return (0);
 	if (!(doom->txt->huds[13] = IMG_LoadTexture(doom->sdl->rend, "img/hud/textures_wall.png")))
+		return (0);
+	if (!(doom->txt->huds[14] = IMG_LoadTexture(doom->sdl->rend, "img/hud/window.png")))
 		return (0);
 	/* 
 		WALL

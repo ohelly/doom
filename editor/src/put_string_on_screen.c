@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 18:32:49 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/09 17:51:10 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/11 14:33:15 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,6 @@ void	put_string_on_screen(t_doom *doom)
 		my_itoa(light, doom->sects->sectors[doom->sects->selected_sector].light);
 		doom->hud->sur = TTF_RenderText_Solid(doom->hud->font, light, doom->hud->color);
 		doom->hud->string = SDL_CreateTextureFromSurface(doom->sdl->rend, doom->hud->sur);
-		rendermessage(doom->hud->string, doom->sdl->rend, 1155, 468, 35, 25);
+		rendermessage(doom->hud->string, doom->sdl->rend, 1155, 518, 35, 25);
 	}
 }
