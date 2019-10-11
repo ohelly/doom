@@ -124,7 +124,7 @@ int		calcnewsector(float dx, float dy, t_doom *doom, t_player *player)
 	while (n < sect->npoints)
 	{
 		if (sect->neighbors[n] >= 0 &&
-			intersects_collider(p, v2_add(p, v2_multf(d, 8.0f)), v[n], v[n + 1]))
+			intersects_collider(p, v2_add(p, d), v[n], v[n + 1]))
 		{
 			player->sector = sect->neighbors[n];
 			if (player->where.z != doom->sector[player->sector].floor)
@@ -133,10 +133,15 @@ int		calcnewsector(float dx, float dy, t_doom *doom, t_player *player)
 		}
 		n++;
 	}
+	//player_move(doom, (t_xy){p.x + d.x, p.y + d.y});
+	player_move(doom, (t_xy){d.x, d.y});
+
+	/*
 	player->where.x += dx;
 	player->where.y += dy;
 	player->anglesin = sinf(player->angle);
 	player->anglecos = cosf(player->angle);
+	*/
 	return (0);
 }
 

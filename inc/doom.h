@@ -126,6 +126,7 @@ typedef struct		s_player
 	int				move;
 	int				fall;
 	int				ground;
+	float			col_size;
 }					t_player;
 
 typedef struct		s_sdl
@@ -168,6 +169,7 @@ typedef struct		s_obj
 	int				states_count;
 	int				states_frame;
 	float			col_size;
+	int				col_passable;
 	void			(*on_collision)(struct t_doom *doom, struct s_obj *obj);
 }					t_obj;
 
@@ -286,6 +288,7 @@ typedef struct		s_doom
 	struct s_enemy	*enemy;
 	t_img			images[512];
 	int				images_count;
+	float			wall_col_size;
 }					t_doom;
 
 typedef struct		s_enemy
@@ -337,6 +340,7 @@ void	obj_state_change(t_obj *obj, int state);
 int		rgb_multiply(int color, float value);
 int		objects_update(t_doom *doom);
 void	on_collision_key(t_doom *doom, t_obj *obj);
+int		player_move(t_doom *doom, t_xy move_pos);
 
 int		intersects_collider(t_xy pos, t_xy dest_pos, t_xy col_pos1, t_xy col_pos2);
 t_xy	rot_to_v2(float rot);

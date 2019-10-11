@@ -44,8 +44,8 @@ int		loadtextureobjs(t_doom *doom, t_obj *obj, t_player player)
 	obj[0].images[6][0] = new_image(doom, "textures/obj/head2/headW.png");
 	obj[0].images[7][0] = new_image(doom, "textures/obj/head2/headNW.png");
 	obj[0].images[8][0] = new_image(doom, "textures/obj/head2/headDead.png");
+	obj[0].col_passable = 1;
 	doom->enemy = create_enemy(doom, &obj[0]);
-	printf("ok\n");
 	/*
 	obj[0].images[0][0] = new_image(doom, "textures/obj/bar/BAR1A0.png");
 	obj[0].images[0][1] = new_image(doom, "textures/obj/bar/BAR1B0.png");
@@ -75,6 +75,7 @@ int		loadtextureobjs(t_doom *doom, t_obj *obj, t_player player)
 	obj[1].images[0][1] = new_image(doom, "textures/obj/people/devka/devka1.png");
 	obj[1].on_collision = on_collision_key;
 	obj[1].col_size = 3.0f;
+	obj[1].col_passable = 1;
 	obj[1].enabled = 1;
 
 	obj[2].images[0][0] = new_image(doom, "textures/obj/head/HEADA1.png");
@@ -86,7 +87,8 @@ int		loadtextureobjs(t_doom *doom, t_obj *obj, t_player player)
 
 	obj[3].images[0][0] = new_image(doom, "textures/obj/people/svidetel/svidetel.png");
 	obj[3].enabled = 1;
-	//doom->txt[0].data = (int**)ft_memalloc(sizeof(int*) * 1);
+	obj[3].col_size = 1.0f;
+	obj[3].col_passable = 0;
 
 	return (0);
 }

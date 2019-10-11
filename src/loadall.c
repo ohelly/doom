@@ -94,5 +94,6 @@ int		loadall(t_doom *doom)
 		printf("txtw - %d\n", doom->sector[j].txtw);		
 		j++;
 	}
+	doom->wall_col_size = 0.2f;
 	return (1);
 }

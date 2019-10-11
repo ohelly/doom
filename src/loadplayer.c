@@ -24,6 +24,7 @@ int		loadplayer(t_player *player, char *str)
 	printf("Angle - %f\n", player->angle);
 	player->anglesin = sinf(player->angle);
 	player->anglecos = cosf(player->angle);
+	player->col_size = 1.0f;
 	
 	printf("anglesin - %f\n", player->anglesin);
 	printf("anglecos - %f\n", player->anglecos);
