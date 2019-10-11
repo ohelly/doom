@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 16:33:37 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/11 14:27:55 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/11 15:39:49 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,6 +50,18 @@ int		load_img_for_hud(t_doom *doom)
 	if (!(doom->txt->huds[13] = IMG_LoadTexture(doom->sdl->rend, "img/hud/textures_wall.png")))
 		return (0);
 	if (!(doom->txt->huds[14] = IMG_LoadTexture(doom->sdl->rend, "img/hud/window.png")))
+		return (0);
+	if (!(doom->txt->huds[15] = IMG_LoadTexture(doom->sdl->rend, "img/hud/end.png")))
+		return (0);
+	if (!(doom->txt->huds[16] = IMG_LoadTexture(doom->sdl->rend, "img/hud/height_.png")))
+		return (0);
+	if (!(doom->txt->huds[17] = IMG_LoadTexture(doom->sdl->rend, "img/hud/object.png")))
+		return (0);
+	if (!(doom->txt->huds[18] = IMG_LoadTexture(doom->sdl->rend, "img/hud/save.png")))
+		return (0);
+	if (!(doom->txt->huds[19] = IMG_LoadTexture(doom->sdl->rend, "img/hud/sprite.png")))
+		return (0);
+	if (!(doom->txt->huds[20] = IMG_LoadTexture(doom->sdl->rend, "img/hud/start.png")))
 		return (0);
 	/* 
 		WALL

@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 18:32:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/11 14:58:20 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/11 17:39:33 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,14 +40,14 @@ void		put_image_on_screen(t_doom *doom)
 		renderTextures(doom->txt->huds[0], doom->sdl->rend, 950, 10, 50, 50);
 		renderTextures(doom->txt->huds[1], doom->sdl->rend, 1200, 10, 50, 50);
 		renderTextures(doom->txt->huds[2], doom->sdl->rend, 1000, 7, 200, 50);
-		// < floor= >
-		renderTextures(doom->txt->huds[0], doom->sdl->rend, 950, 60, 50, 50);
-		renderTextures(doom->txt->huds[1], doom->sdl->rend, 1200, 60, 50, 50);
-		renderTextures(doom->txt->huds[3], doom->sdl->rend, 1000, 57, 200, 50);
 		// < ceiling= >
 		renderTextures(doom->txt->huds[0], doom->sdl->rend, 950, 110, 50, 50);
 		renderTextures(doom->txt->huds[1], doom->sdl->rend, 1200, 110, 50, 50);
-		renderTextures(doom->txt->huds[4], doom->sdl->rend, 1000, 107, 200, 50);
+		renderTextures(doom->txt->huds[3], doom->sdl->rend, 1000, 107, 200, 50);
+		// < floor= >
+		renderTextures(doom->txt->huds[0], doom->sdl->rend, 950, 60, 50, 50);
+		renderTextures(doom->txt->huds[1], doom->sdl->rend, 1200, 60, 50, 50);
+		renderTextures(doom->txt->huds[4], doom->sdl->rend, 1000, 57, 200, 50);
 		// < textures floor >
 		renderTextures(doom->txt->huds[0], doom->sdl->rend, 950, 210, 50, 50);
 		renderTextures(doom->txt->huds[1], doom->sdl->rend, 1200, 210, 50, 50);
@@ -89,5 +89,27 @@ void		put_image_on_screen(t_doom *doom)
 		renderTextures(doom->txt->huds[1], doom->sdl->rend, 1200, 660, 50, 50);
 		renderTextures(doom->txt->huds[13], doom->sdl->rend, 1000, 607, 200, 50);
 		renderTextures(doom->txt->wall[doom->walls->wall[doom->walls->selected_wall].txt], doom->sdl->rend, 1070, 657, 60, 50);
+	}
+	else if (doom->app == 3)
+	{
+		// < object >
+		renderTextures(doom->txt->huds[0], doom->sdl->rend, 950, 10, 50, 50);
+		renderTextures(doom->txt->huds[1], doom->sdl->rend, 1200, 10, 50, 50);
+		renderTextures(doom->txt->huds[17], doom->sdl->rend, 1000, 7, 200, 50);
+		// < texture obj >
+		renderTextures(doom->txt->huds[0], doom->sdl->rend, 950, 60, 50, 50);
+		renderTextures(doom->txt->huds[1], doom->sdl->rend, 1200, 60, 50, 50);
+		/*--*/
+		renderTextures(doom->txt->huds[0], doom->sdl->rend, 950, 110, 50, 50);
+		renderTextures(doom->txt->huds[1], doom->sdl->rend, 1200, 110, 50, 50);
+		renderTextures(doom->txt->huds[19], doom->sdl->rend, 1000, 107, 200, 50);
+		// < texture sprite >
+		renderTextures(doom->txt->huds[0], doom->sdl->rend, 950, 160, 50, 50);
+		renderTextures(doom->txt->huds[1], doom->sdl->rend, 1200, 160, 50, 50);
+		/*--*/
+		// < height = >
+		renderTextures(doom->txt->huds[0], doom->sdl->rend, 950, 210, 50, 50);
+		renderTextures(doom->txt->huds[1], doom->sdl->rend, 1200, 210, 50, 50);
+		renderTextures(doom->txt->huds[16], doom->sdl->rend, 1000, 207, 200, 50);
 	}
 }

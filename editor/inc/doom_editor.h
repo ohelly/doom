@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/11 14:55:03 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/11 15:40:31 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,8 @@
 # define HEIGHT 720
 # define BUFF_SIZE 1
 # define DELAY_ERR 50
-# define COUNT_W 21
-# define COUNT_H 15
+# define COUNT_T 21
+# define COUNT_H 21
 # define COUNT_O 21
 
 /*
@@ -183,7 +183,7 @@ typedef struct			s_sdl
 
 typedef struct			s_txt
 {
-	SDL_Texture			*wall[COUNT_W];
+	SDL_Texture			*wall[COUNT_T];
 	SDL_Texture			*obj[21];
 	SDL_Texture			*sky[3];
 	SDL_Texture			*huds[COUNT_H];
@@ -206,6 +206,7 @@ typedef struct			s_spr_wall
 typedef struct			s_all_spr_wall
 {
 	int					count;
+	int					select_spr;
 	t_spr_wall			spr[1000];
 }						t_all_spr_wall;
 
@@ -224,6 +225,7 @@ typedef struct			s_spr_floor
 typedef struct			s_all_spr_floor
 {
 	int					count;
+	int					select_obj;
 	t_spr_floor			obj[1000];
 }						t_all_spr_floor;
 

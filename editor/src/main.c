@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:57:29 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/09 18:51:17 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/11 15:13:21 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,8 @@ int			sdl_init(t_doom *doom)
 	doom->sects->selected_sector = -1;
 	doom->walls->selected_wall = -1;
 	doom->walls->adjacent_wall = -1;
+	doom->aspr->select_spr = -1;
+	doom->obj->select_obj = -1;
 	doom->hud->msg = 0;
 	return (1);
 }
