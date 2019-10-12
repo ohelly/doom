@@ -46,6 +46,7 @@ int		loadtextureobjs(t_doom *doom, t_obj *obj, t_player player)
 	obj[0].images[8][0] = new_image(doom, "textures/obj/head2/headDead.png");
 	obj[0].col_passable = 1;
 	doom->enemy = create_enemy(doom, &obj[0]);
+	//obj[0].id = 0;
 	/*
 	obj[0].images[0][0] = new_image(doom, "textures/obj/bar/BAR1A0.png");
 	obj[0].images[0][1] = new_image(doom, "textures/obj/bar/BAR1B0.png");
@@ -74,9 +75,10 @@ int		loadtextureobjs(t_doom *doom, t_obj *obj, t_player player)
 	obj[1].images[0][0] = new_image(doom, "textures/obj/people/devka/devka.png");
 	obj[1].images[0][1] = new_image(doom, "textures/obj/people/devka/devka1.png");
 	obj[1].on_collision = on_collision_key;
-	obj[1].col_size = 3.0f;
+	obj[1].col_size = 1.5f;
 	obj[1].col_passable = 1;
 	obj[1].enabled = 1;
+	obj[1].id = 1;
 
 	obj[2].images[0][0] = new_image(doom, "textures/obj/head/HEADA1.png");
 	obj[2].images[0][1] = new_image(doom, "textures/obj/head/HEADB1.png");
@@ -89,6 +91,8 @@ int		loadtextureobjs(t_doom *doom, t_obj *obj, t_player player)
 	obj[3].enabled = 1;
 	obj[3].col_size = 1.0f;
 	obj[3].col_passable = 0;
+	obj[3].on_interaction = on_collision_key;
+	obj[3].id = 3;
 
 	return (0);
 }

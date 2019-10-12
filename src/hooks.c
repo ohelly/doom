@@ -12,7 +12,7 @@
 
 #include "doom.h"
 
-int		finddoor(t_doom *doom, t_player player)
+int		find_door(t_doom *doom, t_player player)
 {
 	t_sector	*s;
 	t_xy		*v;
@@ -28,7 +28,7 @@ int		finddoor(t_doom *doom, t_player player)
 		if (s->neighbors[n] >= 0 && collision_box_dir(p, v2_add(p, d), v[n], v[n + 1]))
 		{
 			doom->sector[s->neighbors[n]].up = 1;
-			break ;
+			return (1);
 		}
 		n++;
 	}
@@ -52,7 +52,8 @@ int		keydown(t_doom *doom, SDL_Event ev)
 		doom->wsad[3] = 1;
 	if (ev.key.keysym.sym == 'e')
 	{
-		finddoor(doom, doom->player);
+		find_door(doom, doom->player);
+		find_obj_interaction(doom);
 	}
 	if (ev.key.keysym.sym == '\t')
 	{

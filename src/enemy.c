@@ -67,7 +67,7 @@ void	enemy_on_hit(t_doom *doom, t_enemy *enemy)
 		obj_state_change(enemy->obj, 8); //change to enemy_dead texture
 }
 
-float	ran(float min, float max)
+float	random_range(float min, float max)
 {
 	return (min + (max - min) * ((double)rand() / RAND_MAX * 2.0 - 1.0));
 }
@@ -87,7 +87,7 @@ void	enemy_on_framestart(t_doom *doom, t_enemy *enemy)
 		}
 		else
 		{
-			t_xy new_dir = v2_normalize((t_xy){ran(-1, 1), ran(-1, 1)});
+			t_xy new_dir = v2_normalize((t_xy){random_range(-1, 1), random_range(-1, 1)});
 			enemy->dir.x = new_dir.x;
 			enemy->dir.y = new_dir.y;
 		}
@@ -122,7 +122,7 @@ t_enemy	*create_enemy(t_doom *doom, t_obj *obj)
 	enemy->attack_speed = 3.0f;
 	enemy->attack_damage = 5;
 	enemy->move_speed = 8;
-	enemy->view_distance = 3;
+	enemy->view_distance = 3.0f;
 	enemy->on_framestart = enemy_on_framestart;
 	enemy->on_attack = enemy_on_attack;
 	enemy->on_hit = enemy_on_hit;

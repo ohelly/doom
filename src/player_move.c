@@ -44,15 +44,14 @@ int		obj_collision(t_doom *doom, t_xy player)
 	while (n < doom->numobjs)
 	{
 		obj = doom->obj[n];
-		if (obj.col_passable)
+		if (obj.col_passable || !obj.enabled)
 		{
 			n++;
 			continue ;
 		}
-		//if (IntersectBox(pl1.x, pl1.y, pl2.x, pl2.y, pos1.x, pos1.y, pos2.x, pos2.y))
 		if (collision_circle(player, doom->player.col_size, obj.p, obj.col_size))
 		{
-			printf("Player collided with obj\n");
+			//printf("Player collided with obj\n");
 			return (0);
 		}
 		
@@ -64,25 +63,63 @@ int		obj_collision(t_doom *doom, t_xy player)
 int		player_move(t_doom *doom, t_xy delta)
 {
 	t_xy		player;
+	t_xy		move_pos;
 	t_xy		pl1;
 	t_xy		pl2;
 
 	player = (t_xy){doom->player.where.x, doom->player.where.y};
-	player = v2_add(player, delta);
-	pl1 = v2_addf(player, -doom->player.col_size);
-	pl2 = v2_addf(player, doom->player.col_size);
 
-	if (!walls_collision(doom, pl1, pl2) || !obj_collision(doom, player))
-		return (0);
+	move_pos = v2_add(player, (t_xy){delta.x, 0});
+	pl1 = v2_addf(move_pos, -doom->player.col_size);
+	pl2 = v2_addf(move_pos, doom->player.col_size);
+	delta.x *= walls_collision(doom, pl1, pl2);
 
-	//delta.x *= walls_collision(doom, pl1, pl2, (t_xy){delta.x, 0});
-	//delta.y *= walls_collision(doom, pl1, pl2, (t_xy){0, delta.y});
-	//delta.x *= obj_collision (doom, pl1, pl2, (t_xy){delta.x, 0});
-	//delta.y *= obj_collision (doom, pl1, pl2, (t_xy){0, delta.y});
+	move_pos = v2_add(player, (t_xy){0, delta.y});
+	pl1 = v2_addf(move_pos, -doom->player.col_size);
+	pl2 = v2_addf(move_pos, doom->player.col_size);
+	delta.y *= walls_collision(doom, pl1, pl2);
 
-	doom->player.where.x = player.x;
-	doom->player.where.y = player.y;
+	move_pos = v2_add(player, (t_xy){delta.x, 0});
+	delta.x *= obj_collision(doom, move_pos);
+
+	move_pos = v2_add(player, (t_xy){0, delta.y});
+	delta.y *= obj_collision(doom, move_pos);
+
+	doom->player.where.x = player.x + delta.x;
+	doom->player.where.y = player.y + delta.y;
 	doom->player.anglesin = sinf(doom->player.angle);
 	doom->player.anglecos = cosf(doom->player.angle);
 	return (1);
+}
+
+//returns 1 if found interactable obj in closest proximity
+int		find_obj_interaction(t_doom *doom)
+{
+	int		n;
+	t_obj	obj;
+	t_xy	p;
+	t_xy	d;
+
+	p = (t_xy){doom->player.where.x, doom->player.where.y};
+	d = (t_xy){doom->player.anglecos * 4, doom->player.anglesin * 4};
+
+	n = 0;
+	while (n < doom->numobjs)
+	{
+		obj = doom->obj[n];
+		if (!obj.enabled || obj.on_interaction == NULL)
+		{
+			n++;
+			continue ;
+		}
+		if (collision_box(p, v2_add(p, d), v2_addf(obj.p, -obj.col_size), v2_addf(obj.p, obj.col_size)))
+		{
+			obj.on_interaction(doom, &obj);
+			printf("Player interacted with obj %d\n", obj.id);
+			printf("Positions are p %f:%f, pd %f:%f, pos1 %f:%f, pos2 %f:%f\n", p.x, p.y, v2_add(p, d).x, v2_add(p, d).y, v2_addf(obj.p, -obj.col_size).x, v2_addf(obj.p, -obj.col_size).y, v2_addf(obj.p, obj.col_size).x, v2_addf(obj.p, obj.col_size).y);
+			return (1);
+		}
+		n++;
+	}
+	return (0);
 }

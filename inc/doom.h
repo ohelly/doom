@@ -161,6 +161,7 @@ typedef struct		s_obj
 {
 	t_xy			p;
 
+	int				id;
 	int				enabled;
 	int				sector;
 	int				**images;
@@ -171,6 +172,7 @@ typedef struct		s_obj
 	float			col_size;
 	int				col_passable;
 	void			(*on_collision)(struct t_doom *doom, struct s_obj *obj);
+	void			(*on_interaction)(struct t_doom *doom, struct s_obj *obj);
 }					t_obj;
 
 /*
@@ -343,10 +345,12 @@ int		rgb_multiply(int color, float value);
 int		objects_update(t_doom *doom);
 void	on_collision_key(t_doom *doom, t_obj *obj);
 int		player_move(t_doom *doom, t_xy move_pos);
+int		find_obj_interaction(t_doom *doom);
 
 int		collision_box(t_xy p1, t_xy p2, t_xy v1, t_xy v2);
 int		collision_circle(t_xy pos1, float rad1, t_xy pos2, float rad2);
 int		collision_box_dir(t_xy pos1, t_xy pos2, t_xy col_pos1, t_xy col_pos2);
+int		overlap(float a0, float a1, float b0, float b1);
 //math
 t_xy	rot_to_v2(float rot);
 float	v2_to_rot(t_xy v2);
