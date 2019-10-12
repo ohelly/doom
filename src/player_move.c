@@ -96,7 +96,7 @@ int		player_move(t_doom *doom, t_xy delta)
 int		find_obj_interaction(t_doom *doom)
 {
 	int		n;
-	t_obj	obj;
+	t_obj	*obj;
 	t_xy	p;
 	t_xy	d;
 
@@ -106,17 +106,16 @@ int		find_obj_interaction(t_doom *doom)
 	n = 0;
 	while (n < doom->numobjs)
 	{
-		obj = doom->obj[n];
-		if (!obj.enabled || obj.on_interaction == NULL)
+		obj = &doom->obj[n];
+		if (!obj->enabled || obj->on_interaction == NULL)
 		{
 			n++;
 			continue ;
 		}
-		if (collision_box(p, v2_add(p, d), v2_addf(obj.p, -obj.col_size), v2_addf(obj.p, obj.col_size)))
+		if (collision_box(p, v2_add(p, d), v2_addf(obj->p, -obj->col_size), v2_addf(obj->p, obj->col_size)))
 		{
-			obj.on_interaction(doom, &obj);
-			printf("Player interacted with obj %d\n", obj.id);
-			printf("Positions are p %f:%f, pd %f:%f, pos1 %f:%f, pos2 %f:%f\n", p.x, p.y, v2_add(p, d).x, v2_add(p, d).y, v2_addf(obj.p, -obj.col_size).x, v2_addf(obj.p, -obj.col_size).y, v2_addf(obj.p, obj.col_size).x, v2_addf(obj.p, obj.col_size).y);
+			obj->on_interaction(doom, obj);
+			printf("Player interacted with obj %d\n", obj->id);
 			return (1);
 		}
 		n++;

@@ -5,7 +5,7 @@ void	on_collision_key(t_doom *doom, t_obj *obj)
 	if (obj->enabled == 0)
 		return ;
 	obj->enabled = 0;
-	printf("obj has been triggered\n");
+	printf("obj %d has been triggered\n", obj->id);
 }
 
 int	check_player_collision(t_doom *doom, t_obj *obj)
