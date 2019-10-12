@@ -25,7 +25,7 @@ int		finddoor(t_doom *doom, t_player player)
 	n = 0;
 	while (n < s->npoints)
 	{
-		if (s->neighbors[n] >= 0 && intersects_collider(p, v2_add(p, d), v[n], v[n + 1]))
+		if (s->neighbors[n] >= 0 && collision_box_dir(p, v2_add(p, d), v[n], v[n + 1]))
 		{
 			doom->sector[s->neighbors[n]].up = 1;
 			break ;

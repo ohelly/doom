@@ -45,7 +45,7 @@ int		can_move(t_doom *doom, t_enemy *enemy, t_xy new_pos)
 	new_pos = v2_add(new_pos, v2_multf(enemy->dir, enemy->obj->col_size));
 	while (n < s->npoints)
 	{
-		if (intersects_collider(enemy->obj->p, new_pos, v[n], v[n + 1]))
+		if (collision_box_dir(enemy->obj->p, new_pos, v[n], v[n + 1]))
 			return (0);
 		n++;
 	}

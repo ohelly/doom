@@ -25,7 +25,7 @@ int		walls_collision(t_doom *doom, t_xy pl1, t_xy pl2)
 			if (hole.y < doom->player.where.z + HeadMargin ||
 				hole.x > doom->player.where.z - EyeHeight + KneeHeight)
 			{
-				printf("Player collided with wall\n");
+				//printf("Player collided with wall\n");
 				return (0);
 			}
 		}
@@ -35,24 +35,22 @@ int		walls_collision(t_doom *doom, t_xy pl1, t_xy pl2)
 }
 
 //returns 0 if quad pl1-pl2 intersected with obj collider
-int		obj_collision(t_doom *doom, t_xy pl1, t_xy pl2)
+int		obj_collision(t_doom *doom, t_xy player)
 {
 	int		n;
-	t_xy	pos1;
-	t_xy	pos2;
+	t_obj	obj;
 
 	n = 0;
 	while (n < doom->numobjs)
 	{
-		if (doom->obj[n].col_passable)
+		obj = doom->obj[n];
+		if (obj.col_passable)
 		{
 			n++;
 			continue ;
 		}
-		pos1 = v2_addf(doom->obj[n].p, -doom->obj[n].col_size);
-		pos2 = v2_addf(doom->obj[n].p, doom->obj[n].col_size);
-		//if (intersects_collider(pl1, pl2, pos1, pos2))
-		if (IntersectBox(pl1.x, pl1.y, pl2.x, pl2.y, pos1.x, pos1.y, pos2.x, pos2.y))
+		//if (IntersectBox(pl1.x, pl1.y, pl2.x, pl2.y, pos1.x, pos1.y, pos2.x, pos2.y))
+		if (collision_circle(player, doom->player.col_size, obj.p, obj.col_size))
 		{
 			printf("Player collided with obj\n");
 			return (0);
@@ -74,7 +72,7 @@ int		player_move(t_doom *doom, t_xy delta)
 	pl1 = v2_addf(player, -doom->player.col_size);
 	pl2 = v2_addf(player, doom->player.col_size);
 
-	if (!walls_collision(doom, pl1, pl2) || !obj_collision(doom, pl1, pl2))
+	if (!walls_collision(doom, pl1, pl2) || !obj_collision(doom, player))
 		return (0);
 
 	//delta.x *= walls_collision(doom, pl1, pl2, (t_xy){delta.x, 0});

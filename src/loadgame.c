@@ -89,23 +89,9 @@ int		overlap(float a0, float a1, float b0, float b1)
 	return (min(a0,a1) <= max(b0,b1) && min(b0,b1) <= max(a0,a1));
 }
 
-int		intersectbox(t_xy p, t_xy d, t_xy v1, t_xy v2)
-{
-	return (overlap(p.x, p.x + d.x, v1.x, v2.x) && overlap(p.y, p.y + d.y, v1.y, v2.y));
-}
-
 int		pointside(t_xy p, t_xy d, t_xy v1, t_xy v2)
 {
 	return (vxs(v1.x - (p.x + d.x), v1.y - (p.y + d.y), p.x - (p.x + d.x), p.y - (p.y + d.y)));
-}
-
-//Returns 1 if colliders intersects
-int		intersects_collider(t_xy pos, t_xy dest_pos, t_xy col_pos1, t_xy col_pos2)
-{
-	if ((IntersectBox(pos.x, pos.y, dest_pos.x, dest_pos.y, col_pos1.x, col_pos1.y, col_pos2.x, col_pos2.y) &&
-		PointSide(dest_pos.x, dest_pos.y, col_pos1.x, col_pos1.y, col_pos2.x, col_pos2.y) <= 0))
-		return (1);
-	return (0);
 }
 
 int		calcnewsector(float dx, float dy, t_doom *doom, t_player *player)
@@ -124,7 +110,7 @@ int		calcnewsector(float dx, float dy, t_doom *doom, t_player *player)
 	while (n < sect->npoints)
 	{
 		if (sect->neighbors[n] >= 0 &&
-			intersects_collider(p, v2_add(p, d), v[n], v[n + 1]))
+			collision_box_dir(p, v2_add(p, d), v[n], v[n + 1]))
 		{
 			player->sector = sect->neighbors[n];
 			if (player->where.z != doom->sector[player->sector].floor)
@@ -133,7 +119,7 @@ int		calcnewsector(float dx, float dy, t_doom *doom, t_player *player)
 		}
 		n++;
 	}
-	//player_move(doom, (t_xy){p.x + d.x, p.y + d.y});
+
 	player_move(doom, (t_xy){d.x, d.y});
 
 	/*
@@ -171,7 +157,7 @@ int		calciswall(t_doom *doom, t_player *player)
 	n = 0;
 	while (n < sect->npoints)
 	{
-		if (intersects_collider(p, v2_add(p, v2_multf(d, 8.0f)), v[n], v[n + 1]))
+		if (collision_box_dir(p, v2_add(p, v2_multf(d, 8.0f)), v[n], v[n + 1]))
 		{
 			player->velocity.x = 0;
 			player->velocity.y = 0;
@@ -228,6 +214,9 @@ int		fps(t_doom *doom)
 	doom->times[1] = doom->times[0];
 	doom->times[0] = SDL_GetTicks();
 	doom->time_frame = (doom->times[0] - doom->times[1]) / 1000;
+	doom->time_fps_count++;
+	doom->time_fps_total += doom->time_frame;
+	//printf("fps_count %f, fps total %f\n", doom->time_fps_count, doom->time_fps_total);
 	
 	return (0);
 }

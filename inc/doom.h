@@ -285,6 +285,8 @@ typedef struct		s_doom
 	float			*len;
 	float			times[32];
 	float			time_frame;
+	float			time_fps_total;
+	int				time_fps_count;
 	struct s_enemy	*enemy;
 	t_img			images[512];
 	int				images_count;
@@ -342,7 +344,10 @@ int		objects_update(t_doom *doom);
 void	on_collision_key(t_doom *doom, t_obj *obj);
 int		player_move(t_doom *doom, t_xy move_pos);
 
-int		intersects_collider(t_xy pos, t_xy dest_pos, t_xy col_pos1, t_xy col_pos2);
+int		collision_box(t_xy p1, t_xy p2, t_xy v1, t_xy v2);
+int		collision_circle(t_xy pos1, float rad1, t_xy pos2, float rad2);
+int		collision_box_dir(t_xy pos1, t_xy pos2, t_xy col_pos1, t_xy col_pos2);
+//math
 t_xy	rot_to_v2(float rot);
 float	v2_to_rot(t_xy v2);
 t_xy	v2_add(t_xy v1, t_xy v2);
