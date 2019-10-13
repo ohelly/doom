@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/11 18:56:22 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/13 13:04:28 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,6 +74,10 @@ int		keydown(t_doom *doom, SDL_Event ev)
 		doom->sectors[doom->player.sector].light += 0.1f;
 	if (ev.key.keysym.sym == 'n')
 		doom->sectors[doom->player.sector].light -= 0.1f;
+	if (ev.key.keysym.sym == '=')
+		doom->sectors[doom->player.sector].ceil += 1;
+	if (ev.key.keysym.sym == '-')
+		doom->sectors[doom->player.sector].ceil -= 1;
 	return (0);
 }
 

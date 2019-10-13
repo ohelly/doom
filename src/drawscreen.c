@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/11 19:02:03 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/13 15:41:28 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,14 +92,14 @@ void	vline2(int x, t_ab_i wy, t_scaler ty, t_doom *doom)
 	//printf("set - %d, w - %d, h - %d\n", set->data[0], set->w, set->h);
     while (y <= y2)
     {
-		//if (doom->cood.neighbor == -2)
-		//{
-		//	doom->visible[y][x] = 1;
-		//	y++;
-		//	if (y == y2 + 1)
-		//		return ;
-		//	continue ;
-		//}
+		if (doom->cood.neighbor == -2)
+		{
+			doom->visible[y][x] = 1;
+			y++;
+			if (y == y2 + 1)
+				return ;
+			continue ;
+		}
         txty = scaler_next(&ty);
 		color = set->data[txty % set->h * set->w + doom->cood.txtx % set->w];
 		//if (color != prev_color)
@@ -112,7 +112,7 @@ void	vline2(int x, t_ab_i wy, t_scaler ty, t_doom *doom)
 		y++;
     }
 }
-/*
+
 void	vline3(int x, t_ab_i wy, t_scaler ty, t_doom *doom)
 {
 	int		*pix;
@@ -124,27 +124,31 @@ void	vline3(int x, t_ab_i wy, t_scaler ty, t_doom *doom)
 	int		color;
 	int		prev_color;
 	int		prev_light;
+	t_img	set;
 
 	pix = doom->sdl->pix;
     y1 = clamp(y1, 0, HEIGHT - 1);
     y2 = clamp(y2, 0, HEIGHT - 1);
     pix += y1 * WIDTH + x;
 	y = y1;
+	set = doom->img[doom->pics[doom->cood.num].images[0][0]];
     while (y <= y2)
     {
         txty = scaler_next(&ty);
-		color = doom->txt[0].img->data[txty % doom->txt[0].img->h * doom->txt[0].img->w + doom->cood.ptxtx % doom->txt[0].img->w];
+		//if (set.data[(txtz % set.h) * set.w + (doom->cood.ptxtx % set.w)])
+			color = set.data[txty % set.h * set.w + doom->cood.ptxtx % set.w];
 		//if (color != prev_color)
 		//
 		//	prev_color = color;
 		//	prev_light = rgb_multiply(color, doom->sector[doom->now.sector].light);
 		//}
-		*pix = color;//prev_light;
+		if (color)
+			*pix = color;//prev_light;
         pix += WIDTH;
 		y++;
     }
 }
-*/
+
 int			renew(t_item *head, t_doom *doom, int *rensects)
 {
 	int		x;
@@ -272,30 +276,32 @@ int			render_ceil_floor(t_doom *doom, t_sectors *s, t_cood *cood, t_player playe
 	t_img	set;
 
 	hei = cood->y < cood->cy.a ? cood->yceil : cood->yfloor;
-	//if (s->sky == 1 && hei == cood->yceil)
-	//{
-	//	doom->visible[cood->y][cood->x] = 1;
-	//	return (0);
-	//}
+	if (s->sky == 1 && hei == cood->yceil)
+	{
+		doom->visible[cood->y][cood->x] = 1;
+		return (0);
+	}
 	CeilingFloorScreenCoordinatesToMapCoordinates(hei, cood->x, cood->y, &mapx, &mapz, player);
-    txtx = (mapx * 16);
-	txtz = (mapz * 16);
-	//set = cood->y < cood->cy.a ? doom->img[doom->ceils[s->txtc].image] : doom->img[doom->floors[s->txtf].image];
-	//pel = set.data[(txtz % set.h) * set.w + (txtx % set.w)];
-	//if (!set.data[(txtz % set.h) * set.w + (txtx % set.w)])
-	//{
-	//	doom->visible[cood->y][cood->x] = 1;
-	//	return (0);
-	//}
-	//if (pel != prev_color)
+    txtx = (mapx * 8);
+	txtz = (mapz * 8);
+	set = cood->y < cood->cy.a ? doom->img[doom->ceils[s->txtc].image] : doom->img[doom->floors[s->txtf].image];
+	//printf("w - %d, h - %d, inage - %d\n", set.w, set.h, doom->ceils[s->txtc].image);
+	pel = set.data[(txtz % set.h) * set.w + (txtx % set.w)];
+	doom->sdl->pix[cood->y * WIDTH + cood->x] = pel;
+	if (!set.data[(txtz % set.h) * set.w + (txtx % set.w)])
+	{
+		doom->visible[cood->y][cood->x] = 1;
+		return (0);
+	}
+	//if (pel != prev_color) //<---------- переделать
 	//{
 	//	prev_light = rgb_multiply(pel, s->light);
 	//	prev_color = pel;
 	//}
-	if (hei == cood->yceil)
-		doom->sdl->pix[cood->y * WIDTH + cood->x] = 0xFFFFFF;//prev_light;
-	else
-			doom->sdl->pix[cood->y * WIDTH + cood->x] = 0x00FFAA;//prev_light;
+	//if (hei == cood->yceil)
+		//doom->sdl->pix[cood->y * WIDTH + cood->x] = pel;
+	//else
+	//	doom->sdl->pix[cood->y * WIDTH + cood->x] = 0x00FFaa;
 	return (1);
 }
 
@@ -316,11 +322,13 @@ int			draw_ceil_floor(t_doom *doom, t_sectors *s, t_cood *cood, t_player player)
 			continue ;
 		}
 		cood->y = y;
+		
 		if (!(render_ceil_floor(doom, s, cood, player)))
 		{
 			y++;
 			continue ;
 		}
+		
 		y++;
 	}
 	return (0);
@@ -336,20 +344,20 @@ int			render_walls2(t_doom *doom, t_sectors *s, t_cood *cood, t_player player)
 		cood->cny.a = clamp(cood->ny.a, doom->ytop[cood->x], doom->ybot[cood->x]);
 		cood->ny.b = (cood->x - cood->w1x) * (cood->n2y.b - cood->n1y.b) / (cood->w2x - cood->w1x) + cood->n1y.b;
 		cood->cny.b = clamp(cood->ny.b, doom->ytop[cood->x], doom->ybot[cood->x]);
-		//scaler.a = cood->cy.a;
-		//scaler.b = cood->cny.a - 1;
-		vline2(cood->x, scaler, scaler_init(cood->wy, cood->cy.a, 0, 1023), doom);
-		vline(cood->x, cood->cy.a, cood->cny.a - 1, 0, 0x00FF00, 0, doom->sdl);
+		scaler.a = cood->cy.a;
+		scaler.b = cood->cny.a - 1;
+		vline2(cood->x, scaler, scaler_init(cood->wy, cood->cy.a, 0, 64), doom);
+		//vline2(cood->x, cood->cy.a, cood->cny.a - 1, 0, 0x00FF00, 0, doom->sdl);
 		doom->ytop[cood->x] = clamp(max(cood->cy.a, cood->cny.a - 1), doom->ytop[cood->x], HEIGHT - 1);	
-		//scaler.a = cood->cny.b;
-		//scaler.b = cood->cy.b - 1;
-	    //vline2(cood->x, scaler, scaler_init(cood->wy, cood->cny.b + 1, 0,  1023), doom);
-		vline(cood->x, cood->cny.b, cood->cy.b - 1, 0, 0x00FF00, 0, doom->sdl);
+		scaler.a = cood->cny.b;
+		scaler.b = cood->cy.b - 1;
+	    vline2(cood->x, scaler, scaler_init(cood->wy, cood->cny.b + 1, 0, 64), doom);
+		//vline2(cood->x, cood->cny.b, cood->cy.b - 1, 0, 0x00FF00, 0, doom->sdl);
 	    doom->ybot[cood->x] = clamp(min(cood->cy.b, cood->cny.b - 1), 0, doom->ybot[cood->x]);
 	}
 	else
 	{
-		vline2(cood->x, cood->cy, scaler_init(cood->wy, cood->cy.a, 0, 1023), doom);
+		vline2(cood->x, cood->cy, scaler_init(cood->wy, cood->cy.a, 0, 64), doom);
 		//vline(cood->x, cood->cy.a, cood->cy.b, 0x000000, 0xFFFFFF, 0x000000, doom->sdl);
 	}
 	return (0);
@@ -358,12 +366,11 @@ int			render_walls2(t_doom *doom, t_sectors *s, t_cood *cood, t_player player)
 int			render_walls(t_doom *doom, t_sectors *s, t_cood *cood, t_player player)
 {
 	int		x;
+	int		i;
 
 	cood->beginx = max(cood->w1x, doom->now.sx);
 	cood->endx = min(cood->w2x, doom->now.ex);
 	x = cood->beginx;
-	//printf("sx - %d, ex - %d\n", doom->now.sx, doom->now.ex);
-	//printf("beginx - %d, endx - %d\n", cood->beginx, cood->endx);
 	while (x <= cood->endx)
 	{
 		cood->x = x;
@@ -374,8 +381,25 @@ int			render_walls(t_doom *doom, t_sectors *s, t_cood *cood, t_player player)
 		cood->cy.b = clamp(cood->wy.b, doom->ytop[x], doom->ybot[x]);
 		draw_ceil_floor(doom, s, cood, player);
 		render_walls2(doom, s, cood, player);
+		i = 0;
+		while (i < cood->piccount)
+		{
+			if (x >= cood->pw1x[i] && x <= cood->pw2x[i])
+			{
+				//printf("w1x - %d, w2x - %d\n", cood->pw1x[i], cood->pw2x[i]);
+				cood->ptxtx = (cood->pu0[i] * ((cood->pw2x[i] - x) * cood->pt2[i].z) + cood->pu1[i] * ((x - cood->pw1x[i]) * cood->pt1[i].z)) / ((cood->pw2x[i] - x) * cood->pt2[i].z + (x - cood->pw1x[i]) * cood->pt1[i].z);
+				cood->pwy[i].a = (x - cood->pw1x[i]) * (cood->pw2y[i].a - cood->pw1y[i].a) / (cood->pw2x[i] - cood->pw1x[i]) + cood->pw1y[i].a;
+				cood->pcy[i].a = clamp(cood->pwy[i].a, doom->ytop[x], doom->ybot[x]);
+				cood->pwy[i].b = (x - cood->pw1x[i]) * (cood->pw2y[i].b - cood->pw1y[i].b) / (cood->pw2x[i] - cood->pw1x[i]) + cood->pw1y[i].b;
+				cood->pcy[i].b = clamp(cood->pwy[i].b, doom->ytop[x], doom->ybot[x]);
+				cood->num = cood->picnum[i];
+				vline3(x, cood->pcy[i], scaler_init(cood->pwy[i], cood->pcy[i].a, 0, doom->img[doom->pics[doom->cood.num].images[0][0]].w), doom);		
+			}
+			i++;
+		}
 		x++;
 	}
+	
 	return (0);
 }
 
@@ -399,7 +423,6 @@ int			find_yceil_yfloor(t_doom *doom, t_sectors *s, t_cood *cood, t_player playe
 	cood->neighbor = s->neighbors[cood->n];
 	if (cood->neighbor >= 0)
 	{
-		//printf("neighbour - %d\n", cood->neighbor);
 		cood->nyceil  = doom->sectors[cood->neighbor].ceil - player.where.z; 
 		cood->nyfloor = doom->sectors[cood->neighbor].floor - player.where.z;
 		cood->n1y.a = HEIGHT / 2 - (int)(yaw(cood->nyceil , cood->t1.z, player) * cood->scale1.y);
@@ -414,13 +437,95 @@ int			find_yceil_yfloor(t_doom *doom, t_sectors *s, t_cood *cood, t_player playe
 	return (0);
 }
 
+int			calc_pics(t_doom *doom, t_pics *pic, t_cood *cood, t_player player)
+{
+	int		i;
+	int		count;
+	t_xy	i1;
+	t_xy	i2;
+	float		nearz = 1e-4f, farz = 5, nearside = 1e-5f, farside = 20.f;
+
+	i = 0;
+	count = 0;
+	while (i < doom->num.pics)
+	{
+		if (pic[i].sector == doom->now.sector)
+		{
+			//printf("Px - %f, Py - %f\n", pic[i].p.x, pic[i].p.y);
+			cood->picnum[count] = i;
+			cood->pv1[count].x = pic[i].p1.x - player.where.x;
+			cood->pv1[count].y = pic[i].p1.y - player.where.y;
+			cood->pv2[count].x = pic[i].p2.x - player.where.x;
+			cood->pv2[count].y = pic[i].p2.y - player.where.y;
+
+			cood->pt1[count].x = cood->pv1[count].x * player.psin - cood->pv1[count].y * player.pcos;
+			cood->pt1[count].z = cood->pv1[count].x * player.pcos + cood->pv1[count].y * player.psin;
+			cood->pt2[count].x = cood->pv2[count].x * player.psin - cood->pv2[count].y * player.pcos;
+			cood->pt2[count].z = cood->pv2[count].x * player.pcos + cood->pv2[count].y * player.psin;
+			if (cood->pt1[count].z <= 0 && cood->pt2[count].z <= 0)
+			{
+				i++;
+				continue ;
+			}
+			cood->pu0[count] = 0;
+			cood->pu1[count] = doom->img[doom->pics[i].images[0][0]].w;
+			if (cood->pt1[count].z <= 0 || cood->pt2[count].z <= 0)
+			{
+				i1 = findintersect(&cood->pt1[count], &cood->pt2[count], -1);
+				i2 = findintersect(&cood->pt1[count], &cood->pt2[count], 1);
+				cood->porg1[count].x = cood->pt1[count].x;
+				cood->porg1[count].y = cood->pt1[count].z;
+				cood->porg2[count].x = cood->pt2[count].x;
+				cood->porg2[count].y = cood->pt2[count].z;
+				if (cood->pt1[count].z < NEARZ)
+					iflower(&cood->pt1[count], i1, i2);
+				if (cood->pt2[count].z < NEARZ)
+					iflower(&cood->pt2[count], i1, i2);
+				if (fabs(cood->pt2[count].x - cood->pt1[count].x) > fabs(cood->pt2[count].z - cood->pt1[count].z))
+				{
+					cood->pu0[count] = (cood->pt1[count].x - cood->porg1[count].x) * cood->pu1[count] / (cood->porg2[count].x - cood->porg1[count].x);
+					cood->pu1[count] = (cood->pt2[count].x - cood->porg1[count].x) * cood->pu1[count] / (cood->porg2[count].x - cood->porg1[count].x);
+				}
+				else
+				{
+					cood->pu0[count] = (cood->pt1[count].z - cood->porg1[count].y) * cood->pu1[count] / (cood->porg2[count].y - cood->porg1[count].y);
+					cood->pu1[count] = (cood->pt2[count].z - cood->porg1[count].y) * cood->pu1[count] / (cood->porg2[count].y - cood->porg1[count].y);
+				}
+			}
+			cood->pscale1[count].x = (HFOV * WIDTH) / cood->pt1[count].z;
+			cood->pscale1[count].y = (VFOV * HEIGHT) / cood->pt1[count].z;
+			cood->pscale2[count].x = (HFOV * WIDTH) / cood->pt2[count].z;
+			cood->pscale2[count].y = (VFOV * HEIGHT) / cood->pt2[count].z;
+			cood->pw1x[count] = WIDTH / 2 - (int)(cood->pt1[count].x * cood->pscale1[count].x);
+			cood->pw2x[count] = WIDTH / 2 - (int)(cood->pt2[count].x * cood->pscale2[count].x);
+			//printf("w1x - %d, w2x - %d\n", cood->pw1x[count], cood->pw2x[count]);
+			if (cood->pw1x[count] >= cood->pw2x[count] || cood->pw2x[count] < doom->now.sx || cood->pw1x[count] > doom->now.ex)
+			{
+				i++;
+				continue ;
+			}
+			cood->pyceil[count] = pic[i].p.z + doom->sectors[doom->now.sector].floor + doom->img[pic[cood->n].images[0][0]].h / 7 - player.where.z;
+			cood->pyfloor[count] = pic[i].p.z + doom->sectors[doom->now.sector].floor - player.where.z;
+			cood->pw1y[count].a = HEIGHT / 2 - (int)(yaw(cood->pyceil[count] , cood->pt1[count].z, player) * cood->pscale1[count].y);
+			cood->pw1y[count].b = HEIGHT / 2 - (int)(yaw(cood->pyfloor[count], cood->pt1[count].z, player) * cood->pscale1[count].y);
+			cood->pw2y[count].a = HEIGHT / 2 - (int)(yaw(cood->pyceil[count] , cood->pt2[count].z, player) * cood->pscale2[count].y);
+			cood->pw2y[count].b = HEIGHT / 2 - (int)(yaw(cood->pyfloor[count], cood->pt2[count].z, player) * cood->pscale2[count].y);
+			count++;
+		}
+		i++;
+	}
+	//printf("count - %d\n", count);
+	cood->piccount = count;
+	return (0);
+}
+
 int			calc_points(t_doom *doom, t_sectors *s, t_cood *cood, t_player player)
 {
 	find_t_points(s->vert, player, cood);
 	if (cood->t1.z <= 0 && cood->t2.z <= 0)
 		return (0);
 	cood->u0 = 0;
-	cood->u1 = 1023;
+	cood->u1 = (int)sqrt(powf(cood->v1.x - cood->v2.x, 2) + powf(cood->v1.y - cood->v2.y, 2)) * 5;
 	if (cood->t1.z <= 0 || cood->t2.z <= 0)
 		intersect(&cood->t1, &cood->t2, cood);
 	if (!(find_scales(doom, s, cood, player)))
@@ -430,6 +535,8 @@ int			calc_points(t_doom *doom, t_sectors *s, t_cood *cood, t_player player)
 	return (1);
 }
 
+
+
 int			calc_sector(t_doom *doom, t_sectors *s, t_cood *cood, t_player player)
 {
 	int		n;
@@ -438,6 +545,7 @@ int			calc_sector(t_doom *doom, t_sectors *s, t_cood *cood, t_player player)
 	while (n < s->npoints)
 	{
 		cood->n = n;
+		calc_pics(doom, doom->pics, &doom->cood, doom->player);
 		if (!(calc_points(doom, s, cood, player)))
 		{
 			n++;
@@ -485,12 +593,55 @@ int			draw_walls(t_doom *doom, t_player player)
 	return (0);
 }
 
+int			drawsky(t_doom *doom, t_player player, t_texture *sky, t_img *img)
+{
+	int		y;
+	int		x;
+	t_xy 	scale;
+	t_xy	t;
+	t_img	set;
+
+	set = img[sky[0].image];
+	x = 0;
+	while (x < WIDTH)
+	{
+		scale.x = (float)set.w / (WIDTH);
+		scale.y = (float)set.h / (HEIGHT);
+		t.y = player.yaw * 25;
+		t.x = (x * scale.x) + player.angle * 50;
+		if (t.x >= set.w)
+		{
+			while (t.x >= set.w)
+				t.x -= set.w;
+		}
+		else if (t.x < 0)
+		{
+			while (t.x < 0)
+				t.x += set.w;
+		}
+		y = 0;
+		while (y < HEIGHT)
+		{
+			if (t.y > set.h)
+				t.y = set.h - t.y;
+			else if (t.y < 0)
+				t.y = set.h + t.y;
+			if (doom->visible[y][x] == 1)
+				doom->sdl->pix[y * WIDTH + x] = set.data[(int)t.y * set.w + (int)t.x];
+			t.y += scale.y;
+			y++;
+		}
+		x++;
+	}
+	return (0);
+}
+
 int			draw_screen(t_doom *doom)
 {	
 	//printf("Start\n");
 	draw_walls(doom, doom->player);
 	//printf("End\n");
-	//drawsky(doom, doom->txt);
+	drawsky(doom, doom->player, doom->sky, doom->img);
 	//drawsprites(doom, doom->obj, doom->player);
 	return (0);
 }

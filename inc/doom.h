@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/11 18:41:32 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/13 14:46:59 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,11 +98,19 @@ typedef struct	s_obj
 	int			states_frame;
 }				t_obj;
 
+typedef struct	s_data
+{
+	int			type;
+	int			**images;
+	int			*anim_count;
+	int			states_count;
+}				t_data;
+
 typedef struct	s_pics
 {
 	t_xyz		p;
-	t_xy		a;
-	t_xy		b;
+	t_xy		p1;
+	t_xy		p2;
 	int			sector;
 	int			type;
 	int			wall;
@@ -148,6 +156,30 @@ typedef	struct	s_cood
 	int			nyceil;
 	int			nyfloor;
 	int			txtx;
+	int			ptxtx;
+	int			piccount;
+	int			picnum[32];
+	int			num;
+	float		pu0[32];
+	float		pu1[32];
+	int			pyceil[32];
+	int			pyfloor[32];
+	t_xyz		pv1[32];
+	t_xyz		pv2[32];
+	t_xyz		pt1[32];
+	t_xyz		pt2[32];
+	t_xy		porg1[32]; 
+	t_xy		porg2[32];
+	t_xy		pscale1[32];
+	t_xy		pscale2[32];
+	int			pw1x[32];
+	int			pw2x[32];
+	t_ab_i		pwy[32]; 
+	t_ab_i		pwx[32]; //current point
+	t_ab_i		pcy[32];
+	t_ab_i		pw1y[32];
+	t_ab_i		pw2y[32];
+
 	t_xyz		v1;
 	t_xyz		v2;
 	t_xyz		t1;
@@ -168,7 +200,6 @@ typedef	struct	s_cood
 	t_ab_i		cny;
 	t_ab_i		n1y;
 	t_ab_i		n2y;
-	
 }				t_cood;
 
 typedef struct	s_sectors
@@ -253,7 +284,9 @@ typedef struct	s_doom
 	t_texture	*floors;
 	t_texture	*ceils;
 	t_obj		*objs;
+	t_data		*objs_data;
 	t_pics		*pics;
+	t_data		*pics_data;
 	t_sectors	*sectors;
 	t_sdl		*sdl;
 	t_player	player;
@@ -278,8 +311,8 @@ int		countall(t_doom *doom, char **map);
 int		loadvertexes(t_xy *v, char *str);
 int		loadsectors(t_sectors *s, t_xy *v, char *str);
 char	*todigit(char *str, float *data);
-int		loadobjs(t_obj *obj, char *str);
-int		loadpics(t_pics *pic, char *str);
+int		loadobjs(t_obj *obj, t_data *objs_data, char *str);
+int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str);
 int		loadplayer(t_player *player, char *str);
 int		load_game(t_doom *doom);
 int		hooks(t_doom *doom, SDL_Event ev);

@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:50:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/11 12:07:45 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/13 12:27:21 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ t_img	obj_get_image(t_doom *doom, t_obj *obj)
 	return (doom->images[obj->images[obj->states_frame][obj->anim_frame]]);
 }
 */
-int		loadobjs(t_obj *obj, char *str)
+int		loadobjs(t_obj *obj, t_data *objs_data, char *str)
 {
 	static int	n = 0;
 	float		tmp;
@@ -43,11 +43,16 @@ int		loadobjs(t_obj *obj, char *str)
 	int			i;
 	int			j;
 
+	str = todigit(str, &tmp);
+	id = (int)tmp;
 	str = todigit(str, &obj[n].p.y);
 	str = todigit(str, &obj[n].p.x);
 	str = todigit(str, &tmp);
 	obj[n].sector = (int)tmp;
-
+	obj[n].type = objs_data[id].type;
+	obj[n].images = objs_data[id].images;
+	obj[n].anim_count = objs_data[id].anim_count;
+	obj[n].states_count = objs_data[id].states_count;
 	//str = todigit(str, &tmp);
 	//obj[n].images = (int**)malloc(sizeof(int*) * ((int)tmp + 1));
 	//obj[n].states_count = (int)tmp;
