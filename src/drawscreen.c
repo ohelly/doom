@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/13 16:22:50 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/13 18:02:08 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,14 @@ t_scaler	scaler_init(t_ab_i wy, int cya, int u0, int u1)
 
 	if ((wy.b - wy.a) == 0)
 		wy.b -= 1;
-	t.result = u0 + (cya - 1 - wy.a) * (u1 - u0) / (wy.b - wy.a);
+	//printf("ok1\n");
+	//printf("ok\n");
+	t.result = (u0 + (cya - 1 - wy.a) * (u1 - u0) / (wy.b - wy.a));
 	t.bop = ((u1 < u0) ^ ((wy.b < wy.a)) ? -1 : 1);
 	t.fd = abs(u1 - u0);
 	t.ca = abs(wy.b - wy.a);
-	t.cache = ((cya - 1 - wy.a) * abs(u1 - u0) % abs(wy.b - wy.a));
+	t.cache = (cya - 1 - wy.a) * abs(u1 - u0) % abs(wy.b - wy.a);
+	//printf("ok2\n");
 	return (t);
 }
 
@@ -90,14 +93,12 @@ void	vline2(int x, t_ab_i wy, t_scaler ty, t_doom *doom)
 	s = &doom->sectors[doom->now.sector];
 	set = &doom->img[doom->walls[s->txtw[doom->cood.n]].image];
 	//printf("set - %d, w - %d, h - %d\n", set->data[0], set->w, set->h);
-    while (y <= y2)
+    while (y < y2)
     {
 		if (doom->cood.neighbor == -2)
 		{
 			doom->visible[y][x] = 1;
 			y++;
-			if (y == y2 + 1)
-				return ;
 			continue ;
 		}
         txty = scaler_next(&ty);
@@ -283,7 +284,7 @@ int			render_ceil_floor(t_doom *doom, t_sectors *s, t_cood *cood, t_player playe
 	CeilingFloorScreenCoordinatesToMapCoordinates(hei, cood->x, cood->y, &mapx, &mapz, player);
     txtx = (mapx * 8);
 	txtz = (mapz * 8);
-	set = cood->y < cood->cy.a ? doom->img[doom->ceils[s->txtc].image] : doom->img[doom->floors[s->txtf].image];
+	set = cood->y < cood->cy.a - 1 ? doom->img[doom->ceils[s->txtc].image] : doom->img[doom->floors[s->txtf].image];
 	//printf("w - %d, h - %d, inage - %d\n", set.w, set.h, doom->ceils[s->txtc].image);
 	pel = set.data[(txtz % set.h) * set.w + (txtx % set.w)];
 	doom->sdl->pix[cood->y * WIDTH + cood->x] = pel;
@@ -314,20 +315,18 @@ int			draw_ceil_floor(t_doom *doom, t_sectors *s, t_cood *cood, t_player player)
 	y = doom->ytop[cood->x];
 	while (y <= doom->ybot[cood->x])
 	{
-		if (y >= cood->cy.a - 1 && y <= cood->cy.b)
+		if (y >= cood->cy.a - 1 && y <= cood->cy.b - 1)
 		{
-			y = cood->cy.b;
+			y = cood->cy.b - 1;
 			y++;
 			continue ;
 		}
 		cood->y = y;
-		
 		if (!(render_ceil_floor(doom, s, cood, player)))
 		{
 			y++;
 			continue ;
 		}
-		
 		y++;
 	}
 	return (0);
@@ -350,9 +349,9 @@ int			render_walls2(t_doom *doom, t_sectors *s, t_cood *cood, t_player player)
 		doom->ytop[cood->x] = clamp(max(cood->cy.a, cood->cny.a - 1), doom->ytop[cood->x], HEIGHT - 1);	
 		scaler.a = cood->cny.b;
 		scaler.b = cood->cy.b - 1;
-	    vline2(cood->x, scaler, scaler_init(cood->wy, cood->cny.b + 1, 0, doom->img[doom->walls[cood->n].image].w), doom);
+	    vline2(cood->x, scaler, scaler_init(cood->wy, cood->cny.b, 0, doom->img[doom->walls[cood->n].image].w), doom);
 		//vline2(cood->x, cood->cny.b, cood->cy.b - 1, 0, 0x00FF00, 0, doom->sdl);
-	    doom->ybot[cood->x] = clamp(min(cood->cy.b, cood->cny.b - 1), 0, doom->ybot[cood->x]);
+	    doom->ybot[cood->x] = clamp(min(cood->cy.b, cood->cny.b), 0, doom->ybot[cood->x]);
 	}
 	else
 	{

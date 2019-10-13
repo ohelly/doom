@@ -66,8 +66,8 @@ int		direction(t_doom *doom, t_player *player, float *move_vec, t_fps fps)
 		move_vec[0] -= player->psin * 0.4f;
 		move_vec[1] += player->pcos * 0.4f;
 	}
-	move_vec[0] *= fps.time_frame * 60;
-	move_vec[1] *= fps.time_frame * 60;
+	move_vec[0] *= fps.time_frame * 60.f;
+	move_vec[1] *= fps.time_frame * 60.f;
 	return (0);
 }
 
