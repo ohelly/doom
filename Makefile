@@ -32,7 +32,7 @@ FLAGS2 = -F ~/Library/Frameworks/ -framework SDL2 -framework SDL2_image \
 OBJ = src/main.o src/initall.o src/countall.o src/loadall.o src/loadvertexes.o \
 src/loadsectors.o src/utils.o src/loadobjs.o src/loadtxts.o src/loadplayer.o \
 src/loadpics.o src/drawscreen.o src/loadgame.o src/hooks.o src/drawsprites.o src/loadtextures.o \
-src/enemy.o src/profiling.o src/rgb_manipulations.o
+src/enemy.o src/profiling.o src/rgb_manipulations.o src/vector_math.o src/object_triggers.o \
 
 all: $(FRAMEDIR) $(LIBS) $(FRAME) $(NAME)
 

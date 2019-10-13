@@ -22,6 +22,8 @@ void	get_closest_sector(t_doom *doom)
 		doom->sects->selected_sector = -1;
 		return ;
 	}
+	if (doom->walls->selected_wall != -1)
+		doom->walls->selected_wall = -1;
 	wall = get_closest_wall(doom);
 	if (wall == -1)
 	{
@@ -58,11 +60,11 @@ int		get_closest_wall(t_doom *doom)
 		}
 		i++;
 	}
-	if (saved_dist < 30)
-	{
+	//if (saved_dist < 30)
+	//{
 		doom->verts->projected_v.num = saved_wall;
 		doom->verts->projected_v.pos = saved_hit;
 		return (saved_wall);
-	}
-	return (-1);
+	//}
+	//return (-1);
 }

@@ -14,7 +14,7 @@ int		split_wall(t_doom *doom)
 	w2 = get_duplicate_wall(doom, doom->walls->wall[w1]);
 	if (doom->walls->wall[w1].portal != -1 || (w2 != -1 && doom->walls->wall[w2].portal != -1))
 	{
-		printf("Error adding new vertex: remove portal first!\n");
+		doom->hud->msg = "Error adding new vertex: remove portal first!";
 		return (-1);
 	}
 	pos = doom->verts->projected_v.pos;
