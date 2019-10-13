@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/04/12 16:43:25 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/04 16:51:43 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/13 18:52:06 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,17 +40,6 @@ static int		ft_ifmax(int length, t_doom *doom, t_v2 length_v, int color)
 {
 	int d;
 
-
-	//New sector start
-	//
-	//while (new_point != start_point)
-	//	put points
-	//
-	//recalculate sectors (later)
-	//while (new_sectors > 0)
-	//	add_sector(new_sector)
-	//
-
 	d = -length_v.y;
 	while (--length)
 	{
@@ -68,8 +57,8 @@ static int		ft_ifmax(int length, t_doom *doom, t_v2 length_v, int color)
 
 int				line(t_doom *doom, int color)
 {
-	t_v2 length_v;
-	int length;
+	t_v2	length_v;
+	int		length;
 
 	length_v.x = abs(doom->line->pos1.x - doom->line->pos0.x);
 	length_v.y = abs(doom->line->pos1.y - doom->line->pos0.y);

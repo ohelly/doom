@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/11 15:40:31 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/13 18:59:53 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,8 +32,8 @@
 # define COUNT_O 21
 
 /*
-	POS OF X AND Y
-					*/
+**POS OF X AND Y
+*/
 
 typedef struct			s_v2_vertex
 {
@@ -42,8 +42,22 @@ typedef struct			s_v2_vertex
 }						t_v2;
 
 /*
-	SECTORS
-			*/
+** STRUCT FOR INTERSECT
+*/
+
+typedef struct			s_intersect
+{
+	t_v2				s1;
+	t_v2				s2;
+	t_v2				hit;
+	float				s;
+	float				t;
+	float				div;
+}						t_intersect;
+
+/*
+**SECTORS
+*/
 
 typedef struct			s_sectors
 {
@@ -57,7 +71,7 @@ typedef struct			s_sectors
 }						t_sectors;
 
 typedef struct			s_all_sect
-{ 
+{
 	int					count;
 	int					i;
 	t_sectors			sectors[2048];
@@ -74,8 +88,8 @@ typedef struct			s_swall
 }						t_swall;
 
 /*
-	WALLS
-			*/
+**WALLS
+*/
 
 typedef struct			s_wall
 {
@@ -96,8 +110,8 @@ typedef struct			s_all_walls
 }						t_all_walls;
 
 /*
-	VERTEX
-			*/
+**VERTEX
+*/
 
 typedef struct			s_vertex
 {
@@ -105,23 +119,26 @@ typedef struct			s_vertex
 	t_v2				pos;
 }						t_vertex;
 
+/*
+**Массив строящихся вершин built_v_index[2048];
+**num - номер стены на которой лежит проецируемая точка
+*/
+
 typedef struct			s_all_vert
-{ 
+{
 	int					count;
 	int					i;
 	int					sel_v;
 	t_vertex			list[2048];
 	int					built_v_count;
 	int					built_v_count_used;
-	//Массив строящихся вершин
 	int					built_v_index[2048];
-	//num - номер стены на которой лежит проецируемая точка
 	t_vertex			projected_v;
 }						t_all_vert;
 
 /*
-	POS MOUSE
-				*/
+**POS MOUSE
+*/
 
 typedef struct			s_mouse
 {
@@ -130,8 +147,8 @@ typedef struct			s_mouse
 }						t_mouse;
 
 /*
-	BRAZENHAM
-				*/
+**BRAZENHAM
+*/
 
 typedef struct			s_line
 {
@@ -141,8 +158,8 @@ typedef struct			s_line
 }						t_line;
 
 /*
-	FILE
-			*/
+**FILE
+*/
 
 typedef struct			s_file
 {
@@ -151,8 +168,8 @@ typedef struct			s_file
 }						t_file;
 
 /*
-	STRUCT FOR HUD
-					*/
+**STRUCT FOR HUD
+*/
 
 typedef struct			s_hud
 {
@@ -165,8 +182,8 @@ typedef struct			s_hud
 }						t_hud;
 
 /*
-	SDL POINTER'S
-					*/
+**DL POINTER'S
+*/
 
 typedef struct			s_sdl
 {
@@ -178,8 +195,8 @@ typedef struct			s_sdl
 }						t_sdl;
 
 /*
-	TEXTURES STRUCT
-					*/
+**TEXTURES STRUCT
+*/
 
 typedef struct			s_txt
 {
@@ -190,8 +207,8 @@ typedef struct			s_txt
 }						t_txt;
 
 /*
-	SPRITE ON WALL
-					*/
+**SPRITE ON WALL
+*/
 
 typedef struct			s_spr_wall
 {
@@ -211,8 +228,8 @@ typedef struct			s_all_spr_wall
 }						t_all_spr_wall;
 
 /*
-	OBJECT ON FLOOR
-					*/
+**OBJECT ON FLOOR
+*/
 
 typedef struct			s_spr_floor
 {
@@ -230,8 +247,8 @@ typedef struct			s_all_spr_floor
 }						t_all_spr_floor;
 
 /*
-	MAIN STRUCT
-				*/
+**MAIN STRUCT
+*/
 
 typedef struct			s_doom
 {
@@ -254,13 +271,16 @@ typedef struct			s_doom
 	t_v2				move_vector;
 }						t_doom;
 
+int						die_msg(char *msg);
 int						save(t_doom *doom);
+int						sdl_init(t_doom *doom);
 void					output(t_doom *doom);
 void					key_and_mouse_press(t_doom *doom);
 int						get_next_line(const int fd, char **line);
 int						line(t_doom *doom, int color);
 int						output_pixel(t_doom *doom, t_v2 pos, int color);
-int						draw_rectangle(t_doom *doom, t_v2 pos, int color, int size);
+int						draw_rectangle(t_doom *doom, t_v2 pos,
+						int color, int size);
 void					put_canvas(t_doom *doom);
 void					put_select(t_doom *doom, t_mouse *mouse);
 float					line_distance(t_v2 l1, t_v2 l2, t_v2 p, t_v2 *hit);
@@ -271,7 +291,7 @@ int						vertex_is_free(t_doom *doom, t_v2 v);
 int						load_map(char *av, t_doom *doom);
 int						move_map(t_doom *doom);
 int						vertices_return_map_pos(t_doom *doom);
-void					build_portal(t_doom *doom);
+void					build_portal(t_doom *doom, int sw, int aw);
 void					find_portal(t_doom *doom);
 void					build_sector(t_doom *doom);
 int						get_duplicate_wall(t_doom *doom, t_wall w1);

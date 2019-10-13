@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   build.c                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/13 17:24:41 by ohelly            #+#    #+#             */
+/*   Updated: 2019/10/13 17:56:34 by ohelly           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "doom_editor.h"
 
 /*
@@ -5,6 +17,7 @@
 **	Возвращает номер вершины, если координаты v и вершины совпадают
 **	Возвращает -1 в других случаях
 */
+
 int		vertex_is_free(t_doom *doom, t_v2 v)
 {
 	int		i;
@@ -38,11 +51,15 @@ int		create_sector(t_doom *doom)
 	i = 0;
 	while (i < doom->verts->built_v_count)
 	{
-		w_index = (doom->walls->count - 1) - (doom->verts->built_v_count - 2 - i);
+		w_index = (doom->walls->count - 1) -
+		(doom->verts->built_v_count - 2 - i);
 		doom->walls->wall[w_index].sectors = doom->sects->count;
 		i++;
 	}
 	doom->sects->count++;
+	doom->app = 0;
+	doom->verts->built_v_count = 0;
+	doom->verts->built_v_count_used = 0;
 	return (doom->sects->count - 1);
 }
 
@@ -88,13 +105,10 @@ int		put_vert(t_doom *doom)
 	}
 	else
 	{
-		i = 1;
-		while (i < doom->verts->built_v_count)
-		{
+		i = 0;
+		while (++i < doom->verts->built_v_count)
 			if (doom->verts->built_v_index[i] == v_index)
 				return (-1);
-			i++;
-		}
 		doom->verts->built_v_index[doom->verts->built_v_count] = v_index;
 		doom->verts->built_v_count++;
 		doom->verts->built_v_count_used++;
@@ -108,12 +122,10 @@ void	build_sector(t_doom *doom)
 	t_v2	curr_v;
 
 	if (doom->app == 1)
-	{
 		if (lines_intersect_loop(doom,
-			doom->verts->list[doom->verts->built_v_index[doom->verts->built_v_count - 1]].pos,
-			doom->mouse->ppos))
-				return ;
-	}
+			doom->verts->list[doom->verts->built_v_index
+			[doom->verts->built_v_count - 1]].pos, doom->mouse->ppos))
+			return ;
 	if (doom->app == 0)
 	{
 		put_vert(doom);
@@ -125,15 +137,9 @@ void	build_sector(t_doom *doom)
 			return ;
 		put_wall(doom);
 		start_v = doom->verts->list[doom->verts->built_v_index[0]].pos;
-		curr_v = doom->verts->list[doom->verts->built_v_index[doom->verts->built_v_count - 1]].pos;
+		curr_v = doom->verts->list[
+			doom->verts->built_v_index[doom->verts->built_v_count - 1]].pos;
 		if (v2_compare(start_v, curr_v) == 1)
-		{
-			if (create_sector(doom) != -1)
-			{
-				doom->app = 0;
-				doom->verts->built_v_count = 0;
-				doom->verts->built_v_count_used = 0;
-			}
-		}
+			create_sector(doom);
 	}
 }
