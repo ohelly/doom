@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 14:53:36 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/06 20:35:25 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/09 17:17:57 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,23 @@ int		loadtextureobjs(t_doom *doom, t_obj *obj, t_player player)
 	obj[0].images[6][0] = a;
 	obj[0].images[7][0] = a;
 	*/
+
+	//textures  type  data
+type == TYPE_WALL
+while (n < count)
+{
+	txtw[n].img = new_image(data);
+	n++
+}
+
+type == TYPE_FLOOR
+while (n < count)
+{
+	txtf[n].img = new_image(data);
+	n++
+}
+
+
 	obj[1].images[0][0] = new_image(doom, "textures/obj/people/devka/devka.png");
 	obj[1].images[0][1] = new_image(doom, "textures/obj/people/devka/devka1.png");
 	obj[1].on_collision = on_collision_key;
@@ -108,7 +125,7 @@ int		findpicpoints(t_doom *doom, t_pic *pic)
 	t_xy	v2;
 	float	dist1;
 	float	dist2;
-	float	hw = 3;
+	float	hw = 2;
 	
 	findvx(&v1, &v2, doom->sector[pic->sector].vert, pic->wall);
 	d1.x = v1.x - pic->p.x;
@@ -123,8 +140,8 @@ int		findpicpoints(t_doom *doom, t_pic *pic)
 	pic->p1.y = pic->p.y - ((hw * (pic->p.y - v1.y)) / dist1);
 	pic->p2.x = pic->p.x - ((hw * (pic->p.x - v2.x)) / dist2);
 	pic->p2.y = pic->p.y - ((hw * (pic->p.y - v2.y)) / dist2);
-	printf("p1.x - %f, p2.x - %f\n", pic->p1.x, pic->p2.x);
-	printf("p1.z - %f, p2.z - %f\n", pic->p1.y, pic->p2.y);
+	printf("p1.y - %f, p2.x - %f\n", pic->p1.y, pic->p1.x);
+	printf("p1.y - %f, p2.x - %f\n", pic->p2.y, pic->p2.x);
 
 	return (0);
 }
@@ -133,12 +150,12 @@ int		loadtexturepics(t_doom *doom, t_pic *pic)
 {
 	SDL_Surface *surface;
 	
-	//pic[0].img.data = (int**)ft_memalloc(sizeof(int*) * pic[0].cnt_frms);
-	//surface = IMG_Load("textures/pic/pepe.png");
-	//pic[0].img.data[0] = (int*)surface->pixels;
-	//pic[0].img.w = surface->w;
-	//pic[0].img.h = surface->h;
-	//findpicpoints(doom, &pic[0]);
+	//pic[0].img = ft_memalloc(sizeof(t_img) * 1);
+	surface = IMG_Load("textures/pic/pepe.png");
+	pic[0].img.data = (int*)surface->pixels;
+	pic[0].img.w = surface->w;
+	pic[0].img.h = surface->h;
+	findpicpoints(doom, &pic[0]);
 	return (0);
 }
 
@@ -173,7 +190,7 @@ int		loadtextures(t_doom *doom)
 {
 	loadtextureobjs(doom, doom->obj, doom->player);
 	loadtexturewalls(doom, doom->txt);
-	//loadtexturepics(doom, doom->pic);
+	loadtexturepics(doom, doom->pic);
 	printf("ok\n");
 	return (0);
 }
