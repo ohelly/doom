@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/13 15:41:28 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/13 16:22:50 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,8 +135,7 @@ void	vline3(int x, t_ab_i wy, t_scaler ty, t_doom *doom)
     while (y <= y2)
     {
         txty = scaler_next(&ty);
-		//if (set.data[(txtz % set.h) * set.w + (doom->cood.ptxtx % set.w)])
-			color = set.data[txty % set.h * set.w + doom->cood.ptxtx % set.w];
+		color = set.data[txty % set.h * set.w + doom->cood.ptxtx % set.w];
 		//if (color != prev_color)
 		//
 		//	prev_color = color;
@@ -346,18 +345,18 @@ int			render_walls2(t_doom *doom, t_sectors *s, t_cood *cood, t_player player)
 		cood->cny.b = clamp(cood->ny.b, doom->ytop[cood->x], doom->ybot[cood->x]);
 		scaler.a = cood->cy.a;
 		scaler.b = cood->cny.a - 1;
-		vline2(cood->x, scaler, scaler_init(cood->wy, cood->cy.a, 0, 64), doom);
+		vline2(cood->x, scaler, scaler_init(cood->wy, cood->cy.a, 0, doom->img[doom->walls[cood->n].image].w), doom);
 		//vline2(cood->x, cood->cy.a, cood->cny.a - 1, 0, 0x00FF00, 0, doom->sdl);
 		doom->ytop[cood->x] = clamp(max(cood->cy.a, cood->cny.a - 1), doom->ytop[cood->x], HEIGHT - 1);	
 		scaler.a = cood->cny.b;
 		scaler.b = cood->cy.b - 1;
-	    vline2(cood->x, scaler, scaler_init(cood->wy, cood->cny.b + 1, 0, 64), doom);
+	    vline2(cood->x, scaler, scaler_init(cood->wy, cood->cny.b + 1, 0, doom->img[doom->walls[cood->n].image].w), doom);
 		//vline2(cood->x, cood->cny.b, cood->cy.b - 1, 0, 0x00FF00, 0, doom->sdl);
 	    doom->ybot[cood->x] = clamp(min(cood->cy.b, cood->cny.b - 1), 0, doom->ybot[cood->x]);
 	}
 	else
 	{
-		vline2(cood->x, cood->cy, scaler_init(cood->wy, cood->cy.a, 0, 64), doom);
+		vline2(cood->x, cood->cy, scaler_init(cood->wy, cood->cy.a, 0, doom->img[doom->walls[cood->n].image].w), doom);
 		//vline(cood->x, cood->cy.a, cood->cy.b, 0x000000, 0xFFFFFF, 0x000000, doom->sdl);
 	}
 	return (0);
@@ -370,6 +369,7 @@ int			render_walls(t_doom *doom, t_sectors *s, t_cood *cood, t_player player)
 
 	cood->beginx = max(cood->w1x, doom->now.sx);
 	cood->endx = min(cood->w2x, doom->now.ex);
+	
 	x = cood->beginx;
 	while (x <= cood->endx)
 	{
@@ -449,7 +449,7 @@ int			calc_pics(t_doom *doom, t_pics *pic, t_cood *cood, t_player player)
 	count = 0;
 	while (i < doom->num.pics)
 	{
-		if (pic[i].sector == doom->now.sector)
+		if (pic[i].wall == cood->n && pic[i].sector == doom->now.sector)
 		{
 			//printf("Px - %f, Py - %f\n", pic[i].p.x, pic[i].p.y);
 			cood->picnum[count] = i;
@@ -525,11 +525,12 @@ int			calc_points(t_doom *doom, t_sectors *s, t_cood *cood, t_player player)
 	if (cood->t1.z <= 0 && cood->t2.z <= 0)
 		return (0);
 	cood->u0 = 0;
-	cood->u1 = (int)sqrt(powf(cood->v1.x - cood->v2.x, 2) + powf(cood->v1.y - cood->v2.y, 2)) * 5;
+	cood->u1 = (int)sqrt(powf(cood->v1.x - cood->v2.x, 2) + powf(cood->v1.y - cood->v2.y, 2)) / ((s->ceil + s->floor) / 64) * 3;
 	if (cood->t1.z <= 0 || cood->t2.z <= 0)
 		intersect(&cood->t1, &cood->t2, cood);
 	if (!(find_scales(doom, s, cood, player)))
 		return (0);
+	calc_pics(doom, doom->pics, &doom->cood, doom->player);
 	find_yceil_yfloor(doom, s, cood, player);
 	render_walls(doom, s, cood, player);
 	return (1);
@@ -545,7 +546,6 @@ int			calc_sector(t_doom *doom, t_sectors *s, t_cood *cood, t_player player)
 	while (n < s->npoints)
 	{
 		cood->n = n;
-		calc_pics(doom, doom->pics, &doom->cood, doom->player);
 		if (!(calc_points(doom, s, cood, player)))
 		{
 			n++;

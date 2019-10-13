@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:15:03 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/11 18:26:56 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/13 17:18:20 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,8 @@ int		loadsectors(t_sectors *s, t_xy *v, char *str)
 	//printf("floor - %f\n", s[n].floor);
 	str = todigit(str, &s[n].ceil);
 	//printf("ceil - %f\n", s[n].ceil);
-	//s[n].tmpceil = s[n].ceil;
+	s[n].constceil = s[n].ceil;
+	
 	str = vertinsect(str, s[n].vert, v, vnum);
 	str = neighinsect(str, &s[n], vnum);
 	//gettxtind(str, &s[n]);
@@ -119,9 +120,13 @@ int		loadsectors(t_sectors *s, t_xy *v, char *str)
 	//printf("light - %f\n", s[n].light);
 	str = todigit(str, &tmp);
 	s[n].type = (int)tmp;
+	if (s[n].type == 1)
+		s[n].ceil = s[n].floor;
 	//printf("type - %d\n", s[n].type);
 	str = todigit(str, &tmp);
 	s[n].sky = (int)tmp;
+	s[n].open = 0;
+	s[n].close = 1;
 	//printf("sky - %d\n", s[n].sky);
 	n++;
 	return (1);
