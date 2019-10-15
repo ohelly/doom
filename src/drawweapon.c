@@ -6,7 +6,7 @@
 /*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 18:08:49 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/15 18:37:32 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/15 18:41:03 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,37 +16,37 @@ void		drawweapon(t_doom *doom, t_weapon *weapon)
 	int		x;
 	t_xy 	scale;
 	t_xy	t;
-	t_img	set;
+	t_img	img;
 
-	set = weapon_get_image(doom, weapon);
+	img = weapon_get_image(doom, weapon);
 	x = 0;
 	while (x < WIDTH)
 	{
-		scale.x = (float)set.w / (WIDTH);
-		scale.y = (float)set.h / (HEIGHT);
+		scale.x = (float)img.w / (WIDTH);
+		scale.y = (float)img.h / (HEIGHT);
 		t.y
 		t.x
 		//t.y = player.yaw * 25;
 		//t.x = (x * scale.x) + player.angle * 50;
-		/*if (t.x >= set.w)
+		/*if (t.x >= img.w)
 		{
-			while (t.x >= set.w)
-				t.x -= set.w;
+			while (t.x >= img.w)
+				t.x -= img.w;
 		}
 		else if (t.x < 0)
 		{
 			while (t.x < 0)
-				t.x += set.w;
+				t.x += img.w;
 		}*/
 		y = 0;
 		while (y < HEIGHT)
 		{
-			/*if (t.y > set.h)
-				t.y = set.h - t.y;
+			/*if (t.y > img.h)
+				t.y = img.h - t.y;
 			else if (t.y < 0)
-				t.y = set.h + t.y;*/
+				t.y = img.h + t.y;*/
 			if (doom->visible[y][x] == 1)
-				doom->sdl->pix[y * WIDTH + x] = set.data[(int)t.y * set.w + (int)t.x];
+				doom->sdl->pix[y * WIDTH + x] = img.data[(int)t.y * img.w + (int)t.x];
 			t.y += scale.y;
 			y++;
 		}
