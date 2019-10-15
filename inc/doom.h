@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/13 19:57:47 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/15 19:33:06 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -304,6 +304,8 @@ typedef struct	s_doom
 	int			ybot[WIDTH];
 	int			push;
 	int			a;
+	int			lkey;
+	int			rkey;
 }				t_doom;
 
 
@@ -324,5 +326,7 @@ int		draw_walls(t_doom *doom, t_player player);
 int		rgb_multiply(int color, float value);
 float	vxs(float x0, float y0, float x1, float y1);
 float	yaw(float y, float z, t_player player);
+void	drawweapon(t_doom *doom, t_weapon *weapon);
+t_img	weapon_get_image(t_doom *doom, t_weapon *weapon);
 
 #endif

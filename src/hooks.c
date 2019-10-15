@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/13 13:04:28 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/15 19:39:27 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ int		keydown(t_doom *doom, SDL_Event ev)
 		SDL_Quit();
 		exit(0);
 	}
+	
 	if (ev.key.keysym.sym == 'w')
 		doom->wsad[0] = 1;
 	if (ev.key.keysym.sym == 's')
@@ -83,6 +84,10 @@ int		keydown(t_doom *doom, SDL_Event ev)
 
 int		keyup(t_doom *doom, SDL_Event ev)
 {
+	//if (ev.button.button == SDL_BUTTON_LEFT)
+	//	doom->lkey = 0;
+	//if (ev.button.button == SDL_BUTTON_RIGHT)
+	//	doom->rkey = 0;
 	if (ev.key.keysym.sym == 'w')
 		doom->wsad[0] = 0;
 	if (ev.key.keysym.sym == 's')
@@ -95,7 +100,17 @@ int		keyup(t_doom *doom, SDL_Event ev)
 }
 
 int		hooks(t_doom *doom, SDL_Event ev)
-{
+{	
+	if (ev.type == SDL_MOUSEBUTTONDOWN)
+		if (ev.button.button == SDL_BUTTON_LEFT)
+			doom->lkey = 1;
+		if (ev.button.button == SDL_BUTTON_RIGHT)
+			doom->rkey = 1;
+	if (ev.type == SDL_MOUSEBUTTONUP)
+		if (ev.button.button == SDL_BUTTON_LEFT)
+			doom->lkey = 0;
+		if (ev.button.button == SDL_BUTTON_RIGHT)
+			doom->rkey = 0;
 	if (ev.type == SDL_KEYDOWN)
 		keydown(doom, ev);
 	if (ev.type == SDL_KEYUP)
