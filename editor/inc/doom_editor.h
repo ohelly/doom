@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/13 18:59:53 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/15 13:57:39 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,7 +298,8 @@ int						get_duplicate_wall(t_doom *doom, t_wall w1);
 int						split_wall(t_doom *doom);
 void					split_sectors(t_doom *doom);
 int						remove_built_sector(t_doom *doom);
-int						load_img_for_hud(t_doom *doom);
+int						load_img_for_hud(t_hud *hud, t_sdl *sdl, t_txt *txt);
+int						load_img_for_txt(t_txt *txt, t_sdl *sdl);
 void					put_image_on_screen(t_doom *doom);
 void					put_string_on_screen(t_doom *doom);
 void					mouse_press_left(t_doom *doom, int x, int y);

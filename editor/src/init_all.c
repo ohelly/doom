@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 16:02:38 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/13 16:08:49 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/15 13:36:59 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,10 @@ static int	sdl_init_part_two(t_doom *doom)
 		return (die_msg("Failed to allocate hud struct"));
 	if (!(doom->txt = (t_txt*)ft_memalloc(sizeof(t_txt))))
 		return (die_msg("Failed to allocate txt struct"));
-	if (!(load_img_for_hud(doom)))
+	if (!(load_img_for_hud(doom->hud, doom->sdl, doom->txt)))
 		return (die_msg("Failed to load IMG for hud"));
+	if (!(load_img_for_txt(doom->txt, doom->sdl)))
+		return (die_msg("Failed to load IMG for txt"));
 	if (!(doom->aspr = (t_all_spr_wall*)ft_memalloc(sizeof(t_all_spr_wall))))
 		return (die_msg("Failed to allocate aspr struct"));
 	if (!(doom->obj = (t_all_spr_floor*)ft_memalloc(sizeof(t_all_spr_floor))))
