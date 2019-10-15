@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:21:04 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/13 13:23:32 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/15 18:09:48 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -343,7 +343,6 @@ int		count_params_weapon(char *map, t_weapon *weapon)
 	}
 	return (0);
 }
-
 
 int		load_weapon(char **map, t_weapon *weapon, t_img *img)
 {

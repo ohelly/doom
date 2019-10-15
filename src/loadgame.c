@@ -208,7 +208,7 @@ int		animation(t_doom *doom, t_fps fps)
 	{
 		doom->a = 1;
 		t = 0;
-	}	
+	}
 	return (0);
 }
 
