@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/15 19:15:16 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/15 19:33:06 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -304,6 +304,8 @@ typedef struct	s_doom
 	int			ybot[WIDTH];
 	int			push;
 	int			a;
+	int			lkey;
+	int			rkey;
 }				t_doom;
 
 
