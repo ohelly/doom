@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/15 13:57:39 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/15 16:18:56 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,19 @@ typedef struct			s_intersect
 	float				t;
 	float				div;
 }						t_intersect;
+
+/*
+** STRUCT FOR FUNCTION GET_CLOSET_WALL
+*/
+
+typedef struct			s_closet_wall
+{
+	float				dist;
+	float				saved_dist;
+	t_v2				curr_vertices;
+	t_v2				hit;
+	t_v2				saved_hit;
+}						t_closet;
 
 /*
 **SECTORS
@@ -302,12 +315,17 @@ int						load_img_for_hud(t_hud *hud, t_sdl *sdl, t_txt *txt);
 int						load_img_for_txt(t_txt *txt, t_sdl *sdl);
 void					put_image_on_screen(t_doom *doom);
 void					put_string_on_screen(t_doom *doom);
-void					mouse_press_left(t_doom *doom, int x, int y);
-void					mouse_press_right(t_doom *doom, int x, int y);
+void					mouse_press(t_doom *doom, t_sdl *sdl, int app);
+void					mouse_press_left_two(t_doom *doom, int x, int y);
+void					mouse_press_left_thr(t_doom *doom, int x, int y);
 void					my_itoa(char *str, int num);
 void					set_sprite_on_wall(t_doom *doom);
 int						check_portal(t_doom *doom);
 void					set_object(t_doom *doom);
+int						num_walls(t_doom *doom, int ver, int sec);
+int						check_adjacent_wall(t_doom *doom, int ver1,
+						int ver2, int sec);
+int						check_portal(t_doom *doom);
 
 /*
 **	Math

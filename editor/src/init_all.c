@@ -6,13 +6,13 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 16:02:38 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/15 13:36:59 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/15 15:03:25 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom_editor.h"
 
-static int	init_default_value(t_doom *doom)
+static void	init_default_value(t_doom *doom)
 {
 	*doom->swall = (t_swall){ -1, -1, -1, -1, -1 };
 	doom->sh = 20;

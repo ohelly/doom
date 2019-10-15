@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 22:12:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/13 18:43:06 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/15 14:35:56 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,17 +96,8 @@ void	key_and_mouse_press(t_doom *doom)
 		if (doom->sdl->ev.type == SDL_KEYDOWN)
 			key_press_one(doom);
 		if (doom->app == 2 || doom->app == 3)
-		{
 			if (doom->sdl->ev.type == SDL_MOUSEBUTTONDOWN)
-			{
-				if (doom->sdl->ev.button.button == SDL_BUTTON_LEFT)
-					mouse_press_left(doom, doom->sdl->ev.button.x,
-					doom->sdl->ev.button.y);
-				if (doom->sdl->ev.button.button == SDL_BUTTON_RIGHT)
-					mouse_press_right(doom, doom->sdl->ev.button.x,
-					doom->sdl->ev.button.y);
-			}
-		}
+				mouse_press(doom, doom->sdl, doom->app);
 		if (doom->sdl->ev.type == SDL_MOUSEMOTION)
 		{
 			*doom->mouse = (t_mouse){ doom->sdl->ev.motion.x,

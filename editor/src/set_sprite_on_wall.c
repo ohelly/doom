@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/09 14:46:25 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/11 15:04:08 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/15 15:58:33 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void		set_sprite_on_wall(t_doom *doom)
 	get_closest_wall(doom);
 	if (check_portal(doom))
 		return ;
-	if (doom->walls->wall[doom->verts->projected_v.num].sectors != doom->sects->selected_sector)
+	if (doom->walls->wall[doom->verts->projected_v.num].sectors !=
+	doom->sects->selected_sector)
 	{
 		doom->hud->msg = "Select sector";
 		doom->sects->selected_sector = -1;

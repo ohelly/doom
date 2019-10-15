@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 16:33:37 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/15 13:43:26 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/15 15:02:53 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ int		load_img_for_hud(t_hud *hud, t_sdl *sdl, t_txt *txt)
 		return (0);
 	if (!(txt->huds[8] = IMG_LoadTexture(sdl->rend, "img/hud/empty.png")))
 		return (0);
-	if (!(load_img_for_hud(sdl, txt)))
+	if (!(load_img_for_hud_p_2(sdl, txt)))
 		return (0);
 	return (1);
 }
