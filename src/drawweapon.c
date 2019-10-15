@@ -6,7 +6,7 @@
 /*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 18:08:49 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/15 19:00:13 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/15 19:09:41 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void		drawweapon(t_doom *doom, t_weapon *weapon)
 		scale.x = (float)img.w / (WIDTH);
 		scale.y = (float)img.h / (HEIGHT);
 		t.y = 0;
-		t.x = 0;
+		t.x = x * scale.x;
 		y = -1;
 		while (++y < HEIGHT)
 		{
