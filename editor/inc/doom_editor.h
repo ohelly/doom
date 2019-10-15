@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/15 17:22:01 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/15 19:22:45 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define COUNT_O 21
 
 /*
-**POS OF X AND Y
+** POS OF X AND Y
 */
 
 typedef struct			s_v2_vertex
@@ -69,7 +69,7 @@ typedef struct			s_closet_wall
 }						t_closet;
 
 /*
-**SECTORS
+** SECTORS
 */
 
 typedef struct			s_sectors
@@ -101,7 +101,7 @@ typedef struct			s_swall
 }						t_swall;
 
 /*
-**WALLS
+** WALLS
 */
 
 typedef struct			s_wall
@@ -123,7 +123,7 @@ typedef struct			s_all_walls
 }						t_all_walls;
 
 /*
-**VERTEX
+** VERTEX
 */
 
 typedef struct			s_vertex
@@ -150,7 +150,7 @@ typedef struct			s_all_vert
 }						t_all_vert;
 
 /*
-**POS MOUSE
+** POS MOUSE
 */
 
 typedef struct			s_mouse
@@ -160,7 +160,7 @@ typedef struct			s_mouse
 }						t_mouse;
 
 /*
-**BRAZENHAM
+** BRAZENHAM
 */
 
 typedef struct			s_line
@@ -171,7 +171,7 @@ typedef struct			s_line
 }						t_line;
 
 /*
-**FILE
+** FILE
 */
 
 typedef struct			s_file
@@ -181,7 +181,7 @@ typedef struct			s_file
 }						t_file;
 
 /*
-**STRUCT FOR HUD
+** STRUCT FOR HUD
 */
 
 typedef struct			s_hud
@@ -196,7 +196,7 @@ typedef struct			s_hud
 }						t_hud;
 
 /*
-**DL POINTER'S
+** SDL POINTER'S
 */
 
 typedef struct			s_sdl
@@ -209,7 +209,7 @@ typedef struct			s_sdl
 }						t_sdl;
 
 /*
-**TEXTURES STRUCT
+** TEXTURES STRUCT
 */
 
 typedef struct			s_txt
@@ -221,7 +221,7 @@ typedef struct			s_txt
 }						t_txt;
 
 /*
-**SPRITE ON WALL
+** SPRITE ON WALL
 */
 
 typedef struct			s_spr_wall
@@ -242,7 +242,7 @@ typedef struct			s_all_spr_wall
 }						t_all_spr_wall;
 
 /*
-**OBJECT ON FLOOR
+** OBJECT ON FLOOR
 */
 
 typedef struct			s_spr_floor
@@ -261,7 +261,7 @@ typedef struct			s_all_spr_floor
 }						t_all_spr_floor;
 
 /*
-**MAIN STRUCT
+** MAIN STRUCT
 */
 
 typedef struct			s_doom
@@ -327,6 +327,7 @@ int						num_walls(t_doom *doom, int ver, int sec);
 int						check_adjacent_wall(t_doom *doom, int ver1,
 						int ver2, int sec);
 int						check_portal(t_doom *doom);
+int						check_convex(t_doom *doom);
 
 /*
 **	Math

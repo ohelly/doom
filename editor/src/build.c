@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 17:24:41 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/13 17:56:34 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/15 19:22:23 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ int		create_sector(t_doom *doom)
 	int i;
 	int	w_index;
 
-	if (doom->verts->built_v_count <= 2)
+	if (doom->verts->built_v_count <= 2 || check_convex(doom))
 		return (-1);
 	i = 0;
 	while (i < doom->verts->built_v_count)

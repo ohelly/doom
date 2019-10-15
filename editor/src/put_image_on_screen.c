@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 18:32:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/11 17:39:33 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/15 19:46:31 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ void	renderTextures(SDL_Texture *tex, SDL_Renderer *ren, int x, int y, int w, in
 	dst.h = h;
 	SDL_RenderCopy(ren, tex, NULL, &dst);
 }
-
 
 void		put_image_on_screen(t_doom *doom)
 {
