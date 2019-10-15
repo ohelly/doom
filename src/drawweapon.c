@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 18:08:49 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/15 20:18:48 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/15 20:26:31 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,20 @@ void	weapon_state_change(t_weapon *weapon, int state)
 	weapon->anim_frame = 0;
 }
 
-void	weapon_anim_next(t_weapon *weapon, int state)
+void	weapon_anim_next(t_weapon *weapon, int state, t_fps fps)
 {
 	int index;
+	static float t = 0;
 
-	weapon->anim_frame++;
-	if (weapon->anim_frame >= weapon->anim_count[state] ||
-		weapon->images[state][weapon->anim_frame] == -1)
-		weapon->anim_frame = 0;
+	t += fps.time_frame;
+	if (t >= weapon->delay)
+	{
+		weapon->anim_frame++;
+		if (weapon->anim_frame >= weapon->anim_count[state] ||
+			weapon->images[state][weapon->anim_frame] == -1)
+			weapon->anim_frame = 0;
+		t = 0;
+	}
 }
 
 t_img	weapon_get_image(t_doom *doom, t_weapon *weapon)
@@ -44,8 +50,8 @@ void		drawweapon(t_doom *doom, t_weapon *weapon)
 	t_xy	t;
 	t_img	img;
 
-	if (doom->lkey)
-		weapon_anim_next(weapon, 0);
+	if (doom->lkey || weapon->anim_frame != 0)
+		weapon_anim_next(weapon, weapon->states_frame, doom->fps);
 	img = weapon_get_image(doom, weapon);
 	x = WIDTH / 3 - 1;
 	while (++x < 2 * WIDTH / 3)

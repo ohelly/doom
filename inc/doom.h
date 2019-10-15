@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/15 19:33:06 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/15 19:42:38 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -253,6 +253,7 @@ typedef struct	s_num
 typedef struct	s_weapon
 {
 	int			type;
+	float		delay;
 	int			**images;
 	int			*anim_count;
 	int			anim_frame;
