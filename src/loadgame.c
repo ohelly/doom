@@ -83,6 +83,9 @@ int		calc_move(t_doom *doom, t_player *player)
 	player->velocity.y = player->velocity.y * (1 - acceleration) + move_vec[1] * acceleration;
 	if (doom->push == 1)
 		player->move = 1;
+	//printf("x - %f, y - %f\n", player->velocity.x, player->velocity.y);
+	// if (!player->velocity.x && !player->velocity.y)
+	// 	player->move = 0;
 	return (0);
 }
 

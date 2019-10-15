@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/15 20:28:16 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/15 20:37:06 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int		hooks(t_doom *doom, SDL_Event ev)
 	if (ev.type == SDL_MOUSEBUTTONDOWN)
 		if (ev.button.button == SDL_BUTTON_LEFT)
 		{
-			doom->weapon[doom->player.weapon].states_frame = 0;
+			doom->weapon[doom->player.weapon].states_frame = 1;
 			doom->lkey = 1;
 		}
 		if (ev.button.button == SDL_BUTTON_RIGHT)
@@ -112,7 +112,7 @@ int		hooks(t_doom *doom, SDL_Event ev)
 	if (ev.type == SDL_MOUSEBUTTONUP)
 		if (ev.button.button == SDL_BUTTON_LEFT)
 		{
-			doom->weapon[doom->player.weapon].states_frame = 1;
+			doom->weapon[doom->player.weapon].states_frame = 0;
 			doom->weapon[doom->player.weapon].anim_frame = 1;
 			doom->lkey = 0;
 		}

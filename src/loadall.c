@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:21:04 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/15 20:16:40 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/15 21:34:39 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -355,7 +355,8 @@ int		load_weapon(char **map, t_weapon *weapon, t_img *img)
 	t = 1;
 	n = 0;
 	count_params_weapon(map[i], weapon);
-	weapon->delay = 0.03f;
+	weapon->delay = 0.035f;
+	
 	while (n < weapon->states_count)
 	{
 		a = 0;

@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/15 19:42:38 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/15 21:29:11 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -307,6 +307,9 @@ typedef struct	s_doom
 	int			a;
 	int			lkey;
 	int			rkey;
+	int			shakex;
+	int			shakey;
+	int			shaketmp;
 }				t_doom;
 
 
