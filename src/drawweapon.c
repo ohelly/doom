@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 18:08:49 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/15 19:36:03 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/15 20:18:48 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,15 +47,15 @@ void		drawweapon(t_doom *doom, t_weapon *weapon)
 	if (doom->lkey)
 		weapon_anim_next(weapon, 0);
 	img = weapon_get_image(doom, weapon);
-	x = -1;
-	while (++x < WIDTH / 3)
+	x = WIDTH / 3 - 1;
+	while (++x < 2 * WIDTH / 3)
 	{
 		scale.x = (float)img.w / (WIDTH / 3);
 		scale.y = (float)img.h / (HEIGHT / 3);
 		t.y = 0;
-		t.x = x * scale.x;
-		y = -1;
-		while (++y < HEIGHT / 3)
+		t.x = (x - WIDTH / 3) * scale.x;
+		y = 2 * HEIGHT / 3;
+		while (++y < HEIGHT)
 		{
 			if (img.data[(int)t.y * img.w + (int)t.x])
 				doom->sdl->pix[y * WIDTH + x] =
