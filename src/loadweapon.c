@@ -6,7 +6,7 @@
 /*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 19:48:09 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/13 19:56:44 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/15 18:24:01 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,12 @@ void	weapon_anim_next(t_weapon *weapon, int state)
 	if (weapon->anim_frame >= weapon->anim_count[state] ||
 		weapon->images[state][weapon->anim_frame] == -1)
 		weapon->anim_frame = 0;
+}
+
+t_img	weapon_get_image(t_doom *doom, t_weapon *weapon)
+{
+	return (doom->images[
+			weapon->images[weapon->states_frame][weapon->anim_frame]]);
 }
 
 int		loadweapon(t_weapon *weapon, t_data *weapon_daata, char *str)
