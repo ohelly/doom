@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/15 16:18:56 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/15 17:22:01 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -192,6 +192,7 @@ typedef struct			s_hud
 	SDL_Texture			*text_for_app;
 	SDL_Texture			*string;
 	char				*msg;
+	char				str[3];
 }						t_hud;
 
 /*

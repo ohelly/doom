@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 18:32:49 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/11 17:47:24 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/15 17:24:07 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,6 @@ void	rendermessage(SDL_Texture *tex, SDL_Renderer *ren, int x, int y, int w, int
 void	put_string_on_screen(t_doom *doom)
 {
 	static int		del = 0;
-	char			floor[3] = { '0', '0', '0' };
-	char			ceil[3] = { '0', '0', '0' };
-	char			light[3] = { '0', '0', '0'};
 
 	doom->hud->color = (SDL_Color) { 0, 255, 0 };
 	if (doom->app < 2)
@@ -61,16 +58,16 @@ void	put_string_on_screen(t_doom *doom)
 		if (doom->sects->selected_sector == -1)
 			return ;
 		doom->hud->color = (SDL_Color) { 0, 0, 0 };
-		my_itoa(ceil, doom->sects->sectors[doom->sects->selected_sector].ceiling);
-		doom->hud->sur = TTF_RenderText_Solid(doom->hud->font, ceil, doom->hud->color);
+		my_itoa(doom->hud->str, doom->sects->sectors[doom->sects->selected_sector].ceiling);
+		doom->hud->sur = TTF_RenderText_Solid(doom->hud->font, doom->hud->str, doom->hud->color);
 		doom->hud->string = SDL_CreateTextureFromSurface(doom->sdl->rend, doom->hud->sur);
 		rendermessage(doom->hud->string, doom->sdl->rend, 1160, 68, 35, 25);
-		my_itoa(floor, doom->sects->sectors[doom->sects->selected_sector].floor);
-		doom->hud->sur = TTF_RenderText_Solid(doom->hud->font, floor, doom->hud->color);
+		my_itoa(doom->hud->str, doom->sects->sectors[doom->sects->selected_sector].floor);
+		doom->hud->sur = TTF_RenderText_Solid(doom->hud->font, doom->hud->str, doom->hud->color);
 		doom->hud->string = SDL_CreateTextureFromSurface(doom->sdl->rend, doom->hud->sur);
 		rendermessage(doom->hud->string, doom->sdl->rend, 1150, 118, 45, 25);
-		my_itoa(light, doom->sects->sectors[doom->sects->selected_sector].light);
-		doom->hud->sur = TTF_RenderText_Solid(doom->hud->font, light, doom->hud->color);
+		my_itoa(doom->hud->str, doom->sects->sectors[doom->sects->selected_sector].light);
+		doom->hud->sur = TTF_RenderText_Solid(doom->hud->font, doom->hud->str, doom->hud->color);
 		doom->hud->string = SDL_CreateTextureFromSurface(doom->sdl->rend, doom->hud->sur);
 		rendermessage(doom->hud->string, doom->sdl->rend, 1155, 518, 35, 25);
 	}
