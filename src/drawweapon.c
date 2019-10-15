@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 18:08:49 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/15 19:24:38 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/15 19:28:07 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,6 +44,8 @@ void		drawweapon(t_doom *doom, t_weapon *weapon)
 	t_xy	t;
 	t_img	img;
 
+	if (doom->a)
+		weapon_anim_next(weapon, 0);
 	img = weapon_get_image(doom, weapon);
 	x = -1;
 	while (++x < WIDTH / 4)
