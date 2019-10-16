@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 17:24:41 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/16 16:55:46 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/16 19:15:24 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int		create_sector(t_doom *doom)
 		doom->walls->wall[w_index].sectors = doom->sects->count;
 		i++;
 	}
+	doom->sects->sectors[doom->sects->count].ceiling = 20;
+	doom->sects->sectors[doom->sects->count].light = 100;
 	doom->sects->count++;
 	doom->app = 0;
 	doom->verts->built_v_count = 0;

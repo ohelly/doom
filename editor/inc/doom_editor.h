@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/16 17:02:18 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/16 19:56:22 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -328,7 +328,10 @@ int						check_adjacent_wall(t_doom *doom, int ver1,
 						int ver2, int sec);
 int						check_portal(t_doom *doom);
 int						check_convex(t_doom *doom, int *ind, t_vertex *list);
-int						lines_intersect(t_v2 p0, t_v2 p1, t_v2 p2, t_v2 p3);
+void					sv(int *a, int *b);
+void					sel_sector(int x, int y, t_all_sect *sects, t_all_walls *walls);
+void					sel_wall(int x, int y, t_all_sect *sects, t_all_walls *walls);
+void					sel_attr(int x, int y, t_all_sect *sects, t_all_walls *walls);
 
 /*
 **	Math
