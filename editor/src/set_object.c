@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/09 18:42:53 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/09 18:47:55 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/15 15:58:12 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,15 +14,11 @@
 
 void		set_object(t_doom *doom)
 {
-	if (doom->sects->selected_sector == -1)
-	{
-		doom->hud->msg = "Select sector!";
-		return ;
-	}
 	get_closest_wall(doom);
-	if (doom->walls->wall[doom->verts->projected_v.num].sectors != doom->sects->selected_sector)
+	if (doom->walls->wall[doom->verts->projected_v.num].sectors !=
+	doom->sects->selected_sector)
 	{
-		doom->hud->msg = "Select valid position";
+		doom->hud->msg = "Select sector";
 		doom->sects->selected_sector = -1;
 		doom->verts->projected_v = (t_vertex) { -1, -1, -1 };
 		return ;

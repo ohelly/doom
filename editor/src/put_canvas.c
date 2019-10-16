@@ -6,13 +6,13 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 22:07:45 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/03 18:49:47 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/15 16:16:54 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom_editor.h"
 
-int			draw_grid(t_doom *doom)
+void		draw_grid(t_doom *doom)
 {
 	int x;
 	int y;
