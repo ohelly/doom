@@ -3,7 +3,7 @@
 //returns 0 if quad pl1-pl2 intersects with a wall
 int		walls_collision(t_doom *doom, t_xy pl1, t_xy pl2)
 {
-	t_sector	*sect;
+	t_sectors	*sect;
 	t_xy		*v;
 	int			n;
 	t_xy		pos1;
@@ -11,7 +11,7 @@ int		walls_collision(t_doom *doom, t_xy pl1, t_xy pl2)
 	t_xy		hole;
 	t_xy		move_pos;
 
-	sect = &doom->sector[doom->player.sector];
+	sect = &doom->sectors[doom->player.sector];
 	v = sect->vert;
 	n = 0;
 	while (n < sect->npoints)
@@ -20,8 +20,8 @@ int		walls_collision(t_doom *doom, t_xy pl1, t_xy pl2)
 		pos2 = v2_addf(v[n + 1], -doom->wall_col_size);
 		if (IntersectBox(pl1.x, pl1.y, pl2.x, pl2.y, pos1.x, pos1.y, pos2.x, pos2.y))
 		{
-			hole.x = sect->neighbors[n] < 0 ?  9e9 : max(sect->floor, doom->sector[sect->neighbors[n]].floor);
-			hole.y = sect->neighbors[n] < 0 ? -9e9 : min(sect->ceil,  doom->sector[sect->neighbors[n]].ceil);
+			hole.x = sect->neighbors[n] < 0 ?  9e9 : max(sect->floor, doom->sectors[sect->neighbors[n]].floor);
+			hole.y = sect->neighbors[n] < 0 ? -9e9 : min(sect->ceil,  doom->sectors[sect->neighbors[n]].ceil);
 			if (hole.y < doom->player.where.z + HeadMargin ||
 				hole.x > doom->player.where.z - EyeHeight + KneeHeight)
 			{
@@ -41,9 +41,9 @@ int		obj_collision(t_doom *doom, t_xy player)
 	t_obj	obj;
 
 	n = 0;
-	while (n < doom->numobjs)
+	while (n < doom->num.objs)
 	{
-		obj = doom->obj[n];
+		obj = doom->objs[n];
 		if (obj.col_passable || !obj.enabled)
 		{
 			n++;
@@ -87,8 +87,8 @@ int		player_move(t_doom *doom, t_xy delta)
 
 	doom->player.where.x = player.x + delta.x;
 	doom->player.where.y = player.y + delta.y;
-	doom->player.anglesin = sinf(doom->player.angle);
-	doom->player.anglecos = cosf(doom->player.angle);
+	doom->player.psin = sinf(doom->player.angle);
+	doom->player.pcos = cosf(doom->player.angle);
 	return (1);
 }
 
@@ -101,12 +101,12 @@ int		find_obj_interaction(t_doom *doom)
 	t_xy	d;
 
 	p = (t_xy){doom->player.where.x, doom->player.where.y};
-	d = (t_xy){doom->player.anglecos * 4, doom->player.anglesin * 4};
+	d = (t_xy){doom->player.pcos * 4, doom->player.psin * 4};
 
 	n = 0;
-	while (n < doom->numobjs)
+	while (n < doom->num.objs)
 	{
-		obj = &doom->obj[n];
+		obj = &doom->objs[n];
 		if (!obj->enabled || obj->on_interaction == NULL)
 		{
 			n++;

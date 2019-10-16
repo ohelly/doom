@@ -3,11 +3,11 @@
 int		profile_output(t_doom *doom)
 {
 	printf("===Profiling results===\n");
-	printf("Frametime: %f ms\n", doom->time_frame);
-	printf("FPS is %f\n", 1 / doom->time_frame);
-	printf("Average FPS is %f\n", 1 / (doom->time_fps_total / doom->time_fps_count));
-	doom->time_fps_count = 0;
-	doom->time_fps_total = 0;
+	printf("Frametime: %f ms\n", doom->fps.time_frame);
+	printf("FPS is %f\n", 1 / doom->fps.time_frame);
+	printf("Average FPS is %f\n", 1 / (doom->fps.fps_total / doom->fps.fps_count));
+	doom->fps.fps_count = 0;
+	doom->fps.fps_total = 0;
 	//printf("player.where is %f:%f\n", doom->player.where.x, doom->player.where.y);
 	//это все пока не работает
 	//printf("Sprites drawtime: %f ms\n", (doom->times[2] - doom->times[3]) / 1000);

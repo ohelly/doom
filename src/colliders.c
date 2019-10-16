@@ -11,7 +11,7 @@ int		collision_circle(t_xy pos1, float rad1, t_xy pos2, float rad2)
 //returns 1 if box colliders overlap
 int		collision_box(t_xy p1, t_xy p2, t_xy v1, t_xy v2)
 {
-	return (overlap(p1.x, p2.x, v1.x, v2.x) && overlap(p1.y, p2.y, v1.y, v2.y));
+	return (Overlap(p1.x, p2.x, v1.x, v2.x) && Overlap(p1.y, p2.y, v1.y, v2.y));
 }
 
 //returns 1 if box colliders overlap AND pointside <= 0

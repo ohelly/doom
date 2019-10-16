@@ -28,9 +28,9 @@ int	objects_update(t_doom *doom)
 	t_obj	*o;
 
 	i = 0;
-	while (i < doom->numobjs)
+	while (i < doom->num.objs)
 	{
-		o = &doom->obj[i];
+		o = &doom->objs[i];
 		if (o->enabled)
 		{
 			if (o->on_collision != NULL)
