@@ -319,7 +319,7 @@ int		countall(t_doom *doom, char **map);
 int		loadvertexes(t_xy *v, char *str);
 int		loadsectors(t_sectors *s, t_xy *v, char *str);
 char	*todigit(char *str, float *data);
-int		loadobjs(t_obj *obj, t_data *objs_data, char *str);
+int		loadobjs(t_doom *doom, t_obj *obj, t_data *objs_data, char *str);
 int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str);
 int		loadplayer(t_player *player, char *str);
 int		load_game(t_doom *doom);
