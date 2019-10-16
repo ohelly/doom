@@ -91,6 +91,8 @@ typedef struct	s_texture
 
 typedef struct	s_obj
 {
+	int			id;
+	int			enabled;
 	t_xy		p;
 	int			sector;
 	int			type;
@@ -99,6 +101,10 @@ typedef struct	s_obj
 	int			anim_frame;
 	int			states_count;
 	int			states_frame;
+	float		col_size;
+	int			col_passable;
+	void		(*on_collision)(struct t_doom *doom, struct s_obj *obj);
+	void		(*on_interaction)(struct t_doom *doom, struct s_obj *obj);
 }				t_obj;
 
 typedef struct	s_data
@@ -142,6 +148,7 @@ typedef struct		s_player
 	int			end;
 	int			weapon;
 	int			hp;
+	float		col_size;
 }				t_player;
 	float			col_size;
 
@@ -269,6 +276,8 @@ typedef struct	s_fps
 {
 	float		times[32];
 	float		time_frame;
+	float		fps_total;
+	float		fps_count;
 }				t_fps;
 
 typedef struct 	s_item
@@ -314,6 +323,7 @@ typedef struct	s_doom
 	int			shakex;
 	int			shakey;
 	int			shaketmp;
+	float		wall_col_size;
 }				t_doom;
 
 typedef struct		s_enemy
