@@ -6,7 +6,7 @@
 #    By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/02 20:58:32 by lminta            #+#    #+#              #
-#    Updated: 2019/09/29 12:00:31 by dtoy             ###   ########.fr        #
+#    Updated: 2019/10/15 19:17:38 by dtoy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,10 +29,9 @@ LIBS = lib
 FLAGS2 = -F ~/Library/Frameworks/ -framework SDL2 -framework SDL2_image \
 -framework SDL2_ttf -framework SDL2_mixer -lftgnl -lft -lm
 
-OBJ = src/main.o src/initall.o src/countall.o src/loadall.o src/loadvertexes.o \
-src/loadsectors.o src/utils.o src/loadobjs.o src/loadtxts.o src/loadplayer.o \
-src/loadpics.o src/drawscreen.o src/loadgame.o src/hooks.o src/drawsprites.o src/loadtextures.o \
-src/enemy.o src/profiling.o src/rgb_manipulations.o src/vector_math.o src/object_triggers.o \
+OBJ = src/main.o src/initall.o src/loadall.o src/countall.o src/loadsectors.o src/loadvertexes.o src/utils.o \
+src/loadobjs.o src/loadpics.o src/loadplayer.o src/loadgame.o src/hooks.o src/profiling.o src/rgb_manipulations.o \
+src/drawscreen.o src/drawweapon.o src/vector_math.o src/object_triggers.o src/player_move.o src/colliders.o \
 
 all: $(FRAMEDIR) $(LIBS) $(FRAME) $(NAME)
 

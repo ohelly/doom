@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/25 17:01:23 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/09 18:49:21 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/13 14:39:27 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,10 +124,20 @@ void		draw_sprite(t_doom *doom, int color)
 
 	i = -1;
 	while (++i < doom->aspr->count)
-		draw_rectangle(doom, doom->aspr->spr[i].pos, color, 3);
+	{
+		if (i == doom->aspr->select_spr)
+			draw_rectangle(doom, doom->aspr->spr[i].pos, 0xffff00, 3);
+		else
+			draw_rectangle(doom, doom->aspr->spr[i].pos, color, 3);
+	}
 	i = -1;
 	while (++i < doom->obj->count)
-		draw_rectangle(doom, doom->obj->obj[i].pos, color, 3);
+	{
+		if (i == doom->obj->select_obj)
+			draw_rectangle(doom, doom->obj->obj[i].pos, 0xffff00, 3);
+		else
+			draw_rectangle(doom, doom->obj->obj[i].pos, color, 3);
+	}
 	
 }
 

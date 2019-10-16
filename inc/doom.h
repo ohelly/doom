@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/06 16:56:23 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/15 21:29:11 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,235 +58,273 @@ typedef struct	s_scaler
 	int			cache; 
 }				t_scaler;
 
-typedef struct		s_line
+typedef struct	s_xy
 {
-	int				y0;
-	int				y1;
-	int				x0;
-	int				x1;
-	int				dx;
-	int				dy;
-	int				color;
-}					t_line;
+	float		x;
+	float		y;
+}				t_xy;
 
-typedef	struct		s_img
+typedef	struct 	s_xyz
 {
-	int				*data;
-	int				w;
-	int				h;
-	int				vis;
-}					t_img;
+	float		x;
+	float		y;
+	float		z;
+}				t_xyz;
 
-typedef	struct 		s_f
+typedef	struct 	s_ab_i
 {
-	float			ceil;
-	float			floor;
-}					t_f;
+	int			a;
+	int			b;
+}				t_ab_i;
 
-typedef	struct 		s_ab_i
+typedef struct	s_img
 {
-	int				a;
-	int				b;
-}					t_ab_i;
+	int			*data;
+	int			w;
+	int			h;
+}				t_img;
 
-typedef	struct 		s_ab
+typedef struct	s_texture
 {
-	float			a;
-	float			b;
-}					t_ab;
+	int			image;
+}				t_texture;
 
-typedef struct		s_xy
+typedef struct	s_obj
 {
-	float			x;
-	float			y;
-}					t_xy;
+	int			id;
+	int			enabled;
+	t_xy		p;
+	int			sector;
+	int			type;
+	int			**images;
+	int			*anim_count;
+	int			anim_frame;
+	int			states_count;
+	int			states_frame;
+	float		col_size;
+	int			col_passable;
+	void		(*on_collision)(struct t_doom *doom, struct s_obj *obj);
+	void		(*on_interaction)(struct t_doom *doom, struct s_obj *obj);
+}				t_obj;
 
-typedef struct		s_xy_i
+typedef struct	s_data
 {
-	int				x;
-	int				y;
-}					t_xy_i;
+	int			type;
+	int			**images;
+	int			*anim_count;
+	int			states_count;
+}				t_data;
 
-typedef	struct 		s_xyz
+typedef struct	s_pics
 {
-	float			x;
-	float			y;
-	float			z;
-}					t_xyz;
+	t_xyz		p;
+	t_xy		p1;
+	t_xy		p2;
+	int			sector;
+	int			type;
+	int			wall;
+	int			**images;
+	int			*anim_count;
+	int			anim_frame;
+	int			states_count;
+	int			states_frame;
+}				t_pics;
 
 typedef struct		s_player
 {
-	float			angle;
-	float			anglesin;
-	float			anglecos;
-	float			yaw;
-	t_xyz			where;
-	t_xyz			velocity;
-	int				sector;
-	int				move;
-	int				fall;
-	int				ground;
-}					t_player;
-
-typedef struct		s_sdl
-{
-	SDL_Window		*win;
-	int				*pix;
-	t_line			line;
-}					t_sdl;
-
-typedef struct		s_sector
-{
-	float			ceil;
-	float			tmpceil;
-	float			floor;
-	float			light;
-	int				door;
-	int				open;
-	int				close;
-	int				up;
-	t_xy			*vert;
-	int				npoints;
-	int				*neighbors;
-	int				txtf;
-	int				txtc;
-	int				txtw;
-	int				sky;
-	t_img			imgfloor;
-	t_img			imgceil;
-}					t_sector;
-
-typedef struct		s_obj
-{
-	t_xy			p;
-
-	int				enabled;
-	int				sector;
-	int				**images;
-	int				anim_count;
-	int				anim_frame;
-	int				states_count;
-	int				states_frame;
+	float		angle;
+	float		psin;
+	float		pcos;
+	float		yaw; //look up/down
+	t_xyz		where;
+	t_xyz		velocity;
+	int			sector;
+	int			move; // player moving
+	int			sit; // crouch
+	int			stand; 
+	int			fall; // jump or fall
+	int			ground; // player on the ground (fall = !ground)
+	int			start;
+	int			end;
+	int			weapon;
+	int			hp;
+	float		col_size;
+}				t_player;
 	float			col_size;
-	void			(*on_collision)(struct t_doom *doom, struct s_obj *obj);
-}					t_obj;
 
-/*
-typedef struct		s_obj
+typedef	struct	s_cood
 {
-	t_img			img;
-	int				anim;
-	int				cnt_frms;
-	int				rotate;
-	float			pov;
-	int				txt_ind;
-	int				sector;
-	t_xy			p;
-}					t_obj;
-*/
+	int			x;
+	int			y;
+	int			n;
+	int			neighbor;
+	int			beginx;
+	int			endx;
+	float		u0;
+	float		u1;
+	int			yceil;
+	int			yfloor;
+	int			nyceil;
+	int			nyfloor;
+	int			txtx;
+	int			ptxtx;
+	int			piccount;
+	int			picnum[32];
+	int			num;
+	float		pu0[32];
+	float		pu1[32];
+	int			pyceil[32];
+	int			pyfloor[32];
+	t_xyz		pv1[32];
+	t_xyz		pv2[32];
+	t_xyz		pt1[32];
+	t_xyz		pt2[32];
+	t_xy		porg1[32]; 
+	t_xy		porg2[32];
+	t_xy		pscale1[32];
+	t_xy		pscale2[32];
+	int			pw1x[32];
+	int			pw2x[32];
+	t_ab_i		pwy[32]; 
+	t_ab_i		pwx[32]; //current point
+	t_ab_i		pcy[32];
+	t_ab_i		pw1y[32];
+	t_ab_i		pw2y[32];
 
-typedef struct		s_cood
+	t_xyz		v1;
+	t_xyz		v2;
+	t_xyz		t1;
+	t_xyz		t2;
+	t_xy		org1; 
+	t_xy		org2;
+	t_xy		scale1;
+	t_xy		scale2;
+	int			w1x; //left point
+	int			w2x; //right point
+	t_ab_i		wy; 
+	t_ab_i		wx; //current point
+	t_ab_i		cy;
+	t_ab_i		w1y;
+	t_ab_i		w2y;
+	t_ab_i		ny;
+	t_ab_i		nx;
+	t_ab_i		cny;
+	t_ab_i		n1y;
+	t_ab_i		n2y;
+}				t_cood;
+
+typedef struct	s_sectors
 {
-	
-	int				neighbor;
-	int				beginx;
-	int				endx;
-	float			u0;
-	float			u1;
-	t_xyz			v1;
-	t_xyz			v2;
-	t_xyz			t1;
-	t_xyz			t2;
-	t_xy			org1;
-	t_xy			org2;
-	int				txtx;
-	t_xy			scale1;
-	t_xy			scale2;
-	t_xy_i			w1;
-	t_xy_i			w2;
-	t_ab_i			wy;
-	t_ab_i			wx;
-	t_ab_i			w1y;
-	t_ab_i			w2y;
-	t_ab_i			n1y;
-	t_ab_i			n2y;
-	t_f				y;
-	t_sector		*s;
-}					t_cood;
+	t_xy		*vert; //vertices
+	float		constceil; //constceil for door/elevator
+	//float		constfloor; //constfloor for elevator
+	float		ceil;
+	float		floor;
+	float		light;
+	int			type; //door or elevator
+	int			active; //door or elevetor going up/down (open/close)
+	int			open; //for elevator top position
+	int			close; //bottom
+	int			npoints; //vertices count
+	int			*neighbors; //neighbour sectors
+	int			txtf; //floor
+	int			txtc; //ceil
+	int			*txtw; //wall
+	int			sky;
+}				t_sectors;
 
-typedef struct		s_pic
+typedef struct	s_line
 {
-	t_img			img;
-	int				cnt_frms;
-	int				anim;
-	int				sector;
-	int				wall;
-	int				txt_ind;
-	float			z;
-	t_cood			cood;
-	t_xy			p;
-	t_xy			p1;
-	t_xy			p2;
-}					t_pic;
+	int			y0;
+	int			y1;
+	int			x0;
+	int			x1;
+	int			dx;
+	int			dy;
+	int			color;
+}				t_line;
 
-typedef struct 		s_item
+typedef struct	s_sdl
 {
-	int				sx;
-	int				ex;
-	int				sector;
-	int				*ytop;
-	int				*ybot;
-}					t_item;
+	SDL_Window	*win;
+	int			*pix;
+	t_line		line;
+}				t_sdl;
 
-typedef struct		s_texture
+typedef struct	s_num
 {
-	t_img			*img;
-}					t_texture;
+	int     	vertexes;
+	int			weapons;
+    int     	sectors;
+	int			objs;
+	int			pics;
+	int			txts;
+}				t_num;
 
-typedef struct 		s_be
+typedef struct	s_weapon
 {
-	int				begin;
-	int				end;
-	int				x;
-}					t_be;
+	int			type;
+	float		delay;
+	int			**images;
+	int			*anim_count;
+	int			anim_frame;
+	int			states_count;
+	int			states_frame;
+}				t_weapon;
 
-
-
-
-typedef struct		s_doom
+typedef struct	s_fps
 {
-	t_sdl			*sdl;
-	t_sector		*sector;
-	t_obj			*obj;
-	t_pic			*pic;
-	t_texture		*txt;
-	t_player		player;
-	t_item			*item;
-	t_item			now;
-	t_item 			queue[32];
-	t_item			*head;
-	t_item			*tail;
-	t_cood			cood;
-	int				visible[HEIGHT][WIDTH];
-	int				a;
-	int				olda;
-	int				*data;
-	int     		numvertexes;
-    int     		numsectors;
-	int				numobjs;
-	int				numpics;
-	int				numtxts;
-	int				push;
-	int				wsad[4];
-	int				ybot[WIDTH];
-	int				ytop[WIDTH];
-	float			*len;
-	float			times[32];
-	float			time_frame;
-	struct s_enemy	*enemy;
-	t_img			images[512];
-	int				images_count;
-}					t_doom;
+	float		times[32];
+	float		time_frame;
+	float		fps_total;
+	float		fps_count;
+}				t_fps;
+
+typedef struct 	s_item
+{
+	int			sx;
+	int			ex;
+	int			sector;
+	int			*ytop;
+	int			*ybot;
+}				t_item;
+
+typedef struct	s_doom
+{
+	t_img		img[512];
+	t_weapon	*weapon;
+	t_texture	*sky;
+	t_texture	*walls;
+	t_texture	*floors;
+	t_texture	*ceils;
+	t_obj		*objs;
+	t_data		*objs_data;
+	t_pics		*pics;
+	t_data		*pics_data;
+	t_sectors	*sectors;
+	t_sdl		*sdl;
+	t_player	player;
+	t_num		num;
+	t_fps		fps;
+	t_item 		queue[32];
+	t_item		*head;
+	t_item		*tail;
+	t_item		*item;
+	t_item		now;
+	t_cood		cood;
+	int			wsad[4];
+	int			visible[HEIGHT][WIDTH];
+	int			ytop[WIDTH];
+	int			ybot[WIDTH];
+	int			push;
+	int			a;
+	int			lkey;
+	int			rkey;
+	int			shakex;
+	int			shakey;
+	int			shaketmp;
+	float		wall_col_size;
+}				t_doom;
 
 typedef struct		s_enemy
 {
@@ -308,37 +346,35 @@ typedef struct		s_enemy
 	void			(*on_framestart)(t_doom *doom, struct s_enemy *enemy);
 }					t_enemy;
 
-int		initall(t_doom *doom);
 int		loadall(t_doom *doom);
+int		initall(t_doom *doom);
 int		countall(t_doom *doom, char **map);
 int		loadvertexes(t_xy *v, char *str);
-int		loadsectors(t_sector *s, t_xy *v, char *str);
-int		loadobjs(t_obj *obj, char *str);
-int		loadpics(t_pic *pic, char *str);
-int		loadtxts(t_texture *txt, char *str);
-int		loadplayer(t_player *player, char *str);
-
-int		loadtextures(t_doom *doom);
-
-float	vxs(float x0, float y0, float x1, float y1);
+int		loadsectors(t_sectors *s, t_xy *v, char *str);
 char	*todigit(char *str, float *data);
+int		loadobjs(t_doom *doom, t_obj *obj, t_data *objs_data, char *str);
+int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str);
+int		loadplayer(t_player *player, char *str);
+int		load_game(t_doom *doom);
 int		hooks(t_doom *doom, SDL_Event ev);
-int		loadgame(t_doom *doom);
-int		drawscreen(t_doom *doom);
-int		drawsprites(t_doom *doom, t_obj *obj, t_player player);
-float	yaw(float y, float z, t_player player);
-t_enemy	*create_enemy(t_doom *doom, t_obj *obj);
-void	enemies_update(t_doom *doom);
-int		profile(t_doom *doom, int profiling_index);
 int		profile_output(t_doom *doom);
-t_img	obj_get_image(t_doom *doom, t_obj *obj);
-void	obj_anim_next(t_obj *obj);
-void	obj_state_change(t_obj *obj, int state);
+int		draw_screen(t_doom *doom);
+int		draw_walls(t_doom *doom, t_player player);
 int		rgb_multiply(int color, float value);
+float	vxs(float x0, float y0, float x1, float y1);
+float	yaw(float y, float z, t_player player);
+void	drawweapon(t_doom *doom, t_weapon *weapon);
+t_img	weapon_get_image(t_doom *doom, t_weapon *weapon);
 int		objects_update(t_doom *doom);
 void	on_collision_key(t_doom *doom, t_obj *obj);
+int		player_move(t_doom *doom, t_xy move_pos);
+int		find_obj_interaction(t_doom *doom);
 
-int		intersects_collider(t_xy pos, t_xy dest_pos, t_xy col_pos1, t_xy col_pos2);
+int		collision_box(t_xy p1, t_xy p2, t_xy v1, t_xy v2);
+int		collision_circle(t_xy pos1, float rad1, t_xy pos2, float rad2);
+int		collision_box_dir(t_xy pos1, t_xy pos2, t_xy col_pos1, t_xy col_pos2);
+int		overlap(float a0, float a1, float b0, float b1);
+//math
 t_xy	rot_to_v2(float rot);
 float	v2_to_rot(t_xy v2);
 t_xy	v2_add(t_xy v1, t_xy v2);
