@@ -6,7 +6,7 @@
 #    By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/02 20:58:32 by lminta            #+#    #+#              #
-#    Updated: 2019/10/15 19:17:38 by dtoy             ###   ########.fr        #
+#    Updated: 2019/10/17 13:23:10 by dtoy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -31,8 +31,7 @@ FLAGS2 = -F ~/Library/Frameworks/ -framework SDL2 -framework SDL2_image \
 
 OBJ = src/main.o src/initall.o src/loadall.o src/countall.o src/loadsectors.o src/loadvertexes.o src/utils.o \
 src/loadobjs.o src/loadpics.o src/loadplayer.o src/loadgame.o src/hooks.o src/profiling.o src/rgb_manipulations.o \
-src/drawscreen.o src/drawweapon.o src/vector_math.o src/object_triggers.o src/player_move.o src/colliders.o \
-
+src/drawsprites.o src/drawscreen.o src/drawweapon.o src/vector_math.o src/object_triggers.o src/player_move.o src/colliders.o
 all: $(FRAMEDIR) $(LIBS) $(FRAME) $(NAME)
 
 $(NAME): $(OBJ)

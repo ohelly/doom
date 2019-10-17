@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 18:08:49 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/15 21:43:17 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/17 14:58:24 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ void	weapon_state_change(t_weapon *weapon, int state)
 	weapon->anim_frame = 0;
 }
 
-void	weapon_anim_next(t_weapon *weapon, int state, t_fps fps)
+void	weapon_anim_next(t_player *player, t_weapon *weapon, int state, t_fps fps)
 {
 	int index;
 	static float t = 0;
@@ -32,7 +32,13 @@ void	weapon_anim_next(t_weapon *weapon, int state, t_fps fps)
 		weapon->anim_frame++;
 		if (weapon->anim_frame >= weapon->anim_count[state] ||
 			weapon->images[state][weapon->anim_frame] == -1)
+		{
+			if (weapon->states_frame == 2)
+				player->reload = 0;
+			if (weapon->type != 3)
+				weapon->states_frame = 0;
 			weapon->anim_frame = 0;
+		}
 		t = 0;
 	}
 }
@@ -45,17 +51,22 @@ t_img	weapon_get_image(t_doom *doom, t_weapon *weapon)
 void		drawweapon(t_doom *doom, t_weapon *weapon)
 {
 	static float time = 0;
+	static float time2 = 0;
 	int		tmp = 0;
 	int		y;
 	int		x;
 	t_xy	scale;
 	t_xy	t;
 	t_img	img;
+	
+	//printf("ind - %d\n", weapon->images[weapon->states_frame][weapon->anim_frame]);
+	if (weapon->type == 0 && weapon->states_frame == 0)
+		return ;
 
 	if (doom->push || doom->shakey != 0 || doom->shakex != 0)
 	{
 		time += doom->fps.time_frame;
-		if (time >= 0.015f)
+		if (time >= 0.015f && weapon->type != 0)
 		{
 			if (doom->shakey == 0)
 				doom->shaketmp = 1;
@@ -66,17 +77,40 @@ void		drawweapon(t_doom *doom, t_weapon *weapon)
 			time = 0;
 		}
 	}
-	if (doom->lkey || weapon->anim_frame != 0)
-		weapon_anim_next(weapon, weapon->states_frame, doom->fps);
-	img = weapon_get_image(doom, weapon);
-	x = WIDTH / 3 - 1 - doom->shakex;
-	while (++x < 2 * WIDTH / 3)
+	if (weapon->type == 0 || weapon->states_frame == 1)
 	{
-		scale.x = (float)img.w / (WIDTH / 3);
-		scale.y = (float)img.h / (HEIGHT / 3);
+		doom->shakey = 0;
+		doom->shakex = 0;
+	}
+	if (doom->player.reload == 1 && weapon->type != 0 && weapon->type != 2)
+		weapon->states_frame = 2;
+	if (doom->lkey && weapon->type == 3)
+	{
+		weapon->states_frame = 1;
+		doom->shakex = 0;
+		if (weapon->anim_frame % 3 == 0)
+			doom->shakey = 15;
+		else
+			doom->shakey = 0;
+	}
+	if (!doom->lkey && weapon->type == 3)
+	{
+		weapon->states_frame = 0;
+		weapon->anim_frame = 0;
+	}
+	if (weapon->states_frame != 0)
+		weapon_anim_next(&doom->player, weapon, weapon->states_frame, doom->fps);
+	
+	//printf("reload - %d, state - %d\n", doom->player.reload, weapon->states_frame);
+	img = weapon_get_image(doom, weapon);
+	x = WIDTH - (WIDTH / 3) - (WIDTH / 3) / 2 - doom->shakex;
+	scale.x = (float)img.w / (WIDTH / 3);
+	scale.y = (float)img.h / (HEIGHT / 2);
+	while (++x < WIDTH - WIDTH / 3 + (WIDTH / 3) / 2 - doom->shakex)
+	{
 		t.y = 0;
-		t.x = (x - WIDTH / 3 - doom->shakex) * scale.x;
-		y = 2 * HEIGHT / 3 + 25 + doom->shakey + doom->player.yaw * 5;
+		t.x = (x - WIDTH / 3 + (WIDTH / 3) / 2 + doom->shakex) * scale.x;
+		y = HEIGHT - HEIGHT / 2 + doom->shakey + doom->change_y;// + 25 + doom->player.yaw * 5;//2 * HEIGHT / 4 + doom->shakey;
 		while (++y < HEIGHT)
 		{
 			if (img.data[(int)t.y * img.w + (int)t.x])
