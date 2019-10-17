@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 11:56:24 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/17 15:00:34 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/15 18:04:37 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int			findobjslen(t_doom *doom, t_obj *obj, float *len, t_player player)
 	int		n;
 
 	n = 0;
-    while (n < doom->num.objs)
+    while (n < doom->numobjs)
 	{
 		len[n] = sqrtf(powf(obj[n].p.x - player.where.x, 2) + powf(obj[n].p.y - player.where.y, 2));
 		n++;
@@ -30,23 +30,23 @@ int			*sortobjs(t_doom *doom, int *order, t_player player)
 	int		n;
 	int		j;
 	float	l;
-	float	len[doom->num.objs];
+	float	len[doom->numobjs];
 	int		tmp;
 
-	findobjslen(doom, doom->objs, len, player);
-	ft_memmove(doom->len, len, doom->num.objs * 4);
+	findobjslen(doom, doom->obj, len, player);
+	ft_memmove(doom->len, len, doom->numobjs * 4);
 	j = 0;
-	while (j < doom->num.objs)
+	while (j < doom->numobjs)
 	{
 		order[j] = j;
 		j++;
 	}
 	j = 0;
 	n = 0;
-	while (j < doom->num.objs)
+	while (j < doom->numobjs)
 	{
 		n = 0;
-		while (n < doom->num.objs - 1)
+		while (n < doom->numobjs - 1)
 		{
 			if (len[n] < len[n + 1])
 			{
@@ -98,11 +98,11 @@ int		vlineobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom)
 			if (prev_color != color)
 			{
 				prev_color = color;
-				prev_light = rgb_multiply(color, doom->sectors[obj->sector].light);
+				prev_light = rgb_multiply(color, doom->sector[obj->sector].light);
 			}
 			doom->sdl->pix[y * WIDTH + px.x] = prev_light;
 		}
-		//	doom->sdl->pix[y * WIDTH + px.x] = 0xFF0000;//img.data[(int)t.y * img.w + (int)t.x];
+			//doom->sdl->pix[y * WIDTH + px.x] = img.data[(int)t.y * img.w + (int)t.x];
 		y++;
 		t.y += scale.y;
 	}
@@ -126,19 +126,19 @@ int		findobjxy2(t_xyz t, t_xy scale, t_obj *obj, t_doom *doom)
 	int		wx;
 	t_xy	size;	//w, h
 	t_ab_i	wy;
-	t_be	px;
+	t_be	x;
 	t_img	img;
 
 	img = obj_get_image(doom, obj);
 	size.y = (float)(img.h / 32);
 	size.x = (float)(img.w / 105);
 	wx = WIDTH / 2 - (int)(t.x * scale.x); 
-	wy.a = HEIGHT / 2 - (int)(yaw(size.y + doom->sectors[obj->sector].floor - doom->player.where.z, t.z, doom->player) * scale.y); 
-	wy.b = HEIGHT / 2 - (int)(yaw(doom->sectors[obj->sector].floor - doom->player.where.z, t.z, doom->player) * scale.y);
+	wy.a = HEIGHT / 2 - (int)(yaw(size.y + doom->sector[obj->sector].floor - doom->player.where.z, t.z, doom->player) * scale.y); 
+	wy.b = HEIGHT / 2 - (int)(yaw(doom->sector[obj->sector].floor - doom->player.where.z, t.z, doom->player) * scale.y);
 	size.x = size.x * scale.x;
-	px.begin = wx - size.x / 2;
-	px.end = wx + size.x / 2;
-	renobj(px, wy, obj, doom);
+	x.begin = wx - size.x / 2;
+	x.end = wx + size.x / 2;
+	renobj(x, wy, obj, doom);
 	return (0);
 }
 
@@ -148,20 +148,19 @@ int      drawobj(t_doom *doom, t_obj *obj, t_xy pos)
 	t_xyz	t;
 	t_xy	scale;
 
-	//if (obj->enabled == 0)
-	//	return (0);
+	if (obj->enabled == 0)
+		return (0);
 	v.x = obj->p.x - doom->player.where.x;
 	v.y = obj->p.y - doom->player.where.y;
-	t.x = v.x * doom->player.psin - v.y * doom->player.pcos;
-	t.z = v.x * doom->player.pcos + v.y * doom->player.psin;
-	if (obj->anim_count[obj->states_frame] > 1)
+	t.x = v.x * doom->player.anglesin - v.y * doom->player.anglecos;
+	t.z = v.x * doom->player.anglecos + v.y * doom->player.anglesin;
+	if (obj->anim_count > 1)
 	{
 		if (doom->a == 1)
 			obj_anim_next(obj);
 	}
 	if (t.z <= 0)
 		return (0);
-	
 	scale.x = (HFOV * WIDTH) / t.z;
 	scale.y = (VFOV * HEIGHT) / t.z;
 	findobjxy2(t, scale, obj, doom);
@@ -175,19 +174,17 @@ int     drawsprites(t_doom *doom, t_obj *obj, t_player player)
 	int		*order;
 	int		j;
 
-	order = (int*)malloc(sizeof(int) * doom->num.objs);
+	order = (int*)malloc(sizeof(int) * doom->numobjs);
     sortobjs(doom, order, doom->player);
     n = 0;
-    while (n < doom->num.objs)
+    while (n < doom->numobjs)
     {
-		//printf("n - %d\n", n);
-        o = &doom->objs[order[n]];
+        o = &doom->obj[order[n]];
 		if (!doom->item[o->sector].sector || doom->len[n] < 1.5f)
 		{
 			n++;
 			continue ;
 		}
-		
         if (!(drawobj(doom, o, o->p)))
 		{
 			n++;

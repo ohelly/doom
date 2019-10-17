@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:21:04 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/17 15:24:10 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/15 21:34:39 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -326,10 +326,10 @@ int		count_params_weapon(char *map, t_weapon *weapon)
 	//map = todigit(map, &tmp);
 	map = todigit(map, &tmp);
 	weapon->type = (int)tmp;
-	//printf("pic type - %d\n", pic->type);
+//	printf("pic type - %d\n", pic->type);
 	map = todigit(map, &tmp);
 	weapon->states_count = (int)tmp;
-	printf("wep states - %d\n", weapon->states_count);
+//	printf("pic states - %d\n", pic->states_count);
 	weapon->images = (int**)ft_memalloc(sizeof(int*) * weapon->states_count);
 	weapon->anim_count = (int*)ft_memalloc(sizeof(int) * weapon->states_count);
 	n = 0;
@@ -337,11 +337,10 @@ int		count_params_weapon(char *map, t_weapon *weapon)
 	{
 		map = todigit(map, &tmp);
 		weapon->anim_count[n] = (int)tmp;
-		printf("wep anim - %d\n", weapon->anim_count[n]);
+		//printf("anim - %d\n", pic->anim_count[n]);
 		weapon->images[n] = (int*)ft_memalloc(sizeof(int) * weapon->anim_count[n]);
 		n++;
 	}
-
 	return (0);
 }
 
@@ -356,6 +355,7 @@ int		load_weapon(char **map, t_weapon *weapon, t_img *img)
 	t = 1;
 	n = 0;
 	count_params_weapon(map[i], weapon);
+	weapon->delay = 0.035f;
 	
 	while (n < weapon->states_count)
 	{
@@ -367,27 +367,6 @@ int		load_weapon(char **map, t_weapon *weapon, t_img *img)
 			a++;
 		}
 		n++;
-	}
-	return (0);
-}
-
-int		load_weapon_delay(t_weapon *weapon, int type)
-{
-	if (type == 0) //knife
-	{
-		weapon->delay = 0.15f;
-	}
-	if (type == 1) //pistol
-	{
-		weapon->delay = 0.07f;
-	}
-	if (type == 2)
-	{
-		weapon->delay = 0.1f;
-	}
-	if (type == 3)
-	{
-		weapon->delay = 0.01f;
 	}
 	return (0);
 }
@@ -407,7 +386,6 @@ int		load_weapon_data(char **map, t_doom *doom)
 	while (*map[i] != '#')
 	{
 		load_weapon(&map[i], &doom->weapon[atoi(map[i])], doom->img);
-		load_weapon_delay(&doom->weapon[atoi(map[i])], atoi(map[i]));
 		while (*map[i] != '.')
 		{
 			if (*map[i] == '#')
@@ -491,9 +469,12 @@ int		loadall(t_doom *doom)
 	load_data(doom, map);
 	load_params(doom, map);
 	
-	if (!(doom->len = (float*)ft_memalloc(sizeof(float) * doom->num.objs)))
+	
+	
+		/*
+	if (!(doom->len = (float*)ft_memalloc(sizeof(float) * doom->numobjs)))
 		return (0);
-	/*
+	
 	if (!(doom->txt = (t_texture*)ft_memalloc(sizeof(t_texture) * 1))) //нужно посчитать кол-во текстур
 		return (0);
 	if (!(loaddata(doom, map)))
