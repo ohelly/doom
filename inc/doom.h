@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/17 14:50:31 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/17 20:41:19 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <math.h>
 # include <SDL.h>
 # include <SDL_image.h>
+# include <SDL_ttf.h>
 # include <get_next_line.h>
 
 # define WIDTH 1280
@@ -297,10 +298,19 @@ typedef struct 	s_item
 	int			*ybot;
 }				t_item;
 
+typedef struct	s_hud
+{
+	SDL_Color	color;
+	TTF_Font	*font;
+	SDL_Surface	*sur;
+	int			*pix;
+}				t_hud;
+
 typedef struct	s_doom
 {
 	t_img		img[512];
 	t_weapon	*weapon;
+	t_hud		*hud;
 	t_texture	*sky;
 	t_texture	*walls;
 	t_texture	*floors;
@@ -368,6 +378,8 @@ char	*todigit(char *str, float *data);
 int		loadobjs(t_doom *doom, t_obj *obj, t_data *objs_data, char *str);
 int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str);
 int		loadplayer(t_player *player, char *str);
+int		load_hud(t_doom *doom);
+int		loadfonts(t_hud *hud);
 int		load_game(t_doom *doom);
 int		hooks(t_doom *doom, SDL_Event ev);
 int		profile_output(t_doom *doom);
@@ -377,6 +389,7 @@ int		rgb_multiply(int color, float value);
 float	vxs(float x0, float y0, float x1, float y1);
 float	yaw(float y, float z, t_player player);
 void	drawweapon(t_doom *doom, t_weapon *weapon);
+void	drawhud(t_doom *doom);
 int     drawsprites(t_doom *doom, t_obj *obj, t_player player);
 t_img	weapon_get_image(t_doom *doom, t_weapon *weapon);
 int		objects_update(t_doom *doom);

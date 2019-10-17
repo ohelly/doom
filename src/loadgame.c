@@ -15,6 +15,7 @@
 int		init_sdl(t_sdl *sdl)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
+	TTF_Init();
 
 	SDL_Surface	*surface;
 	sdl->win = SDL_CreateWindow("Doom", 0, 0, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
@@ -272,6 +273,8 @@ int		load_game(t_doom *doom)
 	SDL_Event	ev;
 
 	init_sdl(doom->sdl);
+	loadfonts(doom->hud);
+	load_hud(doom);
 	while (1)
 	{
 		fps(&doom->fps);
