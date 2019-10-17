@@ -193,6 +193,6 @@ int		save(t_doom *doom)
 	str = ft_strjoinc(str, "\0");
 	write(fd, str, ft_strlen(str) * sizeof(char));
 	close(fd);
-	ft_putendl("Saved file!");
+	doom->hud->msg = "Saved file!";
 	exit(0);
 }

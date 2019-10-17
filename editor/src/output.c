@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/25 17:01:23 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/26 16:28:17 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/13 14:39:27 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,6 +118,29 @@ void		draw_building_line(t_doom *doom, int color)
 	line(doom, color);
 }
 
+void		draw_sprite(t_doom *doom, int color)
+{
+	int		i;
+
+	i = -1;
+	while (++i < doom->aspr->count)
+	{
+		if (i == doom->aspr->select_spr)
+			draw_rectangle(doom, doom->aspr->spr[i].pos, 0xffff00, 3);
+		else
+			draw_rectangle(doom, doom->aspr->spr[i].pos, color, 3);
+	}
+	i = -1;
+	while (++i < doom->obj->count)
+	{
+		if (i == doom->obj->select_obj)
+			draw_rectangle(doom, doom->obj->obj[i].pos, 0xffff00, 3);
+		else
+			draw_rectangle(doom, doom->obj->obj[i].pos, color, 3);
+	}
+	
+}
+
 void		draw_all(t_doom *doom)
 {
 	int i;
@@ -141,6 +164,7 @@ void		draw_all(t_doom *doom)
 	if (doom->walls->selected_wall != -1)
 		draw_wall(doom, doom->walls->wall[doom->walls->selected_wall], 0x009900);
 	draw_verts(doom, 0xff0000);
+	draw_sprite(doom, 0x04ACFF);
 }
 
 void		output(t_doom *doom)
@@ -153,5 +177,7 @@ void		output(t_doom *doom)
 	SDL_UpdateTexture(doom->sdl->tex, NULL, doom->sdl->pix, WIDTH * sizeof(Uint32));
 	SDL_RenderClear(doom->sdl->rend);
 	SDL_RenderCopy(doom->sdl->rend, doom->sdl->tex, NULL, NULL);
+	put_image_on_screen(doom);
+	put_string_on_screen(doom);
 	SDL_RenderPresent(doom->sdl->rend);
 }
