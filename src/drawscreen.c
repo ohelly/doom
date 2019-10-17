@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/15 20:14:10 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/17 13:08:24 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,8 +80,8 @@ void	vline2(int x, t_ab_i wy, t_scaler ty, t_doom *doom)
 	int		y2 = wy.b;
 	int		t;
 	int		color;
-	int		prev_color;
-	int		prev_light;
+	static int		prev_color;
+	static int		prev_light;
 	t_sectors	*s;
 	t_img		*set;
 
@@ -103,12 +103,12 @@ void	vline2(int x, t_ab_i wy, t_scaler ty, t_doom *doom)
 		}
         txty = scaler_next(&ty);
 		color = set->data[txty % set->h * set->w + doom->cood.txtx % set->w];
-		//if (color != prev_color)
-		//{
-		//	prev_color = color;
-		//	prev_light = rgb_multiply(color, s->light);
-		//}
-		*pix = color;//prev_light;
+		if (color != prev_color)
+		{
+			prev_color = color;
+			prev_light = rgb_multiply(color, s->light);
+		}
+		*pix = prev_light;
         pix += WIDTH;
 		y++;
     }
@@ -123,8 +123,8 @@ void	vline3(int x, t_ab_i wy, t_scaler ty, t_doom *doom)
 	int		y2 = wy.b;
 	int		t;
 	int		color;
-	int		prev_color;
-	int		prev_light;
+	static int		prev_color;
+	static int		prev_light;
 	t_img	set;
 
 	pix = doom->sdl->pix;
@@ -137,13 +137,13 @@ void	vline3(int x, t_ab_i wy, t_scaler ty, t_doom *doom)
     {
         txty = scaler_next(&ty);
 		color = set.data[txty % set.h * set.w + doom->cood.ptxtx % set.w];
-		//if (color != prev_color)
-		//
+		//if (color && color != prev_color)
+		//{
 		//	prev_color = color;
-		//	prev_light = rgb_multiply(color, doom->sector[doom->now.sector].light);
+		//	prev_light = rgb_multiply(color, doom->sectors[doom->now.sector].light);
 		//}
 		if (color)
-			*pix = color;//prev_light;
+			*pix = color;
         pix += WIDTH;
 		y++;
     }
@@ -270,8 +270,8 @@ int			render_ceil_floor(t_doom *doom, t_sectors *s, t_cood *cood, t_player playe
 	int 	txtx;
 	int 	txtz;
 	int		pel;
-	int		prev_light;
-	int		prev_color;
+	static int	prev_light;
+	static int	prev_color;
 	float	hei;
 	t_img	set;
 
@@ -287,17 +287,17 @@ int			render_ceil_floor(t_doom *doom, t_sectors *s, t_cood *cood, t_player playe
 	set = cood->y < cood->cy.a - 1 ? doom->img[doom->ceils[s->txtc].image] : doom->img[doom->floors[s->txtf].image];
 	//printf("w - %d, h - %d, inage - %d\n", set.w, set.h, doom->ceils[s->txtc].image);
 	pel = set.data[(txtz % set.h) * set.w + (txtx % set.w)];
-	doom->sdl->pix[cood->y * WIDTH + cood->x] = pel;
+	if (pel != prev_color) //<---------- переделать
+	{
+		prev_light = rgb_multiply(pel, s->light);
+		prev_color = pel;
+	}
+	doom->sdl->pix[cood->y * WIDTH + cood->x] = prev_light;
 	if (!set.data[(txtz % set.h) * set.w + (txtx % set.w)])
 	{
 		doom->visible[cood->y][cood->x] = 1;
 		return (0);
 	}
-	//if (pel != prev_color) //<---------- переделать
-	//{
-	//	prev_light = rgb_multiply(pel, s->light);
-	//	prev_color = pel;
-	//}
 	//if (hei == cood->yceil)
 		//doom->sdl->pix[cood->y * WIDTH + cood->x] = pel;
 	//else
@@ -645,6 +645,7 @@ int			draw_screen(t_doom *doom)
 {		
 	draw_walls(doom, doom->player);
 	drawsky(doom, doom->player, doom->sky, doom->img);
+	drawsprites(doom, doom->objs, doom->player);
 	drawweapon(doom, &doom->weapon[doom->player.weapon]);
 	return (0);
 }

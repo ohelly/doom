@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:50:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/13 12:27:21 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/17 13:12:07 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,12 +29,10 @@ void	obj_anim_next(t_obj *obj, int state)
 		obj->anim_frame = 0;
 }
 
-/*
 t_img	obj_get_image(t_doom *doom, t_obj *obj)
 {
-	return (doom->images[obj->images[obj->states_frame][obj->anim_frame]]);
+	return (doom->img[obj->images[obj->states_frame][obj->anim_frame]]);
 }
-*/
 
 int		create_obj(t_doom *doom, t_obj *obj)
 {
