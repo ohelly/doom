@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 18:08:49 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/17 12:58:57 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/17 13:26:04 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ void		drawweapon(t_doom *doom, t_weapon *weapon)
 		weapon->states_frame = 2;
 	if (weapon->states_frame != 0)
 		weapon_anim_next(&doom->player, weapon, weapon->states_frame, doom->fps);
-	printf("reload - %d, state - %d\n", doom->player.reload, weapon->states_frame);
+	//printf("reload - %d, state - %d\n", doom->player.reload, weapon->states_frame);
 	img = weapon_get_image(doom, weapon);
 	x = WIDTH - (WIDTH / 3) - (WIDTH / 3) / 2 - doom->shakex;
 	scale.x = (float)img.w / (WIDTH / 3);
