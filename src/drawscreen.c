@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/17 15:16:57 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/17 15:53:01 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -427,8 +427,10 @@ int			find_scales(t_doom *doom, t_sectors *s, t_cood *cood, t_player player)
 	cood->scale2.y = (VFOV * HEIGHT) / cood->t2.z;
 	cood->w1x = WIDTH / 2 - (int)(cood->t1.x * cood->scale1.x);
 	cood->w2x = WIDTH / 2 - (int)(cood->t2.x * cood->scale2.x);
-	if (cood->w1x >= cood->w2x || cood->w2x < doom->now.sx || cood->w1x > doom->now.ex)
+	
+	if (cood->w1x == cood->w2x)// || cood->w1x < -10000 || cood->w2x < doom->now.sx || cood->w1x > doom->now.ex)
 		return (0);
+	//printf("w1x - %d, w2x - %d\n", cood->w1x, cood->w2x);
 	return (1);
 }
 
@@ -450,6 +452,9 @@ int			find_yceil_yfloor(t_doom *doom, t_sectors *s, t_cood *cood, t_player playe
 	cood->w1y.b = HEIGHT / 2 - (int)(yaw(cood->yfloor, cood->t1.z, player) * cood->scale1.y);
 	cood->w2y.a = HEIGHT / 2 - (int)(yaw(cood->yceil , cood->t2.z, player) * cood->scale2.y);
 	cood->w2y.b = HEIGHT / 2 - (int)(yaw(cood->yfloor, cood->t2.z, player) * cood->scale2.y);
+	printf("t1z - %f, t2z - %f\n", cood->t1.z, cood->t2.z);
+	printf("w1ya - %d, w1yb - %d\n", cood->w1y.a, cood->w1y.b);
+	printf("w2ya - %d, w2yb - %d\n", cood->w2y.a, cood->w2y.b);
 	return (0);
 }
 
@@ -522,7 +527,7 @@ int			calc_pics(t_doom *doom, t_pics *pic, t_cood *cood, t_player player)
 			cood->pw1x[count] = WIDTH / 2 - (int)(cood->pt1[count].x * cood->pscale1[count].x);
 			cood->pw2x[count] = WIDTH / 2 - (int)(cood->pt2[count].x * cood->pscale2[count].x);
 			//printf("w1x - %d, w2x - %d\n", cood->pw1x[count], cood->pw2x[count]);
-			if (cood->pw1x[count] >= cood->pw2x[count] || cood->pw2x[count] < doom->now.sx || cood->pw1x[count] > doom->now.ex)
+			if (cood->pw1x[count] == cood->pw2x[count])// || cood->pw2x[count] < doom->now.sx || cood->pw1x[count] > doom->now.ex)
 			{
 				i++;
 				continue ;

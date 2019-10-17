@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:21:04 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/17 14:10:22 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/17 15:24:10 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -379,7 +379,7 @@ int		load_weapon_delay(t_weapon *weapon, int type)
 	}
 	if (type == 1) //pistol
 	{
-		weapon->delay = 0.1f;
+		weapon->delay = 0.07f;
 	}
 	if (type == 2)
 	{
