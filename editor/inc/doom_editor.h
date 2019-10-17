@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/17 16:08:07 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/17 17:28:15 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,17 @@ typedef struct			s_v2_vertex
 	int					x;
 	int					y;
 }						t_v2;
+
+/*
+** STRUCT FOR SCALE IMAGE
+*/
+
+typedef struct			s_scale
+{
+	t_v2				pos;
+	int					w;
+	int					h;
+}						t_scale;
 
 /*
 ** STRUCT FOR INTERSECT
@@ -342,6 +353,7 @@ void					sel_texture_wall(int x, int y, t_all_walls *walls);
 void					change_skybox(int x, int y, t_txt *txt);
 void					sel_object(int x, int y, t_all_spr_floor *obj, t_all_spr_wall *aspr);
 void					sel_sprite(int x, int y, t_all_spr_floor *obj, t_all_spr_wall *aspr);
+void					render_img(SDL_Texture *tex, SDL_Renderer *ren, t_scale scale);
 
 /*
 **	Math
