@@ -42,6 +42,7 @@ int		loadplayer(t_player *player, char *str)
 	player->velocity.z = 0;
 	printf("anglesin - %f\n", player->psin);
 	printf("anglecos - %f\n", player->pcos);
+	player->col_size = 1.0f;
 	printf("x - %f\n", player->where.x);
 	printf("y - %f\n", player->where.y);
 

@@ -465,7 +465,7 @@ int		load_params(t_doom *doom, char **map)
 				return (0);
 		}
 		else if (ft_strncmp(map[i], "Objs", ft_strlen("objs")) == 0)
-			loadobjs(doom->objs, doom->objs_data, map[i]);
+			loadobjs(doom, doom->objs, doom->objs_data, map[i]);
 		else if (ft_strncmp(map[i], "Pics", ft_strlen("pic")) == 0)
 			loadpics(doom ,doom->pics, doom->pics_data, map[i]);
 		else if (ft_strncmp(map[i], "Player", ft_strlen("player")) == 0)
@@ -473,6 +473,7 @@ int		load_params(t_doom *doom, char **map)
 		i++;
 	}
 	doom->player.where.z = doom->sectors[doom->player.sector].floor + EyeHeight;
+	doom->wall_col_size = 0.1f;
 	free(v);
 	return (0);
 }

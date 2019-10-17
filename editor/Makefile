@@ -6,7 +6,7 @@
 #    By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/02 20:58:32 by lminta            #+#    #+#              #
-#    Updated: 2019/09/29 19:47:12 by ohelly           ###   ########.fr        #
+#    Updated: 2019/10/15 19:49:33 by ohelly           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,6 +34,9 @@ OBJ = src/main.o src/ft_line.o src/key_and_mouse_press.o src/output.o \
 src/put_canvas.o src/put_select.o src/math_line.o src/math_vectors.o \
 src/math_helpers.o src/export.o src/line_intersect.o src/select.o src/build.o \
 src/load_map.o src/build_portal.o src/move_map.o src/split_wall.o src/delete_action.o src/split_sectors.o \
+src/load_img.o src/put_image_on_screen.o src/put_string_on_screen.o src/mouse_press.o src/my_itoa.o \
+src/set_sprite_on_wall.o src/set_object.o src/init_all.o src/mouse_press_left_two.o \
+src/mouse_press_left_thr.o src/additional_func.o src/check_convex.o \
 
 all: $(FRAMEDIR) $(LIBS) $(FRAME) $(NAME)
 

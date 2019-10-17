@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 15:47:05 by ohelly            #+#    #+#             */
-/*   Updated: 2019/09/19 17:50:13 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/13 18:49:04 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,22 @@ int			get_duplicate_wall(t_doom *doom, t_wall w1)
 	return (-1);
 }
 
+int			toggle(t_doom *doom, int wall, t_wall w1, int *ind)
+{
+	if (doom->walls->selected_wall != -1)
+	{
+		doom->walls->selected_wall = -1;
+		return (0);
+	}
+	if (doom->sects->selected_sector != -1)
+		doom->sects->selected_sector = -1;
+	doom->walls->selected_wall = get_closest_wall(doom);
+	wall = doom->walls->selected_wall;
+	w1 = doom->walls->wall[wall];
+	*ind = get_duplicate_wall(doom, w1);
+	return (1);
+}
+
 void		find_portal(t_doom *doom)
 {
 	int		ind;
@@ -44,28 +60,20 @@ void		find_portal(t_doom *doom)
 	t_wall	w1;
 	t_wall	w2;
 
-	ind = -1;
-	if (doom->walls->selected_wall != -1)
-	{
-		doom->walls->selected_wall = -1;
+	if (!(toggle(doom, wall, w1, &ind)))
 		return ;
-	}
-	doom->walls->selected_wall = get_closest_wall(doom);
-	wall = doom->walls->selected_wall;
-	w1 = doom->walls->wall[wall];
-	ind = get_duplicate_wall(doom, w1);
 	if (ind != -1)
 	{
 		w2 = doom->walls->wall[ind];
 		if (w1.portal == w2.sectors && w2.portal == w1.sectors)
 		{
-			ft_putendl("Press return to delete portal!");
+			doom->hud->msg = "Press return to delete portal!";
 			doom->walls->adjacent_wall = ind;
 			return ;
 		}
 		else
 		{
-			ft_putendl("Press return to set portal!");
+			doom->hud->msg = "Press return to set portal!";
 			doom->walls->adjacent_wall = ind;
 			return ;
 		}
@@ -86,23 +94,20 @@ int			can_build_portal(t_doom *doom, int s1, int s2)
 	i = 0;
 	while (i < doom->walls->count)
 	{
-		if ((doom->walls->wall[i].sectors == s1 && doom->walls->wall[i].portal == s2) ||
-			(doom->walls->wall[i].sectors == s2 && doom->walls->wall[i].portal == s1))
+		if ((doom->walls->wall[i].sectors == s1 &&
+		doom->walls->wall[i].portal == s2) ||
+		(doom->walls->wall[i].sectors == s2 &&
+		doom->walls->wall[i].portal == s1))
 			return (-1);
 		i++;
 	}
 	return (1);
 }
 
-void		build_portal(t_doom *doom)
+void		build_portal(t_doom *doom, int sw, int aw)
 {
-	int		sw;
-	int		aw;
-
 	if (doom->walls->selected_wall == -1)
 		return ;
-	sw = doom->walls->selected_wall;
-	aw = doom->walls->adjacent_wall;
 	if (doom->walls->wall[sw].portal == doom->walls->wall[aw].sectors &&
 	doom->walls->wall[aw].portal == doom->walls->wall[sw].sectors)
 	{
@@ -111,9 +116,10 @@ void		build_portal(t_doom *doom)
 	}
 	else
 	{
-		if (can_build_portal(doom, doom->walls->wall[aw].sectors, doom->walls->wall[sw].sectors) == -1)
+		if (can_build_portal(doom, doom->walls->wall[aw].sectors,
+		doom->walls->wall[sw].sectors) == -1)
 		{
-			printf("Error building portal: Portal between this two sectors already exists!\n");
+			doom->hud->msg = "Portal between this two sectors already exists!";
 			return ;
 		}
 		doom->walls->wall[sw].portal = doom->walls->wall[aw].sectors;

@@ -148,6 +148,8 @@ int      drawobj(t_doom *doom, t_obj *obj, t_xy pos)
 	t_xyz	t;
 	t_xy	scale;
 
+	if (obj->enabled == 0)
+		return (0);
 	v.x = obj->p.x - doom->player.where.x;
 	v.y = obj->p.y - doom->player.where.y;
 	t.x = v.x * doom->player.psin - v.y * doom->player.pcos;

@@ -39,7 +39,10 @@
 # define max(a,b)             (((a) > (b)) ? (a) : (b))
 # define clamp(a, mi,ma)      min(max(a,mi),ma)
 //# define VXS(x0,y0, x1,y1)    ((x0)*(y1) - (x1)*(y0))
+
+//Whether two number ranges overlap
 # define Overlap(a0,a1,b0,b1) (min(a0,a1) <= max(b0,b1) && min(b0,b1) <= max(a0,a1))
+//Whether two 2D boxes intersect
 # define IntersectBox(x0,y0, x1,y1, x2,y2, x3,y3) (Overlap(x0,x1,x2,x3) && Overlap(y0,y1,y2,y3))
 # define PointSide(px,py, x0,y0, x1,y1) vxs((x1)-(x0), (y1)-(y0), (px)-(x0), (py)-(y0))
 //# define Intersect(x1,y1, x2,y2, x3,y3, x4,y4) ((t_xy) { \
@@ -95,6 +98,8 @@ typedef struct	s_texture
 
 typedef struct	s_obj
 {
+	int			id;
+	int			enabled;
 	t_xy		p;
 	int			sector;
 	int			type;
@@ -103,6 +108,10 @@ typedef struct	s_obj
 	int			anim_frame;
 	int			states_count;
 	int			states_frame;
+	float		col_size;
+	int			col_passable;
+	void		(*on_collision)(struct t_doom *doom, struct s_obj *obj);
+	void		(*on_interaction)(struct t_doom *doom, struct s_obj *obj);
 }				t_obj;
 
 typedef struct	s_data
@@ -147,7 +156,9 @@ typedef struct		s_player
 	int			weapon;
 	int			hp;
 	int			reload;
+	float		col_size;
 }				t_player;
+	float			col_size;
 
 typedef	struct	s_cood
 {
@@ -273,6 +284,8 @@ typedef struct	s_fps
 {
 	float		times[32];
 	float		time_frame;
+	float		fps_total;
+	float		fps_count;
 }				t_fps;
 
 typedef struct 	s_item
@@ -318,9 +331,27 @@ typedef struct	s_doom
 	int			shakex;
 	int			shakey;
 	int			shaketmp;
-	int			*len;
 }				t_doom;
 
+typedef struct		s_enemy
+{
+	t_obj			*obj;
+	//direction vector
+	t_xy			dir;
+	//rotation is stored in radians
+	float			rot;
+	//0 - wandering, 1 - attacking
+	float			view_distance;
+	float			move_speed;
+	int				state;
+	int				health;
+	float			attack_speed;
+	float			attack_cd;
+	int				attack_damage;
+	void			(*on_attack)(t_doom *doom, struct s_enemy *enemy);
+	void			(*on_hit)(t_doom *doom, struct s_enemy *enemy);
+	void			(*on_framestart)(t_doom *doom, struct s_enemy *enemy);
+}					t_enemy;
 
 int		loadall(t_doom *doom);
 int		initall(t_doom *doom);
@@ -328,7 +359,7 @@ int		countall(t_doom *doom, char **map);
 int		loadvertexes(t_xy *v, char *str);
 int		loadsectors(t_sectors *s, t_xy *v, char *str);
 char	*todigit(char *str, float *data);
-int		loadobjs(t_obj *obj, t_data *objs_data, char *str);
+int		loadobjs(t_doom *doom, t_obj *obj, t_data *objs_data, char *str);
 int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str);
 int		loadplayer(t_player *player, char *str);
 int		load_game(t_doom *doom);
@@ -342,5 +373,25 @@ float	yaw(float y, float z, t_player player);
 void	drawweapon(t_doom *doom, t_weapon *weapon);
 int     drawsprites(t_doom *doom, t_obj *obj, t_player player);
 t_img	weapon_get_image(t_doom *doom, t_weapon *weapon);
+int		objects_update(t_doom *doom);
+void	on_collision_key(t_doom *doom, t_obj *obj);
+int		player_move(t_doom *doom, t_xy move_pos);
+int		find_obj_interaction(t_doom *doom);
+
+int		collision_box(t_xy p1, t_xy p2, t_xy v1, t_xy v2);
+int		collision_circle(t_xy pos1, float rad1, t_xy pos2, float rad2);
+int		collision_box_dir(t_xy pos1, t_xy pos2, t_xy col_pos1, t_xy col_pos2);
+int		overlap(float a0, float a1, float b0, float b1);
+//math
+t_xy	rot_to_v2(float rot);
+float	v2_to_rot(t_xy v2);
+t_xy	v2_add(t_xy v1, t_xy v2);
+t_xy	v2_addf(t_xy v2, float f);
+t_xy	v2_subtract(t_xy v1, t_xy v2);
+t_xy	v2_multf(t_xy v2, float f);
+t_xy	v2_normalize(t_xy v2);
+float	distance(t_xy p1, t_xy p2);
+float	rad_to_deg(float rad);
+
 
 #endif

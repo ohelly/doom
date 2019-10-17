@@ -12,27 +12,23 @@
 
 #include "doom.h"
 
-int		finddoor(t_doom *doom, t_player player)
+int		find_door(t_doom *doom, t_player player)
 {
 	t_sectors	*s;
 	t_xy		*v;
 	int			n;
-	float		dx = player.pcos * 8;
-	float		dy = player.psin * 8;
-	float		px = player.where.x;
-	float		py = player.where.y;
+	t_xy		p = (t_xy){player.where.x, player.where.y};
+	t_xy		d = (t_xy){player.pcos * 8, player.psin * 8};
 
 	s = &doom->sectors[player.sector];
 	v = s->vert;
-	n = 0;	
+	n = 0;
 	while (n < s->npoints)
 	{
-		if (s->neighbors[n] >= 0 &&
-		IntersectBox(px, py, px + dx, py + dy, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) &&
-		PointSide(px + dx, py + dy, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) < 0)
+		if (s->neighbors[n] >= 0 && collision_box_dir(p, v2_add(p, d), v[n], v[n + 1]))
 		{
 			doom->sectors[s->neighbors[n]].active = 1;
-			break ;
+			return (1);
 		}
 		n++;
 	}
@@ -82,7 +78,8 @@ int		keydown(t_doom *doom, SDL_Event ev)
 		doom->wsad[3] = 1;
 	if (ev.key.keysym.sym == 'e')
 	{
-		finddoor(doom, doom->player);
+		find_door(doom, doom->player);
+		find_obj_interaction(doom);
 	}
 	if (ev.key.keysym.sym == '\t')
 	{

@@ -29,6 +29,8 @@ void	fps(t_fps *fps)
 	fps->times[1] = fps->times[0];
 	fps->times[0] = SDL_GetTicks();
 	fps->time_frame = (fps->times[0] - fps->times[1]) / 1000;
+	fps->fps_count++;
+	fps->fps_total += fps->time_frame;
 }
 
 int		calc_mouse(t_player *player, float yaw)
@@ -114,10 +116,7 @@ int		calcnewsector(float dx, float dy, t_doom *doom, t_player *player)
 		}
 		n++;
 	}
-	player->where.x += dx;
-	player->where.y += dy;
-	player->psin = sinf(player->angle);
-	player->pcos = cosf(player->angle);
+	player_move(doom, (t_xy){dx, dy});
 	return (0);
 }
 
@@ -375,11 +374,6 @@ int		overlap(float a0, float a1, float b0, float b1)
 	return (min(a0,a1) <= max(b0,b1) && min(b0,b1) <= max(a0,a1));
 }
 
-int		intersectbox(t_xy p, t_xy d, t_xy v1, t_xy v2)
-{
-	return (overlap(p.x, p.x + d.x, v1.x, v2.x) && overlap(p.y, p.y + d.y, v1.y, v2.y));
-}
-
 int		pointside(t_xy p, t_xy d, t_xy v1, t_xy v2)
 {
 	return (vxs(v1.x - (p.x + d.x), v1.y - (p.y + d.y), p.x - (p.x + d.x), p.y - (p.y + d.y)));
@@ -387,21 +381,21 @@ int		pointside(t_xy p, t_xy d, t_xy v1, t_xy v2)
 
 int		calcnewsector(float dx, float dy, t_doom *doom, t_player *player)
 {
-	int		n;
-	float	px, py;
-	t_sector *sect;
-	t_xy	*v;
+	int			n;
+	t_xy		p;
+	t_xy		d;
+	t_sector	*sect;
+	t_xy		*v;
 
-	px = player->where.x;
-	py = player->where.y;
+	p = (t_xy){player->where.x, player->where.y};
+	d = (t_xy){dx, dy};
 	sect = &doom->sector[player->sector];
 	v = sect->vert;
 	n = 0;
 	while (n < sect->npoints)
 	{
 		if (sect->neighbors[n] >= 0 &&
-		IntersectBox(px, py, px + dx, py + dy, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) &&
-		PointSide(px + dx, py + dy, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) < 0)
+			collision_box_dir(p, v2_add(p, d), v[n], v[n + 1]))
 		{
 			player->sector = sect->neighbors[n];
 			if (player->where.z != doom->sector[player->sector].floor)
@@ -410,6 +404,10 @@ int		calcnewsector(float dx, float dy, t_doom *doom, t_player *player)
 		}
 		n++;
 	}
+
+	player_move(doom, (t_xy){d.x, d.y});
+
+	/*
 	player->where.x += dx;
 	player->where.y += dy;
 	player->psin = sinf(player->angle);
@@ -421,10 +419,8 @@ int		calciswall(t_doom *doom, t_player *player)
 {
 	t_sector *sect;
 	t_xy	*v;
-	float	px = player->where.x;
-	float	py = player->where.y;
-	float	dx = player->velocity.x;
-	float	dy = player->velocity.y;
+	t_xy	p = (t_xy){player->where.x, player->where.y};
+	t_xy	d = (t_xy){player->velocity.x, player->velocity.y};
 	float	hole_low;
 	float	hole_high;
 	float	xd, yd;
@@ -436,7 +432,7 @@ int		calciswall(t_doom *doom, t_player *player)
 	v = sect->vert;
 	while (n < sect->npoints)
 	{
-		if (PointSide(px + dx, py + dy, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) < 0)
+		if (PointSide(p.x + d.x * 8.0f, p.y + d.y * 8.0f, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) < 0)
 			t++;
 		if (t >= 2)
 			return (0);
@@ -445,26 +441,25 @@ int		calciswall(t_doom *doom, t_player *player)
 	n = 0;
 	while (n < sect->npoints)
 	{
-		if ((IntersectBox(px, py, px + dx, py + dy, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) &&
-		PointSide(px + dx, py + dy, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) < 0))
+		if (collision_box_dir(p, v2_add(p, v2_multf(d, 8.0f)), v[n], v[n + 1]))
 		{
 			player->velocity.x = 0;
 			player->velocity.y = 0;
 			hole_low  = sect->neighbors[n] < 0 ?  9e9 : max(sect->floor, doom->sector[sect->neighbors[n]].floor);
-            hole_high = sect->neighbors[n] < 0 ? -9e9 : min(sect->ceil,  doom->sector[sect->neighbors[n]].ceil);
-            if (hole_high < player->where.z + HeadMargin
-            || hole_low  > player->where.z - EyeHeight + KneeHeight)
-            {
-				xd = v[n + 1].x - v[n].x;
-				yd = v[n + 1].y - v[n].y;
-           		dx = xd * (dx * xd + yd * dy) / (xd * xd + yd * yd);
-           		dy = yd * (dx * xd + yd * dy) / (xd * xd + yd * yd);
+			hole_high = sect->neighbors[n] < 0 ? -9e9 : min(sect->ceil,  doom->sector[sect->neighbors[n]].ceil);
+			if (hole_high < player->where.z + HeadMargin ||
+				hole_low  > player->where.z - EyeHeight + KneeHeight)
+			{
+				xd = v[n + 1].x - v[n].x + (d.x * -8.0f);
+				yd = v[n + 1].y - v[n].y + (d.y * -8.0f);
+				d.x = xd * (d.x * xd + yd * d.y) / (xd * xd + yd * yd);
+				d.y = yd * (d.x * xd + yd * d.y) / (xd * xd + yd * yd);
 				break ;
 			}
 		}
 		n++;
 	}
-	calcnewsector(dx, dy, doom, player);
+	calcnewsector(d.x, d.y, doom, player);
 	return (0);
 }
 
@@ -503,6 +498,9 @@ int		fps(t_doom *doom)
 	doom->times[1] = doom->times[0];
 	doom->times[0] = SDL_GetTicks();
 	doom->time_frame = (doom->times[0] - doom->times[1]) / 1000;
+	doom->time_fps_count++;
+	doom->time_fps_total += doom->time_frame;
+	//printf("fps_count %f, fps total %f\n", doom->time_fps_count, doom->time_fps_total);
 	
 	return (0);
 }
