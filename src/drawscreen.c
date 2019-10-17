@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/17 11:32:25 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/17 13:08:24 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -645,7 +645,7 @@ int			draw_screen(t_doom *doom)
 {		
 	draw_walls(doom, doom->player);
 	drawsky(doom, doom->player, doom->sky, doom->img);
-	//doom->player.weapon = 1;
+	drawsprites(doom, doom->objs, doom->player);
 	drawweapon(doom, &doom->weapon[doom->player.weapon]);
 	return (0);
 }

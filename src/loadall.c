@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:21:04 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/17 11:30:36 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/17 13:09:08 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -374,11 +374,19 @@ int		load_weapon_delay(t_weapon *weapon, int type)
 {
 	if (type == 0) //knife
 	{
-		weapon->delay = 0.25f;
+		weapon->delay = 0.2f;
 	}
 	if (type == 1) //pistol
 	{
 		weapon->delay = 0.1f;
+	}
+	if (type == 2)
+	{
+		weapon->delay = 0.1f;
+	}
+	if (type == 3)
+	{
+		weapon->delay = 0.01f;
 	}
 	return (0);
 }
@@ -481,12 +489,9 @@ int		loadall(t_doom *doom)
 	load_data(doom, map);
 	load_params(doom, map);
 	
-	
-	
-		/*
-	if (!(doom->len = (float*)ft_memalloc(sizeof(float) * doom->numobjs)))
+	if (!(doom->len = (float*)ft_memalloc(sizeof(float) * doom->num.objs)))
 		return (0);
-	
+	/*
 	if (!(doom->txt = (t_texture*)ft_memalloc(sizeof(t_texture) * 1))) //нужно посчитать кол-во текстур
 		return (0);
 	if (!(loaddata(doom, map)))

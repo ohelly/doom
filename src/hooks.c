@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/17 11:53:01 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/17 12:50:33 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,12 +47,30 @@ int		keydown(t_doom *doom, SDL_Event ev)
 		exit(0);
 	}
 	if (ev.key.keysym.sym == '1')
+	{
 		doom->player.weapon = 0;
+		doom->weapon[doom->player.weapon].anim_frame = 0;
+		doom->weapon[doom->player.weapon].states_frame = 0;
+	}
 	if (ev.key.keysym.sym == '2')
+	{
 		doom->player.weapon = 1;
+		doom->weapon[doom->player.weapon].anim_frame = 0;
+		doom->weapon[doom->player.weapon].states_frame = 0;
+	}
 	if (ev.key.keysym.sym == '3')
+	{
 		doom->player.weapon = 2;
-	if (ev.key.keysym.sym == 'r')
+		doom->weapon[doom->player.weapon].anim_frame = 0;
+		doom->weapon[doom->player.weapon].states_frame = 0;
+	}
+	if (ev.key.keysym.sym == '4')
+	{
+		doom->player.weapon = 3;
+		doom->weapon[doom->player.weapon].anim_frame = 0;
+		doom->weapon[doom->player.weapon].states_frame = 0;
+	}
+	if (ev.key.keysym.sym == 'r' && doom->player.weapon != 0)
 		doom->player.reload = 1;
 	if (ev.key.keysym.sym == 'w')
 		doom->wsad[0] = 1;

@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/17 11:33:34 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/17 13:09:55 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,6 +54,13 @@ typedef struct	s_scaler
 	int			ca;
 	int			cache; 
 }				t_scaler;
+
+typedef struct	s_be
+{
+	int		x;
+	int		begin;
+	int		end;
+}				t_be;
 
 typedef struct	s_xy
 {
@@ -311,6 +318,7 @@ typedef struct	s_doom
 	int			shakex;
 	int			shakey;
 	int			shaketmp;
+	int			*len;
 }				t_doom;
 
 
@@ -332,6 +340,7 @@ int		rgb_multiply(int color, float value);
 float	vxs(float x0, float y0, float x1, float y1);
 float	yaw(float y, float z, t_player player);
 void	drawweapon(t_doom *doom, t_weapon *weapon);
+int     drawsprites(t_doom *doom, t_obj *obj, t_player player);
 t_img	weapon_get_image(t_doom *doom, t_weapon *weapon);
 
 #endif
