@@ -17,6 +17,7 @@ int	check_player_collision(t_doom *doom, t_obj *obj)
 	pos = obj->p;
 
 	//if (intersects_collider(pl1, pl2, obj1, obj2))
+	//printf("pl %f:%f with col %f versus obj %f:%f with col %f\n", pl.x, pl.y, doom->player.col_size, pos.x, pos.y, obj->col_size);
 	if (collision_circle(pl, doom->player.col_size, pos, obj->col_size))
 		return (1);
 	return (0);

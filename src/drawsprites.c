@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 11:56:24 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/17 13:11:15 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/17 13:31:14 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,7 +102,7 @@ int		vlineobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom)
 			}
 			doom->sdl->pix[y * WIDTH + px.x] = prev_light;
 		}
-			//doom->sdl->pix[y * WIDTH + px.x] = img.data[(int)t.y * img.w + (int)t.x];
+		//	doom->sdl->pix[y * WIDTH + px.x] = 0xFF0000;//img.data[(int)t.y * img.w + (int)t.x];
 		y++;
 		t.y += scale.y;
 	}
@@ -161,6 +161,7 @@ int      drawobj(t_doom *doom, t_obj *obj, t_xy pos)
 	}
 	if (t.z <= 0)
 		return (0);
+	
 	scale.x = (HFOV * WIDTH) / t.z;
 	scale.y = (VFOV * HEIGHT) / t.z;
 	findobjxy2(t, scale, obj, doom);
@@ -185,6 +186,7 @@ int     drawsprites(t_doom *doom, t_obj *obj, t_player player)
 			n++;
 			continue ;
 		}
+		
         if (!(drawobj(doom, o, o->p)))
 		{
 			n++;

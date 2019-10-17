@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:50:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/17 13:12:07 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/17 13:19:33 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,41 @@ t_img	obj_get_image(t_doom *doom, t_obj *obj)
 	return (doom->img[obj->images[obj->states_frame][obj->anim_frame]]);
 }
 
+int		create_obj_box(t_doom *doom, t_obj *obj)
+{
+	obj->col_passable = 0;
+	obj->col_size = 3.0f;
+}
+
+int		obj_collision_key_pickup(t_doom *doom, t_obj *obj)
+{
+	obj->enabled = 0;
+	printf("Picked up key with %d id!\n", obj->id);
+}
+
+int		create_obj_key(t_doom *doom, t_obj *obj)
+{
+	obj->col_passable = 1;
+	obj->col_size = 3.0f;
+	obj->on_collision = obj_collision_key_pickup;
+}
+
+int		create_obj_enemy_small(t_doom *doom, t_obj *obj)
+{
+	obj->col_passable = 0;
+	obj->col_size = 3.0f;
+}
+
 int		create_obj(t_doom *doom, t_obj *obj)
 {
-	if (obj->type == 0)
-		return (1);
-		//create_obj_box(doom, obj);
-	else if (obj->type == 1)
-		return (1);
-		//create_obj_key(doom, obj);
+	printf("Creating obj of type %d\n", obj->type);
+	if (obj->type == 1)
+		create_obj_box(doom, obj);
+	else if (obj->type == 0)
+		create_obj_key(doom, obj);
 	else if (obj->type == 2)
-		return (1);
-		//create_obj_enemy_small(doom, obj);
-	return (0);
+		create_obj_enemy_small(doom, obj);
+	return (1);
 }
 
 int		loadobjs(t_doom *doom, t_obj *obj, t_data *objs_data, char *str)
@@ -55,35 +78,38 @@ int		loadobjs(t_doom *doom, t_obj *obj, t_data *objs_data, char *str)
 	int			id;
 	int			i;
 	int			j;
+	t_obj		*o;
 
+	o = &doom->objs[n];
 	//printf("We are reading id, curr string is: %s\n", str);
 	str = todigit(str, &tmp);
 	id = (int)tmp;
 	//printf("Id is %d, rest of the string is: %s\n", id, str);
-	str = todigit(str, &obj[n].p.y);
-	str = todigit(str, &obj[n].p.x);
+	str = todigit(str, &o->p.y);
+	str = todigit(str, &o->p.x);
 	str = todigit(str, &tmp);
-	obj[n].sector = (int)tmp;
-	obj[n].type = objs_data[id].type;
-	obj[n].images = objs_data[id].images;
-	obj[n].anim_count = objs_data[id].anim_count;
-	obj[n].states_count = objs_data[id].states_count;
+	o->sector = (int)tmp;
+	o->type = objs_data[id].type;
+	o->images = objs_data[id].images;
+	o->anim_count = objs_data[id].anim_count;
+	o->states_count = objs_data[id].states_count;
 
-	obj[n].images = (int**)malloc(sizeof(int*) * obj[n].states_count);
+	o->images = (int**)malloc(sizeof(int*) * o->states_count);
 	i = 0;
-	while (i < obj[n].states_count)
+	while (i < o->states_count)
 	{
-		obj[n].images[i] = (int*)malloc(sizeof(int) * obj[n].anim_count[i]);
+		o->images[i] = (int*)malloc(sizeof(int) * o->anim_count[i]);
 		j = 0;
-		while (j < obj[n].anim_count[i])
+		while (j < o->anim_count[i])
 		{
-			obj[n].images[i][j] = objs_data[id].images[i][j];
-			printf("Added image %d to obj with id %d, n is %d\n", obj[n].images[i][j], id, n);
+			o->images[i][j] = objs_data[id].images[i][j];
+			printf("Added image %d to obj with id %d, n is %d\n", o->images[i][j], id, n);
 			j++;
 		}
 		i++;
 	}
-	create_obj(doom, obj);
+	o->enabled = 1;
+	create_obj(doom, o);
 	n++;
 	return (0);
 }
