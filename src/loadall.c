@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:21:04 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/17 13:09:08 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/17 14:10:22 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -326,10 +326,10 @@ int		count_params_weapon(char *map, t_weapon *weapon)
 	//map = todigit(map, &tmp);
 	map = todigit(map, &tmp);
 	weapon->type = (int)tmp;
-//	printf("pic type - %d\n", pic->type);
+	//printf("pic type - %d\n", pic->type);
 	map = todigit(map, &tmp);
 	weapon->states_count = (int)tmp;
-//	printf("pic states - %d\n", pic->states_count);
+	printf("wep states - %d\n", weapon->states_count);
 	weapon->images = (int**)ft_memalloc(sizeof(int*) * weapon->states_count);
 	weapon->anim_count = (int*)ft_memalloc(sizeof(int) * weapon->states_count);
 	n = 0;
@@ -337,10 +337,11 @@ int		count_params_weapon(char *map, t_weapon *weapon)
 	{
 		map = todigit(map, &tmp);
 		weapon->anim_count[n] = (int)tmp;
-		//printf("anim - %d\n", pic->anim_count[n]);
+		printf("wep anim - %d\n", weapon->anim_count[n]);
 		weapon->images[n] = (int*)ft_memalloc(sizeof(int) * weapon->anim_count[n]);
 		n++;
 	}
+
 	return (0);
 }
 
@@ -374,7 +375,7 @@ int		load_weapon_delay(t_weapon *weapon, int type)
 {
 	if (type == 0) //knife
 	{
-		weapon->delay = 0.2f;
+		weapon->delay = 0.15f;
 	}
 	if (type == 1) //pistol
 	{

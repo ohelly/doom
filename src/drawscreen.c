@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/17 13:08:24 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/17 15:16:57 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -137,6 +137,7 @@ void	vline3(int x, t_ab_i wy, t_scaler ty, t_doom *doom)
     {
         txty = scaler_next(&ty);
 		color = set.data[txty % set.h * set.w + doom->cood.ptxtx % set.w];
+		doom->pic_interaction[doom->cood.num][y][x] = 1;
 		//if (color && color != prev_color)
 		//{
 		//	prev_color = color;
@@ -147,13 +148,14 @@ void	vline3(int x, t_ab_i wy, t_scaler ty, t_doom *doom)
         pix += WIDTH;
 		y++;
     }
+	//printf("num - %d\n", doom->cood.num);
 }
 
 int			renew(t_item *head, t_doom *doom, int *rensects)
 {
 	int		x;
 	int		y;
-
+	int		i;
 	x = 0;
 	while (x < WIDTH)
 	{
@@ -161,7 +163,23 @@ int			renew(t_item *head, t_doom *doom, int *rensects)
 		doom->ytop[x] = 0;
 		x++;
 	}
-	
+	i = 0;
+	//printf("count - %d\n", doom->num.pics);
+	while (i < doom->num.pics)
+	{
+		y = 0;
+		while (y < HEIGHT)
+		{
+			x = 0;
+			while (x < WIDTH)
+			{
+				doom->pic_interaction[i][y][x] = 0;
+				x++;
+			}
+			y++;
+		}
+		i++;
+	}
 	y = 0;
 	while (y < HEIGHT)
 	{
@@ -173,7 +191,6 @@ int			renew(t_item *head, t_doom *doom, int *rensects)
 		}
 		y++;
 	}
-	
 	x = 0;
 	while (x < doom->num.sectors)
 	{
@@ -392,6 +409,7 @@ int			render_walls(t_doom *doom, t_sectors *s, t_cood *cood, t_player player)
 				cood->pcy[i].b = clamp(cood->pwy[i].b, doom->ytop[x], doom->ybot[x]);
 				cood->num = cood->picnum[i];
 				vline3(x, cood->pcy[i], scaler_init(cood->pwy[i], cood->pcy[i].a, 0, doom->img[doom->pics[doom->cood.num].images[0][doom->pics[cood->num].anim_frame]].w), doom);		
+				//printf("num - %d\n", cood->picnum[i]);
 			}
 			i++;
 		}

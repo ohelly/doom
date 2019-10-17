@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/17 13:22:44 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/17 14:50:31 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -333,6 +333,10 @@ typedef struct	s_doom
 	int			shakey;
 	int			shaketmp;
 	float		wall_col_size;
+	int			weapon_change;
+	int			change_y;
+	int			change_tmp;
+	int			pic_interaction[32][HEIGHT][WIDTH];
 }				t_doom;
 
 typedef struct		s_enemy

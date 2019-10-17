@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 11:56:24 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/17 13:31:14 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/17 15:00:34 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -180,7 +180,7 @@ int     drawsprites(t_doom *doom, t_obj *obj, t_player player)
     n = 0;
     while (n < doom->num.objs)
     {
-		printf("n - %d\n", n);
+		//printf("n - %d\n", n);
         o = &doom->objs[order[n]];
 		if (!doom->item[o->sector].sector || doom->len[n] < 1.5f)
 		{
