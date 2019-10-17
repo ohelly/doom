@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/15 21:29:11 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/17 11:33:34 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,7 @@ typedef struct		s_player
 	int			end;
 	int			weapon;
 	int			hp;
+	int			reload;
 }				t_player;
 
 typedef	struct	s_cood

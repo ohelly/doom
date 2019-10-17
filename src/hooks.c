@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/15 20:37:06 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/17 11:53:01 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,14 @@ int		keydown(t_doom *doom, SDL_Event ev)
 		SDL_Quit();
 		exit(0);
 	}
-	
+	if (ev.key.keysym.sym == '1')
+		doom->player.weapon = 0;
+	if (ev.key.keysym.sym == '2')
+		doom->player.weapon = 1;
+	if (ev.key.keysym.sym == '3')
+		doom->player.weapon = 2;
+	if (ev.key.keysym.sym == 'r')
+		doom->player.reload = 1;
 	if (ev.key.keysym.sym == 'w')
 		doom->wsad[0] = 1;
 	if (ev.key.keysym.sym == 's')
@@ -104,7 +111,8 @@ int		hooks(t_doom *doom, SDL_Event ev)
 	if (ev.type == SDL_MOUSEBUTTONDOWN)
 		if (ev.button.button == SDL_BUTTON_LEFT)
 		{
-			doom->weapon[doom->player.weapon].states_frame = 1;
+			if (doom->weapon[doom->player.weapon].anim_frame == 0)
+				doom->weapon[doom->player.weapon].states_frame = 1;
 			doom->lkey = 1;
 		}
 		if (ev.button.button == SDL_BUTTON_RIGHT)
@@ -112,8 +120,8 @@ int		hooks(t_doom *doom, SDL_Event ev)
 	if (ev.type == SDL_MOUSEBUTTONUP)
 		if (ev.button.button == SDL_BUTTON_LEFT)
 		{
-			doom->weapon[doom->player.weapon].states_frame = 0;
-			doom->weapon[doom->player.weapon].anim_frame = 1;
+			//doom->weapon[doom->player.weapon].states_frame = 0;
+			//doom->weapon[doom->player.weapon].anim_frame = 0;
 			doom->lkey = 0;
 		}
 		if (ev.button.button == SDL_BUTTON_RIGHT)
