@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/16 19:56:22 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/17 16:08:07 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@
 # define COUNT_T 21
 # define COUNT_H 21
 # define COUNT_O 21
+# define COUNT_SKY 3
 
 /*
 ** POS OF X AND Y
@@ -216,8 +217,9 @@ typedef struct			s_txt
 {
 	SDL_Texture			*wall[COUNT_T];
 	SDL_Texture			*obj[21];
-	SDL_Texture			*sky[3];
+	SDL_Texture			*sky[COUNT_SKY];
 	SDL_Texture			*huds[COUNT_H];
+	int					ind_sky;
 }						t_txt;
 
 /*
@@ -319,6 +321,7 @@ void					put_string_on_screen(t_doom *doom);
 void					mouse_press(t_doom *doom, t_sdl *sdl, int app);
 void					mouse_press_left_two(t_doom *doom, int x, int y);
 void					mouse_press_left_thr(t_doom *doom, int x, int y);
+void					mouse_press_right(t_doom *doom, int x, int y);
 void					my_itoa(char *str, int num);
 void					set_sprite_on_wall(t_doom *doom);
 int						check_portal(t_doom *doom);
@@ -332,6 +335,13 @@ void					sv(int *a, int *b);
 void					sel_sector(int x, int y, t_all_sect *sects, t_all_walls *walls);
 void					sel_wall(int x, int y, t_all_sect *sects, t_all_walls *walls);
 void					sel_attr(int x, int y, t_all_sect *sects, t_all_walls *walls);
+void					sel_floor(int x, int y, t_all_sect *sects);
+void					sel_ceiling(int x, int y, t_all_sect *sects);
+void					sel_light(int x, int y, t_all_sect *sects);
+void					sel_texture_wall(int x, int y, t_all_walls *walls);
+void					change_skybox(int x, int y, t_txt *txt);
+void					sel_object(int x, int y, t_all_spr_floor *obj, t_all_spr_wall *aspr);
+void					sel_sprite(int x, int y, t_all_spr_floor *obj, t_all_spr_wall *aspr);
 
 /*
 **	Math
