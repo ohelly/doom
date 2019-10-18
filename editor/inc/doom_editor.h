@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/17 17:28:15 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/18 15:05:27 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,8 +145,8 @@ typedef struct			s_vertex
 }						t_vertex;
 
 /*
-**Массив строящихся вершин built_v_index[2048];
-**num - номер стены на которой лежит проецируемая точка
+** Массив строящихся вершин built_v_index[2048];
+** num - номер стены на которой лежит проецируемая точка
 */
 
 typedef struct			s_all_vert
@@ -307,7 +307,7 @@ int						get_next_line(const int fd, char **line);
 int						line(t_doom *doom, int color);
 int						output_pixel(t_doom *doom, t_v2 pos, int color);
 int						draw_rectangle(t_doom *doom, t_v2 pos,
-						int color, int size);
+												int color, int size);
 void					put_canvas(t_doom *doom);
 void					put_select(t_doom *doom, t_mouse *mouse);
 float					line_distance(t_v2 l1, t_v2 l2, t_v2 p, t_v2 *hit);
@@ -339,7 +339,7 @@ int						check_portal(t_doom *doom);
 void					set_object(t_doom *doom);
 int						num_walls(t_doom *doom, int ver, int sec);
 int						check_adjacent_wall(t_doom *doom, int ver1,
-						int ver2, int sec);
+													int ver2, int sec);
 int						check_portal(t_doom *doom);
 int						check_convex(t_doom *doom, int *ind, t_vertex *list);
 void					sv(int *a, int *b);
@@ -354,6 +354,9 @@ void					change_skybox(int x, int y, t_txt *txt);
 void					sel_object(int x, int y, t_all_spr_floor *obj, t_all_spr_wall *aspr);
 void					sel_sprite(int x, int y, t_all_spr_floor *obj, t_all_spr_wall *aspr);
 void					render_img(SDL_Texture *tex, SDL_Renderer *ren, t_scale scale);
+void					edditing_img_render(t_txt *txt, t_sdl *sdl, t_all_sect *sects, t_all_walls *walls);
+void					main_hud_for_edditing(t_txt *txt, t_sdl *sdl, t_all_walls *walls);
+void					object_img_render(t_txt *txt, t_sdl *sdl);
 
 /*
 **	Math
