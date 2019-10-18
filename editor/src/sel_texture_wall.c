@@ -1,28 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   put_image_on_screen.c                              :+:      :+:    :+:   */
+/*   sel_texture_wall.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/03 18:32:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/18 15:11:02 by ohelly           ###   ########.fr       */
+/*   Created: 2019/10/17 14:56:25 by ohelly            #+#    #+#             */
+/*   Updated: 2019/10/17 15:00:24 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom_editor.h"
 
-void		hud_img_render(t_hud *hud, t_sdl *sdl)
+void		sel_texture_wall(int x, int y, t_all_walls *walls)
 {
-	render_img(hud->text_for_app, sdl->rend, (t_scale) { 0, 0, 200, 50 });
-	render_img(hud->text_for_app, sdl->rend, (t_scale) { 200, 0, 200, 50 });
-}
-
-void		put_image_on_screen(t_doom *doom)
-{
-	hud_img_render(doom->hud, doom->sdl);
-	if (doom->app == 2)
-		edditing_img_render(doom->txt, doom->sdl, doom->sects, doom->walls);
-	else if (doom->app == 3)
-		object_img_render(doom->txt, doom->sdl);
+	if (x >= 950 && x <= 1000 && y >= 660 && y <= 710)
+		walls->wall[walls->selected_wall].txt == 0 ?
+		walls->wall[walls->selected_wall].txt = COUNT_T - 1 :
+		walls->wall[walls->selected_wall].txt--;
+	else
+		walls->wall[walls->selected_wall].txt == COUNT_T - 1 ?
+		walls->wall[walls->selected_wall].txt = 0 :
+		walls->wall[walls->selected_wall].txt++;
 }

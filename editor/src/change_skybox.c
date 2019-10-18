@@ -1,28 +1,21 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   put_image_on_screen.c                              :+:      :+:    :+:   */
+/*   change_skybox.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/03 18:32:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/18 15:11:02 by ohelly           ###   ########.fr       */
+/*   Created: 2019/10/17 15:19:05 by ohelly            #+#    #+#             */
+/*   Updated: 2019/10/17 15:24:06 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom_editor.h"
 
-void		hud_img_render(t_hud *hud, t_sdl *sdl)
+void		change_skybox(int x, int y, t_txt *txt)
 {
-	render_img(hud->text_for_app, sdl->rend, (t_scale) { 0, 0, 200, 50 });
-	render_img(hud->text_for_app, sdl->rend, (t_scale) { 200, 0, 200, 50 });
-}
-
-void		put_image_on_screen(t_doom *doom)
-{
-	hud_img_render(doom->hud, doom->sdl);
-	if (doom->app == 2)
-		edditing_img_render(doom->txt, doom->sdl, doom->sects, doom->walls);
-	else if (doom->app == 3)
-		object_img_render(doom->txt, doom->sdl);
+	if (x >= 650 && x <= 710 && y >= 10 && y <= 60)
+		txt->ind_sky == 0 ? txt->ind_sky = COUNT_SKY - 1 : txt->ind_sky--;
+	else
+		txt->ind_sky == COUNT_SKY - 1 ? txt->ind_sky = 0 : txt->ind_sky++;
 }
