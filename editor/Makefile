@@ -6,7 +6,7 @@
 #    By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/02 20:58:32 by lminta            #+#    #+#              #
-#    Updated: 2019/10/18 15:08:46 by ohelly           ###   ########.fr        #
+#    Updated: 2019/10/18 15:51:41 by ohelly           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,6 +39,7 @@ src/set_sprite_on_wall.o src/set_object.o src/init_all.o src/mouse_press_left.o 
 src/additional_func.o src/check_convex.o src/sel_sector.o src/sel_wall.o src/mouse_press_right.o \
 src/sel_attr.o src/sel_value.o src/sel_texture_wall.o src/change_skybox.o src/sel_object.o src/sel_sprite.o \
 src/render_images.o src/edditing_img_render.o src/main_hud_for_edditing.o src/object_img_render.o \
+src/helper_draw.o \
 
 all: $(FRAMEDIR) $(LIBS) $(FRAME) $(NAME)
 

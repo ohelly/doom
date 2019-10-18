@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 16:03:45 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/18 15:11:55 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/18 15:28:33 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ void		sv(int *a, int *b)
 	*b = -1;
 }
 
+/*
+** Возвращает номер стены данного сектора с начальной вершиной ver
+*/
+
 int			num_walls(t_doom *doom, int ver, int sec)
 {
 	int		i;
@@ -33,6 +37,10 @@ int			num_walls(t_doom *doom, int ver, int sec)
 				return (i);
 	return (-1);
 }
+
+/*
+** Ищет вторую стену для постройки портала
+*/
 
 int			check_adjacent_wall(t_doom *doom, int ver1, int ver2, int sec)
 {
@@ -46,6 +54,10 @@ int			check_adjacent_wall(t_doom *doom, int ver1, int ver2, int sec)
 				return (1);
 	return (0);
 }
+
+/*
+** Проверяет есть ли портал в выбранном секторе
+*/
 
 int			check_portal(t_doom *doom)
 {
@@ -67,4 +79,19 @@ int			check_portal(t_doom *doom)
 		}
 	}
 	return (0);
+}
+
+/*
+** Ставит пиксель имадже
+*/
+
+int			output_pixel(t_doom *doom, t_v2 pos, int color)
+{
+	int position;
+
+	if (v2_in_borders(pos, WIDTH, HEIGHT) == 0)
+		return (0);
+	position = pos.x + pos.y * WIDTH;
+	doom->sdl->pix[position] = color;
+	return (1);
 }

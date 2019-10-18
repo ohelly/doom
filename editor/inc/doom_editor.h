@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/18 15:05:27 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/18 15:55:38 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -343,20 +343,34 @@ int						check_adjacent_wall(t_doom *doom, int ver1,
 int						check_portal(t_doom *doom);
 int						check_convex(t_doom *doom, int *ind, t_vertex *list);
 void					sv(int *a, int *b);
-void					sel_sector(int x, int y, t_all_sect *sects, t_all_walls *walls);
-void					sel_wall(int x, int y, t_all_sect *sects, t_all_walls *walls);
-void					sel_attr(int x, int y, t_all_sect *sects, t_all_walls *walls);
+void					sel_sector(int x, int y, t_all_sect *sects,
+															t_all_walls *walls);
+void					sel_wall(int x, int y, t_all_sect *sects,
+															t_all_walls *walls);
+void					sel_attr(int x, int y, t_all_sect *sects,
+															t_all_walls *walls);
 void					sel_floor(int x, int y, t_all_sect *sects);
 void					sel_ceiling(int x, int y, t_all_sect *sects);
 void					sel_light(int x, int y, t_all_sect *sects);
 void					sel_texture_wall(int x, int y, t_all_walls *walls);
 void					change_skybox(int x, int y, t_txt *txt);
-void					sel_object(int x, int y, t_all_spr_floor *obj, t_all_spr_wall *aspr);
-void					sel_sprite(int x, int y, t_all_spr_floor *obj, t_all_spr_wall *aspr);
-void					render_img(SDL_Texture *tex, SDL_Renderer *ren, t_scale scale);
-void					edditing_img_render(t_txt *txt, t_sdl *sdl, t_all_sect *sects, t_all_walls *walls);
-void					main_hud_for_edditing(t_txt *txt, t_sdl *sdl, t_all_walls *walls);
+void					sel_object(int x, int y, t_all_spr_floor *obj,
+														t_all_spr_wall *aspr);
+void					sel_sprite(int x, int y, t_all_spr_floor *obj,
+														t_all_spr_wall *aspr);
+void					render_img(SDL_Texture *tex, SDL_Renderer *ren,
+																t_scale scale);
+void					edditing_img_render(t_txt *txt, t_sdl *sdl,
+										t_all_sect *sects, t_all_walls *walls);
+void					main_hud_for_edditing(t_txt *txt, t_sdl *sdl,
+															t_all_walls *walls);
 void					object_img_render(t_txt *txt, t_sdl *sdl);
+void					draw_sprite(t_doom *doom, int color);
+void					draw_building_line(t_doom *doom, int color);
+void					draw_sector(t_doom *doom, int sector, int color);
+void					draw_wall(t_doom *doom, t_wall wall, int color);
+int						draw_rectangle(t_doom *doom, t_v2 pos, int color,
+																	int size);
 
 /*
 **	Math
