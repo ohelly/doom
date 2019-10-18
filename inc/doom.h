@@ -267,6 +267,7 @@ typedef struct	s_num
 	int			objs;
 	int			pics;
 	int			txts;
+	int			enemies;
 }				t_num;
 
 typedef struct	s_weapon
@@ -333,6 +334,7 @@ typedef struct	s_doom
 	int			shakey;
 	int			shaketmp;
 	float		wall_col_size;
+	struct s_enemy		*enemies;
 }				t_doom;
 
 typedef struct		s_enemy
@@ -375,12 +377,16 @@ float	yaw(float y, float z, t_player player);
 void	drawweapon(t_doom *doom, t_weapon *weapon);
 int     drawsprites(t_doom *doom, t_obj *obj, t_player player);
 t_img	weapon_get_image(t_doom *doom, t_weapon *weapon);
+int		player_move(t_doom *doom, t_xy move_pos);
+//objects
 int		objects_update(t_doom *doom);
 void	on_collision_key(t_doom *doom, t_obj *obj);
-int		player_move(t_doom *doom, t_xy move_pos);
 int		find_obj_interaction(t_doom *doom);
 t_img	obj_get_image(t_doom *doom, t_obj *obj);
-
+//enemies
+void	enemies_update(t_doom *doom);
+t_enemy	*create_enemy_default(t_doom *doom, t_obj *obj);
+//collisions
 int		collision_box(t_xy p1, t_xy p2, t_xy v1, t_xy v2);
 int		collision_circle(t_xy pos1, float rad1, t_xy pos2, float rad2);
 int		collision_box_dir(t_xy pos1, t_xy pos2, t_xy col_pos1, t_xy col_pos2);

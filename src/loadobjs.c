@@ -45,6 +45,12 @@ int		create_obj_box(t_doom *doom, t_obj *obj)
 	obj->col_size = 3.0f;
 }
 
+int		create_obj_decor(t_doom *doom, t_obj *obj)
+{
+	obj->col_passable = 1;
+	obj->col_size = 0.1f;
+}
+
 int		obj_collision_key_pickup(t_doom *doom, t_obj *obj)
 {
 	obj->enabled = 0;
@@ -58,21 +64,25 @@ int		create_obj_key(t_doom *doom, t_obj *obj)
 	obj->on_collision = obj_collision_key_pickup;
 }
 
-int		create_obj_enemy_small(t_doom *doom, t_obj *obj)
+int		create_obj_enemy_default(t_doom *doom, t_obj *obj)
 {
-	obj->col_passable = 0;
-	obj->col_size = 3.0f;
+	//enemies should ALWAYS be passable!
+	obj->col_passable = 1;
+	obj->col_size = 2.0f;
+	create_enemy_default(doom, obj);
 }
 
 int		create_obj(t_doom *doom, t_obj *obj)
 {
 	printf("Creating obj of type %d\n", obj->type);
-	if (obj->type == 1)
+	if (obj->type == 0)
 		create_obj_box(doom, obj);
-	else if (obj->type == 0)
+	else if (obj->type == 1)
 		create_obj_key(doom, obj);
 	else if (obj->type == 2)
-		create_obj_enemy_small(doom, obj);
+		create_obj_decor(doom, obj);
+	else if (obj->type == 3)
+		create_obj_enemy_default(doom, obj);
 	return (1);
 }
 

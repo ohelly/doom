@@ -443,6 +443,7 @@ int		load_params(t_doom *doom, char **map)
 	int		i;
 	t_xy	*v;
 	
+	doom->enemies = malloc(sizeof(t_enemy) * 64);
 	countall(doom, map);
 	if (!(v = (t_xy*)ft_memalloc(sizeof(t_xy) * doom->num.vertexes)))
 		return (0);
