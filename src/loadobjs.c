@@ -20,10 +20,15 @@ void	obj_state_change(t_obj *obj, int state)
 	obj->anim_frame = 0;
 }
 
-void	obj_anim_next(t_obj *obj, int state)
+void	obj_anim_next(t_obj *obj)
 {
 	int index;
+	int state;
+	int anim_frame;
 
+	state = obj->states_frame;
+	if (obj->anim_count[state] <= 1)
+		return ;
 	obj->anim_frame++;
 	if (obj->anim_frame >= obj->anim_count[state] || obj->images[state][obj->anim_frame] == -1)
 		obj->anim_frame = 0;
@@ -88,16 +93,18 @@ int		loadobjs(t_doom *doom, t_obj *obj, t_data *objs_data, char *str)
 	str = todigit(str, &o->p.y);
 	str = todigit(str, &o->p.x);
 	str = todigit(str, &tmp);
+	o->id = id;
 	o->sector = (int)tmp;
 	o->type = objs_data[id].type;
 	o->images = objs_data[id].images;
-	o->anim_count = objs_data[id].anim_count;
+	o->anim_count = (int*)malloc(sizeof(int) * o->states_count);
 	o->states_count = objs_data[id].states_count;
-
 	o->images = (int**)malloc(sizeof(int*) * o->states_count);
+
 	i = 0;
 	while (i < o->states_count)
 	{
+		o->anim_count[i] = objs_data[id].anim_count[i];
 		o->images[i] = (int*)malloc(sizeof(int) * o->anim_count[i]);
 		j = 0;
 		while (j < o->anim_count[i])
