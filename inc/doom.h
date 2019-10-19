@@ -21,6 +21,7 @@
 # include <math.h>
 # include <SDL.h>
 # include <SDL_image.h>
+# include <SDL_mixer.h>
 # include <get_next_line.h>
 
 # define WIDTH 1280
@@ -298,6 +299,18 @@ typedef struct 	s_item
 	int			*ybot;
 }				t_item;
 
+typedef struct	s_music
+{
+	Mix_Music	*music;
+	int			volume;
+}				t_music;
+
+typedef struct	s_sound
+{
+	Mix_Chunk	*sound;
+	id_t		volume;
+}				t_sound;
+
 typedef struct	s_doom
 {
 	t_img		img[512];
@@ -339,6 +352,8 @@ typedef struct	s_doom
 	int			change_tmp;
 	int			pic_interaction[32][HEIGHT][WIDTH];
 	struct s_enemy		*enemies;
+	t_music		music[2];
+	t_sound		sound[10];
 }				t_doom;
 
 typedef struct		s_enemy
@@ -395,6 +410,11 @@ int		collision_box(t_xy p1, t_xy p2, t_xy v1, t_xy v2);
 int		collision_circle(t_xy pos1, float rad1, t_xy pos2, float rad2);
 int		collision_box_dir(t_xy pos1, t_xy pos2, t_xy col_pos1, t_xy col_pos2);
 int		overlap(float a0, float a1, float b0, float b1);
+//sounds
+int		sound_free_everything(t_doom *doom);
+int		play_music(t_doom *doom, int index);
+int		play_sound(t_doom *doom, int index);
+int		load_music(t_doom *doom);
 //math
 t_xy	rot_to_v2(float rot);
 float	v2_to_rot(t_xy v2);

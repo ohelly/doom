@@ -73,6 +73,8 @@ int		keydown(t_doom *doom, SDL_Event ev)
 {
 	if (ev.key.keysym.sym == '\033')
 	{
+		sound_free_everything(doom);
+		Mix_Quit();
 		SDL_Quit();
 		exit(0);
 	}
@@ -166,6 +168,7 @@ int		hooks(t_doom *doom, SDL_Event ev)
 	if (ev.type == SDL_MOUSEBUTTONDOWN)
 		if (ev.button.button == SDL_BUTTON_LEFT)
 		{
+			play_sound(doom, 0);
 			if (doom->weapon[doom->player.weapon].anim_frame == 0)
 				doom->weapon[doom->player.weapon].states_frame = 1;
 			doom->lkey = 1;
