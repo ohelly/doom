@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/15 21:29:11 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/17 14:50:31 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,13 @@ typedef struct	s_scaler
 	int			ca;
 	int			cache; 
 }				t_scaler;
+
+typedef struct	s_be
+{
+	int		x;
+	int		begin;
+	int		end;
+}				t_be;
 
 typedef struct	s_xy
 {
@@ -149,6 +156,7 @@ typedef struct		s_player
 	int			weapon;
 	int			hp;
 	float		col_size;
+	int			reload;
 }				t_player;
 	float			col_size;
 
@@ -259,6 +267,7 @@ typedef struct	s_num
 	int			objs;
 	int			pics;
 	int			txts;
+	int			enemies;
 }				t_num;
 
 typedef struct	s_weapon
@@ -320,10 +329,16 @@ typedef struct	s_doom
 	int			a;
 	int			lkey;
 	int			rkey;
+	float			*len;
 	int			shakex;
 	int			shakey;
 	int			shaketmp;
 	float		wall_col_size;
+	int			weapon_change;
+	int			change_y;
+	int			change_tmp;
+	int			pic_interaction[32][HEIGHT][WIDTH];
+	struct s_enemy		*enemies;
 }				t_doom;
 
 typedef struct		s_enemy
@@ -364,12 +379,18 @@ int		rgb_multiply(int color, float value);
 float	vxs(float x0, float y0, float x1, float y1);
 float	yaw(float y, float z, t_player player);
 void	drawweapon(t_doom *doom, t_weapon *weapon);
+int     drawsprites(t_doom *doom, t_obj *obj, t_player player);
 t_img	weapon_get_image(t_doom *doom, t_weapon *weapon);
+int		player_move(t_doom *doom, t_xy move_pos);
+//objects
 int		objects_update(t_doom *doom);
 void	on_collision_key(t_doom *doom, t_obj *obj);
-int		player_move(t_doom *doom, t_xy move_pos);
 int		find_obj_interaction(t_doom *doom);
-
+t_img	obj_get_image(t_doom *doom, t_obj *obj);
+//enemies
+void	enemies_update(t_doom *doom);
+t_enemy	*create_enemy_default(t_doom *doom, t_obj *obj);
+//collisions
 int		collision_box(t_xy p1, t_xy p2, t_xy v1, t_xy v2);
 int		collision_circle(t_xy pos1, float rad1, t_xy pos2, float rad2);
 int		collision_box_dir(t_xy pos1, t_xy pos2, t_xy col_pos1, t_xy col_pos2);
