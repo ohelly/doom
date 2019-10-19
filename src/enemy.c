@@ -64,7 +64,10 @@ void	enemy_on_hit(t_doom *doom, t_enemy *enemy)
 	//change texture to enemy_hit, spawn particles, etc
 	printf("Enemy took damage!\n");
 	if (enemy->health <= 0)
+	{
 		obj_state_change(enemy->obj, 8); //change to enemy_dead texture
+		play_sound(doom, 2);
+	}
 }
 
 float	random_range(float min, float max)

@@ -491,6 +491,12 @@ int		loadall(t_doom *doom)
 	//printf("Map loaded.\n");
 	load_data(doom, map);
 	load_params(doom, map);
+	if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 1024) < 0)
+		printf("Error opening audio! %s\n", Mix_GetError());
+	else
+		printf("Audio loaded successfully!\n");
+	load_music(doom);
+	play_music(doom, 0);
 	
 	if (!(doom->len = (float*)ft_memalloc(sizeof(float) * doom->num.objs)))
 		return (0);
