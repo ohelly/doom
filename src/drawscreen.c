@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/20 11:43:47 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/20 13:23:47 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -683,8 +683,8 @@ int			draw_scope(t_sdl *sdl)
 {
 	int		y;
 	int		x;
-	int		len = 20;
-	int		w = 4;
+	int		len = 15;
+	int		w = 2;
 
 	x = WIDTH / 2 - w / 2;
 	while (x < WIDTH / 2 + w / 2)

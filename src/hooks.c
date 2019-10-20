@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/20 12:30:15 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/20 13:30:29 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,7 +107,7 @@ int		keydown(t_doom *doom, SDL_Event ev)
 		doom->weapon[doom->player.weapon].states_frame = 0;
 
 	}
-	if (ev.key.keysym.sym == 'r' && doom->player.weapon == 1 && doom->weapon[1].ammo)
+	if (ev.key.keysym.sym == 'r' && doom->player.weapon == 1 && doom->weapon[1].ammo > 10 && doom->player.shoots != 0)
 	{
 		doom->player.reload = 1;
 		doom->player.shoots = 0;
