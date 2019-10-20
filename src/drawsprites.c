@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 11:56:24 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/20 11:54:32 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/20 13:01:59 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -206,7 +206,3 @@ int     drawsprites(t_doom *doom, t_obj *obj, t_player player)
 	free(order);
     return (0);
 }
-
-// Objs	0		5 5		0
-// Objs	1		5 20	0
-// Objs	2		20 5	0
