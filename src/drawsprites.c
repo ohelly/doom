@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 11:56:24 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/20 13:01:59 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/20 15:51:13 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,7 +100,10 @@ int		vlineobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom)
 				prev_color = color;
 				prev_light = rgb_multiply(color, doom->sectors[obj->sector].light);
 			}
-			if (px.x >= WIDTH / 2 - 10 && px.x <= WIDTH / 2 + 10 && y >= HEIGHT / 2 - 10 && y <= HEIGHT / 2 + 10)
+			if (px.x >= WIDTH / 2 - doom->weapon[doom->player.weapon].scatterx &&
+			px.x <= WIDTH / 2 + doom->weapon[doom->player.weapon].scatterx &&
+			y >= HEIGHT / 2 - doom->weapon[doom->player.weapon].scattery &&
+			y <= HEIGHT / 2 + doom->weapon[doom->player.weapon].scattery)
 				doom->obj_ind[doom->obj_num] = 1;
 			doom->sdl->pix[y * WIDTH + px.x] = prev_light;
 		}

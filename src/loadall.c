@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:21:04 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/20 12:55:05 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/20 15:54:31 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -378,24 +378,32 @@ int		load_weapon_delay(t_weapon *weapon, int type)
 		weapon->delay = 0.15f;
 		weapon->ammo = 1;
 		weapon->damage = 40;
+		weapon->scatterx = 5;
+		weapon->scattery = 5;
 	}
 	if (type == 1) //pistol
 	{
 		weapon->delay = 0.07f;
 		weapon->ammo = 50;
 		weapon->damage = 50;
+		weapon->scatterx = 5;
+		weapon->scattery = 5;
 	}
-	if (type == 2)
+	if (type == 2) //shotgun
 	{
 		weapon->ammo = 10;
 		weapon->delay = 0.1f;
 		weapon->damage = 80;
+		weapon->scatterx = 30;
+		weapon->scattery = 15;
 	}
-	if (type == 3)
+	if (type == 3) //ripper
 	{
 		weapon->ammo = 60;
 		weapon->delay = 0.01f;
 		weapon->damage = 10;
+		weapon->scatterx = 15;
+		weapon->scattery = 10;
 	}
 	return (0);
 }

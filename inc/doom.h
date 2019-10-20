@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/20 12:41:51 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/20 17:31:00 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,6 +159,7 @@ typedef struct		s_player
 	float		col_size;
 	int			reload;
 	int			shoots;
+	int			wall;
 }				t_player;
 	float			col_size;
 
@@ -283,6 +284,8 @@ typedef struct	s_weapon
 	int			states_frame;
 	int			ammo;
 	int			damage;
+	int			scatterx;
+	int			scattery;
 }				t_weapon;
 
 typedef struct	s_fps
@@ -325,6 +328,8 @@ typedef struct	s_doom
 	t_obj		*objs;
 	t_data		*objs_data;
 	t_pics		*pics;
+	t_pics		shot_pics[32];
+	int			num_shots;
 	t_data		*pics_data;
 	t_sectors	*sectors;
 	t_sdl		*sdl;
@@ -345,14 +350,15 @@ typedef struct	s_doom
 	int			a;
 	int			lkey;
 	int			rkey;
-	float			*len;
+	float		*len;
 	int			shakex;
 	int			shakey;
 	int			shaketmp;
+	int			lookwall;
 	float		wall_col_size;
-	int			weapon_change;
+	//int			weapon_change;
 	int			change_y;
-	int			change_tmp;
+	//int			change_tmp;
 	int			pic_interaction[32];
 	int			obj_ind[32];
 	int			obj_num;

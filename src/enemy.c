@@ -62,8 +62,8 @@ void	enemy_on_hit(t_doom *doom, t_enemy *enemy)
 {
 	enemy->health -= doom->weapon[doom->player.weapon].damage / sqrt(pow(enemy->obj->p.x - doom->player.where.x, 2) + pow(enemy->obj->p.y - doom->player.where.y, 2));
 	//change texture to enemy_hit, spawn particles, etc
-	printf("Enemy took damage!\n");
-	printf("Damage - %f\n", doom->weapon[doom->player.weapon].damage / sqrt(pow(enemy->obj->p.x - doom->player.where.x, 2) + pow(enemy->obj->p.y - doom->player.where.y, 2)));
+	//printf("Enemy took damage!\n");
+	//printf("Damage - %f\n", doom->weapon[doom->player.weapon].damage / sqrt(pow(enemy->obj->p.x - doom->player.where.x, 2) + pow(enemy->obj->p.y - doom->player.where.y, 2)));
 	if (enemy->health <= 0)
 	{
 		obj_state_change(enemy->obj, 8); //change to enemy_dead texture
