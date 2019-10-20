@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 14:46:49 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/17 16:08:27 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/20 19:21:22 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,4 +50,7 @@ void		mouse_press_left_thr(t_doom *doom, int x, int y)
 	doom->aspr->count > 1) || (x > 1199 && x < 1251 && y > 109 &&
 	y < 161 && doom->aspr->count > 1))
 		sel_sprite(x, y, doom->obj, doom->aspr);
+	else if ((x >= 950 && x <= 1000 && y >= 210 && y <= 260) ||
+	(x >= 1200 && x <= 1250 && y >= 210 && y <= 260))
+		height_spr(x, y, doom->aspr, doom->sects);
 }
