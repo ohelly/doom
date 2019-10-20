@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/20 11:43:00 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/20 11:52:46 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -182,12 +182,19 @@ int		shoot(t_doom *doom)
 int		hooks(t_doom *doom, SDL_Event ev)
 {	
 	if (ev.type == SDL_MOUSEBUTTONDOWN)
-		if (ev.button.button == SDL_BUTTON_LEFT)
+		if (ev.button.button == SDL_BUTTON_LEFT && !doom->player.reload && !doom->weapon[doom->player.weapon].states_frame)
 		{
 			
 			if (doom->weapon[doom->player.weapon].anim_frame == 0)
 				doom->weapon[doom->player.weapon].states_frame = 1;
 			doom->lkey = 1;
+			if (doom->player.weapon == 1)
+				doom->player.shoots++;
+			if (doom->player.shoots == 10)
+			{
+				doom->player.shoots = 0;
+				doom->player.reload = 1;
+			}
 			if (doom->player.weapon == 0)
 				find_pic_interaction(doom);
 			shoot(doom);
