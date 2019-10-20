@@ -35,11 +35,11 @@ int		detect_player(t_doom *doom, t_enemy *enemy)
 //otherwise							return 0
 int		can_move(t_doom *doom, t_enemy *enemy, t_xy new_pos)
 {
-	t_sector	*s;
+	t_sectors	*s;
 	t_xy		*v;
 	int			n;
 
-	s = &doom->sector[enemy->obj->sector];
+	s = &doom->sectors[enemy->obj->sector];
 	v = s->vert;
 	n = 0;
 	new_pos = v2_add(new_pos, v2_multf(enemy->dir, enemy->obj->col_size));
@@ -64,7 +64,10 @@ void	enemy_on_hit(t_doom *doom, t_enemy *enemy)
 	//change texture to enemy_hit, spawn particles, etc
 	printf("Enemy took damage!\n");
 	if (enemy->health <= 0)
+	{
 		obj_state_change(enemy->obj, 8); //change to enemy_dead texture
+		play_sound(doom, 2);
+	}
 }
 
 float	random_range(float min, float max)
@@ -80,7 +83,7 @@ void	enemy_on_framestart(t_doom *doom, t_enemy *enemy)
 		return ;
 	if (enemy->state == 0)
 	{
-		move_pos = v2_add(enemy->obj->p, v2_multf(enemy->dir, (enemy->move_speed * doom->time_frame)));
+		move_pos = v2_add(enemy->obj->p, v2_multf(enemy->dir, (enemy->move_speed * doom->fps.time_frame)));
 		if (can_move(doom, enemy, move_pos))
 		{
 			enemy->obj->p = move_pos;
@@ -99,21 +102,21 @@ void	enemy_on_framestart(t_doom *doom, t_enemy *enemy)
 	{
 		enemy->on_hit(doom, enemy);
 		if (enemy->attack_cd > 0)
-			enemy->attack_cd -= doom->time_frame;
+			enemy->attack_cd -= doom->fps.time_frame;
 		else
 			enemy->on_attack(doom, enemy);
 	}
 	enemy->rot = v2_to_rot(enemy->dir);
 }
 
-t_enemy	*create_enemy(t_doom *doom, t_obj *obj)
+t_enemy	*create_enemy_default(t_doom *doom, t_obj *obj)
 {
 	t_enemy *enemy;
 
 	enemy = (t_enemy*)malloc(sizeof(t_enemy));
 	enemy->obj = obj;
 	enemy->obj->enabled = 1;
-	enemy->obj->col_size = 8.0f;
+	enemy->obj->col_size = 3.0f;
 	enemy->obj->p = (t_xy){40, 10};
 	//dir is normalized vector and shouldn't be 0
 	enemy->dir = (t_xy){-1, 1};
@@ -126,12 +129,22 @@ t_enemy	*create_enemy(t_doom *doom, t_obj *obj)
 	enemy->on_framestart = enemy_on_framestart;
 	enemy->on_attack = enemy_on_attack;
 	enemy->on_hit = enemy_on_hit;
+	doom->enemies[doom->num.enemies] = *enemy;
+	doom->num.enemies++;
 	return (enemy);
 }
 
 void	enemies_update(t_doom *doom)
 {
-	doom->enemy->on_framestart(doom, doom->enemy);
-	//foreach enemy in enemies_array
-	//	enemy.on_framestart();
+	int		i;
+	t_enemy *enemy;
+
+	i = 0;
+	while (i < doom->num.enemies)
+	{
+		enemy = &doom->enemies[i];
+		if (enemy->obj->enabled && enemy->health > 0)
+			enemy->on_framestart(doom, enemy);
+		i++;
+	}
 }

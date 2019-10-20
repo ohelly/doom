@@ -21,6 +21,7 @@
 # include <math.h>
 # include <SDL.h>
 # include <SDL_image.h>
+# include <SDL_mixer.h>
 # include <get_next_line.h>
 
 # define WIDTH 1280
@@ -155,8 +156,8 @@ typedef struct		s_player
 	int			end;
 	int			weapon;
 	int			hp;
-	int			reload;
 	float		col_size;
+	int			reload;
 }				t_player;
 	float			col_size;
 
@@ -267,6 +268,7 @@ typedef struct	s_num
 	int			objs;
 	int			pics;
 	int			txts;
+	int			enemies;
 }				t_num;
 
 typedef struct	s_weapon
@@ -296,6 +298,18 @@ typedef struct 	s_item
 	int			*ytop;
 	int			*ybot;
 }				t_item;
+
+typedef struct	s_music
+{
+	Mix_Music	*music;
+	int			volume;
+}				t_music;
+
+typedef struct	s_sound
+{
+	Mix_Chunk	*sound;
+	id_t		volume;
+}				t_sound;
 
 typedef struct	s_doom
 {
@@ -337,6 +351,9 @@ typedef struct	s_doom
 	int			change_y;
 	int			change_tmp;
 	int			pic_interaction[32][HEIGHT][WIDTH];
+	struct s_enemy		*enemies;
+	t_music		music[2];
+	t_sound		sound[10];
 }				t_doom;
 
 typedef struct		s_enemy
@@ -379,16 +396,25 @@ float	yaw(float y, float z, t_player player);
 void	drawweapon(t_doom *doom, t_weapon *weapon);
 int     drawsprites(t_doom *doom, t_obj *obj, t_player player);
 t_img	weapon_get_image(t_doom *doom, t_weapon *weapon);
+int		player_move(t_doom *doom, t_xy move_pos);
+//objects
 int		objects_update(t_doom *doom);
 void	on_collision_key(t_doom *doom, t_obj *obj);
-int		player_move(t_doom *doom, t_xy move_pos);
 int		find_obj_interaction(t_doom *doom);
-t_img  	obj_get_image(t_doom *doom, t_obj *obj);
-
+t_img	obj_get_image(t_doom *doom, t_obj *obj);
+//enemies
+void	enemies_update(t_doom *doom);
+t_enemy	*create_enemy_default(t_doom *doom, t_obj *obj);
+//collisions
 int		collision_box(t_xy p1, t_xy p2, t_xy v1, t_xy v2);
 int		collision_circle(t_xy pos1, float rad1, t_xy pos2, float rad2);
 int		collision_box_dir(t_xy pos1, t_xy pos2, t_xy col_pos1, t_xy col_pos2);
 int		overlap(float a0, float a1, float b0, float b1);
+//sounds
+int		sound_free_everything(t_doom *doom);
+int		play_music(t_doom *doom, int index);
+int		play_sound(t_doom *doom, int index);
+int		load_music(t_doom *doom);
 //math
 t_xy	rot_to_v2(float rot);
 float	v2_to_rot(t_xy v2);
