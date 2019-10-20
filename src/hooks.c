@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/17 15:21:54 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/20 11:43:00 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int		find_pic_interaction(t_doom *doom)
 	i = 0;
 	while (i < doom->num.pics)
 	{
-		if (doom->pic_interaction[i][HEIGHT / 2][WIDTH / 2] == 1)
+		if (doom->pic_interaction[i] == 1)
 		{
 			printf("Ok %d\n", i);
 			if (doom->pics[i].type == 1)
@@ -148,10 +148,10 @@ int		keydown(t_doom *doom, SDL_Event ev)
 
 int		keyup(t_doom *doom, SDL_Event ev)
 {
-	//if (ev.button.button == SDL_BUTTON_LEFT)
-	//	doom->lkey = 0;
-	//if (ev.button.button == SDL_BUTTON_RIGHT)
-	//	doom->rkey = 0;
+	if (ev.button.button == SDL_BUTTON_LEFT)
+		doom->lkey = 0;
+	if (ev.button.button == SDL_BUTTON_RIGHT)
+		doom->rkey = 0;
 	if (ev.key.keysym.sym == 'w')
 		doom->wsad[0] = 0;
 	if (ev.key.keysym.sym == 's')
@@ -163,18 +163,41 @@ int		keyup(t_doom *doom, SDL_Event ev)
 	return (0);
 }
 
+int		shoot(t_doom *doom)
+{
+	int		i;
+	
+	i = 0;
+	while (i < 32)
+	{
+		if (doom->obj_ind[i] == 1)
+		{
+			enemy_on_hit(doom, &doom->enemies[i]);
+		}
+		i++;
+	}
+	return (0);
+}
+
 int		hooks(t_doom *doom, SDL_Event ev)
 {	
 	if (ev.type == SDL_MOUSEBUTTONDOWN)
 		if (ev.button.button == SDL_BUTTON_LEFT)
 		{
-			play_sound(doom, 0);
+			
 			if (doom->weapon[doom->player.weapon].anim_frame == 0)
 				doom->weapon[doom->player.weapon].states_frame = 1;
 			doom->lkey = 1;
+			if (doom->player.weapon == 0)
+				find_pic_interaction(doom);
+			shoot(doom);
+			printf("Ok\n");
+			play_sound(doom, 0);
 		}
 		if (ev.button.button == SDL_BUTTON_RIGHT)
+		{
 			doom->rkey = 1;
+		}
 	if (ev.type == SDL_MOUSEBUTTONUP)
 		if (ev.button.button == SDL_BUTTON_LEFT)
 		{

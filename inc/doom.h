@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/17 14:50:31 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/20 11:42:51 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -350,7 +350,9 @@ typedef struct	s_doom
 	int			weapon_change;
 	int			change_y;
 	int			change_tmp;
-	int			pic_interaction[32][HEIGHT][WIDTH];
+	int			pic_interaction[32];
+	int			obj_ind[32];
+	int			obj_num;
 	struct s_enemy		*enemies;
 	t_music		music[2];
 	t_sound		sound[10];

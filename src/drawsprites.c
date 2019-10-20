@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 11:56:24 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/17 15:00:34 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/20 11:28:13 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ int		vlineobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom)
 				prev_color = color;
 				prev_light = rgb_multiply(color, doom->sectors[obj->sector].light);
 			}
+			if (px.x >= WIDTH / 2 - 10 && px.x <= WIDTH / 2 + 10 && y >= HEIGHT / 2 - 10 && y <= HEIGHT / 2 + 10)
+				doom->obj_ind[doom->obj_num] = 1;
 			doom->sdl->pix[y * WIDTH + px.x] = prev_light;
 		}
 		//	doom->sdl->pix[y * WIDTH + px.x] = 0xFF0000;//img.data[(int)t.y * img.w + (int)t.x];
@@ -175,12 +177,19 @@ int     drawsprites(t_doom *doom, t_obj *obj, t_player player)
 	int		*order;
 	int		j;
 
+	j = 0;
+	while (j < 32)
+	{
+		doom->obj_ind[j] = 0;
+		j++;
+	}
 	order = (int*)malloc(sizeof(int) * doom->num.objs);
     sortobjs(doom, order, doom->player);
     n = 0;
     while (n < doom->num.objs)
     {
         o = &doom->objs[order[n]];
+		doom->obj_num = order[n];
 		if (!doom->item[o->sector].sector || doom->len[n] < 1.5f)
 		{
 			n++;
@@ -194,5 +203,10 @@ int     drawsprites(t_doom *doom, t_obj *obj, t_player player)
 		}
         n++;
     }
+	free(order);
     return (0);
 }
+
+// Objs	0		5 5		0
+// Objs	1		5 20	0
+// Objs	2		20 5	0

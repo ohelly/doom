@@ -280,6 +280,8 @@ int		load_game(t_doom *doom)
 		animation(doom, doom->fps);
 		doors(doom, doom->player, doom->fps);
 		draw_screen(doom);
+		if (doom->lkey == 1 && doom->player.weapon == 3) //временно
+			shoot(doom);
 		objects_update(doom);
 		enemies_update(doom);
 		calc_jump(doom, &doom->player, doom->sectors, doom->fps);
