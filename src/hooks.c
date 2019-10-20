@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/20 11:52:46 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/20 12:12:01 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,8 +107,11 @@ int		keydown(t_doom *doom, SDL_Event ev)
 		doom->weapon[doom->player.weapon].states_frame = 0;
 
 	}
-	if (ev.key.keysym.sym == 'r' && doom->player.weapon != 0)
+	if (ev.key.keysym.sym == 'r' && doom->player.weapon == 1 && doom->weapon[1].ammo)
+	{
 		doom->player.reload = 1;
+		doom->player.shoots = 0;
+	}
 	if (ev.key.keysym.sym == 'w')
 		doom->wsad[0] = 1;
 	if (ev.key.keysym.sym == 's')
@@ -182,38 +185,40 @@ int		shoot(t_doom *doom)
 int		hooks(t_doom *doom, SDL_Event ev)
 {	
 	if (ev.type == SDL_MOUSEBUTTONDOWN)
-		if (ev.button.button == SDL_BUTTON_LEFT && !doom->player.reload && !doom->weapon[doom->player.weapon].states_frame)
+	{
+		if (ev.button.button == SDL_BUTTON_LEFT && !doom->player.reload && !doom->weapon[doom->player.weapon].states_frame && doom->weapon[doom->player.weapon].ammo)
 		{
-			
+			doom->lkey = 1;
+			if (doom->player.weapon)
+				doom->weapon[doom->player.weapon].ammo--;
 			if (doom->weapon[doom->player.weapon].anim_frame == 0)
 				doom->weapon[doom->player.weapon].states_frame = 1;
-			doom->lkey = 1;
+			//перезарядка после 10 выстрелов у пистолета
 			if (doom->player.weapon == 1)
-				doom->player.shoots++;
-			if (doom->player.shoots == 10)
 			{
-				doom->player.shoots = 0;
-				doom->player.reload = 1;
+				doom->player.shoots++;
+				if (doom->player.shoots == 10)
+				{
+					doom->player.shoots = 0;
+					doom->player.reload = 1;
+				}
 			}
 			if (doom->player.weapon == 0)
 				find_pic_interaction(doom);
 			shoot(doom);
-			printf("Ok\n");
 			play_sound(doom, 0);
+			printf("Weapon %d, Ammo - %d\n", doom->player.weapon, doom->weapon[doom->player.weapon].ammo);
 		}
 		if (ev.button.button == SDL_BUTTON_RIGHT)
-		{
 			doom->rkey = 1;
-		}
+	}
 	if (ev.type == SDL_MOUSEBUTTONUP)
+	{
 		if (ev.button.button == SDL_BUTTON_LEFT)
-		{
-			//doom->weapon[doom->player.weapon].states_frame = 0;
-			//doom->weapon[doom->player.weapon].anim_frame = 0;
 			doom->lkey = 0;
-		}
 		if (ev.button.button == SDL_BUTTON_RIGHT)
 			doom->rkey = 0;
+	}
 	if (ev.type == SDL_KEYDOWN)
 		keydown(doom, ev);
 	if (ev.type == SDL_KEYUP)

@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/20 11:50:43 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/20 12:00:27 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -281,6 +281,7 @@ typedef struct	s_weapon
 	int			anim_frame;
 	int			states_count;
 	int			states_frame;
+	int			ammo;
 }				t_weapon;
 
 typedef struct	s_fps
