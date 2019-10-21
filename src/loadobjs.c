@@ -54,7 +54,7 @@ int		create_obj_decor(t_doom *doom, t_obj *obj)
 int		obj_collision_key_pickup(t_doom *doom, t_obj *obj)
 {
 	obj->enabled = 0;
-	play_sound(doom, 1);
+	play_sound(doom, SOUND_PICKUP);
 	printf("Picked up key with %d id!\n", obj->id);
 }
 
@@ -69,7 +69,8 @@ int		create_obj_enemy_default(t_doom *doom, t_obj *obj)
 {
 	//enemies should ALWAYS be passable!
 	obj->col_passable = 1;
-	obj->col_size = 2.0f;
+	//col_size is just for not colliding with walls
+	obj->col_size = 5.0f;
 	create_enemy_default(doom, obj);
 }
 
@@ -97,10 +98,8 @@ int		loadobjs(t_doom *doom, t_obj *obj, t_data *objs_data, char *str)
 	t_obj		*o;
 
 	o = &doom->objs[n];
-	//printf("We are reading id, curr string is: %s\n", str);
 	str = todigit(str, &tmp);
 	id = (int)tmp;
-	//printf("Id is %d, rest of the string is: %s\n", id, str);
 	str = todigit(str, &o->p.y);
 	str = todigit(str, &o->p.x);
 	str = todigit(str, &tmp);
@@ -108,24 +107,9 @@ int		loadobjs(t_doom *doom, t_obj *obj, t_data *objs_data, char *str)
 	o->sector = (int)tmp;
 	o->type = objs_data[id].type;
 	o->images = objs_data[id].images;
-	o->anim_count = (int*)malloc(sizeof(int) * o->states_count);
 	o->states_count = objs_data[id].states_count;
-	o->images = (int**)malloc(sizeof(int*) * o->states_count);
-
-	i = 0;
-	while (i < o->states_count)
-	{
-		o->anim_count[i] = objs_data[id].anim_count[i];
-		o->images[i] = (int*)malloc(sizeof(int) * o->anim_count[i]);
-		j = 0;
-		while (j < o->anim_count[i])
-		{
-			o->images[i][j] = objs_data[id].images[i][j];
-			printf("Added image %d to obj with id %d, n is %d\n", o->images[i][j], id, n);
-			j++;
-		}
-		i++;
-	}
+	o->anim_count = objs_data[id].anim_count;
+	o->images = objs_data[id].images;
 	o->enabled = 1;
 	o->n = n;
 	create_obj(doom, o);

@@ -166,6 +166,28 @@ int		keyup(t_doom *doom, SDL_Event ev)
 	return (0);
 }
 
+int		shoot(t_doom *doom)
+{
+	int		i;
+	int		t;
+
+	play_sound(doom, SOUND_SHOOT);
+	t = 0;
+	i = 0;
+	while (i < 32)
+	{
+		if (t == 3)
+			break ;
+		if (doom->obj_ind[i] == 1)
+		{
+			t++;
+			enemy_on_hit(doom, &doom->enemies[i]);
+		}
+		i++;
+	}
+	return (0);
+}
+
 t_xyz 	find_wall_intersection(t_xy t, t_xyz p, t_xy w1, t_xy w2)
 {
 	t_xyz	i;
@@ -322,8 +344,7 @@ int		hooks(t_doom *doom, SDL_Event ev)
 			if (doom->player.weapon == 0)
 				find_pic_interaction(doom);
 			shoot(doom);
-			
-			play_sound(doom, 0);
+			shoot_wall(doom, doom->player, doom->sectors);
 			//printf("Weapon %d, Ammo - %d\n", doom->player.weapon, doom->weapon[doom->player.weapon].ammo);
 		}
 		if (ev.button.button == SDL_BUTTON_RIGHT)
