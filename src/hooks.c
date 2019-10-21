@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/21 17:42:48 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/21 19:24:57 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -218,6 +218,8 @@ int		shoot_wall(t_doom *doom, t_player player, t_sectors *sectors)
 	d = player.where;
 	while (1)
 	{
+		if (doom->lookwall[sector] == -1)
+			return (0);
 		t.x = d.x + 10000 * player.pcos;
 		t.y = d.y + 10000 * player.psin;	
 		w1 = s->vert[doom->lookwall[sector]];
@@ -232,7 +234,10 @@ int		shoot_wall(t_doom *doom, t_player player, t_sectors *sectors)
 		if (s->neighbors[doom->lookwall[sector]] < 0)
 		{
 			if (doom->shot_pics[n].p.z > s->ceil || doom->shot_pics[n].p.z < s->floor)
-				break ;
+			{
+				printf("Ok\n");
+				return (0);
+			}
 			findpicpoints(doom, &doom->shot_pics[n], doom->img[doom->shot_pics[n].images[0][0]].w / 40);
 			doom->shot_pics[n].neighbor = -1;
 			break ;
@@ -262,7 +267,7 @@ int		shoot_wall(t_doom *doom, t_player player, t_sectors *sectors)
 	//doom->shot_pics[n].p1 = w1;
 	//doom->shot_pics[n].p2 = w2;
 	//printf("x - %f, y - %f\n",doom->pics[0].p.x, doom->pics[0].p.y);
-	//doom->num_shots = n + 1;
+	doom->num_shots = n + 1;
 	printf("n - %d\n", n);
 	n++;
 
