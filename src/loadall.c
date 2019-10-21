@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:21:04 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/20 15:54:31 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/21 15:47:59 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -384,7 +384,7 @@ int		load_weapon_delay(t_weapon *weapon, int type)
 	if (type == 1) //pistol
 	{
 		weapon->delay = 0.07f;
-		weapon->ammo = 50;
+		weapon->ammo = 70;
 		weapon->damage = 50;
 		weapon->scatterx = 5;
 		weapon->scattery = 5;
@@ -455,6 +455,26 @@ int		load_data(t_doom *doom, char **map)
 	return (0);
 }
 
+int		load_shot_pics(t_pics *shots)
+{
+	int		i;
+	t_pics	p;
+
+	p.images = (int**)ft_memalloc(sizeof(int*) * 1);
+	p.images[0] = (int*)ft_memalloc(sizeof(int) * 1);
+	p.images[0][0] = 20;
+	p.type = 5;
+	i = 0;
+	while (i < 64)
+	{ 
+		shots[i] = p;
+		shots[i].states_frame = 0;
+		shots[i].anim_frame = 0;
+		i++;
+	}
+	return (0);
+}
+
 int		load_params(t_doom *doom, char **map)
 {
 	int		i;
@@ -492,6 +512,7 @@ int		load_params(t_doom *doom, char **map)
 	}
 	doom->player.where.z = doom->sectors[doom->player.sector].floor + EyeHeight;
 	doom->wall_col_size = 0.1f;
+	load_shot_pics(doom->shot_pics);
 	free(v);
 	return (0);
 }
@@ -515,6 +536,8 @@ int		loadall(t_doom *doom)
 	play_music(doom, 0);
 	
 	if (!(doom->len = (float*)ft_memalloc(sizeof(float) * doom->num.objs)))
+		return (0);
+	if (!(doom->lookwall = (float*)ft_memalloc(sizeof(float) * doom->num.sectors)))
 		return (0);
 	/*
 	if (!(doom->txt = (t_texture*)ft_memalloc(sizeof(t_texture) * 1))) //нужно посчитать кол-во текстур

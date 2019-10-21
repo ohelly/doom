@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/20 17:40:23 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/21 17:42:48 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,14 +98,12 @@ int		keydown(t_doom *doom, SDL_Event ev)
 		doom->player.weapon = 2;
 		doom->weapon[doom->player.weapon].anim_frame = 0;
 		doom->weapon[doom->player.weapon].states_frame = 0;
-
 	}
 	if (ev.key.keysym.sym == '4')
 	{
 		doom->player.weapon = 3;
 		doom->weapon[doom->player.weapon].anim_frame = 0;
 		doom->weapon[doom->player.weapon].states_frame = 0;
-
 	}
 	if (ev.key.keysym.sym == 'r' && doom->player.weapon == 1 && doom->weapon[1].ammo > 10 && doom->player.shoots != 0)
 	{
@@ -168,27 +166,6 @@ int		keyup(t_doom *doom, SDL_Event ev)
 	return (0);
 }
 
-int		shoot(t_doom *doom)
-{
-	int		i;
-	int		t;
-
-	t = 0;
-	i = 0;
-	while (i < 32)
-	{
-		if (t == 3)
-			break ;
-		if (doom->obj_ind[i] == 1)
-		{
-			t++;
-			enemy_on_hit(doom, &doom->enemies[i]);
-		}
-		i++;
-	}
-	return (0);
-}
-
 t_xyz 	find_wall_intersection(t_xy t, t_xyz p, t_xy w1, t_xy w2)
 {
 	t_xyz	i;
@@ -216,36 +193,105 @@ t_xyz 	find_wall_intersection(t_xy t, t_xyz p, t_xy w1, t_xy w2)
 	return (i);
 }
 
+
 int		shoot_wall(t_doom *doom, t_player player, t_sectors *sectors)
 {
+	static int n = 0;
 	int 	x;
+	int		sector;
+	float	pz;
 	float	y;
 	t_xy	t;
 	t_xy	w1;
 	t_xy	w2;
 	t_xyz	p;
+	t_xyz	d;
 	t_sectors	*s;
 
-	s = &sectors[player.sector];
-	t.x = player.where.x + 10000 * player.pcos;
-	t.y = player.where.y + 10000 * player.psin;
-	
-	w1 = s->vert[doom->lookwall];
-	w2 = s->vert[doom->lookwall + 1];
-	printf("wall - %d\n", doom->lookwall);
-	printf("w1x - %f, w1y - %f\n", w1.x, w1.y);
-	printf("w2x - %f, w2y - %f\n", w2.x, w2.y);
-	p = find_wall_intersection(t, player.where, w1, w2);
-	printf("x - %f, y - %f\n", p.x, p.y);
-	doom->pics[0].p = p;
-	doom->pics[0].wall = doom->lookwall;
-	doom->pics[0].p.z = player.where.z + tan(-player.yaw) * (sqrt(pow(p.x - doom->player.where.x, 2) + pow(p.y - doom->player.where.y, 2)));
-	findpicpoints(doom, &doom->pics[0], 10);
+	if (n >= 32)
+	{
+		n = n % 32;
+	}
+	sector = player.sector;
+	pz = player.where.z;
+	s = &sectors[sector];
+	d = player.where;
+	while (1)
+	{
+		t.x = d.x + 10000 * player.pcos;
+		t.y = d.y + 10000 * player.psin;	
+		w1 = s->vert[doom->lookwall[sector]];
+		w2 = s->vert[doom->lookwall[sector] + 1];
+		p = find_wall_intersection(t, d, w1, w2);
+		doom->shot_pics[n].p = p;
+		doom->shot_pics[n].wall = doom->lookwall[sector];
+		doom->shot_pics[n].p.z = pz + tanf(atanf(-player.yaw)) * (sqrtf(powf(p.x - doom->player.where.x, 2) + powf(p.y - doom->player.where.y, 2)));
+		doom->shot_pics[n].sector = sector;
+		doom->shot_pics[n].wall = doom->lookwall[sector];
+		//printf("neighbor - %d\n", s->neighbors[doom->lookwall[sector]]);
+		if (s->neighbors[doom->lookwall[sector]] < 0)
+		{
+			if (doom->shot_pics[n].p.z > s->ceil || doom->shot_pics[n].p.z < s->floor)
+				break ;
+			findpicpoints(doom, &doom->shot_pics[n], doom->img[doom->shot_pics[n].images[0][0]].w / 40);
+			doom->shot_pics[n].neighbor = -1;
+			break ;
+		}
+		else
+		{	
+			doom->shot_pics[n].neighbor = s->neighbors[doom->lookwall[sector]];
+			doom->shot_pics[n].sector = sector;
+			if ((doom->shot_pics[n].p.z > sectors[s->neighbors[doom->lookwall[sector]]].ceil && doom->shot_pics[n].p.z < s->ceil)
+			|| (doom->shot_pics[n].p.z < sectors[s->neighbors[doom->lookwall[sector]]].floor && doom->shot_pics[n].p.z > s->floor))
+			{
+			//	printf("top - %f, bot - %f, pz - %f\n", sectors[s->neighbors[doom->lookwall[sector]]].ceil, sectors[s->neighbors[doom->lookwall[sector]]].floor, doom->shot_pics[n].p.z );
+			//	printf("Ok\n");
+				findpicpoints(doom, &doom->shot_pics[n], doom->img[doom->shot_pics[n].images[0][0]].w / 40);
+				break ;
+			}
+			sector = s->neighbors[doom->lookwall[sector]];
+			s = &sectors[sector];
+			d = p;
+			d.x = d.x + 0.0001 * player.pcos;
+			d.y = d.y + 0.0001 * player.psin;
+			p.z = doom->shot_pics[n].p.z;
+			continue ;
+		}
+		
+	}
 	//doom->shot_pics[n].p1 = w1;
 	//doom->shot_pics[n].p2 = w2;
 	//printf("x - %f, y - %f\n",doom->pics[0].p.x, doom->pics[0].p.y);
+	//doom->num_shots = n + 1;
+	printf("n - %d\n", n);
+	n++;
+
 	return (0);
 }
+
+int		shoot(t_doom *doom)
+{
+	int		i;
+	int		t;
+
+	t = 0;
+	i = 0;
+	while (i < 32)
+	{
+		if (t == 3)
+			break ;
+		if (doom->obj_ind[i] == 1 && doom->objs[i].type == 3)
+		{
+			t++;
+			enemy_on_hit(doom, &doom->enemies[i]);
+		}
+		i++;
+	}
+	if (!t)
+		shoot_wall(doom, doom->player, doom->sectors);
+	return (0);
+}
+
 
 int		hooks(t_doom *doom, SDL_Event ev)
 {	
@@ -271,7 +317,7 @@ int		hooks(t_doom *doom, SDL_Event ev)
 			if (doom->player.weapon == 0)
 				find_pic_interaction(doom);
 			shoot(doom);
-			shoot_wall(doom, doom->player, doom->sectors);
+			
 			play_sound(doom, 0);
 			//printf("Weapon %d, Ammo - %d\n", doom->player.weapon, doom->weapon[doom->player.weapon].ammo);
 		}
