@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/21 19:24:55 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/21 19:29:58 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -587,7 +587,7 @@ int			draw_wall_shots(t_doom *doom, t_player player, t_pics *pic, t_cood *cood)
 	i = 0;
 	while (i < doom->num_shots)
 	{
-		if (pic[i].sector != doom->now.sector && pic[i].wall != cood->n && pic[i].wall < 0)
+		if (pic[i].sector != doom->now.sector)
 		{
 			i++;
 			continue ;
@@ -718,7 +718,7 @@ int			calc_points(t_doom *doom, t_sectors *s, t_cood *cood, t_player player)
 	calc_pics(doom, doom->pics, &doom->cood, doom->player);
 	find_yceil_yfloor(doom, s, cood, player);
 	render_walls(doom, s, cood, player);
-	draw_wall_shots(doom, doom->player, doom->shot_pics, &doom->cood);
+	
 	return (1);
 }
 
@@ -776,6 +776,7 @@ int			draw_walls(t_doom *doom, t_player player)
 		assign_value(doom->item, doom->now, rensects);
 		s = &doom->sectors[doom->now.sector];
 		calc_sector(doom, s, &doom->cood, doom->player);
+		draw_wall_shots(doom, doom->player, doom->shot_pics, &doom->cood);
 		++rensects[doom->now.sector];	
 	}
 	return (0);
