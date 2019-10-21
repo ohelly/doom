@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:50:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/17 13:19:33 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/21 13:48:23 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,6 +111,7 @@ int		loadobjs(t_doom *doom, t_obj *obj, t_data *objs_data, char *str)
 	o->anim_count = objs_data[id].anim_count;
 	o->images = objs_data[id].images;
 	o->enabled = 1;
+	o->n = n;
 	create_obj(doom, o);
 	n++;
 	return (0);

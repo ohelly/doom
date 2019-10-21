@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 13:47:25 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/13 15:41:21 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/21 16:37:27 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,13 +38,13 @@ int		findpicpoints(t_doom *doom, t_pics *pic, int w)
 	
 	dist1 = sqrtf(powf(d1.x, 2) + powf(d1.y, 2));
 	dist2 = sqrtf(powf(d2.x, 2) + powf(d2.y, 2));
-	printf("dist1 - %f, dist2 - %f\n", dist1, dist2);
+	//printf("dist1 - %f, dist2 - %f\n", dist1, dist2);
 	pic->p1.x = pic->p.x - ((w * (pic->p.x - v1.x)) / dist1);
 	pic->p1.y = pic->p.y - ((w * (pic->p.y - v1.y)) / dist1);
 	pic->p2.x = pic->p.x - ((w * (pic->p.x - v2.x)) / dist2);
 	pic->p2.y = pic->p.y - ((w * (pic->p.y - v2.y)) / dist2);
-	printf("p1.y - %f, p1.x - %f\n", pic->p1.y, pic->p1.x);
-	printf("p2.y - %f, p2.x - %f\n", pic->p2.y, pic->p2.x);
+	//printf("p1.y - %f, p1.x - %f\n", pic->p1.y, pic->p1.x);
+	//printf("p2.y - %f, p2.x - %f\n", pic->p2.y, pic->p2.x);
 
 	return (0);
 }

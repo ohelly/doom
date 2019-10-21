@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/20 17:31:00 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/21 17:31:59 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,12 +103,13 @@ typedef struct	s_img
 
 typedef struct	s_texture
 {
-	int			image;
+	int			image; //0
 }				t_texture;
 
 typedef struct	s_obj
 {
 	int			id;
+	int			n;
 	int			enabled;
 	t_xy		p;
 	int			sector;
@@ -137,6 +138,7 @@ typedef struct	s_pics
 	t_xyz		p;
 	t_xy		p1;
 	t_xy		p2;
+	int			neighbor;
 	int			sector;
 	int			type;
 	int			wall;
@@ -189,27 +191,27 @@ typedef	struct	s_cood
 	int			txtx;
 	int			ptxtx;
 	int			piccount;
-	int			picnum[32];
+	int			picnum[64];
 	int			num;
-	float		pu0[32];
-	float		pu1[32];
-	int			pyceil[32];
-	int			pyfloor[32];
-	t_xyz		pv1[32];
-	t_xyz		pv2[32];
-	t_xyz		pt1[32];
-	t_xyz		pt2[32];
-	t_xy		porg1[32]; 
-	t_xy		porg2[32];
-	t_xy		pscale1[32];
-	t_xy		pscale2[32];
-	int			pw1x[32];
-	int			pw2x[32];
-	t_ab_i		pwy[32]; 
-	t_ab_i		pwx[32]; //current point
-	t_ab_i		pcy[32];
-	t_ab_i		pw1y[32];
-	t_ab_i		pw2y[32];
+	float		pu0[64];
+	float		pu1[64];
+	int			pyceil[64];
+	int			pyfloor[64];
+	t_xyz		pv1[64];
+	t_xyz		pv2[64];
+	t_xyz		pt1[64];
+	t_xyz		pt2[64];
+	t_xy		porg1[64]; 
+	t_xy		porg2[64];
+	t_xy		pscale1[64];
+	t_xy		pscale2[64];
+	int			pw1x[64];
+	int			pw2x[64];
+	t_ab_i		pwy[64]; 
+	t_ab_i		pwx[64]; //current point
+	t_ab_i		pcy[64];
+	t_ab_i		pw1y[64];
+	t_ab_i		pw2y[64];
 
 	t_xyz		v1;
 	t_xyz		v2;
@@ -299,7 +301,7 @@ typedef struct	s_weapon
 
 typedef struct	s_fps
 {
-	float		times[32];
+	float		times[64];
 	float		time_frame;
 	float		fps_total;
 	float		fps_count;
@@ -337,15 +339,16 @@ typedef struct	s_doom
 	t_obj		*objs;
 	t_data		*objs_data;
 	t_pics		*pics;
-	t_pics		shot_pics[32];
+	t_pics		shot_pics[64];
 	int			num_shots;
+	int			isshoot;
 	t_data		*pics_data;
 	t_sectors	*sectors;
 	t_sdl		*sdl;
 	t_player	player;
 	t_num		num;
 	t_fps		fps;
-	t_item 		queue[32];
+	t_item 		queue[64];
 	t_item		*head;
 	t_item		*tail;
 	t_item		*item;
@@ -363,13 +366,13 @@ typedef struct	s_doom
 	int			shakex;
 	int			shakey;
 	int			shaketmp;
-	int			lookwall;
+	int			*lookwall;
 	float		wall_col_size;
 	//int			weapon_change;
 	int			change_y;
 	//int			change_tmp;
-	int			pic_interaction[32];
-	int			obj_ind[32];
+	int			pic_interaction[64];
+	int			obj_ind[64];
 	int			obj_num;
 	struct s_enemy		*enemies;
 	t_music		music[2];
