@@ -94,8 +94,7 @@ void	enemy_on_framestart(t_doom *doom, t_enemy *enemy)
 		else
 		{
 			t_xy new_dir = v2_normalize((t_xy){random_range(-1, 1), random_range(-1, 1)});
-			enemy->dir.x = new_dir.x;
-			enemy->dir.y = new_dir.y;
+			enemy->dir = new_dir;
 		}
 		if (detect_player(doom, enemy))
 			enemy->state = 1;
@@ -116,6 +115,7 @@ void	enemy_on_framestart(t_doom *doom, t_enemy *enemy)
 t_enemy	*create_enemy_default(t_doom *doom, t_obj *obj)
 {
 	t_enemy *enemy;
+	t_xy new_dir;
 
 	enemy = (t_enemy*)malloc(sizeof(t_enemy));
 	enemy->obj = obj;
@@ -123,7 +123,8 @@ t_enemy	*create_enemy_default(t_doom *doom, t_obj *obj)
 	enemy->obj->col_size = 3.0f;
 	enemy->obj->p = (t_xy){40, 10};
 	//dir is normalized vector and shouldn't be 0
-	enemy->dir = (t_xy){-1, 1};
+	new_dir = v2_normalize((t_xy){random_range(-1, 1), random_range(-1, 1)});
+	enemy->dir = new_dir;
 	enemy->state = 0;
 	enemy->health = 10;
 	enemy->attack_speed = 3.0f;

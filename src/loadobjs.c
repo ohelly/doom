@@ -36,8 +36,6 @@ void	obj_anim_next(t_obj *obj)
 
 t_img	obj_get_image(t_doom *doom, t_obj *obj)
 {
-	printf("Trying to get img for %d obj of %d state and %d anim\n", obj->id, obj->states_frame, obj->anim_frame);
-	printf("Image exists with index %d\n", obj->images[obj->states_frame][obj->anim_frame]);
 	return (doom->img[obj->images[obj->states_frame][obj->anim_frame]]);
 }
 
@@ -99,10 +97,8 @@ int		loadobjs(t_doom *doom, t_obj *obj, t_data *objs_data, char *str)
 	t_obj		*o;
 
 	o = &doom->objs[n];
-	//printf("We are reading id, curr string is: %s\n", str);
 	str = todigit(str, &tmp);
 	id = (int)tmp;
-	//printf("Id is %d, rest of the string is: %s\n", id, str);
 	str = todigit(str, &o->p.y);
 	str = todigit(str, &o->p.x);
 	str = todigit(str, &tmp);
@@ -110,29 +106,9 @@ int		loadobjs(t_doom *doom, t_obj *obj, t_data *objs_data, char *str)
 	o->sector = (int)tmp;
 	o->type = objs_data[id].type;
 	o->images = objs_data[id].images;
-	o->anim_count = (int*)malloc(sizeof(int) * o->states_count);
 	o->states_count = objs_data[id].states_count;
-	printf("Allocating %d for states\n", o->states_count);
-	o->images = (int**)malloc(sizeof(int*) * o->states_count + 1);
-
-	i = 0;
-	while (i < o->states_count)
-	{
-		o->anim_count[i] = objs_data[id].anim_count[i];
-		printf("Allocating %d for anim %d\n", o->anim_count[i], i);
-		o->images[i] = (int*)malloc(sizeof(int) * o->anim_count[i] + 1);
-		j = 0;
-		while (j < o->anim_count[i])
-		{
-			o->images[i][j] = objs_data[id].images[i][j];
-			printf("Added image %d in %d:%d to obj with id %d, n is %d\n", o->images[i][j], i, j, id, n);
-			j++;
-		}
-		i++;
-	}
-	printf("Vibe check %d\n", o->images[0][0]);
-	printf("We added %d\n", o->images[3][0]);
-	printf("Does it exist? %d\n", doom->objs[n].images[3][0]);
+	o->anim_count = objs_data[id].anim_count;
+	o->images = objs_data[id].images;
 	o->enabled = 1;
 	create_obj(doom, o);
 	n++;

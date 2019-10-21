@@ -134,12 +134,9 @@ int		findobjxy2(t_xyz t, t_xy scale, t_obj *obj, t_doom *doom)
 	t_be	px;
 	t_img	img;
 
-	printf("1\n", obj->id);
 	img = obj_get_image(doom, obj);
-	printf("2\n", obj->id);
 	size.y = (float)(img.h / 16);
 	size.x = (float)(img.w / 57);
-	printf("3\n", obj->id);
 	wx = WIDTH / 2 - (int)(t.x * scale.x); 
 	wy.a = HEIGHT / 2 - (int)(yaw(size.y + doom->sectors[obj->sector].floor - doom->player.where.z, t.z, doom->player) * scale.y); 
 	wy.b = HEIGHT / 2 - (int)(yaw(doom->sectors[obj->sector].floor - doom->player.where.z, t.z, doom->player) * scale.y);
@@ -172,7 +169,6 @@ int      drawobj(t_doom *doom, t_obj *obj, t_xy pos)
 	scale.x = (HFOV * WIDTH) / t.z;
 	scale.y = (VFOV * HEIGHT) / t.z;
 	findobjxy2(t, scale, obj, doom);
-	printf("Drawing obj %d \n", obj->id);
     return (1);
 }
 
