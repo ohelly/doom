@@ -54,7 +54,7 @@ int		create_obj_decor(t_doom *doom, t_obj *obj)
 int		obj_collision_key_pickup(t_doom *doom, t_obj *obj)
 {
 	obj->enabled = 0;
-	play_sound(doom, 1);
+	play_sound(doom, SOUND_PICKUP);
 	printf("Picked up key with %d id!\n", obj->id);
 }
 

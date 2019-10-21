@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/17 14:50:31 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/20 17:31:00 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,10 @@
 //# define Intersect(x1,y1, x2,y2, x3,y3, x4,y4) ((t_xy) { \
     vxs(vxs(x1,y1, x2,y2), (x1)-(x2), vxs(x3,y3, x4,y4), (x3)-(x4)) / vxs((x1)-(x2), (y1)-(y2), (x3)-(x4), (y3)-(y4)), \
     vxs(vxs(x1,y1, x2,y2), (y1)-(y2), vxs(x3,y3, x4,y4), (y3)-(y4)) / vxs((x1)-(x2), (y1)-(y2), (x3)-(x4), (y3)-(y4)) })
+
+# define SOUND_SHOOT	0
+# define SOUND_PICKUP	1
+# define SOUND_DEATH	2
 
 typedef struct	s_scaler
 {
@@ -158,6 +162,8 @@ typedef struct		s_player
 	int			hp;
 	float		col_size;
 	int			reload;
+	int			shoots;
+	int			wall;
 }				t_player;
 	float			col_size;
 
@@ -280,6 +286,10 @@ typedef struct	s_weapon
 	int			anim_frame;
 	int			states_count;
 	int			states_frame;
+	int			ammo;
+	int			damage;
+	int			scatterx;
+	int			scattery;
 }				t_weapon;
 
 typedef struct	s_fps
@@ -322,6 +332,8 @@ typedef struct	s_doom
 	t_obj		*objs;
 	t_data		*objs_data;
 	t_pics		*pics;
+	t_pics		shot_pics[32];
+	int			num_shots;
 	t_data		*pics_data;
 	t_sectors	*sectors;
 	t_sdl		*sdl;
@@ -342,15 +354,18 @@ typedef struct	s_doom
 	int			a;
 	int			lkey;
 	int			rkey;
-	float			*len;
+	float		*len;
 	int			shakex;
 	int			shakey;
 	int			shaketmp;
+	int			lookwall;
 	float		wall_col_size;
-	int			weapon_change;
+	//int			weapon_change;
 	int			change_y;
-	int			change_tmp;
-	int			pic_interaction[32][HEIGHT][WIDTH];
+	//int			change_tmp;
+	int			pic_interaction[32];
+	int			obj_ind[32];
+	int			obj_num;
 	struct s_enemy		*enemies;
 	t_music		music[2];
 	t_sound		sound[10];

@@ -280,6 +280,12 @@ int		load_game(t_doom *doom)
 		animation(doom, doom->fps);
 		doors(doom, doom->player, doom->fps);
 		draw_screen(doom);
+		if (doom->lkey == 1 && doom->player.weapon == 3 && doom->weapon[doom->player.weapon].ammo > 0 && doom->weapon[doom->player.weapon].anim_frame % 3 == 0) //временно
+		{
+			printf("Weapon %d, Ammo - %d\n", doom->player.weapon, doom->weapon[doom->player.weapon].ammo);
+			doom->weapon[doom->player.weapon].ammo--;
+			shoot(doom);
+		}
 		objects_update(doom);
 		enemies_update(doom);
 		calc_jump(doom, &doom->player, doom->sectors, doom->fps);
