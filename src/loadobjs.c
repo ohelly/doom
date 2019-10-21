@@ -69,7 +69,8 @@ int		create_obj_enemy_default(t_doom *doom, t_obj *obj)
 {
 	//enemies should ALWAYS be passable!
 	obj->col_passable = 1;
-	obj->col_size = 2.0f;
+	//col_size is just for not colliding with walls
+	obj->col_size = 5.0f;
 	create_enemy_default(doom, obj);
 }
 

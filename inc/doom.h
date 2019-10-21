@@ -54,6 +54,7 @@
 # define SOUND_PICKUP	1
 # define SOUND_DEATH	2
 
+# define ENEMY_STATE_IDLE	0
 # define ENEMY_STATE_DEAD	8
 # define ENEMY_STATE_HIT	9
 # define ENEMY_STATE_ATTACK	10

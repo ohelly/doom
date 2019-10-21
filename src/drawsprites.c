@@ -135,8 +135,8 @@ int		findobjxy2(t_xyz t, t_xy scale, t_obj *obj, t_doom *doom)
 	t_img	img;
 
 	img = obj_get_image(doom, obj);
-	size.y = (float)(img.h / 16);
-	size.x = (float)(img.w / 57);
+	size.y = (float)(img.h / 16 * 6);
+	size.x = (float)(img.w / 57 * 6);
 	wx = WIDTH / 2 - (int)(t.x * scale.x); 
 	wy.a = HEIGHT / 2 - (int)(yaw(size.y + doom->sectors[obj->sector].floor - doom->player.where.z, t.z, doom->player) * scale.y); 
 	wy.b = HEIGHT / 2 - (int)(yaw(doom->sectors[obj->sector].floor - doom->player.where.z, t.z, doom->player) * scale.y);
