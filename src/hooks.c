@@ -173,6 +173,7 @@ int		shoot(t_doom *doom)
 	int		i;
 	int		t;
 
+	play_sound(doom, SOUND_SHOOT);
 	t = 0;
 	i = 0;
 	while (i < 32)
@@ -272,7 +273,6 @@ int		hooks(t_doom *doom, SDL_Event ev)
 				find_pic_interaction(doom);
 			shoot(doom);
 			shoot_wall(doom, doom->player, doom->sectors);
-			play_sound(doom, 0);
 			//printf("Weapon %d, Ammo - %d\n", doom->player.weapon, doom->weapon[doom->player.weapon].ammo);
 		}
 		if (ev.button.button == SDL_BUTTON_RIGHT)

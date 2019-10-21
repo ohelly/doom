@@ -89,10 +89,7 @@ void		drawweapon(t_doom *doom, t_weapon *weapon)
 		weapon->states_frame = 1;
 		doom->shakex = 0;
 		if (weapon->anim_frame % 3 == 0)
-		{
-			play_sound(doom, 0);
 			doom->shakey = 15;
-		}
 		else
 			doom->shakey = 0;
 	}
