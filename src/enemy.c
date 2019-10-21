@@ -1,5 +1,6 @@
 #include "doom.h"
 
+//	N NE E SE S SW W WN
 int		rotate_enemy(t_doom *doom, t_enemy *enemy)
 {
 	float	player_deg;
@@ -60,13 +61,14 @@ void	enemy_on_attack(t_doom *doom, t_enemy *enemy)
 
 void	enemy_on_hit(t_doom *doom, t_enemy *enemy)
 {
+	obj_state_change(enemy->obj, ENEMY_STATE_HIT);
 	enemy->health -= doom->weapon[doom->player.weapon].damage / sqrt(pow(enemy->obj->p.x - doom->player.where.x, 2) + pow(enemy->obj->p.y - doom->player.where.y, 2));
 	//change texture to enemy_hit, spawn particles, etc
 	//printf("Enemy took damage!\n");
 	//printf("Damage - %f\n", doom->weapon[doom->player.weapon].damage / sqrt(pow(enemy->obj->p.x - doom->player.where.x, 2) + pow(enemy->obj->p.y - doom->player.where.y, 2)));
 	if (enemy->health <= 0)
 	{
-		obj_state_change(enemy->obj, 8); //change to enemy_dead texture
+		obj_state_change(enemy->obj, ENEMY_STATE_DEAD);
 		play_sound(doom, SOUND_DEATH);
 	}
 }
@@ -101,6 +103,7 @@ void	enemy_on_framestart(t_doom *doom, t_enemy *enemy)
 	}
 	else if (enemy->state == 1)
 	{
+		obj_state_change(enemy->obj, ENEMY_STATE_ATTACK);
 		enemy->on_hit(doom, enemy);
 		if (enemy->attack_cd > 0)
 			enemy->attack_cd -= doom->fps.time_frame;

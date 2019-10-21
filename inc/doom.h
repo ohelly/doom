@@ -54,6 +54,10 @@
 # define SOUND_PICKUP	1
 # define SOUND_DEATH	2
 
+# define ENEMY_STATE_DEAD	7
+# define ENEMY_STATE_HIT	8
+# define ENEMY_STATE_ATTACK	9
+
 typedef struct	s_scaler
 {
 	int 		result;
