@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/21 17:42:48 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/21 19:28:55 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,28 @@ int		keyup(t_doom *doom, SDL_Event ev)
 	return (0);
 }
 
+int		shoot(t_doom *doom)
+{
+	int		i;
+	int		t;
+
+	play_sound(doom, SOUND_SHOOT);
+	t = 0;
+	i = 0;
+	while (i < 32)
+	{
+		if (t == 3)
+			break ;
+		if (doom->obj_ind[i] == 1)
+		{
+			t++;
+			enemy_on_hit(doom, &doom->enemies[i]);
+		}
+		i++;
+	}
+	return (0);
+}
+
 t_xyz 	find_wall_intersection(t_xy t, t_xyz p, t_xy w1, t_xy w2)
 {
 	t_xyz	i;
@@ -216,6 +238,8 @@ int		shoot_wall(t_doom *doom, t_player player, t_sectors *sectors)
 	d = player.where;
 	while (1)
 	{
+		if (doom->lookwall[sector] == -1)
+			return (0);
 		t.x = d.x + 10000 * player.pcos;
 		t.y = d.y + 10000 * player.psin;	
 		w1 = s->vert[doom->lookwall[sector]];
@@ -230,7 +254,10 @@ int		shoot_wall(t_doom *doom, t_player player, t_sectors *sectors)
 		if (s->neighbors[doom->lookwall[sector]] < 0)
 		{
 			if (doom->shot_pics[n].p.z > s->ceil || doom->shot_pics[n].p.z < s->floor)
-				break ;
+			{
+				printf("Ok\n");
+				return (0);
+			}
 			findpicpoints(doom, &doom->shot_pics[n], doom->img[doom->shot_pics[n].images[0][0]].w / 40);
 			doom->shot_pics[n].neighbor = -1;
 			break ;
@@ -260,34 +287,10 @@ int		shoot_wall(t_doom *doom, t_player player, t_sectors *sectors)
 	//doom->shot_pics[n].p1 = w1;
 	//doom->shot_pics[n].p2 = w2;
 	//printf("x - %f, y - %f\n",doom->pics[0].p.x, doom->pics[0].p.y);
-	//doom->num_shots = n + 1;
+	doom->num_shots = n + 1;
 	printf("n - %d\n", n);
 	n++;
 
-	return (0);
-}
-
-int		shoot(t_doom *doom)
-{
-	int		i;
-	int		t;
-
-	play_sound(doom, SOUND_SHOOT);
-	t = 0;
-	i = 0;
-	while (i < 32)
-	{
-		if (t == 3)
-			break ;
-		if (doom->obj_ind[i] == 1 && doom->objs[i].type == 3)
-		{
-			t++;
-			enemy_on_hit(doom, &doom->enemies[i]);
-		}
-		i++;
-	}
-	if (!t)
-		shoot_wall(doom, doom->player, doom->sectors);
 	return (0);
 }
 
@@ -317,7 +320,6 @@ int		hooks(t_doom *doom, SDL_Event ev)
 				find_pic_interaction(doom);
 			shoot(doom);
 			shoot_wall(doom, doom->player, doom->sectors);
-			play_sound(doom, 0);
 			//printf("Weapon %d, Ammo - %d\n", doom->player.weapon, doom->weapon[doom->player.weapon].ammo);
 		}
 		if (ev.button.button == SDL_BUTTON_RIGHT)

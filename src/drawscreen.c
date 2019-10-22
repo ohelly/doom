@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/21 17:44:57 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/21 19:29:58 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -188,6 +188,7 @@ int			renew(t_item *head, t_doom *doom, int *rensects)
 	x = 0;
 	while (x < doom->num.sectors)
 	{
+		doom->lookwall[x] = -1;
 		doom->item[x].sector = 0;
 		rensects[x] = 0;
 		x++;
@@ -584,13 +585,14 @@ int			draw_wall_shots(t_doom *doom, t_player player, t_pics *pic, t_cood *cood)
 
 	doom->isshoot = 1;
 	i = 0;
-	while (i < 32)
+	while (i < doom->num_shots)
 	{
 		if (pic[i].sector != doom->now.sector)
 		{
 			i++;
 			continue ;
 		}
+		printf("i - %d\n", i);
 		ybord.y = 0;
 		ybord.x = HEIGHT - 1;
 		cood->picnum[i] = i;
@@ -661,13 +663,8 @@ int			draw_wall_shots(t_doom *doom, t_player player, t_pics *pic, t_cood *cood)
 			{
 				if (pic[i].sector != doom->player.sector)
 				{
-					ybord.y = doom->item[pic[i].sector].ytop[x];
-					ybord.x = doom->item[pic[i].sector].ybot[x];
-				}
-				if (pic[i].neighbor >= 0 && pic[i].sector != doom->player.sector)
-				{
-					ybord.y = doom->item[pic[i].neighbor].ytop[x];
-					ybord.x = doom->item[pic[i].neighbor].ybot[x];
+					ybord.y = doom->item[doom->now.sector].ytop[x];
+					ybord.x = doom->item[doom->now.sector].ybot[x];
 				}
 				//printf("w1x - %d, w2x - %d\n", cood->pw1x[i], cood->pw2x[i]);
 				cood->ptxtx = (cood->pu0[i] * ((cood->pw2x[i] - x) * cood->pt2[i].z) + cood->pu1[i] * ((x - cood->pw1x[i]) * cood->pt1[i].z)) / ((cood->pw2x[i] - x) * cood->pt2[i].z + (x - cood->pw1x[i]) * cood->pt1[i].z);
