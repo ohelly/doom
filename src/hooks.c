@@ -168,18 +168,26 @@ int		shoot(t_doom *doom)
 {
 	int		i;
 	int		t;
+	t_obj	*o;
 
 	play_sound(doom, SOUND_SHOOT);
 	t = 0;
 	i = 0;
-	while (i < 32)
+	while (i < doom->num.objs)
 	{
+		printf("checking obj %d\n", i);
 		if (t == 3)
 			break ;
 		if (doom->obj_ind[i] == 1)
 		{
 			t++;
-			enemy_on_hit(doom, &doom->enemies[i]);
+			o = &doom->objs[i];
+			if (o->on_hit)
+			{
+				printf("obj %d on hit \n", i);
+				o->on_hit(doom, o);
+			}
+			//enemy_on_hit(doom, &doom->enemies[i]);
 		}
 		i++;
 	}

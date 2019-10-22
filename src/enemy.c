@@ -63,6 +63,8 @@ void	enemy_on_attack(t_doom *doom, t_enemy *enemy)
 
 void	enemy_on_hit(t_doom *doom, t_enemy *enemy)
 {
+	if (enemy->health <= 0)
+		return ;
 	obj_state_change(enemy->obj, ENEMY_STATE_HIT);
 	enemy->health -= doom->weapon[doom->player.weapon].damage / sqrt(pow(enemy->obj->p.x - doom->player.where.x, 2) + pow(enemy->obj->p.y - doom->player.where.y, 2));
 	if (enemy->health <= 0)
@@ -119,6 +121,31 @@ void	enemy_on_framestart(t_doom *doom, t_enemy *enemy)
 	enemy->rot = v2_to_rot(enemy->dir);
 }
 
+t_enemy	*get_enemy_by_obj_id(t_doom *doom, int id)
+{
+	int		i;
+	t_enemy	*enemy;
+
+	i = 0;
+	while (i < doom->num.enemies)
+	{
+		enemy = &doom->enemies[i];
+		if (enemy->obj->n == id)
+			return (enemy);
+		i++;
+	}
+	return (NULL);
+}
+
+void	enemy_obj_on_hit(t_doom *doom, t_obj *obj)
+{
+	t_enemy *enemy;
+
+	printf("Enemy obj on hit\n");
+	enemy = get_enemy_by_obj_id(doom, obj->n);
+	enemy->on_hit(doom, enemy);
+}
+
 t_enemy	*create_enemy_default(t_doom *doom, t_obj *obj)
 {
 	t_enemy *enemy;
@@ -138,6 +165,7 @@ t_enemy	*create_enemy_default(t_doom *doom, t_obj *obj)
 	enemy->view_distance = 25.0f;
 	enemy->on_framestart = enemy_on_framestart;
 	enemy->on_attack = enemy_on_attack;
+	enemy->obj->on_hit = enemy_obj_on_hit;
 	enemy->on_hit = enemy_on_hit;
 	doom->enemies[doom->num.enemies] = *enemy;
 	doom->num.enemies++;

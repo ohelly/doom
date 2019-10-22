@@ -65,6 +65,30 @@ int		create_obj_key(t_doom *doom, t_obj *obj)
 	obj->on_collision = obj_collision_key_pickup;
 }
 
+void	obj_hit_explosive(t_doom *doom, t_obj *obj)
+{
+	obj_state_change(obj, 1);
+}
+
+int		create_obj_explosive(t_doom *doom, t_obj *obj)
+{
+	obj->col_passable = 1;
+	obj->col_size = 3.0f;
+	obj->on_hit = obj_hit_explosive;
+}
+
+void	obj_hit_breakable(t_doom *doom, t_obj *obj)
+{
+	obj_state_change(obj, 1);
+}
+
+int		create_obj_breakable(t_doom *doom, t_obj *obj)
+{
+	obj->col_passable = 0;
+	obj->col_size = 3.0f;
+	obj->on_hit = obj_hit_breakable;
+}
+
 int		create_obj_enemy_default(t_doom *doom, t_obj *obj)
 {
 	//enemies should ALWAYS be passable!
@@ -74,18 +98,84 @@ int		create_obj_enemy_default(t_doom *doom, t_obj *obj)
 	create_enemy_default(doom, obj);
 }
 
+void	obj_collision_ammo(t_doom *doom, t_obj *obj)
+{
+	int weapon;
+	int ammo;
+
+	if (obj->type == 10)
+	{
+		weapon = 1;
+		ammo = 10;
+	}
+	else if (obj->type == 11)
+	{
+		weapon = 2;
+		ammo = 5;
+	}
+	else if (obj->type == 12)
+	{
+		weapon = 3;
+		ammo = 20;
+	}
+	else
+		return ;
+	doom->weapon[weapon].ammo += ammo;
+	play_sound(doom, SOUND_PICKUP);
+	obj->enabled = 0;
+	printf("Picked up ammo!\n");
+}
+
+int		create_obj_ammo(t_doom *doom, t_obj *obj)
+{
+	obj->col_passable = 1;
+	obj->col_size = 3.0f;
+	obj->on_collision = obj_collision_ammo;
+}
+
+void	obj_collision_medkit(t_doom *doom, t_obj *obj)
+{
+	int health;
+
+	if (obj->type == 13)
+		health = 10;
+	else if (obj->type == 14)
+		health = 30;
+	if (obj->type == 15)
+		health = 60;
+	doom->player.hp += health;
+	doom->player.hp = clamp(doom->player.hp, 0, 100);
+	obj->enabled = 0;
+	play_sound(doom, SOUND_PICKUP);
+}
+
+int		create_obj_medkit(t_doom *doom, t_obj *obj)
+{
+	obj->col_passable = 1;
+	obj->col_size = 3.0f;
+	obj->on_collision = obj_collision_medkit;
+}
+
 int		create_obj(t_doom *doom, t_obj *obj)
 {
 	printf("Creating obj of type %d\n", obj->type);
 	if (obj->type == 0)
 		create_obj_box(doom, obj);
 	else if (obj->type == 1)
-		create_obj_key(doom, obj);
+		create_obj_explosive(doom, obj);
 	else if (obj->type == 2)
-		create_obj_decor(doom, obj);
-	else if (obj->type == 3)
+		create_obj_breakable(doom, obj);
+	else if (obj->type == 2)
+		create_obj_breakable(doom, obj);
+	else if (obj->type == 10 || obj->type == 11 || obj->type == 12)
+		create_obj_ammo(doom, obj);
+	else if (obj->type == 13)
+		create_obj_breakable(doom, obj);
+	else if (obj->type == 20)
 		create_obj_enemy_default(doom, obj);
 	return (1);
+	//create_obj_decor(doom, obj);
+	//create_obj_key(doom, obj);
 }
 
 int		loadobjs(t_doom *doom, t_obj *obj, t_data *objs_data, char *str)

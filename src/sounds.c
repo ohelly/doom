@@ -11,7 +11,7 @@ int		load_music(t_doom *doom)
 
 	s = &doom->sound[SOUND_SHOOT];
 	s->sound = Mix_LoadWAV("hit.wav");
-	s->volume = 60;
+	s->volume = 100;
 
 	s = &doom->sound[SOUND_PICKUP];
 	s->sound = Mix_LoadWAV("pickup.wav");
@@ -65,16 +65,11 @@ int		sound_free_everything(t_doom *doom)
 {
 	int i;
 
-	i = 0;
-	while (i < 2)
-	{
+	i = -1;
+	while (++i < 2)
 		Mix_FreeMusic(doom->music[i].music);
-		i++;
-	}
-	i = 0;
-	while (i < 10)
-	{
+	i = -1;
+	while (++i < 10)
 		Mix_FreeChunk(doom->sound[i].sound);
-		i++;
+	return (1);
 	}
-}
