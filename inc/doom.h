@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/22 19:09:23 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/22 22:08:15 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -303,7 +303,7 @@ typedef struct	s_hudel
 	TTF_Font	*f; // Font
 	char		*t; // Title
 	SDL_Surface	*s; // Surface
-	char		*p; // Pixels
+	unsigned char		*p; // Pixels
 	int			w; // Width
 	int			h; // Height
 	int			x; // Offset X

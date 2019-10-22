@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/17 15:21:54 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/22 22:12:00 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,7 @@ int		hooks(t_doom *doom, SDL_Event ev)
 	if (ev.type == SDL_MOUSEBUTTONDOWN)
 		if (ev.button.button == SDL_BUTTON_LEFT)
 		{
+			load_hud(doom);
 			if (doom->weapon[doom->player.weapon].anim_frame == 0)
 				doom->weapon[doom->player.weapon].states_frame = 1;
 			doom->lkey = 1;

@@ -6,7 +6,7 @@
 /*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 20:36:12 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/22 19:35:40 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/22 22:11:31 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,10 +27,11 @@ static int		load_hudel(t_hudel *e)
 static int		load_hud_health(t_doom *doom)
 {
 	t_hudel		*e;
+	static int	hp = 100;
 
 	e = &doom->hud->health;
 	e->f = doom->hud->font;
-	e->t = "100%";
+	e->t = ft_strjoin(ft_itoa(hp--), "%");
 	load_hudel(e);
 	e->x = 20;
 	e->y = HEIGHT - e->h - 20;

@@ -6,7 +6,7 @@
 /*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 17:27:54 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/22 19:26:10 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/22 22:14:28 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static void		drawhudel(t_hudel e, int *pix)
 		while (++j < e.w)
 		{
 			n = (e.y + i) * WIDTH + e.x + j;
-			m = i * e.w + j;
+			m = i * e.s->pitch + j * e.s->format->BytesPerPixel;
 			if (e.p[m] != 0 && j >= 0)
 				pix[n] = e.c;
 			else if ((j < 0 && e.p[m + 1] != 0) || (j >= 0 && (e.p[m + 1] != 0
