@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 17:09:53 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/15 16:07:53 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/22 14:34:49 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,7 +74,9 @@ void		split(t_doom *doom)
 		return ;
 	}
 	doom->swall->wall2 = num_walls(doom, doom->swall->v2, doom->swall->sec);
-	flip(doom, doom->swall);
+	if (!(lines_intersect_loop(doom, doom->verts->list[doom->swall->v1].pos,
+								doom->verts->list[doom->swall->v2].pos)))
+		flip(doom, doom->swall);
 	*doom->swall = (t_swall){ -1, -1, -1, -1, -1 };
 	doom->sects->selected_sector = -1;
 }
