@@ -321,6 +321,7 @@ int		load_game(t_doom *doom)
 		}
 		objects_update(doom);
 		enemies_update(doom);
+		player_blood_update(doom);
 		calc_jump(doom, &doom->player, doom->sectors, doom->fps);
 		if (doom->player.move == 1)
 			calciswall(doom, &doom->player);

@@ -9,16 +9,28 @@ int		load_music(t_doom *doom)
 	m->music = Mix_LoadMUS("./music.mp3");
 	m->volume = 0;
 
-	s = &doom->sound[0];
+	s = &doom->sound[SOUND_SHOOT];
 	s->sound = Mix_LoadWAV("hit.wav");
-	s->volume = 100;
+	s->volume = 60;
 
-	s = &doom->sound[1];
+	s = &doom->sound[SOUND_PICKUP];
 	s->sound = Mix_LoadWAV("pickup.wav");
 	s->volume = 100;
 
-	s = &doom->sound[2];
+	s = &doom->sound[SOUND_DEATH];
 	s->sound = Mix_LoadWAV("death.wav");
+	s->volume = 100;
+
+	s = &doom->sound[SOUND_INTERACT];
+	s->sound = Mix_LoadWAV("interact.wav");
+	s->volume = 100;
+
+	s = &doom->sound[SOUND_E_ATTACK];
+	s->sound = Mix_LoadWAV("enemy_attack.wav");
+	s->volume = 100;
+
+	s = &doom->sound[SOUND_LOSS];
+	s->sound = Mix_LoadWAV("lost.wav");
 	s->volume = 100;
 	printf("Music loaded!\n");
 }
@@ -30,7 +42,7 @@ int		play_sound(t_doom *doom, int index)
 
 	if (index >= 10 || index < 0)
 		return (0);
-	printf("Playing sound with %d index, %d volume\n", index, doom->sound[index].volume);
+	//printf("Playing sound with %d index, %d volume\n", index, doom->sound[index].volume);
 	sound = doom->sound[index].sound;
 	ch = Mix_PlayChannel(-1, sound, 0);
 	Mix_Volume(ch, doom->sound[index].volume);
@@ -43,7 +55,7 @@ int		play_music(t_doom *doom, int index)
 
 	if (index >= 2 || index < 0)
 		return(0);
-	printf("Playing music with %d index, %d volume\n", index, doom->music[index].volume);
+	//printf("Playing music with %d index, %d volume\n", index, doom->music[index].volume);
 	music = doom->music[index].music;
 	Mix_PlayMusic(music, -1);
 	Mix_VolumeMusic(doom->music[index].volume);

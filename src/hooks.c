@@ -60,12 +60,11 @@ int		find_pic_interaction(t_doom *doom)
 					doom->sectors[doom->player.sector].light = 80 / 100.f;
 					t = 0;
 				}
-				break ;
+				return (1);
 			}
 		}
 		i++;
 	}
-	
 	return (0);
 }
 
@@ -120,9 +119,8 @@ int		keydown(t_doom *doom, SDL_Event ev)
 		doom->wsad[3] = 1;
 	if (ev.key.keysym.sym == 'e')
 	{
-		find_door(doom, doom->player);
-		find_pic_interaction(doom);
-		find_obj_interaction(doom);
+		if (find_door(doom, doom->player) || find_pic_interaction(doom) || find_obj_interaction(doom))
+			play_sound(doom, SOUND_INTERACT);
 	}
 	if (ev.key.keysym.sym == '\t')
 	{

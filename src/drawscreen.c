@@ -592,7 +592,7 @@ int			draw_wall_shots(t_doom *doom, t_player player, t_pics *pic, t_cood *cood)
 			i++;
 			continue ;
 		}
-		printf("i - %d\n", i);
+		//printf("i - %d\n", i);
 		ybord.y = 0;
 		ybord.x = HEIGHT - 1;
 		cood->picnum[i] = i;

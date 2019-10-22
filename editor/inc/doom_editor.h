@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/18 15:55:38 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/22 14:31:32 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -371,6 +371,11 @@ void					draw_sector(t_doom *doom, int sector, int color);
 void					draw_wall(t_doom *doom, t_wall wall, int color);
 int						draw_rectangle(t_doom *doom, t_v2 pos, int color,
 																	int size);
+int						check_sprite(t_doom *doom, int sw, int aw);
+void					correction_height_sprite(t_doom *doom);
+void					height_spr(int x, int y, t_all_spr_wall *aspr,
+															t_all_sect *sectors);
+int						lines_intersect_loop(t_doom *doom, t_v2 p1, t_v2 p2);
 
 /*
 **	Math

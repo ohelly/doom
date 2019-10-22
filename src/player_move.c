@@ -122,3 +122,55 @@ int		find_obj_interaction(t_doom *doom)
 	}
 	return (0);
 }
+
+int	rgb_mix(int rgb1, int rgb2, float percent)
+{
+	float percent2;
+
+	percent = clamp(percent, 0, 1);
+	percent2 = 1 - percent;
+	rgb1 = ((int)(((rgb1 >> 16) & 0xff) * percent +
+				((rgb2 >> 16) & 0xff) * percent2) << 16) |
+			((int)(((rgb1 >> 8) & 0xff) * percent +
+				((rgb2 >> 8) & 0xff) * percent2) << 8) |
+			((int)((rgb1 & 0xff) * percent +
+				(rgb2 & 0xff) * percent2));
+	return (rgb1);
+}
+
+int		player_blood_update(t_doom *doom)
+{
+	int		i;
+	int		size;
+	float	intensity;
+
+	intensity = doom->player.blood;
+	if (intensity <= 0)
+		return (0);
+	size = WIDTH * HEIGHT;
+	i = 0;
+	while (i < size)
+	{
+		doom->sdl->pix[i] = rgb_mix(0xff0000, doom->sdl->pix[i], intensity);
+		i++;
+	}
+	doom->player.blood -= doom->fps.time_frame;
+	doom->player.blood = clamp(doom->player.blood, 0.0f, 1.0f);
+	return (1);
+}
+
+int		player_take_damage(t_doom *doom, int damage)
+{
+	if (doom->player.hp < 0)
+		return (0);
+
+	doom->player.blood = 0.4f;
+	doom->player.hp -= damage;
+	if (doom->player.hp <= 0)
+	{
+		play_sound(doom, SOUND_LOSS);
+		doom->player.blood = 1.0f;
+		printf("You are dead!\n");
+	}
+	return (1);
+}
