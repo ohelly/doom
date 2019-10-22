@@ -42,7 +42,7 @@ int		play_sound(t_doom *doom, int index)
 
 	if (index >= 10 || index < 0)
 		return (0);
-	printf("Playing sound with %d index, %d volume\n", index, doom->sound[index].volume);
+	//printf("Playing sound with %d index, %d volume\n", index, doom->sound[index].volume);
 	sound = doom->sound[index].sound;
 	ch = Mix_PlayChannel(-1, sound, 0);
 	Mix_Volume(ch, doom->sound[index].volume);
@@ -55,7 +55,7 @@ int		play_music(t_doom *doom, int index)
 
 	if (index >= 2 || index < 0)
 		return(0);
-	printf("Playing music with %d index, %d volume\n", index, doom->music[index].volume);
+	//printf("Playing music with %d index, %d volume\n", index, doom->music[index].volume);
 	music = doom->music[index].music;
 	Mix_PlayMusic(music, -1);
 	Mix_VolumeMusic(doom->music[index].volume);
