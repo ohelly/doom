@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/22 20:01:56 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/22 21:49:44 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,11 @@ int		find_pic_interaction(t_doom *doom)
 					t = 0;
 				}
 				return (1);
+			}
+			if (doom->pics[i].type == 0)
+			{
+				doom->pics[i].states_frame = 1;
+				doom->pics[i].anim_frame = 0;
 			}
 		}
 		i++;
@@ -251,11 +256,15 @@ int		shoot_wall(t_doom *doom, t_player player, t_sectors *sectors)
 		doom->shot_pics[n].p.z = pz + tanf(atanf(-player.yaw)) * (sqrtf(powf(p.x - doom->player.where.x, 2) + powf(p.y - doom->player.where.y, 2)));
 		doom->shot_pics[n].sector = sector;
 		doom->shot_pics[n].wall = doom->lookwall[sector];
+		//printf("neighbor - %d\n", s->neighbors[doom->lookwall[sector]]);
 		if (s->neighbors[doom->lookwall[sector]] < 0)
 		{
 			if (doom->shot_pics[n].p.z > s->ceil || doom->shot_pics[n].p.z < s->floor)
+			{
+				printf("Ok\n");
 				return (0);
-			findpicpoints(doom, &doom->shot_pics[n], doom->img[doom->shot_pics[n].images[0][0]].w / 40);
+			}
+			findpicpoints(doom, &doom->shot_pics[n], (float)(doom->img[doom->shot_pics[n].images[0][0]].w) / 64);
 			doom->shot_pics[n].neighbor = -1;
 			break ;
 		}
@@ -266,7 +275,9 @@ int		shoot_wall(t_doom *doom, t_player player, t_sectors *sectors)
 			if ((doom->shot_pics[n].p.z > sectors[s->neighbors[doom->lookwall[sector]]].ceil && doom->shot_pics[n].p.z < s->ceil)
 			|| (doom->shot_pics[n].p.z < sectors[s->neighbors[doom->lookwall[sector]]].floor && doom->shot_pics[n].p.z > s->floor))
 			{
-				findpicpoints(doom, &doom->shot_pics[n], doom->img[doom->shot_pics[n].images[0][0]].w / 40);
+			//	printf("top - %f, bot - %f, pz - %f\n", sectors[s->neighbors[doom->lookwall[sector]]].ceil, sectors[s->neighbors[doom->lookwall[sector]]].floor, doom->shot_pics[n].p.z );
+			//	printf("Ok\n");
+				findpicpoints(doom, &doom->shot_pics[n], (float)(doom->img[doom->shot_pics[n].images[0][0]].w) / 64);
 				break ;
 			}
 			sector = s->neighbors[doom->lookwall[sector]];
@@ -283,9 +294,7 @@ int		shoot_wall(t_doom *doom, t_player player, t_sectors *sectors)
 	//doom->shot_pics[n].p2 = w2;
 	//printf("x - %f, y - %f\n",doom->pics[0].p.x, doom->pics[0].p.y);
 	doom->num_shots = n + 1;
-	if (doom->num_shots >= 32)
-		doom->num_shots = 32;
-	//printf("n - %d\n", n);
+	printf("n - %d\n", n);
 	n++;
 
 	return (0);
@@ -316,7 +325,8 @@ int		hooks(t_doom *doom, SDL_Event ev)
 			if (doom->player.weapon == 0)
 				find_pic_interaction(doom);
 			shoot(doom);
-			shoot_wall(doom, doom->player, doom->sectors);
+			if (doom->player.weapon)
+				shoot_wall(doom, doom->player, doom->sectors);
 			//printf("Weapon %d, Ammo - %d\n", doom->player.weapon, doom->weapon[doom->player.weapon].ammo);
 		}
 		if (ev.button.button == SDL_BUTTON_RIGHT)

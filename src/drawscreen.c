@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/21 19:29:58 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/22 21:48:45 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ void	vline3(int x, t_ab_i wy, t_scaler ty, t_doom *doom)
 	if (doom->isshoot)
 		set = doom->img[doom->shot_pics[doom->cood.num].images[0][0]];
 	else
-		set = doom->img[doom->pics[doom->cood.num].images[0][doom->pics[doom->cood.num].anim_frame]];
+		set = doom->img[doom->pics[doom->cood.num].images[doom->pics[doom->cood.num].states_frame][doom->pics[doom->cood.num].anim_frame]];
     while (y <= y2)
     {
         txty = scaler_next(&ty);
@@ -504,10 +504,11 @@ int			calc_pics(t_doom *doom, t_pics *pic, t_cood *cood, t_player player)
 			if (doom->a == 1)
 			{
 				pic[i].anim_frame++;
-				if (pic[i].anim_frame >= pic[i].anim_count[0] ||
+				if (pic[i].anim_frame >= pic[i].anim_count[pic[i].states_frame] ||
 					pic[i].images[pic[i].states_frame][pic[i].anim_frame] == -1)
 					pic[i].anim_frame = 0;
 			}
+			//printf("satte - %d, anim - %d\n", pic[i].states_frame, pic[i].anim_frame);
 			cood->picnum[count] = i;
 			cood->pv1[count].x = pic[i].p1.x - player.where.x;
 			cood->pv1[count].y = pic[i].p1.y - player.where.y;
@@ -647,7 +648,7 @@ int			draw_wall_shots(t_doom *doom, t_player player, t_pics *pic, t_cood *cood)
 			i++;
 			continue ;
 		}
-		cood->pyceil[i] = pic[i].p.z + doom->sectors[doom->now.sector].floor + doom->img[pic[i].images[0][0]].h / 7 - player.where.z;
+		cood->pyceil[i] = pic[i].p.z + doom->sectors[doom->now.sector].floor + (float)(doom->img[pic[i].images[0][0]].h) / 10.f - player.where.z;
 		cood->pyfloor[i] = pic[i].p.z + doom->sectors[doom->now.sector].floor - player.where.z;
 		cood->pw1y[i].a = HEIGHT / 2 - (int)(yaw(cood->pyceil[i] , cood->pt1[i].z, player) * cood->pscale1[i].y);
 		cood->pw1y[i].b = HEIGHT / 2 - (int)(yaw(cood->pyfloor[i], cood->pt1[i].z, player) * cood->pscale1[i].y);

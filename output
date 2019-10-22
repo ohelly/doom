@@ -1,104 +1,10 @@
-count - 1
-ind - 0
-TXT - 0
-sky img - 0
-count - 4
-ind - 1
-TXT - 1
-ind - 2
-TXT - 2
-ind - 3
-TXT - 3
-ind - 4
-TXT - 4
-walls img - 1, i - 4
-count - 2
-ind - 5
-TXT - 5
-ind - 6
-TXT - 6
-ceils img - 5, i - 10
-count - 2
-ind - 7
-TXT - 7
-ind - 8
-TXT - 8
-floors img - 7
-wep states - 2
-wep anim - 1
-wep anim - 3
-ind - 9
-ind - 10
-ind - 11
-ind - 12
-wep states - 3
-wep anim - 1
-wep anim - 2
-wep anim - 9
-ind - 13
-ind - 14
-ind - 15
-ind - 16
-ind - 17
-ind - 18
-ind - 19
-ind - 20
-ind - 21
-ind - 22
-ind - 23
-ind - 24
-wep states - 2
-wep anim - 1
-wep anim - 7
-ind - 25
-ind - 26
-ind - 27
-ind - 28
-ind - 29
-ind - 30
-ind - 31
-ind - 32
-wep states - 2
-wep anim - 1
-wep anim - 6
-ind - 33
-ind - 34
-ind - 35
-ind - 36
-ind - 37
-ind - 38
-ind - 39
-ind - 40
-ind - 41
-ind - 42
-ind - 43
-ind - 44
-ind - 45
-ind - 46
-ind - 47
-ind - 48
-ind - 49
-ind - 50
-ind - 51
-ind - 52
-ind - 53
-ind - 54
-ind - 55
-ind - 56
-ind - 57
-ind - 58
-ind - 59
-ind - 60
-ind - 61
-ind - 62
-ind - 63
-ind - 64
-ind - 65
-ind - 66
+Loading map.
+Map loaded.
+B img - 10
 NumVertexes - 10
 NumSectors - 4
 NumObjs - 8
-NumPics - 3
+NumPics - 6
 
 
 
@@ -116,20 +22,30 @@ anglesin - 0.000000
 anglecos - 1.000000
 x - 60.000000
 y - 25.000000
+bullet - 10
 Audio loaded successfully!
 Music loaded!
 Textures loaded.
-n - 0
-n - 1
-Ok 1
-n - 2
-Ok 1
-n - 3
-Ok 1
-n - 4
-Ok 0
-n - 5
-Ok 0
-n - 6
-Ok 0
-n - 7
+Weapon 1, Ammo - 69
+Weapon 1, Ammo - 68
+Weapon 1, Ammo - 67
+Weapon 1, Ammo - 66
+Weapon 1, Ammo - 65
+Weapon 1, Ammo - 64
+Weapon 1, Ammo - 63
+Weapon 2, Ammo - 9
+Weapon 2, Ammo - 8
+Weapon 2, Ammo - 7
+Weapon 2, Ammo - 6
+Weapon 2, Ammo - 5
+Weapon 2, Ammo - 4
+Weapon 2, Ammo - 3
+Weapon 2, Ammo - 2
+Weapon 1, Ammo - 62
+Weapon 1, Ammo - 61
+Weapon 1, Ammo - 60
+Weapon 1, Ammo - 59
+Weapon 1, Ammo - 58
+Weapon 1, Ammo - 57
+Weapon 1, Ammo - 56
+Weapon 1, Ammo - 55

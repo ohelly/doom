@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:21:04 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/22 19:54:40 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/22 21:43:34 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,6 +139,11 @@ int		load_texture_data(char **map, t_doom *doom)
 			doom->floors = load_texture(&map[i], doom->floors, doom->img);
 			//printf("floors img - %d\n", doom->floors[0].image);
 		}
+		if (*map[i] == 'B') //floor
+		{
+			doom->bullet = load_texture(&map[i], doom->bullet, doom->img);
+			printf("B img - %d\n", doom->bullet[0].image);
+		}
 		i++;
 	}
 	return (0);
@@ -246,10 +251,10 @@ int		count_params_pic(char *map, t_data *pic)
 	map = todigit(map, &tmp);
 	map = todigit(map, &tmp);
 	pic->type = (int)tmp;
-//	printf("pic type - %d\n", pic->type);
+	//printf("pic type - %d\n", pic->type);
 	map = todigit(map, &tmp);
 	pic->states_count = (int)tmp;
-//	printf("pic states - %d\n", pic->states_count);
+	//printf("pic states - %d\n", pic->states_count);
 	pic->images = (int**)ft_memalloc(sizeof(int*) * pic->states_count);
 	pic->anim_count = (int*)ft_memalloc(sizeof(int) * pic->states_count);
 	n = 0;
@@ -275,12 +280,15 @@ int		load_pic(char **map, t_data *pic, t_img *img)
 	t = 1;
 	n = 0;
 	count_params_pic(map[i], pic);
+	printf("states - %d\n", pic->states_count);
 	while (n < pic->states_count)
 	{
 		a = 0;
+		printf("anim - %d\n", pic->anim_count[n]);
 		while (a < pic->anim_count[n])
 		{
 			load_image(map[i + t], &pic->images[n][a], img);
+			printf("ind - %d\n", pic->images[n][a]);
 			t++;
 			a++;
 		}
@@ -453,14 +461,15 @@ int		load_data(t_doom *doom, char **map)
 	return (0);
 }
 
-int		load_shot_pics(t_pics *shots)
+int		load_shot_pics(t_pics *shots, t_texture *bullet)
 {
 	int		i;
 	t_pics	p;
 
 	p.images = (int**)ft_memalloc(sizeof(int*) * 1);
 	p.images[0] = (int*)ft_memalloc(sizeof(int) * 1);
-	p.images[0][0] = 20;
+	p.images[0][0] = bullet->image;
+	printf("bullet - %d\n", bullet->image);
 	p.type = 5;
 	i = 0;
 	while (i < 64)
@@ -510,7 +519,7 @@ int		load_params(t_doom *doom, char **map)
 	}
 	doom->player.where.z = doom->sectors[doom->player.sector].floor + EyeHeight;
 	doom->wall_col_size = 0.1f;
-	load_shot_pics(doom->shot_pics);
+	load_shot_pics(doom->shot_pics, &doom->bullet[0]);
 	free(v);
 	return (0);
 }

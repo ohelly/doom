@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/21 17:31:59 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/22 21:26:15 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -340,6 +340,7 @@ typedef struct	s_doom
 	t_texture	*walls;
 	t_texture	*floors;
 	t_texture	*ceils;
+	t_texture	*bullet;
 	t_obj		*objs;
 	t_data		*objs_data;
 	t_pics		*pics;
@@ -403,6 +404,7 @@ typedef struct		s_enemy
 	void			(*on_framestart)(t_doom *doom, struct s_enemy *enemy);
 }					t_enemy;
 
+int		findpicpoints(t_doom *doom, t_pics *pic, float w);
 int		loadall(t_doom *doom);
 int		initall(t_doom *doom);
 int		countall(t_doom *doom, char **map);

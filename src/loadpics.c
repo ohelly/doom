@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 13:47:25 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/21 16:37:27 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/22 21:44:21 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		findvx(t_xy *v1, t_xy *v2, t_xy *vert, int wall)
 	return (0);
 }
 
-int		findpicpoints(t_doom *doom, t_pics *pic, int w)
+int		findpicpoints(t_doom *doom, t_pics *pic, float w)
 {
 	t_xy	d1;
 	t_xy	d2;
@@ -30,6 +30,7 @@ int		findpicpoints(t_doom *doom, t_pics *pic, int w)
 	float	dist1;
 	float	dist2;
 
+	printf("W - %f\n", w);
 	findvx(&v1, &v2, doom->sectors[pic->sector].vert, pic->wall);
 	d1.x = v1.x - pic->p.x;
 	d1.y = v1.y - pic->p.y;
