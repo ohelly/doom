@@ -153,8 +153,10 @@ int      drawobj(t_doom *doom, t_obj *obj, t_xy pos)
 	t_xyz	t;
 	t_xy	scale;
 
+	printf("drawing obj of type %d\n", obj->type);
 	if (obj->enabled == 0)
 		return (0);
+	printf("drawing\n");
 	v.x = obj->p.x - doom->player.where.x;
 	v.y = obj->p.y - doom->player.where.y;
 	t.x = v.x * doom->player.psin - v.y * doom->player.pcos;
@@ -166,9 +168,11 @@ int      drawobj(t_doom *doom, t_obj *obj, t_xy pos)
 	}
 	if (t.z <= 0)
 		return (0);
+	printf("drawing2\n");
 	scale.x = (HFOV * WIDTH) / t.z;
 	scale.y = (VFOV * HEIGHT) / t.z;
 	findobjxy2(t, scale, obj, doom);
+	printf("drawn\n");
     return (1);
 }
 

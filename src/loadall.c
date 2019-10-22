@@ -171,6 +171,8 @@ int		count_params_obj(char *map, t_data *obj)
 	map = todigit(map, &tmp);
 	map = todigit(map, &tmp);
 	obj->type = (int)tmp;
+	if (obj->type < 0)
+		obj->type = 0;
 	printf("obj type %d\n", obj->type);
 	map = todigit(map, &tmp);
 	obj->states_count = (int)tmp;
