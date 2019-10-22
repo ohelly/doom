@@ -1,178 +1,160 @@
-typedef struct	s_v2
-{
-	float x;
-	float y;
-}				t_v2;
+#include "doom.h"
 
-typedef struct	s_enemy
+//	N NE E SE S SW W WN
+int		rotate_enemy(t_doom *doom, t_enemy *enemy)
 {
-	t_v2	pos;
-	//direction vector
-	t_v2	dir;
-	//rotation is stored in radians
-	float	rot;
-	//0 - wandering, 1 - attacking
-	float	view_distance;
-	float	move_speed;
+	float	player_deg;
+	float	enemy_deg;
+	float	angle;
 	int		state;
-	int		health;
-	int		txt_index;
-	float	attack_speed;
-	float	attack_cd;
-	int		attack_damage;
-	void	(*on_attack)(t_enemy *enemy);
-	void	(*on_hit)(t_enemy *enemy);
-	void	(*on_framestart)(t_enemy *enemy);
-}				t_enemy;
 
-//math functions
-t_v2	rot_to_v2(float rot)
-{
-	t_v2	v2;
-
-	v2.x = cos(rot);
-	v2.y = sin(rot);
-	return (v2);
+	player_deg = v2_to_rot(v2_subtract((t_xy){doom->player.where.x, doom->player.where.y}, enemy->obj->p));
+	player_deg = rad_to_deg(player_deg);
+	enemy_deg = enemy->rot;
+	enemy_deg = rad_to_deg(enemy_deg);
+	angle = enemy_deg - player_deg + 22.5f;
+	if (angle < 0)
+		angle += 360;
+	state = (int)(angle / 45);
+	return (state);
 }
 
-float	v2_to_rot(t_v2 v2)
+//if player is within enemy's range and in same sector,	return 1
+//otherwise												return 0
+int		detect_player(t_doom *doom, t_enemy *enemy)
 {
-	return(atan2(v2.y, v2.x));
+	t_xy player_pos;
+
+	player_pos = (t_xy){doom->player.where.x, doom->player.where.y};
+	if (enemy->obj->sector == doom->player.sector &&
+		distance(player_pos, enemy->obj->p) <= enemy->view_distance)
+		return (1);
+	return (0);
 }
 
-t_v2	v2_add(t_v2 v1, t_v2 v2)
+//if new_pos is not in the wall		return 1
+//otherwise							return 0
+int		can_move(t_doom *doom, t_enemy *enemy, t_xy new_pos)
 {
-	t_v2 tmp;
+	t_sectors	*s;
+	t_xy		*v;
+	int			n;
 
-	tmp.x = v1.x + v2.x;
-	tmp.y = v1.y + v2.y;
-	return (tmp);
-}
-
-t_v2	v2_addf(t_v2 v2, float f)
-{
-	t_v2 tmp;
-
-	tmp.x = v2.x + f;
-	tmp.y = v2.y + f;
-	return (tmp);
-}
-
-t_v2	v2_subtract(t_v2 v1, t_v2 v2)
-{
-	t_v2 tmp;
-
-	tmp.x = v1.x - v2.x;
-	tmp.y = v1.y - v2.y;
-	return (tmp);
-}
-
-t_v2	v2_multf(t_v2 v2, float f)
-{
-	t_v2 tmp;
-
-	tmp.x = v2.x * f;
-	tmp.y = v2.y * f;
-	return (tmp);
-}
-
-float	distance(t_v2 p1, t_v2 p2)
-{
-	t_v2	tmp;
-	float	distance;
-
-	tmp.x = p2.x - p1.x;
-	tmp.y = p2.y - p1.y;
-	distance = sqrt((tmp.x * tmp.x) + (tmp.y * tmp.y));
-	return (distance);
-}
-//math functions
-
-int		detect_player(t_enemy *enemy)
-{
-	t_v2 player_pos;
-
-	player_pos = (t_v2){0, 0};
-	if (distance(player_pos, enemy->pos) > enemy->view_distance)
-		return (0);
-	//if player is within enemy's range and is seen		return 1
-	//otherwise											return 0
+	s = &doom->sectors[enemy->obj->sector];
+	v = s->vert;
+	n = 0;
+	new_pos = v2_add(new_pos, v2_multf(enemy->dir, enemy->obj->col_size));
+	while (n < s->npoints)
+	{
+		if (collision_box_dir(enemy->obj->p, new_pos, v[n], v[n + 1]))
+			return (0);
+		n++;
+	}
 	return (1);
 }
 
-int		can_move(t_v2 new_pos)
-{
-	//if new_pos is not in the wall		return 1
-	//otherwise							return 0
-	return (1);
-}
-
-void	enemy_on_attack(t_enemy *enemy)
+void	enemy_on_attack(t_doom *doom, t_enemy *enemy)
 {
 	enemy->attack_cd = enemy->attack_speed;
+	player_take_damage(doom, enemy->attack_damage);
+	play_sound(doom, SOUND_E_ATTACK);
 	//launch projectile towards enemy rotation
 }
 
-void	enemy_on_hit(t_enemy *enemy)
+void	enemy_on_hit(t_doom *doom, t_enemy *enemy)
 {
-	enemy->health -= 1;
-	//change texture to enemy_hit, spawn particles, etc
+	obj_state_change(enemy->obj, ENEMY_STATE_HIT);
+	enemy->health -= doom->weapon[doom->player.weapon].damage / sqrt(pow(enemy->obj->p.x - doom->player.where.x, 2) + pow(enemy->obj->p.y - doom->player.where.y, 2));
 	if (enemy->health <= 0)
-		enemy->txt_index = 1; //change to enemy_dead texture
+	{
+		obj_state_change(enemy->obj, ENEMY_STATE_DEAD);
+		play_sound(doom, SOUND_DEATH);
+	}
 }
 
-void	enemy_on_framestart(t_enemy *enemy)
+float	random_range(float min, float max)
 {
-	t_v2	move_pos;
+	return (min + (max - min) * ((double)rand() / RAND_MAX * 2.0 - 1.0));
+}
 
-	if (enemy->health <= 0)
+void	enemy_on_framestart(t_doom *doom, t_enemy *enemy)
+{
+	t_xy	move_pos;
+
+	if (enemy->health <= 0 || enemy->obj->enabled == 0)
 		return ;
 	if (enemy->state == 0)
 	{
-		move_pos = v2_add(enemy->pos, v2_multf(v2_multf(enemy->dir, enemy->move_speed), frametime));
-		if (can_move(move_pos))
-			enemy->pos = move_pos;
+		move_pos = v2_add(enemy->obj->p, v2_multf(enemy->dir, (enemy->move_speed * doom->fps.time_frame)));
+		if (can_move(doom, enemy, move_pos))
+		{
+			enemy->obj->p = move_pos;
+		}
 		else
 		{
-			//change dir, idk
-			enemy->dir.x *= -1;
-			enemy->dir.y *= -1;
+			t_xy new_dir = v2_normalize((t_xy){random_range(-1, 1), random_range(-1, 1)});
+			enemy->dir = new_dir;
 		}
-		if (detect_player(enemy))
+		if (detect_player(doom, enemy))
 			enemy->state = 1;
+		if (enemy->obj->states_frame != ENEMY_STATE_HIT || doom->a == 1)
+			obj_state_change(enemy->obj, rotate_enemy(doom, enemy));
 	}
 	else if (enemy->state == 1)
 	{
-		//rotate towards player
+		if (detect_player(doom, enemy) != 1)
+			enemy->state = 0;
 		if (enemy->attack_cd > 0)
-			enemy->attack_cd -= frametime;
+		{
+			enemy->attack_cd -= doom->fps.time_frame;
+			if (doom->a == 1 && enemy->obj->anim_frame == 0)
+				obj_state_change(enemy->obj, ENEMY_STATE_IDLE);
+		}
 		else
-			enemy->on_attack(enemy);
+		{
+			enemy->on_attack(doom, enemy);
+			obj_state_change(enemy->obj, ENEMY_STATE_ATTACK);
+		}
 	}
 	enemy->rot = v2_to_rot(enemy->dir);
-	draw_sprite(enemy->pos, enemy->txt_index);
 }
 
-t_enemy	create_enemy()
+t_enemy	*create_enemy_default(t_doom *doom, t_obj *obj)
 {
-	t_enemy enemy;
+	t_enemy *enemy;
+	t_xy new_dir;
 
-	enemy.pos = (t_v2){0, 0};
+	enemy = (t_enemy*)malloc(sizeof(t_enemy));
+	enemy->obj = obj;
+	enemy->obj->enabled = 1;
 	//dir is normalized vector and shouldn't be 0
-	enemy.dir = (t_v2){1, 1};
-	enemy.state = 0;
-	enemy.health = 3;
-	enemy.txt_index = 0;
-	enemy.attack_speed = 3.0f;
-	enemy.attack_damage = 5;
-	enemy.on_framestart = enemy_on_framestart;
-	enemy.on_attack = enemy_on_attack;
-	enemy.on_hit = enemy_on_hit;
+	new_dir = v2_normalize((t_xy){random_range(-1, 1), random_range(-1, 1)});
+	enemy->dir = new_dir;
+	enemy->state = 0;
+	enemy->health = 10;
+	enemy->attack_speed = 3.0f;
+	enemy->attack_damage = (int)random_range(4, 7);
+	enemy->move_speed = 8;
+	enemy->view_distance = 25.0f;
+	enemy->on_framestart = enemy_on_framestart;
+	enemy->on_attack = enemy_on_attack;
+	enemy->on_hit = enemy_on_hit;
+	doom->enemies[doom->num.enemies] = *enemy;
+	doom->num.enemies++;
 	return (enemy);
 }
 
-void	enemies_update()
+void	enemies_update(t_doom *doom)
 {
-	//foreach enemy in enemies_array
-	//	enemy.on_framestart();
+	int		i;
+	t_enemy *enemy;
+
+	i = 0;
+	while (i < doom->num.enemies)
+	{
+		enemy = &doom->enemies[i];
+		if (enemy->obj->enabled && enemy->health > 0)
+			enemy->on_framestart(doom, enemy);
+		i++;
+	}
 }
