@@ -6,7 +6,7 @@
 #    By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/02 20:58:32 by lminta            #+#    #+#              #
-#    Updated: 2019/10/17 13:23:10 by dtoy             ###   ########.fr        #
+#    Updated: 2019/10/20 12:25:34 by dtoy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -33,6 +33,7 @@ OBJ = src/main.o src/initall.o src/loadall.o src/countall.o src/loadsectors.o sr
 src/loadobjs.o src/loadpics.o src/loadplayer.o src/loadgame.o src/hooks.o src/profiling.o src/rgb_manipulations.o \
 src/drawsprites.o src/drawscreen.o src/drawweapon.o src/vector_math.o src/object_triggers.o src/player_move.o \
 src/colliders.o src/enemy.o src/sounds.o
+
 all: $(FRAMEDIR) $(LIBS) $(FRAME) $(NAME)
 
 $(NAME): $(OBJ)

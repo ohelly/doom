@@ -1,5 +1,6 @@
 #include "doom.h"
 
+//	N NE E SE S SW W WN
 int		rotate_enemy(t_doom *doom, t_enemy *enemy)
 {
 	float	player_deg;
@@ -55,18 +56,19 @@ int		can_move(t_doom *doom, t_enemy *enemy, t_xy new_pos)
 void	enemy_on_attack(t_doom *doom, t_enemy *enemy)
 {
 	enemy->attack_cd = enemy->attack_speed;
+	player_take_damage(doom, enemy->attack_damage);
+	play_sound(doom, SOUND_E_ATTACK);
 	//launch projectile towards enemy rotation
 }
 
 void	enemy_on_hit(t_doom *doom, t_enemy *enemy)
 {
-	enemy->health -= 1;
-	//change texture to enemy_hit, spawn particles, etc
-	printf("Enemy took damage!\n");
+	obj_state_change(enemy->obj, ENEMY_STATE_HIT);
+	enemy->health -= doom->weapon[doom->player.weapon].damage / sqrt(pow(enemy->obj->p.x - doom->player.where.x, 2) + pow(enemy->obj->p.y - doom->player.where.y, 2));
 	if (enemy->health <= 0)
 	{
-		obj_state_change(enemy->obj, 8); //change to enemy_dead texture
-		play_sound(doom, 2);
+		obj_state_change(enemy->obj, ENEMY_STATE_DEAD);
+		play_sound(doom, SOUND_DEATH);
 	}
 }
 
@@ -91,20 +93,28 @@ void	enemy_on_framestart(t_doom *doom, t_enemy *enemy)
 		else
 		{
 			t_xy new_dir = v2_normalize((t_xy){random_range(-1, 1), random_range(-1, 1)});
-			enemy->dir.x = new_dir.x;
-			enemy->dir.y = new_dir.y;
+			enemy->dir = new_dir;
 		}
 		if (detect_player(doom, enemy))
 			enemy->state = 1;
-		obj_state_change(enemy->obj, rotate_enemy(doom, enemy));
+		if (enemy->obj->states_frame != ENEMY_STATE_HIT || doom->a == 1)
+			obj_state_change(enemy->obj, rotate_enemy(doom, enemy));
 	}
 	else if (enemy->state == 1)
 	{
-		enemy->on_hit(doom, enemy);
+		if (detect_player(doom, enemy) != 1)
+			enemy->state = 0;
 		if (enemy->attack_cd > 0)
+		{
 			enemy->attack_cd -= doom->fps.time_frame;
+			if (doom->a == 1 && enemy->obj->anim_frame == 0)
+				obj_state_change(enemy->obj, ENEMY_STATE_IDLE);
+		}
 		else
+		{
 			enemy->on_attack(doom, enemy);
+			obj_state_change(enemy->obj, ENEMY_STATE_ATTACK);
+		}
 	}
 	enemy->rot = v2_to_rot(enemy->dir);
 }
@@ -112,20 +122,20 @@ void	enemy_on_framestart(t_doom *doom, t_enemy *enemy)
 t_enemy	*create_enemy_default(t_doom *doom, t_obj *obj)
 {
 	t_enemy *enemy;
+	t_xy new_dir;
 
 	enemy = (t_enemy*)malloc(sizeof(t_enemy));
 	enemy->obj = obj;
 	enemy->obj->enabled = 1;
-	enemy->obj->col_size = 3.0f;
-	enemy->obj->p = (t_xy){40, 10};
 	//dir is normalized vector and shouldn't be 0
-	enemy->dir = (t_xy){-1, 1};
+	new_dir = v2_normalize((t_xy){random_range(-1, 1), random_range(-1, 1)});
+	enemy->dir = new_dir;
 	enemy->state = 0;
-	enemy->health = 3;
+	enemy->health = 10;
 	enemy->attack_speed = 3.0f;
-	enemy->attack_damage = 5;
+	enemy->attack_damage = (int)random_range(4, 7);
 	enemy->move_speed = 8;
-	enemy->view_distance = 3.0f;
+	enemy->view_distance = 25.0f;
 	enemy->on_framestart = enemy_on_framestart;
 	enemy->on_attack = enemy_on_attack;
 	enemy->on_hit = enemy_on_hit;
