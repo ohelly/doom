@@ -24,10 +24,17 @@ TXT - 7
 ind - 8
 TXT - 8
 floors img - 7
+wep states - 2
+wep anim - 1
+wep anim - 3
 ind - 9
 ind - 10
 ind - 11
 ind - 12
+wep states - 3
+wep anim - 1
+wep anim - 2
+wep anim - 9
 ind - 13
 ind - 14
 ind - 15
@@ -40,6 +47,9 @@ ind - 21
 ind - 22
 ind - 23
 ind - 24
+wep states - 2
+wep anim - 1
+wep anim - 7
 ind - 25
 ind - 26
 ind - 27
@@ -48,6 +58,9 @@ ind - 29
 ind - 30
 ind - 31
 ind - 32
+wep states - 2
+wep anim - 1
+wep anim - 6
 ind - 33
 ind - 34
 ind - 35
@@ -81,527 +94,42 @@ ind - 62
 ind - 63
 ind - 64
 ind - 65
+ind - 66
 NumVertexes - 10
 NumSectors - 4
-NumObjs - 4
-NumPics - 4
+NumObjs - 8
+NumPics - 3
 
 
 
 
-dist1 - 85.000000, dist2 - 14.999999
-p1.y - 18.000000, p1.x - 0.000000
-p2.y - 12.000000, p2.x - 0.000000
-dist1 - 75.000000, dist2 - 25.000000
-p1.y - 33.000000, p1.x - 0.000000
-p2.y - 17.000000, p2.x - 0.000000
-dist1 - 65.000000, dist2 - 34.999996
-p1.y - 38.000000, p1.x - 0.000000
-p2.y - 32.000000, p2.x - 0.000000
-dist1 - 55.000000, dist2 - 45.000000
-p1.y - 50.000000, p1.x - 0.000000
-p2.y - 40.000000, p2.x - 0.000000
+Creating obj of type 3
+Creating obj of type 3
+Creating obj of type 3
+Creating obj of type 3
+Creating obj of type 3
+Creating obj of type 3
+Creating obj of type 3
+Creating obj of type 3
 Angle - 0.000000
 anglesin - 0.000000
 anglecos - 1.000000
 x - 60.000000
 y - 25.000000
+Audio loaded successfully!
+Music loaded!
 Textures loaded.
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 0
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 1
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload - 0, state - 0
-reload
+n - 0
+n - 1
+Ok 1
+n - 2
+Ok 1
+n - 3
+Ok 1
+n - 4
+Ok 0
+n - 5
+Ok 0
+n - 6
+Ok 0
+n - 7

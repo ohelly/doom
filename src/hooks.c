@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/21 19:28:55 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/22 20:01:56 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int		find_pic_interaction(t_doom *doom)
 	{
 		if (doom->pic_interaction[i] == 1)
 		{
-			printf("Ok %d\n", i);
+			//printf("Ok %d\n", i);
 			if (doom->pics[i].type == 1)
 			{
 				if (sqrt(pow(doom->player.where.x - doom->pics[i].p.x, 2) + pow(doom->player.where.y - doom->pics[i].p.y, 2)) > 15)
@@ -170,6 +170,7 @@ int		shoot(t_doom *doom)
 	int		t;
 
 	play_sound(doom, SOUND_SHOOT);
+	printf("Weapon %d, Ammo - %d\n", doom->player.weapon, doom->weapon[doom->player.weapon].ammo);
 	t = 0;
 	i = 0;
 	while (i < 32)
@@ -250,14 +251,10 @@ int		shoot_wall(t_doom *doom, t_player player, t_sectors *sectors)
 		doom->shot_pics[n].p.z = pz + tanf(atanf(-player.yaw)) * (sqrtf(powf(p.x - doom->player.where.x, 2) + powf(p.y - doom->player.where.y, 2)));
 		doom->shot_pics[n].sector = sector;
 		doom->shot_pics[n].wall = doom->lookwall[sector];
-		//printf("neighbor - %d\n", s->neighbors[doom->lookwall[sector]]);
 		if (s->neighbors[doom->lookwall[sector]] < 0)
 		{
 			if (doom->shot_pics[n].p.z > s->ceil || doom->shot_pics[n].p.z < s->floor)
-			{
-				printf("Ok\n");
 				return (0);
-			}
 			findpicpoints(doom, &doom->shot_pics[n], doom->img[doom->shot_pics[n].images[0][0]].w / 40);
 			doom->shot_pics[n].neighbor = -1;
 			break ;
@@ -269,8 +266,6 @@ int		shoot_wall(t_doom *doom, t_player player, t_sectors *sectors)
 			if ((doom->shot_pics[n].p.z > sectors[s->neighbors[doom->lookwall[sector]]].ceil && doom->shot_pics[n].p.z < s->ceil)
 			|| (doom->shot_pics[n].p.z < sectors[s->neighbors[doom->lookwall[sector]]].floor && doom->shot_pics[n].p.z > s->floor))
 			{
-			//	printf("top - %f, bot - %f, pz - %f\n", sectors[s->neighbors[doom->lookwall[sector]]].ceil, sectors[s->neighbors[doom->lookwall[sector]]].floor, doom->shot_pics[n].p.z );
-			//	printf("Ok\n");
 				findpicpoints(doom, &doom->shot_pics[n], doom->img[doom->shot_pics[n].images[0][0]].w / 40);
 				break ;
 			}
@@ -288,7 +283,9 @@ int		shoot_wall(t_doom *doom, t_player player, t_sectors *sectors)
 	//doom->shot_pics[n].p2 = w2;
 	//printf("x - %f, y - %f\n",doom->pics[0].p.x, doom->pics[0].p.y);
 	doom->num_shots = n + 1;
-	printf("n - %d\n", n);
+	if (doom->num_shots >= 32)
+		doom->num_shots = 32;
+	//printf("n - %d\n", n);
 	n++;
 
 	return (0);

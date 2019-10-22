@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 18:08:49 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/17 14:58:24 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/22 19:58:17 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,23 +100,28 @@ void		drawweapon(t_doom *doom, t_weapon *weapon)
 	}
 	if (weapon->states_frame != 0)
 		weapon_anim_next(&doom->player, weapon, weapon->states_frame, doom->fps);
-	
+	if (weapon->type == 0)
+		tmp = WIDTH / 4;
+	else
+		tmp = 0;
 	//printf("reload - %d, state - %d\n", doom->player.reload, weapon->states_frame);
 	img = weapon_get_image(doom, weapon);
-	x = WIDTH - (WIDTH / 3) - (WIDTH / 3) / 2 - doom->shakex;
-	scale.x = (float)img.w / (WIDTH / 3);
-	scale.y = (float)img.h / (HEIGHT / 2);
-	while (++x < WIDTH - WIDTH / 3 + (WIDTH / 3) / 2 - doom->shakex)
+	x = WIDTH / 4;// - doom->shakex;
+	scale.x = (float)img.w / (WIDTH - WIDTH / 4);
+	scale.y = (float)img.h / (HEIGHT);
+	while (x < WIDTH)// - doom->shakex)
 	{
 		t.y = 0;
-		t.x = (x - WIDTH / 3 + (WIDTH / 3) / 2 + doom->shakex) * scale.x;
-		y = HEIGHT - HEIGHT / 2 + doom->shakey + doom->change_y;// + 25 + doom->player.yaw * 5;//2 * HEIGHT / 4 + doom->shakey;
-		while (++y < HEIGHT)
+		t.x = (x - WIDTH) * scale.x;// + doom->shakex) * scale.x;
+		y = 0 + doom->shakey;// + 25 + doom->player.yaw * 5;//2 * HEIGHT / 4 + doom->shakey;
+		while (y < HEIGHT)
 		{
 			if (img.data[(int)t.y * img.w + (int)t.x])
 				doom->sdl->pix[y * WIDTH + x] =
 					img.data[(int)t.y * img.w + (int)t.x];
 			t.y += scale.y;
+			y++;
 		}
+		x++;
 	}
 }

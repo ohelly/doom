@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:21:04 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/21 15:47:59 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/22 19:54:40 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ char		**loadmap(void)
 	char	**map;
 	char	*line;
 
-	//printf("Start gnl\n");
 	if ((fd = open("map-clear.txt", O_RDONLY)) == -1)
 		return (0);
 	i = 0;
@@ -39,7 +38,6 @@ char		**loadmap(void)
 	}
 	map[i] = 0;
 	close(fd);
-	//printf("End gnl\n");
 	return (map);
 }
 
@@ -53,7 +51,7 @@ int		new_image(char *str, t_img *img, int w, int h)
 	img[ind].data = (int*)ft_memalloc(sizeof(int) * w * h);
 	img[ind].w = w;
 	img[ind].h = h;
-	printf("ind - %d\n", ind);
+//	printf("ind - %d\n", ind);
 	while (j < w * h)
 	{
 		str = todigit(str, &tmp);
@@ -93,7 +91,7 @@ t_texture	*load_texture(char **map, t_texture *txt, t_img *img)
 	//map[i] = todigit(map[i], &tmp);
 	map[i] = todigit(map[i], &tmp);
 	count = (int)tmp;
-	printf("count - %d\n", count);
+	//printf("count - %d\n", count);
 	txt = (t_texture*)ft_memalloc(sizeof(t_texture) * count);
 	i = 1;
 	a = 0;
@@ -105,7 +103,7 @@ t_texture	*load_texture(char **map, t_texture *txt, t_img *img)
 		h = (int)tmp;
 		//printf("w - %d, h - %d\n", w, h);
 		txt[a].image = new_image(map[i], img, w, h);
-		printf("TXT - %d\n", txt[a].image);
+		//printf("TXT - %d\n", txt[a].image);
 		a++;
 		i++;
 	}
@@ -123,23 +121,23 @@ int		load_texture_data(char **map, t_doom *doom)
 		if (*map[i] == 'S') //sky
 		{
 			doom->sky = load_texture(&map[i], doom->sky, doom->img);
-			printf("sky img - %d\n", doom->sky[0].image);
+			//printf("sky img - %d\n", doom->sky[0].image);
 		}
 		if (*map[i] == 'W') //wall
 		{
 			doom->walls = load_texture(&map[i], doom->walls, doom->img);
-			printf("walls img - %d, i - %d\n", doom->walls[0].image, i);
+			//printf("walls img - %d, i - %d\n", doom->walls[0].image, i);
 		}
 		if (*map[i] == 'C') //ceil
 		{
 			//printf("%s\n", map[i]);
 			doom->ceils = load_texture(&map[i], doom->ceils, doom->img);
-			printf("ceils img - %d, i - %d\n", doom->ceils[0].image, i);	
+			//printf("ceils img - %d, i - %d\n", doom->ceils[0].image, i);	
 		}
 		if (*map[i] == 'F') //floor
 		{
 			doom->floors = load_texture(&map[i], doom->floors, doom->img);
-			printf("floors img - %d\n", doom->floors[0].image);
+			//printf("floors img - %d\n", doom->floors[0].image);
 		}
 		i++;
 	}
@@ -329,7 +327,7 @@ int		count_params_weapon(char *map, t_weapon *weapon)
 	//printf("pic type - %d\n", pic->type);
 	map = todigit(map, &tmp);
 	weapon->states_count = (int)tmp;
-	printf("wep states - %d\n", weapon->states_count);
+	//printf("wep states - %d\n", weapon->states_count);
 	weapon->images = (int**)ft_memalloc(sizeof(int*) * weapon->states_count);
 	weapon->anim_count = (int*)ft_memalloc(sizeof(int) * weapon->states_count);
 	n = 0;
@@ -337,7 +335,7 @@ int		count_params_weapon(char *map, t_weapon *weapon)
 	{
 		map = todigit(map, &tmp);
 		weapon->anim_count[n] = (int)tmp;
-		printf("wep anim - %d\n", weapon->anim_count[n]);
+		//printf("wep anim - %d\n", weapon->anim_count[n]);
 		weapon->images[n] = (int*)ft_memalloc(sizeof(int) * weapon->anim_count[n]);
 		n++;
 	}
@@ -522,9 +520,11 @@ int		loadall(t_doom *doom)
 	char	**map;
 	int		j;
 
+	ft_putendl("Loading map.");
 	j = 0;
 	if (!(map = loadmap()))
 		return (0);
+	ft_putendl("Map loaded.");
 	//printf("Map loaded.\n");
 	load_data(doom, map);
 	load_params(doom, map);
@@ -537,7 +537,7 @@ int		loadall(t_doom *doom)
 	
 	if (!(doom->len = (float*)ft_memalloc(sizeof(float) * doom->num.objs)))
 		return (0);
-	if (!(doom->lookwall = (float*)ft_memalloc(sizeof(float) * doom->num.sectors)))
+	if (!(doom->lookwall = (int*)ft_memalloc(sizeof(int) * doom->num.sectors)))
 		return (0);
 	/*
 	if (!(doom->txt = (t_texture*)ft_memalloc(sizeof(t_texture) * 1))) //нужно посчитать кол-во текстур
