@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 15:47:05 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/13 18:49:04 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/20 16:51:24 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,8 +37,10 @@ int			get_duplicate_wall(t_doom *doom, t_wall w1)
 	return (-1);
 }
 
-int			toggle(t_doom *doom, int wall, t_wall w1, int *ind)
+int			toggle(t_doom *doom, t_wall w1, int *ind)
 {
+	int		wall;
+
 	if (doom->walls->selected_wall != -1)
 	{
 		doom->walls->selected_wall = -1;
@@ -56,15 +58,15 @@ int			toggle(t_doom *doom, int wall, t_wall w1, int *ind)
 void		find_portal(t_doom *doom)
 {
 	int		ind;
-	int		wall;
 	t_wall	w1;
 	t_wall	w2;
 
-	if (!(toggle(doom, wall, w1, &ind)))
+	if (!(toggle(doom, w1, &ind)))
 		return ;
 	if (ind != -1)
 	{
 		w2 = doom->walls->wall[ind];
+		w1 = doom->walls->wall[doom->walls->selected_wall];
 		if (w1.portal == w2.sectors && w2.portal == w1.sectors)
 		{
 			doom->hud->msg = "Press return to delete portal!";
@@ -108,6 +110,9 @@ void		build_portal(t_doom *doom, int sw, int aw)
 {
 	if (doom->walls->selected_wall == -1)
 		return ;
+	if (check_sprite(doom, doom->walls->selected_wall,
+									doom->walls->adjacent_wall))
+		return ;
 	if (doom->walls->wall[sw].portal == doom->walls->wall[aw].sectors &&
 	doom->walls->wall[aw].portal == doom->walls->wall[sw].sectors)
 	{
@@ -118,12 +123,12 @@ void		build_portal(t_doom *doom, int sw, int aw)
 	{
 		if (can_build_portal(doom, doom->walls->wall[aw].sectors,
 		doom->walls->wall[sw].sectors) == -1)
-		{
 			doom->hud->msg = "Portal between this two sectors already exists!";
-			return ;
+		else
+		{
+			doom->walls->wall[sw].portal = doom->walls->wall[aw].sectors;
+			doom->walls->wall[aw].portal = doom->walls->wall[sw].sectors;
 		}
-		doom->walls->wall[sw].portal = doom->walls->wall[aw].sectors;
-		doom->walls->wall[aw].portal = doom->walls->wall[sw].sectors;
 	}
 	doom->walls->selected_wall = -1;
 	doom->walls->adjacent_wall = -1;
