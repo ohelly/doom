@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/22 21:49:44 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/22 21:54:28 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -322,8 +322,7 @@ int		hooks(t_doom *doom, SDL_Event ev)
 					doom->player.reload = 1;
 				}
 			}
-			if (doom->player.weapon == 0)
-				find_pic_interaction(doom);
+			find_pic_interaction(doom);
 			shoot(doom);
 			if (doom->player.weapon)
 				shoot_wall(doom, doom->player, doom->sectors);
