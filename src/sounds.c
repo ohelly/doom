@@ -9,16 +9,28 @@ int		load_music(t_doom *doom)
 	m->music = Mix_LoadMUS("./music.mp3");
 	m->volume = 0;
 
-	s = &doom->sound[0];
+	s = &doom->sound[SOUND_SHOOT];
 	s->sound = Mix_LoadWAV("hit.wav");
-	s->volume = 100;
+	s->volume = 60;
 
-	s = &doom->sound[1];
+	s = &doom->sound[SOUND_PICKUP];
 	s->sound = Mix_LoadWAV("pickup.wav");
 	s->volume = 100;
 
-	s = &doom->sound[2];
+	s = &doom->sound[SOUND_DEATH];
 	s->sound = Mix_LoadWAV("death.wav");
+	s->volume = 100;
+
+	s = &doom->sound[SOUND_INTERACT];
+	s->sound = Mix_LoadWAV("interact.wav");
+	s->volume = 100;
+
+	s = &doom->sound[SOUND_E_ATTACK];
+	s->sound = Mix_LoadWAV("enemy_attack.wav");
+	s->volume = 100;
+
+	s = &doom->sound[SOUND_LOSS];
+	s->sound = Mix_LoadWAV("lost.wav");
 	s->volume = 100;
 	printf("Music loaded!\n");
 }

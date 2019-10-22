@@ -56,6 +56,8 @@ int		can_move(t_doom *doom, t_enemy *enemy, t_xy new_pos)
 void	enemy_on_attack(t_doom *doom, t_enemy *enemy)
 {
 	enemy->attack_cd = enemy->attack_speed;
+	player_take_damage(doom, enemy->attack_damage);
+	play_sound(doom, SOUND_E_ATTACK);
 	//launch projectile towards enemy rotation
 }
 
@@ -131,7 +133,7 @@ t_enemy	*create_enemy_default(t_doom *doom, t_obj *obj)
 	enemy->state = 0;
 	enemy->health = 10;
 	enemy->attack_speed = 3.0f;
-	enemy->attack_damage = 5;
+	enemy->attack_damage = (int)random_range(4, 7);
 	enemy->move_speed = 8;
 	enemy->view_distance = 25.0f;
 	enemy->on_framestart = enemy_on_framestart;

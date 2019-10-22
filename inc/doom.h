@@ -53,6 +53,9 @@
 # define SOUND_SHOOT	0
 # define SOUND_PICKUP	1
 # define SOUND_DEATH	2
+# define SOUND_INTERACT	3
+# define SOUND_E_ATTACK	4
+# define SOUND_LOSS		5
 
 # define ENEMY_STATE_IDLE	0
 # define ENEMY_STATE_DEAD	8
@@ -167,6 +170,7 @@ typedef struct		s_player
 	int			end;
 	int			weapon;
 	int			hp;
+	float		blood; //intensity of blood on the screen
 	float		col_size;
 	int			reload;
 	int			shoots;
@@ -420,6 +424,8 @@ void	drawweapon(t_doom *doom, t_weapon *weapon);
 int     drawsprites(t_doom *doom, t_obj *obj, t_player player);
 t_img	weapon_get_image(t_doom *doom, t_weapon *weapon);
 int		player_move(t_doom *doom, t_xy move_pos);
+int		player_take_damage(t_doom *doom, int damage);
+int		player_blood_update(t_doom *doom);
 //objects
 int		objects_update(t_doom *doom);
 void	on_collision_key(t_doom *doom, t_obj *obj);

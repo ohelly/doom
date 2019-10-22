@@ -60,12 +60,11 @@ int		find_pic_interaction(t_doom *doom)
 					doom->sectors[doom->player.sector].light = 80 / 100.f;
 					t = 0;
 				}
-				break ;
+				return (1);
 			}
 		}
 		i++;
 	}
-	
 	return (0);
 }
 
@@ -120,9 +119,8 @@ int		keydown(t_doom *doom, SDL_Event ev)
 		doom->wsad[3] = 1;
 	if (ev.key.keysym.sym == 'e')
 	{
-		find_door(doom, doom->player);
-		find_pic_interaction(doom);
-		find_obj_interaction(doom);
+		if (find_door(doom, doom->player) || find_pic_interaction(doom) || find_obj_interaction(doom))
+			play_sound(doom, SOUND_INTERACT);
 	}
 	if (ev.key.keysym.sym == '\t')
 	{
@@ -163,28 +161,6 @@ int		keyup(t_doom *doom, SDL_Event ev)
 		doom->wsad[2] = 0;
 	if (ev.key.keysym.sym == 'd')
 		doom->wsad[3] = 0;
-	return (0);
-}
-
-int		shoot(t_doom *doom)
-{
-	int		i;
-	int		t;
-
-	play_sound(doom, SOUND_SHOOT);
-	t = 0;
-	i = 0;
-	while (i < 32)
-	{
-		if (t == 3)
-			break ;
-		if (doom->obj_ind[i] == 1)
-		{
-			t++;
-			enemy_on_hit(doom, &doom->enemies[i]);
-		}
-		i++;
-	}
 	return (0);
 }
 
@@ -296,6 +272,7 @@ int		shoot(t_doom *doom)
 	int		i;
 	int		t;
 
+	play_sound(doom, SOUND_SHOOT);
 	t = 0;
 	i = 0;
 	while (i < 32)
