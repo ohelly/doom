@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/17 20:41:19 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/22 19:09:23 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -298,12 +298,25 @@ typedef struct 	s_item
 	int			*ybot;
 }				t_item;
 
+typedef struct	s_hudel
+{
+	TTF_Font	*f; // Font
+	char		*t; // Title
+	SDL_Surface	*s; // Surface
+	char		*p; // Pixels
+	int			w; // Width
+	int			h; // Height
+	int			x; // Offset X
+	int			y; // Offset Y
+	int			c; // Color
+	int			b; // Border Color
+}				t_hudel;
+
 typedef struct	s_hud
 {
-	SDL_Color	color;
 	TTF_Font	*font;
-	SDL_Surface	*sur;
-	int			*pix;
+	t_hudel		health;
+	t_hudel		ammo;
 }				t_hud;
 
 typedef struct	s_doom
