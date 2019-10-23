@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 22:12:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/20 17:00:29 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/23 15:52:42 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,13 @@ void	key_press_two(t_doom *doom)
 	key_press_three(doom);
 }
 
+void	kek(t_doom *doom)
+{
+	int		i = -1;
+	while (++i < doom->verts->count)
+		printf("x = %d  y = %d\n", doom->verts->list[i].pos.x, doom->verts->list[i].pos.y);
+}
+
 void	key_press_one(t_doom *doom)
 {
 	if (doom->app < 2)
@@ -85,6 +92,8 @@ void	key_press_one(t_doom *doom)
 			set_sprite_on_wall(doom);
 		if (doom->sdl->ev.key.keysym.sym == 'o')
 			set_object(doom);
+		if (doom->sdl->ev.key.keysym.sym == 'k')
+			kek(doom);
 	}
 	key_press_two(doom);
 }

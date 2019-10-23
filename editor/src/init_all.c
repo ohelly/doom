@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 16:02:38 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/15 15:03:25 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/23 14:02:47 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ static void	init_default_value(t_doom *doom)
 {
 	*doom->swall = (t_swall){ -1, -1, -1, -1, -1 };
 	doom->sh = 20;
-	doom->save_name = "test.map";
 	doom->sects->selected_sector = -1;
 	doom->walls->selected_wall = -1;
 	doom->walls->adjacent_wall = -1;

@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/22 20:03:51 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/23 14:02:54 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -288,7 +288,6 @@ typedef struct			s_doom
 	t_all_sect			*sects;
 	t_all_walls			*walls;
 	t_file				*file;
-	char				*save_name;
 	t_swall				*swall;
 	t_hud				*hud;
 	t_txt				*txt;

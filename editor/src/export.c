@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   export.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2019/10/23 14:03:00 by ohelly            #+#    #+#             */
+/*   Updated: 2019/10/23 15:26:40 by ohelly           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "doom_editor.h"
 
 char	*ft_strjoinc(char const *s1, char const *s2)
@@ -92,9 +104,9 @@ int		save_vertecies(t_doom *doom, char **str)
 			prev_y = v.pos.y;
 			if (i > 0)
 				*str = ft_strjoinc(*str, "\n");
-			*str = ft_strjoinc(*str, "vertex\t");
+			*str = ft_strjoinc(*str, "Vertex\t");
 			*str = ft_strjoinfree(*str, ft_itoa(v.pos.y));
-			*str = ft_strjoinc(*str, "\t");
+			*str = ft_strjoinc(*str, "\t\t");
 			*str = ft_strjoinfree(*str, ft_itoa(v.pos.x));
 		}
 		i++;
@@ -138,22 +150,23 @@ int		save_sectors(t_doom *doom, char **str)
 	sector = 0;
 	while (sector < doom->sects->count)
 	{
-		*str = ft_strjoinc(*str, "sector\t");
-		*str = ft_strjoinc(*str, "0 20\t");
+		*str = ft_strjoinc(*str, "Sector\t");
+		*str = ft_strjoinc(*str, "0\t\t20\t\t");
 		i = 0;
 		walls_total = 0;
 		while (i < doom->walls->count)
 		{
 			if (doom->walls->wall[i].sectors == sector)
 			{
-				*str = ft_strjoinc(*str, " ");
 				*str = ft_strjoinfree(*str, ft_itoa(sorted_vert(doom, doom->walls->wall[i].vert_one)));
+				if (walls_total + 1 < doom->walls->count)
+					*str = ft_strjoinc(*str, " ");
 				walls[walls_total] = doom->walls->wall[i];
 				walls_total++;
 			}
 			i++;
 		}
-		*str = ft_strjoinc(*str, "\t");
+		*str = ft_strjoinc(*str, "\t\t");
 		i = 0;
 		while (i < walls_total)
 		{
@@ -172,9 +185,9 @@ int		save(t_doom *doom)
 	int			fd;
 	char		*str;
 
-	if (open(doom->save_name, O_RDONLY))
-		remove(doom->save_name);
-	fd = open(doom->save_name, O_WRONLY | O_CREAT, 444);
+	if (open(doom->file->file_name, O_RDONLY))
+		remove(doom->file->file_name);
+	fd = open(doom->file->file_name, O_WRONLY | O_CREAT, 444);
 
 	vertices_return_map_pos(doom);
 

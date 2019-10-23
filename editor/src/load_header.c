@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 20:02:16 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/22 20:20:36 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/23 13:45:23 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@ int		load_header(t_doom *doom, char *line)
 		return (1);
 	else if (ft_strnstr(line, "}", 1))
 		return (0);
-	else if (ft_strnstr(line, "Sector", 6))
+	else if (ft_strnstr(line, "Hsector", 7))
 		value_sector(doom, line);
 	return (1);
 }
