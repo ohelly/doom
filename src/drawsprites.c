@@ -153,26 +153,28 @@ int      drawobj(t_doom *doom, t_obj *obj, t_xy pos)
 	t_xyz	t;
 	t_xy	scale;
 
-	printf("drawing obj of type %d\n", obj->type);
+	printf("draw\n");
 	if (obj->enabled == 0)
 		return (0);
-	printf("drawing\n");
 	v.x = obj->p.x - doom->player.where.x;
 	v.y = obj->p.y - doom->player.where.y;
 	t.x = v.x * doom->player.psin - v.y * doom->player.pcos;
 	t.z = v.x * doom->player.pcos + v.y * doom->player.psin;
+	printf("state %d, type %d\n", obj->states_frame, obj->type);
+	printf("anim c %d\n", obj->anim_count[obj->states_frame]);
 	if (obj->anim_count[obj->states_frame] > 1)
 	{
 		if (doom->a == 1)
 			obj_anim_next(obj);
 	}
+	printf("z\n");
 	if (t.z <= 0)
 		return (0);
-	printf("drawing2\n");
+	
+	printf("drawing obj of type %d\n", obj->type);
 	scale.x = (HFOV * WIDTH) / t.z;
 	scale.y = (VFOV * HEIGHT) / t.z;
 	findobjxy2(t, scale, obj, doom);
-	printf("drawn\n");
     return (1);
 }
 
@@ -190,10 +192,13 @@ int     drawsprites(t_doom *doom, t_obj *obj, t_player player)
 		j++;
 	}
 	order = (int*)malloc(sizeof(int) * doom->num.objs);
+	printf("sort\n");
     sortobjs(doom, order, doom->player);
     n = 0;
+	printf("cycle\n");
     while (n < doom->num.objs)
     {
+		printf("1\n");
         o = &doom->objs[order[n]];
 		doom->obj_num = o->n;
 		if (!doom->item[o->sector].sector || doom->len[n] < 1.5f)
@@ -201,7 +206,7 @@ int     drawsprites(t_doom *doom, t_obj *obj, t_player player)
 			n++;
 			continue ;
 		}
-		
+		printf("2\n");
         if (!(drawobj(doom, o, o->p)))
 		{
 			n++;
@@ -209,6 +214,8 @@ int     drawsprites(t_doom *doom, t_obj *obj, t_player player)
 		}
         n++;
     }
+	printf("free\n");
 	free(order);
+	printf("done\n");
     return (0);
 }

@@ -36,6 +36,12 @@ void	obj_anim_next(t_obj *obj)
 
 t_img	obj_get_image(t_doom *doom, t_obj *obj)
 {
+	printf("%d state\n", obj->states_frame);
+	printf("%d states c\n", obj->states_count);
+	printf("%d anim\n", obj->anim_frame);
+	printf("%d anims c\n", obj->anim_count[obj->states_frame]);
+	printf("%d img state frame\n", obj->images[obj->states_frame][obj->anim_frame]);
+
 	return (doom->img[obj->images[obj->states_frame][obj->anim_frame]]);
 }
 
@@ -169,8 +175,8 @@ int		create_obj(t_doom *doom, t_obj *obj)
 		create_obj_breakable(doom, obj);
 	else if (obj->type == 10 || obj->type == 11 || obj->type == 12)
 		create_obj_ammo(doom, obj);
-	else if (obj->type == 13)
-		create_obj_breakable(doom, obj);
+	else if (obj->type == 13 || obj->type == 14 || obj->type == 15)
+		create_obj_medkit(doom, obj);
 	else if (obj->type == 20)
 		create_obj_enemy_default(doom, obj);
 	return (1);
@@ -184,7 +190,6 @@ int		loadobjs(t_doom *doom, t_obj *obj, t_data *objs_data, char *str)
 	float		tmp;
 	int			id;
 	int			i;
-	int			j;
 	t_obj		*o;
 
 	o = &doom->objs[n];
@@ -196,10 +201,14 @@ int		loadobjs(t_doom *doom, t_obj *obj, t_data *objs_data, char *str)
 	o->id = id;
 	o->sector = (int)tmp;
 	o->type = objs_data[id].type;
-	o->images = objs_data[id].images;
 	o->states_count = objs_data[id].states_count;
 	o->anim_count = objs_data[id].anim_count;
+	o->states_frame = 0;
+	o->anim_frame = 0;
 	o->images = objs_data[id].images;
+	i = -1;
+	while (++i < o->states_count)
+		o->images[i] = objs_data[id].images[i];
 	o->enabled = 1;
 	o->n = n;
 	create_obj(doom, o);

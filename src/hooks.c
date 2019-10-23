@@ -175,13 +175,13 @@ int		shoot(t_doom *doom)
 	i = 0;
 	while (i < doom->num.objs)
 	{
-		printf("checking obj %d\n", i);
 		if (t == 3)
 			break ;
 		if (doom->obj_ind[i] == 1)
 		{
 			t++;
 			o = &doom->objs[i];
+			printf("hit obj %d of type %d\n", i, o->type);
 			if (o->on_hit)
 			{
 				printf("obj %d on hit \n", i);

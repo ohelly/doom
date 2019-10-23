@@ -146,6 +146,7 @@ int		load_texture_data(char **map, t_doom *doom)
 	return (0);
 }
 
+//Эта функция нигде не вызывается
 int		count_objs(char **map)
 {
 	int		i;
@@ -183,6 +184,7 @@ int		count_params_obj(char *map, t_data *obj)
 	{
 		map = todigit(map, &tmp);
 		obj->anim_count[n] = (int)tmp;
+		printf("obj type %d, anim count %d\n", obj->type, obj->anim_count[n]);
 		obj->images[n] = (int*)ft_memalloc(sizeof(int) * obj->anim_count[n]);
 		n++;
 	}
@@ -506,7 +508,10 @@ int		load_params(t_doom *doom, char **map)
 				return (0);
 		}
 		else if (ft_strncmp(map[i], "Objs", ft_strlen("objs")) == 0)
+		{
 			loadobjs(doom, doom->objs, doom->objs_data, map[i]);
+			printf("loaded objs\n");
+		}
 		else if (ft_strncmp(map[i], "Pics", ft_strlen("pic")) == 0)
 			loadpics(doom ,doom->pics, doom->pics_data, map[i]);
 		else if (ft_strncmp(map[i], "Player", ft_strlen("player")) == 0)

@@ -861,12 +861,17 @@ int			draw_scope(t_sdl *sdl)
 
 
 int			draw_screen(t_doom *doom)
-{		
+{
+	printf("wall\n");
 	draw_walls(doom, doom->player);
 	//draw_wall_shots(doom, doom->player, doom->shot_pics, &doom->cood);
+	printf("sky\n");
 	drawsky(doom, doom->player, doom->sky, doom->img);
+	printf("sprites\n");
 	drawsprites(doom, doom->objs, doom->player);
+	printf("weap\n");
 	drawweapon(doom, &doom->weapon[doom->player.weapon]);
+	printf("scope\n");
 	draw_scope(doom->sdl);
 	return (0);
 }

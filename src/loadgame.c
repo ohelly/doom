@@ -310,8 +310,11 @@ int		load_game(t_doom *doom)
 		fps(&doom->fps);
 		
 		//enemies_activedate(doom);
+		printf("anim\n");
 		animation(doom, doom->fps);
+		printf("doors\n");
 		doors(doom, doom->player, doom->fps);
+		printf("screen\n");
 		draw_screen(doom);
 		if (doom->lkey == 1 && doom->player.weapon == 3 && doom->weapon[doom->player.weapon].ammo > 0 && doom->weapon[doom->player.weapon].anim_frame % 3 == 0) //временно
 		{
@@ -319,9 +322,13 @@ int		load_game(t_doom *doom)
 			doom->weapon[doom->player.weapon].ammo--;
 			shoot(doom);
 		}
+		printf("obj\n");
 		objects_update(doom);
+		printf("enem\n");
 		enemies_update(doom);
+		printf("pl blood\n");
 		player_blood_update(doom);
+		printf("jump\n");
 		calc_jump(doom, &doom->player, doom->sectors, doom->fps);
 		if (doom->player.move == 1)
 			calciswall(doom, &doom->player);
@@ -329,6 +336,7 @@ int		load_game(t_doom *doom)
 		{
 			hooks(doom, ev);
 		}
+		printf("mouse\n");
 		calc_mouse(&doom->player, doom->player.yaw);
 		calc_move(doom, &doom->player);
 		SDL_UpdateWindowSurface(doom->sdl->win);
