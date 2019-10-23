@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 14:03:00 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/23 15:26:40 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/23 18:15:56 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,15 +83,14 @@ int		sort_vertecies_y(t_doom *doom)
 	return (1);
 }
 
-int		save_vertecies(t_doom *doom, char **str)
+int		save_vertecies(t_doom *doom, char **str, t_vertex *ver)
 {
 	int			prev_y;
 	int			i;
 	t_vertex	v;
 
-	i = 0;
-	prev_y = -1488;
-	while (i < doom->verts->count)
+	i = -1;
+	while (++i < doom->verts->count)
 	{
 		v = doom->verts->list[i];
 		if (prev_y == v.pos.y)
@@ -109,7 +108,8 @@ int		save_vertecies(t_doom *doom, char **str)
 			*str = ft_strjoinc(*str, "\t\t");
 			*str = ft_strjoinfree(*str, ft_itoa(v.pos.x));
 		}
-		i++;
+		ver[i].pos.y = v.pos.y;
+		ver[i].pos.x = v.pos.x;
 	}
 }
 
@@ -184,28 +184,25 @@ int		save(t_doom *doom)
 {
 	int			fd;
 	char		*str;
+	t_vertex	ver[doom->verts->count];
 
 	if (open(doom->file->file_name, O_RDONLY))
 		remove(doom->file->file_name);
-	fd = open(doom->file->file_name, O_WRONLY | O_CREAT, 444);
-
+	doom->file->fd = open(doom->file->file_name, O_WRONLY | O_CREAT, 444);
 	vertices_return_map_pos(doom);
-
 	str = ft_strnew(0);
-
 	save_vert_indexes(doom);
 	sort_vertecies_y(doom);
 	sort_vertecies_x(doom);
-	save_vertecies(doom, &str);
+	save_vertecies(doom, &str, ver);
 	printf("saved vertecies	\n");
-
 	str = ft_strjoinc(str, "\n\n");
 	save_sectors(doom, &str);
 	printf("saved sectors	\n");
 	
 	str = ft_strjoinc(str, "\0");
-	write(fd, str, ft_strlen(str) * sizeof(char));
-	close(fd);
+	write(doom->file->fd, str, ft_strlen(str) * sizeof(char));
+	close(doom->file->fd);
 	doom->hud->msg = "Saved file!";
 	exit(0);
 }
