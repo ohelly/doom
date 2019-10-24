@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 11:56:24 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/21 13:50:22 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/24 16:50:10 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,7 @@ int		vlineobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom)
 int		renobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom)
 {
 	px.x = px.begin;
-	while(px.x < px.end)
+	while (px.x < px.end)
 	{
 		if (px.x >= doom->item[obj->sector].sx && px.x < doom->item[obj->sector].ex)
 			vlineobj(px, wy, obj, doom);

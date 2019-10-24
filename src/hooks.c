@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/22 22:12:00 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/24 17:28:57 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int		find_door(t_doom *doom, t_player player)
 	t_xy		d = (t_xy){player.pcos * 8, player.psin * 8};
 
 	s = &doom->sectors[player.sector];
+	if (s->type == 2 && !player.key)
+		return (0);
 	v = s->vert;
 	n = 0;
 	while (n < s->npoints)
@@ -172,6 +174,7 @@ int		keyup(t_doom *doom, SDL_Event ev)
 int		shoot(t_doom *doom)
 {
 	int		i;
+	int		j;
 	int		t;
 
 	play_sound(doom, SOUND_SHOOT);
@@ -184,8 +187,16 @@ int		shoot(t_doom *doom)
 			break ;
 		if (doom->obj_ind[i] == 1)
 		{
-			t++;
-			enemy_on_hit(doom, &doom->enemies[i]);
+			j = 0;
+			while (j < doom->num.enemies)
+			{
+				if (doom->enemies[j].obj->n == i)
+				{
+					t++;
+					enemy_on_hit(doom, &doom->enemies[j]);
+				}
+				j++;
+			}
 		}
 		i++;
 	}

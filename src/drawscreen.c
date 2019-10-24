@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/17 20:29:45 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/24 16:42:17 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -659,7 +659,6 @@ int			draw_wall_shots(t_doom *doom, t_player player, t_pics *pic, t_cood *cood)
 		//printf("top - %d, bot - %d\n", doom->item[pic[i].neighbor].ytop[0], doom->item[pic[i].neighbor].ybot[0]);
 		while (x <= cood->pw2x[i])
 		{
-			
 			if (x >= 0 && x < WIDTH)
 			{
 				if (pic[i].sector != doom->player.sector)

@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:50:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/21 13:48:23 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/24 17:26:14 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,6 +56,7 @@ int		obj_collision_key_pickup(t_doom *doom, t_obj *obj)
 	obj->enabled = 0;
 	play_sound(doom, SOUND_PICKUP);
 	printf("Picked up key with %d id!\n", obj->id);
+	doom->player.key = 1;
 }
 
 int		create_obj_key(t_doom *doom, t_obj *obj)
@@ -67,6 +68,7 @@ int		create_obj_key(t_doom *doom, t_obj *obj)
 
 int		create_obj_enemy_default(t_doom *doom, t_obj *obj)
 {
+	//doom->num.enemy++;
 	//enemies should ALWAYS be passable!
 	obj->col_passable = 1;
 	//col_size is just for not colliding with walls

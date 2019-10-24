@@ -241,7 +241,7 @@ int		doors(t_doom *doom, t_player player, t_fps fps)
 			s->active = 1;
 		if (s->active && j == player.sector && s->open)
 			return (0);
-		if (s->type == 1 && s->active && s->open)
+		if ((s->type == 1 || (s->type == 2 && player.key)) && s->active && s->open)
 		{
 			s->ceil -= fps.time_frame * 120.f;
 			if (s->ceil <= s->floor)
@@ -252,7 +252,7 @@ int		doors(t_doom *doom, t_player player, t_fps fps)
 				s->close = 1;
 			}
 		}
-		else if (s->type == 1 && s->active && s->close)
+		else if ((s->type == 1 || (s->type == 2 && player.key)) && s->active && s->close)
 		{
 			s->ceil += fps.time_frame * 120.f;
 			if (s->ceil >= s->constceil)

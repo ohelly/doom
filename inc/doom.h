@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/22 22:08:15 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/24 17:05:00 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,7 @@ typedef struct		s_player
 	int			reload;
 	int			shoots;
 	int			wall;
+	int			key;
 }				t_player;
 	float			col_size;
 
