@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:50:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/24 18:53:05 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/24 21:51:38 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,9 +63,33 @@ int		obj_collision_weapon_pickup(t_doom *doom, t_obj *obj)
 {
 	obj->enabled = 0;
 	//play_sound(doom, WEAPON_PICKUP);
-	printf("Picked up weapon with %d id!\n", obj->id);
+	printf("Picked up weapon with %d type!\n", obj->type);
 	doom->player.allweapons[obj->type - 3] = 1;
 	doom->player.weapon = obj->type - 3;
+}
+
+int		obj_collision_ammo_pickup(t_doom *doom, t_obj *obj)
+{
+	if (doom->player.weapon)
+	{
+		obj->enabled = 0;
+		//play_sound(doom, WEAPON_PICKUP);
+		printf("Picked up 10 ammo!\n");
+		doom->weapon[doom->player.weapon].ammo += 10;
+	}
+}
+
+int		obj_collision_medkit_pickup(t_doom *doom, t_obj *obj)
+{
+	if (doom->player.hp < 100)
+	{
+		obj->enabled = 0;
+		//play_sound(doom, WEAPON_PICKUP);
+		printf("Picked up medkit!\n");
+		doom->player.hp += 50;
+		if (doom->player.hp > 100)
+			doom->player.hp = 100;
+	}
 }
 
 int		create_obj_key(t_doom *doom, t_obj *obj)
@@ -82,6 +106,20 @@ int		create_obj_weapon(t_doom *doom, t_obj *obj)
 	obj->on_collision = obj_collision_weapon_pickup;
 }
 
+int		create_obj_ammo(t_doom *doom, t_obj *obj)
+{
+	obj->col_passable = 1;
+	obj->col_size = 3.0f;
+	obj->on_collision = obj_collision_ammo_pickup;
+}
+
+int		create_obj_medkit(t_doom *doom, t_obj *obj)
+{
+	obj->col_passable = 1;
+	obj->col_size = 3.0f;
+	obj->on_collision = obj_collision_medkit_pickup;
+}
+
 int		create_obj_enemy_default(t_doom *doom, t_obj *obj)
 {
 	//doom->num.enemy++;
@@ -91,6 +129,8 @@ int		create_obj_enemy_default(t_doom *doom, t_obj *obj)
 	obj->col_size = 5.0f;
 	create_enemy_default(doom, obj);
 }
+
+
 
 int		create_obj(t_doom *doom, t_obj *obj)
 {
@@ -105,6 +145,10 @@ int		create_obj(t_doom *doom, t_obj *obj)
 		create_obj_enemy_default(doom, obj);
 	else if (obj->type == 4 || obj->type == 5 || obj->type == 6)
 		create_obj_weapon(doom, obj);
+	else if (obj->type == 7)
+		create_obj_ammo(doom, obj);
+	else if (obj->type == 8)
+		create_obj_medkit(doom, obj);
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 18:08:49 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/24 20:59:35 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/24 21:38:35 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,11 @@ int			ripper_animation(t_doom *doom, t_weapon *weapon)
 		weapon->states_frame = 0;
 		weapon->anim_frame = 0;
 	}
+	if (!doom->lkey && weapon->type == 3)
+	{
+		weapon->states_frame = 0;
+		weapon->anim_frame = 0;
+	}
 	return (0);
 }
 
@@ -159,10 +164,11 @@ void		drawweapon(t_doom *doom, t_weapon *weapon)
 	{
 		shoot(doom, weapon);
 		weapon->ammo--;
+		if (!weapon->ammo)
+		{
+			weapon->states_frame = 0;
+			weapon->anim_frame = 0;
+		}
 	}
-	if (!weapon->ammo)
-	{
-		//weapon->states_frame = 0;
-		//weapon->anim_frame = 0;
-	}
+	
 }

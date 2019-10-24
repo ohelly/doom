@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/24 19:40:22 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/24 21:07:45 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,10 @@ void	vline3(int x, t_ab_i wy, t_scaler ty, t_doom *doom)
     {
         txty = scaler_next(&ty);
 		color = set.data[txty % set.h * set.w + doom->cood.ptxtx % set.w];
-		if (x == WIDTH / 2 && y == HEIGHT / 2)
+		if (x >= WIDTH / 2 - doom->weapon[doom->player.weapon].scatterx &&
+			x <= WIDTH / 2 + doom->weapon[doom->player.weapon].scatterx &&
+			y >= HEIGHT / 2 - doom->weapon[doom->player.weapon].scattery &&
+			y <= HEIGHT / 2 + doom->weapon[doom->player.weapon].scattery)
 			doom->pic_interaction[doom->cood.num] = 1;
 		//if (color && color != prev_color)
 		//{

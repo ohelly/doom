@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:21:04 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/17 18:49:12 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/24 21:21:55 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,13 +18,15 @@ char		**loadmap(void)
 	int		i;
 	char	**map;
 	char	*line;
+	int		count;
 
 	if ((fd = open("map-clear.txt", O_RDONLY)) == -1)
 		return (0);
 	i = 0;
 	while (get_next_line(fd, &line))
 		i++;
-	if (!(map = (char**)ft_memalloc(sizeof(char*) * (i + 1))))
+	count = i;
+	if (!(map = (char**)ft_memalloc(sizeof(char*) * (count + 1))))
 		return (NULL);
 	close(fd);
 	fd = open("map-clear.txt", O_RDONLY);
@@ -33,6 +35,8 @@ char		**loadmap(void)
 	{
 		if (!(map[i] = ft_strdup(line)))
 			return (NULL);
+		if (i % 10 == 0)
+			ft_putchar('I');
 		i++;
 		
 	}

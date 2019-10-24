@@ -1,22 +1,80 @@
 Loading map.
-Map loaded.
+IIIIIIIIIIIIIIIIIIIIMap loaded.
 B img - 10
+states - 1
+anim - 1
+ind - 66
+states - 2
+anim - 1
+ind - 67
+anim - 1
+ind - 68
+states - 1
+anim - 1
+ind - 69
+states - 2
+anim - 4
+ind - 70
+ind - 71
+ind - 72
+ind - 73
+anim - 1
+ind - 74
+states - 2
+anim - 3
+ind - 75
+ind - 76
+ind - 77
+anim - 1
+ind - 78
+states - 2
+anim - 1
+ind - 79
+anim - 1
+ind - 80
+states - 2
+anim - 1
+ind - 81
+anim - 1
+ind - 82
+states - 2
+anim - 1
+ind - 83
+anim - 1
+ind - 84
 NumVertexes - 10
 NumSectors - 4
 NumObjs - 8
-NumPics - 6
+NumPics - 17
 
 
 
 
+Creating obj of type 1
 Creating obj of type 3
 Creating obj of type 3
 Creating obj of type 3
-Creating obj of type 3
-Creating obj of type 3
-Creating obj of type 3
-Creating obj of type 3
-Creating obj of type 3
+Creating obj of type 4
+Creating obj of type 5
+Creating obj of type 6
+Creating obj of type 7
+W - 0.500000
+W - 1.000000
+W - 1.000000
+W - 1.000000
+W - 1.000000
+W - 1.000000
+W - 1.000000
+W - 1.000000
+W - 1.000000
+W - 1.000000
+W - 1.000000
+W - 1.000000
+W - 1.000000
+W - 1.000000
+W - 1.000000
+W - 1.000000
+W - 1.000000
 Angle - 0.000000
 anglesin - 0.000000
 anglecos - 1.000000
@@ -26,26 +84,3 @@ bullet - 10
 Audio loaded successfully!
 Music loaded!
 Textures loaded.
-Weapon 1, Ammo - 69
-Weapon 1, Ammo - 68
-Weapon 1, Ammo - 67
-Weapon 1, Ammo - 66
-Weapon 1, Ammo - 65
-Weapon 1, Ammo - 64
-Weapon 1, Ammo - 63
-Weapon 2, Ammo - 9
-Weapon 2, Ammo - 8
-Weapon 2, Ammo - 7
-Weapon 2, Ammo - 6
-Weapon 2, Ammo - 5
-Weapon 2, Ammo - 4
-Weapon 2, Ammo - 3
-Weapon 2, Ammo - 2
-Weapon 1, Ammo - 62
-Weapon 1, Ammo - 61
-Weapon 1, Ammo - 60
-Weapon 1, Ammo - 59
-Weapon 1, Ammo - 58
-Weapon 1, Ammo - 57
-Weapon 1, Ammo - 56
-Weapon 1, Ammo - 55
