@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/24 17:05:00 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/24 17:38:41 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ typedef struct		s_player
 	int			start;
 	int			end;
 	int			weapon;
+	int			allweapons[4];
 	int			hp;
 	float		blood; //intensity of blood on the screen
 	float		col_size;

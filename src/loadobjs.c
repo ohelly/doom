@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:50:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/24 17:26:14 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/24 18:24:26 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,11 +59,26 @@ int		obj_collision_key_pickup(t_doom *doom, t_obj *obj)
 	doom->player.key = 1;
 }
 
+int		obj_collision_weapon_pickup(t_doom *doom, t_obj *obj)
+{
+	obj->enabled = 0;
+	//play_sound(doom, WEAPON_PICKUP);
+	printf("Picked up weapon with %d id!\n", obj->id);
+	doom->player.allweapons[obj->type - 3] = 1;
+}
+
 int		create_obj_key(t_doom *doom, t_obj *obj)
 {
 	obj->col_passable = 1;
 	obj->col_size = 3.0f;
 	obj->on_collision = obj_collision_key_pickup;
+}
+
+int		create_obj_weapon(t_doom *doom, t_obj *obj)
+{
+	obj->col_passable = 1;
+	obj->col_size = 3.0f;
+	obj->on_collision = obj_collision_weapon_pickup;
 }
 
 int		create_obj_enemy_default(t_doom *doom, t_obj *obj)
@@ -87,6 +102,8 @@ int		create_obj(t_doom *doom, t_obj *obj)
 		create_obj_decor(doom, obj);
 	else if (obj->type == 3)
 		create_obj_enemy_default(doom, obj);
+	else if (obj->type == 4 || obj->type == 5 || obj->type == 6)
+		create_obj_weapon(doom, obj);
 	return (1);
 }
 

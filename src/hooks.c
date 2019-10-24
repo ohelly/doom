@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/24 17:28:57 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/24 17:47:57 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ int		keydown(t_doom *doom, SDL_Event ev)
 		SDL_Quit();
 		exit(0);
 	}
-	if (ev.key.keysym.sym == '1')
+	if (ev.key.keysym.sym == '1' && doom->player.allweapons[0])
 	{
 		doom->player.weapon = 0;
 		doom->weapon[doom->player.weapon].anim_frame = 0;
@@ -92,20 +92,20 @@ int		keydown(t_doom *doom, SDL_Event ev)
 		//doom->weapon_change = 1;
 		//doom->change_y = 0;
 	}
-	if (ev.key.keysym.sym == '2')
+	if (ev.key.keysym.sym == '2' && doom->player.allweapons[1])
 	{
 		doom->player.weapon = 1;
 		doom->weapon[doom->player.weapon].anim_frame = 0;
 		doom->weapon[doom->player.weapon].states_frame = 0;
 
 	}
-	if (ev.key.keysym.sym == '3')
+	if (ev.key.keysym.sym == '3' && doom->player.allweapons[2])
 	{
 		doom->player.weapon = 2;
 		doom->weapon[doom->player.weapon].anim_frame = 0;
 		doom->weapon[doom->player.weapon].states_frame = 0;
 	}
-	if (ev.key.keysym.sym == '4')
+	if (ev.key.keysym.sym == '4' && doom->player.allweapons[3])
 	{
 		doom->player.weapon = 3;
 		doom->weapon[doom->player.weapon].anim_frame = 0;

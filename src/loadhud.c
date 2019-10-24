@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loadhud.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 20:36:12 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/22 22:11:31 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/24 18:47:22 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,13 @@ static int		load_hudel(t_hudel *e)
 static int		load_hud_health(t_doom *doom)
 {
 	t_hudel		*e;
-	static int	hp = 100;
+	//static int	hp = 100;
 
 	e = &doom->hud->health;
 	e->f = doom->hud->font;
-	e->t = ft_strjoin(ft_itoa(hp--), "%");
+	if (e->t)
+		free(e->t);
+	e->t = ft_strjoin(ft_itoa(doom->player.hp), "%");
 	load_hudel(e);
 	e->x = 20;
 	e->y = HEIGHT - e->h - 20;
@@ -46,7 +48,9 @@ static int		load_hud_ammo(t_doom *doom)
 
 	e = &doom->hud->ammo;
 	e->f = doom->hud->font;
-	e->t = "30/30";
+	if (e->t)
+		free(e->t);
+	e->t = ft_itoa(doom->weapon[doom->player.weapon].ammo);
 	load_hudel(e);
 	e->x = WIDTH - e->w - 20;
 	e->y = HEIGHT - e->h - 20;
