@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawhud.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 17:27:54 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/22 22:14:28 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/24 16:32:25 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ static void		drawhudel(t_hudel e, int *pix)
 
 void			drawhud(t_doom *doom)
 {
+	//doom->hud->ammo = doom->weapon[doom->player.weapon].ammo;
+	//doom->hud->health = doom->player.hp;
 	drawhudel(doom->hud->health, doom->sdl->pix);
 	drawhudel(doom->hud->ammo, doom->sdl->pix);
 }

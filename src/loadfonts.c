@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loadfonts.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 17:05:50 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/22 19:34:09 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/24 16:29:07 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,6 @@
 
 int		loadfonts(t_hud *hud)
 {
-	return (!(hud->font = TTF_OpenFont("/Users/glormell/Library/Fonts/DooM.ttf",
+	return (!(hud->font = TTF_OpenFont("/Users/dtoy/DooM.ttf",
 			20)));
 }
