@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/22 21:26:15 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/22 22:08:15 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <math.h>
 # include <SDL.h>
 # include <SDL_image.h>
+# include <SDL_ttf.h>
 # include <SDL_mixer.h>
 # include <get_next_line.h>
 
@@ -320,6 +321,27 @@ typedef struct 	s_item
 	int			*ybot;
 }				t_item;
 
+typedef struct	s_hudel
+{
+	TTF_Font	*f; // Font
+	char		*t; // Title
+	SDL_Surface	*s; // Surface
+	unsigned char		*p; // Pixels
+	int			w; // Width
+	int			h; // Height
+	int			x; // Offset X
+	int			y; // Offset Y
+	int			c; // Color
+	int			b; // Border Color
+}				t_hudel;
+
+typedef struct	s_hud
+{
+	TTF_Font	*font;
+	t_hudel		health;
+	t_hudel		ammo;
+}				t_hud;
+
 typedef struct	s_music
 {
 	Mix_Music	*music;
@@ -336,6 +358,7 @@ typedef struct	s_doom
 {
 	t_img		img[512];
 	t_weapon	*weapon;
+	t_hud		*hud;
 	t_texture	*sky;
 	t_texture	*walls;
 	t_texture	*floors;
@@ -414,6 +437,8 @@ char	*todigit(char *str, float *data);
 int		loadobjs(t_doom *doom, t_obj *obj, t_data *objs_data, char *str);
 int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str);
 int		loadplayer(t_player *player, char *str);
+int		load_hud(t_doom *doom);
+int		loadfonts(t_hud *hud);
 int		load_game(t_doom *doom);
 int		hooks(t_doom *doom, SDL_Event ev);
 int		profile_output(t_doom *doom);
@@ -423,6 +448,7 @@ int		rgb_multiply(int color, float value);
 float	vxs(float x0, float y0, float x1, float y1);
 float	yaw(float y, float z, t_player player);
 void	drawweapon(t_doom *doom, t_weapon *weapon);
+void	drawhud(t_doom *doom);
 int     drawsprites(t_doom *doom, t_obj *obj, t_player player);
 t_img	weapon_get_image(t_doom *doom, t_weapon *weapon);
 int		player_move(t_doom *doom, t_xy move_pos);

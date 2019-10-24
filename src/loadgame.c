@@ -15,6 +15,7 @@
 int		init_sdl(t_sdl *sdl)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
+	TTF_Init();
 
 	SDL_Surface	*surface;
 	sdl->win = SDL_CreateWindow("Doom", 0, 0, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
@@ -272,39 +273,8 @@ int		load_game(t_doom *doom)
 	SDL_Event	ev;
 
 	init_sdl(doom->sdl);
-
-	/*
-	printf("hi mark\n");
-	t_img		img;
-	SDL_Surface	*surface;
-	int i = 0;
-	char *title;
-
-	printf("Images:\n");
-	while (i < 14)
-	{
-		title = ft_strnew(10);
-		title = ft_itoa(i + 1);
-		title = ft_strcat(title, ".png");
-		surface = IMG_Load(title);
-		img.data = (int*)surface->pixels;
-		img.w = surface->w;
-		img.h = surface->h;
-		int j = 0;
-		int size = img.w * img.h;
-		//printf("image %d:\n", i);
-		printf("%d %d ", img.w, img.h);
-		while (j < size)
-		{
-			printf("%d ", img.data[j]);
-			j++;
-		}
-		printf("\n");
-		i++;
-	}
-	exit(0);
-	*/
-
+	loadfonts(doom->hud);
+	load_hud(doom);
 	while (1)
 	{
 		fps(&doom->fps);

@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:21:04 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/22 21:43:34 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/17 18:49:12 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -558,5 +558,6 @@ int		loadall(t_doom *doom)
 		printf("txtw - %d\n", doom->sector[j].txtw);		
 		j++;
 	}*/
+	doom->hud = (t_hud*)ft_memalloc(sizeof(t_hud));
 	return (1);
 }
