@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/24 17:47:57 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/24 20:09:29 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,22 @@ int		find_pic_interaction(t_doom *doom)
 		if (doom->pic_interaction[i] == 1)
 		{
 			//printf("Ok %d\n", i);
+			
 			if (doom->pics[i].type == 1)
 			{
+				
 				if (sqrt(pow(doom->player.where.x - doom->pics[i].p.x, 2) + pow(doom->player.where.y - doom->pics[i].p.y, 2)) > 15)
 					return (0);
 				if (t == 0)
 				{
 					doom->sectors[doom->player.sector].light = 15 / 100.f;
+					doom->pics[i].states_frame = 1;
 					t = 1;
 				}
 				else
 				{
 					doom->sectors[doom->player.sector].light = 80 / 100.f;
+					doom->pics[i].states_frame = 0;
 					t = 0;
 				}
 				return (1);
@@ -139,6 +143,15 @@ int		keydown(t_doom *doom, SDL_Event ev)
 		doom->player.velocity.z = 3.f;
 		doom->player.fall = 1;
 	}
+	if (ev.key.keysym.sym == SDLK_LCTRL)
+	{
+		doom->player.sit = 1;
+		doom->player.where.z = doom->sectors[doom->player.sector].floor + DuckHeight;
+	}
+	if (ev.key.keysym.sym == SDLK_LSHIFT)
+	{
+		doom->player.sprint = 1;
+	}
 	if (ev.key.keysym.sym == 'p')
 	{
 		profile_output(doom);
@@ -160,6 +173,7 @@ int		keyup(t_doom *doom, SDL_Event ev)
 		doom->lkey = 0;
 	if (ev.button.button == SDL_BUTTON_RIGHT)
 		doom->rkey = 0;
+	
 	if (ev.key.keysym.sym == 'w')
 		doom->wsad[0] = 0;
 	if (ev.key.keysym.sym == 's')
@@ -168,6 +182,15 @@ int		keyup(t_doom *doom, SDL_Event ev)
 		doom->wsad[2] = 0;
 	if (ev.key.keysym.sym == 'd')
 		doom->wsad[3] = 0;
+	if (ev.key.keysym.sym == SDLK_LCTRL)
+	{
+		doom->player.sit = 0;
+		doom->player.where.z = doom->sectors[doom->player.sector].floor + EyeHeight;
+	}
+	if (ev.key.keysym.sym == SDLK_LSHIFT)
+	{
+		doom->player.sprint = 0;
+	}
 	return (0);
 }
 

@@ -49,25 +49,28 @@ int		calc_mouse(t_player *player, float yaw)
 
 int		direction(t_doom *doom, t_player *player, float *move_vec, t_fps fps)
 {	
+	float	speed;
+
+	speed = player->sprint ? 0.7f : 0.4f;
 	if (doom->wsad[0])
 	{
-		move_vec[0] += player->pcos * 0.4f;
-		move_vec[1] += player->psin * 0.4f;
+		move_vec[0] += player->pcos * speed;
+		move_vec[1] += player->psin * speed;
 	}
     if (doom->wsad[1])
 	{
-		move_vec[0] -= player->pcos * 0.4f;
-		move_vec[1] -= player->psin * 0.4f;
+		move_vec[0] -= player->pcos * speed;
+		move_vec[1] -= player->psin * speed;
 	}
     if (doom->wsad[2])
 	{
-		move_vec[0] += player->psin * 0.4f;
-		move_vec[1] -= player->pcos * 0.4f;
+		move_vec[0] += player->psin * speed;
+		move_vec[1] -= player->pcos * speed;
 	}
     if (doom->wsad[3])
 	{
-		move_vec[0] -= player->psin * 0.4f;
-		move_vec[1] += player->pcos * 0.4f;
+		move_vec[0] -= player->psin * speed;
+		move_vec[1] += player->pcos * speed;
 	}
 	move_vec[0] *= fps.time_frame * 60.f;
 	move_vec[1] *= fps.time_frame * 60.f;
@@ -86,9 +89,6 @@ int		calc_move(t_doom *doom, t_player *player)
 	player->velocity.y = player->velocity.y * (1 - acceleration) + move_vec[1] * acceleration;
 	if (doom->push == 1)
 		player->move = 1;
-	//printf("x - %f, y - %f\n", player->velocity.x, player->velocity.y);
-	// if (!player->velocity.x && !player->velocity.y)
-	// 	player->move = 0;
 	return (0);
 }
 
@@ -133,6 +133,7 @@ int		calciswall(t_doom *doom, t_player *player)
 	float	hole_high;
 	float	xd, yd;
 	int		n;
+	float	tmp;
 	int		t = 0;
 
 	n = 0;
@@ -146,6 +147,7 @@ int		calciswall(t_doom *doom, t_player *player)
 			return (0);
 		n++;
 	}
+	tmp = player->sit ? DuckHeight : EyeHeight;
 	n = 0;
 	while (n < sect->npoints)
 	{
@@ -156,8 +158,9 @@ int		calciswall(t_doom *doom, t_player *player)
 			player->velocity.y = 0;
 			hole_low  = sect->neighbors[n] < 0 ?  9e9 : max(sect->floor, doom->sectors[sect->neighbors[n]].floor);
             hole_high = sect->neighbors[n] < 0 ? -9e9 : min(sect->ceil,  doom->sectors[sect->neighbors[n]].ceil);
+			
             if (hole_high < player->where.z + HeadMargin
-            || hole_low  > player->where.z - EyeHeight + KneeHeight)
+            || hole_low > player->where.z - tmp + KneeHeight)
             {
 				xd = v[n + 1].x - v[n].x;
 				yd = v[n + 1].y - v[n].y;
@@ -175,15 +178,17 @@ int		calciswall(t_doom *doom, t_player *player)
 int		calc_jump(t_doom *doom, t_player *player, t_sectors *sectors, t_fps fps)
 {
 	float 	nextz;
+	float	height;
 
+	height = player->sit ? DuckHeight : EyeHeight;
 	player->ground = !player->fall;
 	if (player->fall)
 	{
 		player->velocity.z -= fps.time_frame * 5.f;
 		nextz = player->where.z + player->velocity.z;
-        if (player->velocity.z < 0 && nextz  < sectors[player->sector].floor + EyeHeight)
+        if (player->velocity.z < 0 && nextz  < sectors[player->sector].floor + height)
         {
-            player->where.z    = sectors[player->sector].floor + EyeHeight;
+            player->where.z    = sectors[player->sector].floor + height;
             player->velocity.z = 0;
             player->fall = 0;
             player->ground  = 1;
@@ -283,12 +288,6 @@ int		load_game(t_doom *doom)
 		animation(doom, doom->fps);
 		doors(doom, doom->player, doom->fps);
 		draw_screen(doom);
-		if (doom->lkey == 1 && doom->player.weapon == 3 && doom->weapon[doom->player.weapon].ammo > 0 && doom->weapon[doom->player.weapon].anim_frame % 3 == 0) //временно
-		{
-			
-			doom->weapon[doom->player.weapon].ammo--;
-			shoot(doom);
-		}
 		objects_update(doom);
 		enemies_update(doom);
 		player_blood_update(doom);
@@ -343,23 +342,23 @@ int		direction(t_doom *doom, t_player *player, float *move_vec)
 {	
 	if (doom->wsad[0])
 	{
-		move_vec[0] += player->pcos * 0.4f;
-		move_vec[1] += player->psin * 0.4f;
+		move_vec[0] += player->pcos * speed;
+		move_vec[1] += player->psin * speed;
 	}
     if (doom->wsad[1])
 	{
-		move_vec[0] -= player->pcos * 0.4f;
-		move_vec[1] -= player->psin * 0.4f;
+		move_vec[0] -= player->pcos * speed;
+		move_vec[1] -= player->psin * speed;
 	}
     if (doom->wsad[2])
 	{
-		move_vec[0] += player->psin * 0.4f;
-		move_vec[1] -= player->pcos * 0.4f;
+		move_vec[0] += player->psin * speed;
+		move_vec[1] -= player->pcos * speed;
 	}
     if (doom->wsad[3])
 	{
-		move_vec[0] -= player->psin * 0.4f;
-		move_vec[1] += player->pcos * 0.4f;
+		move_vec[0] -= player->psin * speed;
+		move_vec[1] += player->pcos * speed;
 	}
 	move_vec[0] *= doom->time_frame * 60;
 	move_vec[1] *= doom->time_frame * 60;

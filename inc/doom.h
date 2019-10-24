@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/24 17:38:41 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/24 20:07:25 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@
 # define NEARSIDE 1e-5f
 # define FARSIDE 20.f
 # define EyeHeight  15
-# define DuckHeight 2.5
+# define DuckHeight 4.5
 # define HeadMargin 1
 # define KneeHeight 2
 # define HFOV (0.73f * HEIGHT / WIDTH)
@@ -164,6 +164,7 @@ typedef struct		s_player
 	int			sector;
 	int			move; // player moving
 	int			sit; // crouch
+	int			sprint; // crouch
 	int			stand; 
 	int			fall; // jump or fall
 	int			ground; // player on the ground (fall = !ground)

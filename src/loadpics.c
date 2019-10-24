@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 13:47:25 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/22 21:44:21 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/24 19:39:20 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str)
 	pic[n].images = pics_data[id].images;
 	pic[n].anim_count = pics_data[id].anim_count;
 	pic[n].states_count = pics_data[id].states_count;
-	findpicpoints(doom, &pic[n], doom->img[pic[n].images[0][0]].w / 40);
+	findpicpoints(doom, &pic[n], (float)(doom->img[pic[n].images[0][0]].w) / 64.f);
 	//printf("sector - %d\n", pic[n].sector);
 	n++;
 	return (0);

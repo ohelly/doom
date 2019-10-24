@@ -10,10 +10,12 @@ int		walls_collision(t_doom *doom, t_xy pl1, t_xy pl2)
 	t_xy		pos2;
 	t_xy		hole;
 	t_xy		move_pos;
+	float		height;
 
 	sect = &doom->sectors[doom->player.sector];
 	v = sect->vert;
 	n = 0;
+	height = doom->player.sit ? DuckHeight : EyeHeight;
 	while (n < sect->npoints)
 	{
 		pos1 = v2_addf(v[n], doom->wall_col_size);
@@ -23,7 +25,7 @@ int		walls_collision(t_doom *doom, t_xy pl1, t_xy pl2)
 			hole.x = sect->neighbors[n] < 0 ?  9e9 : max(sect->floor, doom->sectors[sect->neighbors[n]].floor);
 			hole.y = sect->neighbors[n] < 0 ? -9e9 : min(sect->ceil,  doom->sectors[sect->neighbors[n]].ceil);
 			if (hole.y < doom->player.where.z + HeadMargin ||
-				hole.x > doom->player.where.z - EyeHeight + KneeHeight)
+				hole.x > doom->player.where.z - height + KneeHeight)
 			{
 				//printf("Player collided with wall\n");
 				return (0);

@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:50:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/24 18:24:26 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/24 18:53:05 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int		obj_collision_weapon_pickup(t_doom *doom, t_obj *obj)
 	//play_sound(doom, WEAPON_PICKUP);
 	printf("Picked up weapon with %d id!\n", obj->id);
 	doom->player.allweapons[obj->type - 3] = 1;
+	doom->player.weapon = obj->type - 3;
 }
 
 int		create_obj_key(t_doom *doom, t_obj *obj)

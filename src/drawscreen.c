@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/24 16:42:17 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/24 19:40:22 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -561,8 +561,8 @@ int			calc_pics(t_doom *doom, t_pics *pic, t_cood *cood, t_player player)
 				i++;
 				continue ;
 			}
-			cood->pyceil[count] = pic[i].p.z / 2 + doom->sectors[doom->now.sector].floor + doom->img[pic[i].images[pic[i].states_frame][pic[i].anim_frame]].h / 7 - player.where.z;
-			cood->pyfloor[count] = pic[i].p.z / 2 + doom->sectors[doom->now.sector].floor - player.where.z;
+			cood->pyceil[count] = pic[i].p.z + doom->sectors[doom->now.sector].floor + (float)(doom->img[pic[i].images[pic[i].states_frame][pic[i].anim_frame]].h) / 9.f - player.where.z;
+			cood->pyfloor[count] = pic[i].p.z + doom->sectors[doom->now.sector].floor - player.where.z;
 			cood->pw1y[count].a = HEIGHT / 2 - (int)(yaw(cood->pyceil[count] , cood->pt1[count].z, player) * cood->pscale1[count].y);
 			cood->pw1y[count].b = HEIGHT / 2 - (int)(yaw(cood->pyfloor[count], cood->pt1[count].z, player) * cood->pscale1[count].y);
 			cood->pw2y[count].a = HEIGHT / 2 - (int)(yaw(cood->pyceil[count] , cood->pt2[count].z, player) * cood->pscale2[count].y);
