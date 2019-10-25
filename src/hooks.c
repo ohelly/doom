@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/21 19:28:55 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/24 20:38:04 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@ int		find_door(t_doom *doom, t_player player)
 	t_xy		d = (t_xy){player.pcos * 8, player.psin * 8};
 
 	s = &doom->sectors[player.sector];
+	if (s->type == 2 && !player.key)
+		return (0);
 	v = s->vert;
 	n = 0;
 	while (n < s->npoints)
@@ -45,22 +47,31 @@ int		find_pic_interaction(t_doom *doom)
 	{
 		if (doom->pic_interaction[i] == 1)
 		{
-			printf("Ok %d\n", i);
+			//printf("Ok %d\n", i);
+			
 			if (doom->pics[i].type == 1)
 			{
+				
 				if (sqrt(pow(doom->player.where.x - doom->pics[i].p.x, 2) + pow(doom->player.where.y - doom->pics[i].p.y, 2)) > 15)
 					return (0);
 				if (t == 0)
 				{
 					doom->sectors[doom->player.sector].light = 15 / 100.f;
+					doom->pics[i].states_frame = 1;
 					t = 1;
 				}
 				else
 				{
 					doom->sectors[doom->player.sector].light = 80 / 100.f;
+					doom->pics[i].states_frame = 0;
 					t = 0;
 				}
 				return (1);
+			}
+			if (doom->pics[i].type == 0)
+			{
+				doom->pics[i].states_frame = 1;
+				doom->pics[i].anim_frame = 0;
 			}
 		}
 		i++;
@@ -77,7 +88,7 @@ int		keydown(t_doom *doom, SDL_Event ev)
 		SDL_Quit();
 		exit(0);
 	}
-	if (ev.key.keysym.sym == '1')
+	if (ev.key.keysym.sym == '1' && doom->player.allweapons[0])
 	{
 		doom->player.weapon = 0;
 		doom->weapon[doom->player.weapon].anim_frame = 0;
@@ -85,20 +96,20 @@ int		keydown(t_doom *doom, SDL_Event ev)
 		//doom->weapon_change = 1;
 		//doom->change_y = 0;
 	}
-	if (ev.key.keysym.sym == '2')
+	if (ev.key.keysym.sym == '2' && doom->player.allweapons[1])
 	{
 		doom->player.weapon = 1;
 		doom->weapon[doom->player.weapon].anim_frame = 0;
 		doom->weapon[doom->player.weapon].states_frame = 0;
 
 	}
-	if (ev.key.keysym.sym == '3')
+	if (ev.key.keysym.sym == '3' && doom->player.allweapons[2])
 	{
 		doom->player.weapon = 2;
 		doom->weapon[doom->player.weapon].anim_frame = 0;
 		doom->weapon[doom->player.weapon].states_frame = 0;
 	}
-	if (ev.key.keysym.sym == '4')
+	if (ev.key.keysym.sym == '4' && doom->player.allweapons[3])
 	{
 		doom->player.weapon = 3;
 		doom->weapon[doom->player.weapon].anim_frame = 0;
@@ -132,6 +143,15 @@ int		keydown(t_doom *doom, SDL_Event ev)
 		doom->player.velocity.z = 3.f;
 		doom->player.fall = 1;
 	}
+	if (ev.key.keysym.sym == SDLK_LCTRL)
+	{
+		doom->player.sit = 1;
+		doom->player.where.z = doom->sectors[doom->player.sector].floor + DuckHeight;
+	}
+	if (ev.key.keysym.sym == SDLK_LSHIFT)
+	{
+		doom->player.sprint = 1;
+	}
 	if (ev.key.keysym.sym == 'p')
 	{
 		profile_output(doom);
@@ -153,6 +173,7 @@ int		keyup(t_doom *doom, SDL_Event ev)
 		doom->lkey = 0;
 	if (ev.button.button == SDL_BUTTON_RIGHT)
 		doom->rkey = 0;
+	
 	if (ev.key.keysym.sym == 'w')
 		doom->wsad[0] = 0;
 	if (ev.key.keysym.sym == 's')
@@ -161,35 +182,14 @@ int		keyup(t_doom *doom, SDL_Event ev)
 		doom->wsad[2] = 0;
 	if (ev.key.keysym.sym == 'd')
 		doom->wsad[3] = 0;
-	return (0);
-}
-
-int		shoot(t_doom *doom)
-{
-	int		i;
-	int		t;
-	t_obj	*o;
-
-	play_sound(doom, SOUND_SHOOT);
-	t = 0;
-	i = 0;
-	while (i < doom->num.objs)
+	if (ev.key.keysym.sym == SDLK_LCTRL)
 	{
-		printf("checking obj %d\n", i);
-		if (t == 3)
-			break ;
-		if (doom->obj_ind[i] == 1)
-		{
-			t++;
-			o = &doom->objs[i];
-			if (o->on_hit)
-			{
-				printf("obj %d on hit \n", i);
-				o->on_hit(doom, o);
-			}
-			//enemy_on_hit(doom, &doom->enemies[i]);
-		}
-		i++;
+		doom->player.sit = 0;
+		doom->player.where.z = doom->sectors[doom->player.sector].floor + EyeHeight;
+	}
+	if (ev.key.keysym.sym == SDLK_LSHIFT)
+	{
+		doom->player.sprint = 0;
 	}
 	return (0);
 }
@@ -220,6 +220,7 @@ t_xyz 	find_wall_intersection(t_xy t, t_xyz p, t_xy w1, t_xy w2)
 	i.y = -1;
 	return (i);
 }
+
 
 
 int		shoot_wall(t_doom *doom, t_player player, t_sectors *sectors)
@@ -266,7 +267,7 @@ int		shoot_wall(t_doom *doom, t_player player, t_sectors *sectors)
 				printf("Ok\n");
 				return (0);
 			}
-			findpicpoints(doom, &doom->shot_pics[n], doom->img[doom->shot_pics[n].images[0][0]].w / 40);
+			findpicpoints(doom, &doom->shot_pics[n], (float)(doom->img[doom->shot_pics[n].images[0][0]].w) / 64);
 			doom->shot_pics[n].neighbor = -1;
 			break ;
 		}
@@ -279,7 +280,7 @@ int		shoot_wall(t_doom *doom, t_player player, t_sectors *sectors)
 			{
 			//	printf("top - %f, bot - %f, pz - %f\n", sectors[s->neighbors[doom->lookwall[sector]]].ceil, sectors[s->neighbors[doom->lookwall[sector]]].floor, doom->shot_pics[n].p.z );
 			//	printf("Ok\n");
-				findpicpoints(doom, &doom->shot_pics[n], doom->img[doom->shot_pics[n].images[0][0]].w / 40);
+				findpicpoints(doom, &doom->shot_pics[n], (float)(doom->img[doom->shot_pics[n].images[0][0]].w) / 64);
 				break ;
 			}
 			sector = s->neighbors[doom->lookwall[sector]];
@@ -302,12 +303,49 @@ int		shoot_wall(t_doom *doom, t_player player, t_sectors *sectors)
 	return (0);
 }
 
+int		shoot(t_doom *doom)
+{
+	int		i;
+	int		j;
+	int		t;
+
+	play_sound(doom, SOUND_SHOOT);
+	printf("Weapon %d, Ammo - %d\n", doom->player.weapon, doom->weapon[doom->player.weapon].ammo);
+	t = 0;
+	i = 0;
+	while (i < 32)
+	{
+		if (t == 3)
+			break ;
+		if (doom->obj_ind[i] == 1)
+		{
+			j = 0;
+			while (j < doom->num.enemies)
+			{
+				if (doom->enemies[j].obj->n == i)
+				{
+					t++;
+					enemy_on_hit(doom, &doom->enemies[j]);
+				}
+				j++;
+			}
+		}
+		i++;
+	}
+	if (doom->player.weapon)
+		shoot_wall(doom, doom->player, doom->sectors);
+	return (0);
+}
+
+
+
+
 
 int		hooks(t_doom *doom, SDL_Event ev)
 {	
 	if (ev.type == SDL_MOUSEBUTTONDOWN)
 	{
-		if (ev.button.button == SDL_BUTTON_LEFT && !doom->player.reload && !doom->weapon[doom->player.weapon].states_frame && doom->weapon[doom->player.weapon].ammo)
+		if (ev.button.button == SDL_BUTTON_LEFT && !doom->player.reload && doom->weapon[doom->player.weapon].ammo && !doom->weapon[doom->player.weapon].states_frame)
 		{
 			doom->lkey = 1;
 			if (doom->player.weapon)
@@ -324,10 +362,9 @@ int		hooks(t_doom *doom, SDL_Event ev)
 					doom->player.reload = 1;
 				}
 			}
-			if (doom->player.weapon == 0)
-				find_pic_interaction(doom);
+			find_pic_interaction(doom);
 			shoot(doom);
-			shoot_wall(doom, doom->player, doom->sectors);
+			
 			//printf("Weapon %d, Ammo - %d\n", doom->player.weapon, doom->weapon[doom->player.weapon].ammo);
 		}
 		if (ev.button.button == SDL_BUTTON_RIGHT)

@@ -15,6 +15,7 @@
 int		init_sdl(t_sdl *sdl)
 {
 	SDL_Init(SDL_INIT_EVERYTHING);
+	TTF_Init();
 
 	SDL_Surface	*surface;
 	sdl->win = SDL_CreateWindow("Doom", 0, 0, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
@@ -48,25 +49,28 @@ int		calc_mouse(t_player *player, float yaw)
 
 int		direction(t_doom *doom, t_player *player, float *move_vec, t_fps fps)
 {	
+	float	speed;
+
+	speed = player->sprint ? 0.7f : 0.4f;
 	if (doom->wsad[0])
 	{
-		move_vec[0] += player->pcos * 0.4f;
-		move_vec[1] += player->psin * 0.4f;
+		move_vec[0] += player->pcos * speed;
+		move_vec[1] += player->psin * speed;
 	}
     if (doom->wsad[1])
 	{
-		move_vec[0] -= player->pcos * 0.4f;
-		move_vec[1] -= player->psin * 0.4f;
+		move_vec[0] -= player->pcos * speed;
+		move_vec[1] -= player->psin * speed;
 	}
     if (doom->wsad[2])
 	{
-		move_vec[0] += player->psin * 0.4f;
-		move_vec[1] -= player->pcos * 0.4f;
+		move_vec[0] += player->psin * speed;
+		move_vec[1] -= player->pcos * speed;
 	}
     if (doom->wsad[3])
 	{
-		move_vec[0] -= player->psin * 0.4f;
-		move_vec[1] += player->pcos * 0.4f;
+		move_vec[0] -= player->psin * speed;
+		move_vec[1] += player->pcos * speed;
 	}
 	move_vec[0] *= fps.time_frame * 60.f;
 	move_vec[1] *= fps.time_frame * 60.f;
@@ -85,9 +89,6 @@ int		calc_move(t_doom *doom, t_player *player)
 	player->velocity.y = player->velocity.y * (1 - acceleration) + move_vec[1] * acceleration;
 	if (doom->push == 1)
 		player->move = 1;
-	//printf("x - %f, y - %f\n", player->velocity.x, player->velocity.y);
-	// if (!player->velocity.x && !player->velocity.y)
-	// 	player->move = 0;
 	return (0);
 }
 
@@ -132,6 +133,7 @@ int		calciswall(t_doom *doom, t_player *player)
 	float	hole_high;
 	float	xd, yd;
 	int		n;
+	float	tmp;
 	int		t = 0;
 
 	n = 0;
@@ -145,6 +147,7 @@ int		calciswall(t_doom *doom, t_player *player)
 			return (0);
 		n++;
 	}
+	tmp = player->sit ? DuckHeight : EyeHeight;
 	n = 0;
 	while (n < sect->npoints)
 	{
@@ -155,8 +158,9 @@ int		calciswall(t_doom *doom, t_player *player)
 			player->velocity.y = 0;
 			hole_low  = sect->neighbors[n] < 0 ?  9e9 : max(sect->floor, doom->sectors[sect->neighbors[n]].floor);
             hole_high = sect->neighbors[n] < 0 ? -9e9 : min(sect->ceil,  doom->sectors[sect->neighbors[n]].ceil);
+			
             if (hole_high < player->where.z + HeadMargin
-            || hole_low  > player->where.z - EyeHeight + KneeHeight)
+            || hole_low > player->where.z - tmp + KneeHeight)
             {
 				xd = v[n + 1].x - v[n].x;
 				yd = v[n + 1].y - v[n].y;
@@ -174,15 +178,17 @@ int		calciswall(t_doom *doom, t_player *player)
 int		calc_jump(t_doom *doom, t_player *player, t_sectors *sectors, t_fps fps)
 {
 	float 	nextz;
+	float	height;
 
+	height = player->sit ? DuckHeight : EyeHeight;
 	player->ground = !player->fall;
 	if (player->fall)
 	{
 		player->velocity.z -= fps.time_frame * 5.f;
 		nextz = player->where.z + player->velocity.z;
-        if (player->velocity.z < 0 && nextz  < sectors[player->sector].floor + EyeHeight)
+        if (player->velocity.z < 0 && nextz  < sectors[player->sector].floor + height)
         {
-            player->where.z    = sectors[player->sector].floor + EyeHeight;
+            player->where.z    = sectors[player->sector].floor + height;
             player->velocity.z = 0;
             player->fall = 0;
             player->ground  = 1;
@@ -240,7 +246,7 @@ int		doors(t_doom *doom, t_player player, t_fps fps)
 			s->active = 1;
 		if (s->active && j == player.sector && s->open)
 			return (0);
-		if (s->type == 1 && s->active && s->open)
+		if ((s->type == 1 || (s->type == 2 && player.key)) && s->active && s->open)
 		{
 			s->ceil -= fps.time_frame * 120.f;
 			if (s->ceil <= s->floor)
@@ -251,7 +257,7 @@ int		doors(t_doom *doom, t_player player, t_fps fps)
 				s->close = 1;
 			}
 		}
-		else if (s->type == 1 && s->active && s->close)
+		else if ((s->type == 1 || (s->type == 2 && player.key)) && s->active && s->close)
 		{
 			s->ceil += fps.time_frame * 120.f;
 			if (s->ceil >= s->constceil)
@@ -272,39 +278,8 @@ int		load_game(t_doom *doom)
 	SDL_Event	ev;
 
 	init_sdl(doom->sdl);
-
-	/*
-	printf("hi mark\n");
-	t_img		img;
-	SDL_Surface	*surface;
-	int i = 0;
-	char *title;
-
-	printf("Images:\n");
-	while (i < 14)
-	{
-		title = ft_strnew(10);
-		title = ft_itoa(i + 1);
-		title = ft_strcat(title, ".png");
-		surface = IMG_Load(title);
-		img.data = (int*)surface->pixels;
-		img.w = surface->w;
-		img.h = surface->h;
-		int j = 0;
-		int size = img.w * img.h;
-		//printf("image %d:\n", i);
-		printf("%d %d ", img.w, img.h);
-		while (j < size)
-		{
-			printf("%d ", img.data[j]);
-			j++;
-		}
-		printf("\n");
-		i++;
-	}
-	exit(0);
-	*/
-
+	loadfonts(doom->hud);
+	load_hud(doom);
 	while (1)
 	{
 		fps(&doom->fps);
@@ -313,12 +288,6 @@ int		load_game(t_doom *doom)
 		animation(doom, doom->fps);
 		doors(doom, doom->player, doom->fps);
 		draw_screen(doom);
-		if (doom->lkey == 1 && doom->player.weapon == 3 && doom->weapon[doom->player.weapon].ammo > 0 && doom->weapon[doom->player.weapon].anim_frame % 3 == 0) //временно
-		{
-			printf("Weapon %d, Ammo - %d\n", doom->player.weapon, doom->weapon[doom->player.weapon].ammo);
-			doom->weapon[doom->player.weapon].ammo--;
-			shoot(doom);
-		}
 		objects_update(doom);
 		enemies_update(doom);
 		player_blood_update(doom);
@@ -373,23 +342,23 @@ int		direction(t_doom *doom, t_player *player, float *move_vec)
 {	
 	if (doom->wsad[0])
 	{
-		move_vec[0] += player->pcos * 0.4f;
-		move_vec[1] += player->psin * 0.4f;
+		move_vec[0] += player->pcos * speed;
+		move_vec[1] += player->psin * speed;
 	}
     if (doom->wsad[1])
 	{
-		move_vec[0] -= player->pcos * 0.4f;
-		move_vec[1] -= player->psin * 0.4f;
+		move_vec[0] -= player->pcos * speed;
+		move_vec[1] -= player->psin * speed;
 	}
     if (doom->wsad[2])
 	{
-		move_vec[0] += player->psin * 0.4f;
-		move_vec[1] -= player->pcos * 0.4f;
+		move_vec[0] += player->psin * speed;
+		move_vec[1] -= player->pcos * speed;
 	}
     if (doom->wsad[3])
 	{
-		move_vec[0] -= player->psin * 0.4f;
-		move_vec[1] += player->pcos * 0.4f;
+		move_vec[0] -= player->psin * speed;
+		move_vec[1] += player->pcos * speed;
 	}
 	move_vec[0] *= doom->time_frame * 60;
 	move_vec[1] *= doom->time_frame * 60;

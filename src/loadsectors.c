@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:15:03 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/13 18:01:48 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/24 17:17:57 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,7 +120,7 @@ int		loadsectors(t_sectors *s, t_xy *v, char *str)
 	//printf("light - %f\n", s[n].light);
 	str = todigit(str, &tmp);
 	s[n].type = (int)tmp;
-	if (s[n].type == 1)
+	if (s[n].type == 1 || s[n].type == 2)
 		s[n].ceil = s[n].floor;
 	//printf("type - %d\n", s[n].type);
 	str = todigit(str, &tmp);
