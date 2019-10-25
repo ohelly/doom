@@ -51,17 +51,33 @@
     vxs(vxs(x1,y1, x2,y2), (x1)-(x2), vxs(x3,y3, x4,y4), (x3)-(x4)) / vxs((x1)-(x2), (y1)-(y2), (x3)-(x4), (y3)-(y4)), \
     vxs(vxs(x1,y1, x2,y2), (y1)-(y2), vxs(x3,y3, x4,y4), (y3)-(y4)) / vxs((x1)-(x2), (y1)-(y2), (x3)-(x4), (y3)-(y4)) })
 
-# define SOUND_SHOOT	0
-# define SOUND_PICKUP	1
-# define SOUND_DEATH	2
-# define SOUND_INTERACT	3
-# define SOUND_E_ATTACK	4
-# define SOUND_LOSS		5
+# define SOUND_SHOOT			0
+# define SOUND_PICKUP			1
+# define SOUND_DEATH			2
+# define SOUND_INTERACT			3
+# define SOUND_E_ATTACK			4
+# define SOUND_LOSS				5
+# define SOUND_WEAPON_PICKUP	6
 
 # define ENEMY_STATE_IDLE	0
 # define ENEMY_STATE_DEAD	8
 # define ENEMY_STATE_HIT	9
 # define ENEMY_STATE_ATTACK	10
+
+# define OBJ_TYPE_BOX			0
+# define OBJ_TYPE_BREAKABLE		1
+# define OBJ_TYPE_EXPLOSIVE		2
+# define OBJ_TYPE_ENEMY_REG		10
+# define OBJ_TYPE_PISTOL		20
+# define OBJ_TYPE_SHOTGUN		21
+# define OBJ_TYPE_SMG			22
+# define OBJ_TYPE_AMMO_P		23
+# define OBJ_TYPE_AMMO_SH		24
+# define OBJ_TYPE_AMMO_SMG		25
+# define OBJ_TYPE_MED_SMALL		26
+# define OBJ_TYPE_MED_MEDIUM	27
+# define OBJ_TYPE_MED_BIG		28
+# define OBJ_TYPE_KEY			29
 
 typedef struct	s_scaler
 {
@@ -125,8 +141,11 @@ typedef struct	s_obj
 	int			states_frame;
 	float		col_size;
 	int			col_passable;
-	void		(*on_collision)(struct t_doom *doom, struct s_obj *obj);
-	void		(*on_interaction)(struct t_doom *doom, struct s_obj *obj);
+	float		scale;
+	void		(*on_collision)(struct s_doom *doom, struct s_obj *obj);
+	void		(*on_interaction)(struct s_doom *doom, struct s_obj *obj);
+	void		(*on_hit)(struct s_doom *doom, struct s_obj *obj);
+	void		(*on_anim_end)(struct s_obj *obj);
 }				t_obj;
 
 typedef struct	s_data

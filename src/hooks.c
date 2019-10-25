@@ -320,12 +320,12 @@ int		shoot(t_doom *doom)
 		if (doom->obj_ind[i] == 1)
 		{
 			j = 0;
-			while (j < doom->num.enemies)
+			while (j < doom->num.objs)
 			{
-				if (doom->enemies[j].obj->n == i)
+				if (doom->obj_ind[j] == 1 && doom->objs[j].on_hit != NULL)
 				{
 					t++;
-					enemy_on_hit(doom, &doom->enemies[j]);
+					doom->objs[j].on_hit(doom, &doom->objs[j]);
 				}
 				j++;
 			}
