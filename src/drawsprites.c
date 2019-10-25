@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 11:56:24 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/24 21:55:24 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/25 18:49:11 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -197,7 +197,6 @@ int     drawsprites(t_doom *doom, t_obj *obj, t_player player)
 			n++;
 			continue ;
 		}
-		
         if (!(drawobj(doom, o, o->p)))
 		{
 			n++;

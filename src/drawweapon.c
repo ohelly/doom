@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 18:08:49 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/24 21:38:35 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/25 18:51:57 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,16 +116,15 @@ int			render_weapon(t_doom *doom, t_weapon *weapon)
 		tmp = WIDTH / 4;
 	else
 		tmp = 0;
-	//printf("reload - %d, state - %d\n", doom->player.reload, weapon->states_frame);
 	img = weapon_get_image(doom, weapon);
-	x = WIDTH / 4;// - doom->shakex;
+	x = WIDTH / 4;
 	scale.x = (float)img.w / (WIDTH - WIDTH / 4);
 	scale.y = (float)img.h / (HEIGHT);
-	while (x < WIDTH)// - doom->shakex)
+	while (x < WIDTH)
 	{
-		t.y = 0;
-		t.x = (x - WIDTH) * scale.x;// + doom->shakex) * scale.x;
-		y = 0 + doom->shakey;// + 25 + doom->player.yaw * 5;//2 * HEIGHT / 4 + doom->shakey;
+		t.y = 1;
+		t.x = (x - WIDTH) * scale.x;
+		y = 0 + doom->shakey;
 		while (y < HEIGHT)
 		{
 			if (img.data[(int)t.y * img.w + (int)t.x])

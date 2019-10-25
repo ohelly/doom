@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/24 20:07:25 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/25 18:38:33 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -343,6 +343,7 @@ typedef struct	s_hud
 	TTF_Font	*font;
 	t_hudel		health;
 	t_hudel		ammo;
+	t_obj		*key;
 }				t_hud;
 
 typedef struct	s_music

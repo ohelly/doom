@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:50:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/24 21:51:38 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/25 18:24:03 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -176,6 +176,8 @@ int		loadobjs(t_doom *doom, t_obj *obj, t_data *objs_data, char *str)
 	o->images = objs_data[id].images;
 	o->enabled = 1;
 	o->n = n;
+	if (o->type == 1)
+		doom->hud->key = o;
 	create_obj(doom, o);
 	n++;
 	return (0);

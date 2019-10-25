@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:21:04 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/24 21:21:55 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/25 18:24:57 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -385,16 +385,16 @@ int		load_weapon_delay(t_weapon *weapon, int type)
 {
 	if (type == 0) //knife
 	{
-		weapon->delay = 0.15f;
 		weapon->ammo = 1;
+		weapon->delay = 0.15f;
 		weapon->damage = 40;
 		weapon->scatterx = 5;
 		weapon->scattery = 5;
 	}
 	if (type == 1) //pistol
 	{
-		weapon->delay = 0.07f;
 		weapon->ammo = 70;
+		weapon->delay = 0.07f;		
 		weapon->damage = 50;
 		weapon->scatterx = 5;
 		weapon->scattery = 5;
@@ -473,7 +473,6 @@ int		load_shot_pics(t_pics *shots, t_texture *bullet)
 	p.images = (int**)ft_memalloc(sizeof(int*) * 1);
 	p.images[0] = (int*)ft_memalloc(sizeof(int) * 1);
 	p.images[0][0] = bullet->image;
-	printf("bullet - %d\n", bullet->image);
 	p.type = 5;
 	i = 0;
 	while (i < 64)
@@ -539,6 +538,8 @@ int		loadall(t_doom *doom)
 		return (0);
 	ft_putendl("Map loaded.");
 	//printf("Map loaded.\n");
+	if (!(doom->hud = (t_hud*)ft_memalloc(sizeof(t_hud))))
+		return (0);
 	load_data(doom, map);
 	load_params(doom, map);
 	if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 1024) < 0)
@@ -562,6 +563,6 @@ int		loadall(t_doom *doom)
 		printf("txtw - %d\n", doom->sector[j].txtw);		
 		j++;
 	}*/
-	doom->hud = (t_hud*)ft_memalloc(sizeof(t_hud));
+	
 	return (1);
 }
