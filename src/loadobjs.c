@@ -62,7 +62,7 @@ int		obj_collision_key_pickup(t_doom *doom, t_obj *obj)
 int		obj_collision_weapon_pickup(t_doom *doom, t_obj *obj)
 {
 	obj->enabled = 0;
-	//play_sound(doom, WEAPON_PICKUP);
+	play_sound(doom, SOUND_PICKUP);
 	printf("Picked up weapon with %d type!\n", obj->type);
 	doom->player.allweapons[obj->type - 3] = 1;
 	doom->player.weapon = obj->type - 3;
@@ -73,7 +73,7 @@ int		obj_collision_ammo_pickup(t_doom *doom, t_obj *obj)
 	if (doom->player.weapon)
 	{
 		obj->enabled = 0;
-		//play_sound(doom, WEAPON_PICKUP);
+		play_sound(doom, SOUND_PICKUP);
 		printf("Picked up 10 ammo!\n");
 		doom->weapon[doom->player.weapon].ammo += 10;
 	}
@@ -84,7 +84,7 @@ int		obj_collision_medkit_pickup(t_doom *doom, t_obj *obj)
 	if (doom->player.hp < 100)
 	{
 		obj->enabled = 0;
-		//play_sound(doom, WEAPON_PICKUP);
+		play_sound(doom, SOUND_PICKUP);
 		printf("Picked up medkit!\n");
 		doom->player.hp += 50;
 		if (doom->player.hp > 100)
@@ -203,10 +203,10 @@ int		create_obj(t_doom *doom, t_obj *obj)
 	if (obj->type == 0)
 		create_obj_box(doom, obj);
 	else if (obj->type == 1)
-		create_obj_explosive(doom, obj);
+		create_obj_key(doom, obj);
 	else if (obj->type == 2)
 		create_obj_breakable(doom, obj);
-	else if (obj->type == 20)
+	else if (obj->type == 3)
 		create_obj_enemy_default(doom, obj);
 	else if (obj->type == 4 || obj->type == 5 || obj->type == 6)
 		create_obj_weapon(doom, obj);
