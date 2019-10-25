@@ -26,12 +26,18 @@ void	obj_anim_next(t_obj *obj)
 	int state;
 	int anim_frame;
 
+	if (obj->enabled == 0)
+		return ;
 	state = obj->states_frame;
 	if (obj->anim_count[state] <= 1)
 		return ;
 	obj->anim_frame++;
 	if (obj->anim_frame >= obj->anim_count[state] || obj->images[state][obj->anim_frame] == -1)
+	{
 		obj->anim_frame = 0;
+		if (obj->on_anim_end != NULL)
+			obj->on_anim_end(obj);
+	}
 }
 
 t_img	obj_get_image(t_doom *doom, t_obj *obj)
@@ -148,14 +154,31 @@ int		create_obj_medkit(t_doom *doom, t_obj *obj)
 	obj->on_collision = obj_collision_medkit_pickup;
 }
 
+void	obj_anim_end_disable(t_obj *obj)
+{
+	obj->enabled = 0;
+}
+
 void	obj_hit_explosive(t_doom *doom, t_obj *obj)
 {
+	int		i;
+	t_obj	*o;
+
 	obj_state_change(obj, 1);
+	obj->on_anim_end = obj_anim_end_disable;
+	i = 0;
+	while (i < doom->num.objs)
+	{
+		o = &doom->objs[i];
+		if (obj->n != i && o->on_hit != NULL && distance(o->p, obj->p) < 20.0f)
+			o->on_hit(doom, o);
+		i++;
+	}
 }
 
 int		create_obj_explosive(t_doom *doom, t_obj *obj)
 {
-	obj->col_passable = 1;
+	obj->col_passable = 0;
 	obj->col_size = 3.0f;
 	obj->on_hit = obj_hit_explosive;
 }
@@ -178,6 +201,7 @@ int		create_obj_enemy_default(t_doom *doom, t_obj *obj)
 	obj->col_passable = 1;
 	//col_size is just for not colliding with walls
 	obj->col_size = 5.0f;
+	obj->scale = 6.0f;
 	create_enemy_default(doom, obj);
 }
 
@@ -230,6 +254,7 @@ int		loadobjs(t_doom *doom, t_obj *obj, t_data *objs_data, char *str)
 	o->images = objs_data[id].images;
 	o->enabled = 1;
 	o->n = n;
+	o->scale = 4.0f;
 	if (o->type == OBJ_TYPE_KEY)
 		doom->hud->key = o;
 	create_obj(doom, o);

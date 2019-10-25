@@ -100,7 +100,7 @@ int		vlineobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom)
 				prev_color = color;
 				prev_light = rgb_multiply(color, doom->sectors[obj->sector].light);
 			}
-			if (obj->on_hit && px.x >= WIDTH / 2 - doom->weapon[doom->player.weapon].scatterx &&
+			if (obj->on_hit != NULL && px.x >= WIDTH / 2 - doom->weapon[doom->player.weapon].scatterx &&
 			px.x <= WIDTH / 2 + doom->weapon[doom->player.weapon].scatterx &&
 			y >= HEIGHT / 2 - doom->weapon[doom->player.weapon].scattery &&
 			y <= HEIGHT / 2 + doom->weapon[doom->player.weapon].scattery)
@@ -135,8 +135,8 @@ int		findobjxy2(t_xyz t, t_xy scale, t_obj *obj, t_doom *doom)
 	t_img	img;
 
 	img = obj_get_image(doom, obj);
-	size.y = (float)(img.h / 17 * 6);
-	size.x = (float)(img.w / 57 * 6);
+	size.y = img.h / 17.0f * obj->scale;
+	size.x = img.w / 57.0f * obj->scale;
 	wx = WIDTH / 2 - (int)(t.x * scale.x); 
 	wy.a = HEIGHT / 2 - (int)(yaw(size.y + doom->sectors[obj->sector].floor - doom->player.where.z, t.z, doom->player) * scale.y); 
 	wy.b = HEIGHT / 2 - (int)(yaw(doom->sectors[obj->sector].floor - doom->player.where.z, t.z, doom->player) * scale.y);

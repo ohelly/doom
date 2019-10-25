@@ -141,9 +141,11 @@ typedef struct	s_obj
 	int			states_frame;
 	float		col_size;
 	int			col_passable;
+	float		scale;
 	void		(*on_collision)(struct s_doom *doom, struct s_obj *obj);
 	void		(*on_interaction)(struct s_doom *doom, struct s_obj *obj);
 	void		(*on_hit)(struct s_doom *doom, struct s_obj *obj);
+	void		(*on_anim_end)(struct s_obj *obj);
 }				t_obj;
 
 typedef struct	s_data

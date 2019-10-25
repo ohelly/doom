@@ -322,7 +322,7 @@ int		shoot(t_doom *doom)
 			j = 0;
 			while (j < doom->num.objs)
 			{
-				if (doom->objs[j].on_hit)
+				if (doom->obj_ind[j] == 1 && doom->objs[j].on_hit != NULL)
 				{
 					t++;
 					doom->objs[j].on_hit(doom, &doom->objs[j]);
