@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 18:08:49 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/25 18:51:57 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/25 19:03:29 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,21 +140,12 @@ int			render_weapon(t_doom *doom, t_weapon *weapon)
 
 void		drawweapon(t_doom *doom, t_weapon *weapon)
 {
-	
-	static float time2 = 0;
-	
-	
-	
-	//printf("ind - %d\n", weapon->images[weapon->states_frame][weapon->anim_frame]);
-	
 	if (!(weapon_foot(doom, weapon)))
 		return ;
 	shake_timer(doom, doom->fps);
 	if (doom->player.reload == 1 && weapon->type == 1)
 		weapon->states_frame = 2;
 	ripper_animation(doom, weapon);
-	
-//	if (weapon->anim_frame)
 	if (weapon->states_frame != 0)
 		weapon_anim_next(&doom->player, weapon, weapon->states_frame, doom->fps);
 	render_weapon(doom, weapon);
