@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/24 21:07:45 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/25 19:42:56 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,13 +145,13 @@ void	vline3(int x, t_ab_i wy, t_scaler ty, t_doom *doom)
 			y >= HEIGHT / 2 - doom->weapon[doom->player.weapon].scattery &&
 			y <= HEIGHT / 2 + doom->weapon[doom->player.weapon].scattery)
 			doom->pic_interaction[doom->cood.num] = 1;
-		//if (color && color != prev_color)
-		//{
-		//	prev_color = color;
-		//	prev_light = rgb_multiply(color, doom->sectors[doom->now.sector].light);
-		//}
-		if (color)
-			*pix = color;
+		if (color != prev_color)
+		{
+			prev_color = color;
+			prev_light = rgb_multiply(color, doom->sectors[doom->now.sector].light);
+		}
+		if (prev_light)
+			*pix = prev_light;
         pix += WIDTH;
 		y++;
     }
