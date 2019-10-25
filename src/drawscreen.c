@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/25 19:42:56 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 01:12:40 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,7 @@ void	vline3(int x, t_ab_i wy, t_scaler ty, t_doom *doom)
 			y >= HEIGHT / 2 - doom->weapon[doom->player.weapon].scattery &&
 			y <= HEIGHT / 2 + doom->weapon[doom->player.weapon].scattery)
 			doom->pic_interaction[doom->cood.num] = 1;
+		
 		if (color != prev_color)
 		{
 			prev_color = color;
@@ -152,6 +153,7 @@ void	vline3(int x, t_ab_i wy, t_scaler ty, t_doom *doom)
 		}
 		if (prev_light)
 			*pix = prev_light;
+		
         pix += WIDTH;
 		y++;
     }
@@ -361,18 +363,18 @@ int			render_walls2(t_doom *doom, t_sectors *s, t_cood *cood, t_player player)
 		cood->cny.b = clamp(cood->ny.b, doom->ytop[cood->x], doom->ybot[cood->x]);
 		scaler.a = cood->cy.a;
 		scaler.b = cood->cny.a - 1;
-		vline2(cood->x, scaler, scaler_init(cood->wy, cood->cy.a, 0, doom->img[doom->walls[cood->n].image].w), doom);
+		vline2(cood->x, scaler, scaler_init(cood->wy, cood->cy.a, 0, doom->img[doom->walls[s->txtw[cood->n]].image].w), doom);
 		//vline2(cood->x, cood->cy.a, cood->cny.a - 1, 0, 0x00FF00, 0, doom->sdl);
 		doom->ytop[cood->x] = clamp(max(cood->cy.a, cood->cny.a - 1), doom->ytop[cood->x], HEIGHT - 1);	
 		scaler.a = cood->cny.b;
 		scaler.b = cood->cy.b - 1;
-	    vline2(cood->x, scaler, scaler_init(cood->wy, cood->cny.b, 0, doom->img[doom->walls[cood->n].image].w), doom);
+	    vline2(cood->x, scaler, scaler_init(cood->wy, cood->cny.b, 0, doom->img[doom->walls[s->txtw[cood->n]].image].w), doom);
 		//vline2(cood->x, cood->cny.b, cood->cy.b - 1, 0, 0x00FF00, 0, doom->sdl);
 	    doom->ybot[cood->x] = clamp(min(cood->cy.b, cood->cny.b), 0, doom->ybot[cood->x]);
 	}
 	else
 	{
-		vline2(cood->x, cood->cy, scaler_init(cood->wy, cood->cy.a, 0, doom->img[doom->walls[cood->n].image].w), doom);
+		vline2(cood->x, cood->cy, scaler_init(cood->wy, cood->cy.a, 0, doom->img[doom->walls[s->txtw[cood->n]].image].w), doom);
 		//vline(cood->x, cood->cy.a, cood->cy.b, 0x000000, 0xFFFFFF, 0x000000, doom->sdl);
 	}
 	return (0);
@@ -388,6 +390,7 @@ int			render_walls(t_doom *doom, t_sectors *s, t_cood *cood, t_player player)
 	x = cood->beginx;
 	while (x <= cood->endx)
 	{
+		//printf("x - %d\n", x);
 		if (x == WIDTH / 2)
 		{
 			doom->lookwall[doom->now.sector] = cood->n;
@@ -718,6 +721,8 @@ int			calc_points(t_doom *doom, t_sectors *s, t_cood *cood, t_player player)
 	
 	if (!(find_scales(doom, s, cood, player)))
 		return (0);
+	//printf("aaa \n");
+//printf("now sect - %d\n", doom->now.sector);
 	calc_pics(doom, doom->pics, &doom->cood, doom->player);
 	find_yceil_yfloor(doom, s, cood, player);
 	render_walls(doom, s, cood, player);
@@ -769,13 +774,18 @@ int			draw_walls(t_doom *doom, t_player player)
 		doom->head = doom->queue;
 	while (doom->head != doom->tail)
 	{
+		//printf("a\n");
+		//if (rensects[0] && rensects[1])
+		//	return (0);
+	//	printf("now sect - %d\n", doom->now.sector);
 		doom->now = *doom->tail;
 		if (++doom->tail == doom->queue + 32)
 			doom->tail = doom->queue;
 		if (rensects[doom->now.sector] == 1)
 			continue ;
+		
 		++rensects[doom->now.sector];
-		//printf("now sect - %d\n", doom->now.sector);
+		
 		assign_value(doom->item, doom->now, rensects);
 		s = &doom->sectors[doom->now.sector];
 		calc_sector(doom, s, &doom->cood, doom->player);
@@ -864,14 +874,17 @@ int			draw_scope(t_sdl *sdl)
 
 
 int			draw_screen(t_doom *doom)
-{		
+{	
+	printf("Ok1\n");
 	draw_walls(doom, doom->player);
-	//draw_wall_shots(doom, doom->player, doom->shot_pics, &doom->cood);
+	printf("Ok2\n");
 	drawsky(doom, doom->player, doom->sky, doom->img);
+	//printf("Ok3\n");
 	drawsprites(doom, doom->objs, doom->player);
 	drawweapon(doom, &doom->weapon[doom->player.weapon]);
 	draw_scope(doom->sdl);
 	drawhud(doom);
+	//printf("Ok4\n");
 	return (0);
 }
 

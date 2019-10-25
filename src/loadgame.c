@@ -117,7 +117,10 @@ int		calcnewsector(float dx, float dy, t_doom *doom, t_player *player)
 		}
 		n++;
 	}
-	player_move(doom, (t_xy){dx, dy});
+	doom->player.where.x += dx;
+	doom->player.where.y += dy;
+	doom->player.psin = sinf(doom->player.angle);
+	doom->player.pcos = cosf(doom->player.angle);
 	return (0);
 }
 
@@ -139,14 +142,14 @@ int		calciswall(t_doom *doom, t_player *player)
 	n = 0;
 	sect = &doom->sectors[player->sector];
 	v = sect->vert;
-	while (n < sect->npoints)
-	{
-		if (PointSide(px + dx, py + dy, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) < 0)
-			t++;
-		if (t >= 2)
-			return (0);
-		n++;
-	}
+	// while (n < sect->npoints)
+	// {
+	// 	if (PointSide(px + dx, py + dy, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) < 0)
+	// 		t++;
+	// 	if (t >= 2)
+	// 		return (0);
+	// 	n++;
+	// }
 	tmp = player->sit ? DuckHeight : EyeHeight;
 	n = 0;
 	while (n < sect->npoints)
@@ -313,6 +316,7 @@ int		load_game(t_doom *doom)
 	*/
 	while (1)
 	{
+		printf("1\n");
 		fps(&doom->fps);
 		
 		//enemies_activedate(doom);
