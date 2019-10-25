@@ -100,7 +100,7 @@ int		vlineobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom)
 				prev_color = color;
 				prev_light = rgb_multiply(color, doom->sectors[obj->sector].light);
 			}
-			if (obj->type == 3 && px.x >= WIDTH / 2 - doom->weapon[doom->player.weapon].scatterx &&
+			if (obj->on_hit && px.x >= WIDTH / 2 - doom->weapon[doom->player.weapon].scatterx &&
 			px.x <= WIDTH / 2 + doom->weapon[doom->player.weapon].scatterx &&
 			y >= HEIGHT / 2 - doom->weapon[doom->player.weapon].scattery &&
 			y <= HEIGHT / 2 + doom->weapon[doom->player.weapon].scattery)

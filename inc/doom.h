@@ -64,6 +64,21 @@
 # define ENEMY_STATE_HIT	9
 # define ENEMY_STATE_ATTACK	10
 
+# define OBJ_TYPE_BOX			0
+# define OBJ_TYPE_BREAKABLE		1
+# define OBJ_TYPE_EXPLOSIVE		2
+# define OBJ_TYPE_ENEMY_REG		10
+# define OBJ_TYPE_PISTOL		20
+# define OBJ_TYPE_SHOTGUN		21
+# define OBJ_TYPE_SMG			22
+# define OBJ_TYPE_AMMO_P		23
+# define OBJ_TYPE_AMMO_SH		24
+# define OBJ_TYPE_AMMO_SMG		25
+# define OBJ_TYPE_MED_SMALL		26
+# define OBJ_TYPE_MED_MEDIUM	27
+# define OBJ_TYPE_MED_BIG		28
+# define OBJ_TYPE_KEY			29
+
 typedef struct	s_scaler
 {
 	int 		result;
