@@ -25,10 +25,12 @@ int		walls_collision(t_doom *doom, t_xy pl1, t_xy pl2)
 	t_xy		pos2;
 	t_xy		hole;
 	t_xy		move_pos;
+	float		height;
 
 	sect = &doom->sectors[doom->player.sector];
 	v = sect->vert;
 	n = 0;
+	height = doom->player.sit ? DuckHeight : EyeHeight;
 	while (n < sect->npoints)
 	{
 		pos1 = v2_addf(v[n], doom->wall_col_size);

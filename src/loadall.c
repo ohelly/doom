@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:21:04 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/21 15:47:59 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/25 18:24:57 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,15 @@ char		**loadmap(void)
 	int		i;
 	char	**map;
 	char	*line;
+	int		count;
 
-	//printf("Start gnl\n");
 	if ((fd = open("map-clear.txt", O_RDONLY)) == -1)
 		return (0);
 	i = 0;
 	while (get_next_line(fd, &line))
 		i++;
-	if (!(map = (char**)ft_memalloc(sizeof(char*) * (i + 1))))
+	count = i;
+	if (!(map = (char**)ft_memalloc(sizeof(char*) * (count + 1))))
 		return (NULL);
 	close(fd);
 	fd = open("map-clear.txt", O_RDONLY);
@@ -34,12 +35,13 @@ char		**loadmap(void)
 	{
 		if (!(map[i] = ft_strdup(line)))
 			return (NULL);
+		if (i % 10 == 0)
+			ft_putchar('I');
 		i++;
 		
 	}
 	map[i] = 0;
 	close(fd);
-	//printf("End gnl\n");
 	return (map);
 }
 
@@ -53,7 +55,7 @@ int		new_image(char *str, t_img *img, int w, int h)
 	img[ind].data = (int*)ft_memalloc(sizeof(int) * w * h);
 	img[ind].w = w;
 	img[ind].h = h;
-	printf("ind - %d\n", ind);
+//	printf("ind - %d\n", ind);
 	while (j < w * h)
 	{
 		str = todigit(str, &tmp);
@@ -93,7 +95,7 @@ t_texture	*load_texture(char **map, t_texture *txt, t_img *img)
 	//map[i] = todigit(map[i], &tmp);
 	map[i] = todigit(map[i], &tmp);
 	count = (int)tmp;
-	printf("count - %d\n", count);
+	//printf("count - %d\n", count);
 	txt = (t_texture*)ft_memalloc(sizeof(t_texture) * count);
 	i = 1;
 	a = 0;
@@ -105,7 +107,7 @@ t_texture	*load_texture(char **map, t_texture *txt, t_img *img)
 		h = (int)tmp;
 		//printf("w - %d, h - %d\n", w, h);
 		txt[a].image = new_image(map[i], img, w, h);
-		printf("TXT - %d\n", txt[a].image);
+		//printf("TXT - %d\n", txt[a].image);
 		a++;
 		i++;
 	}
@@ -123,23 +125,28 @@ int		load_texture_data(char **map, t_doom *doom)
 		if (*map[i] == 'S') //sky
 		{
 			doom->sky = load_texture(&map[i], doom->sky, doom->img);
-			printf("sky img - %d\n", doom->sky[0].image);
+			//printf("sky img - %d\n", doom->sky[0].image);
 		}
 		if (*map[i] == 'W') //wall
 		{
 			doom->walls = load_texture(&map[i], doom->walls, doom->img);
-			printf("walls img - %d, i - %d\n", doom->walls[0].image, i);
+			//printf("walls img - %d, i - %d\n", doom->walls[0].image, i);
 		}
 		if (*map[i] == 'C') //ceil
 		{
 			//printf("%s\n", map[i]);
 			doom->ceils = load_texture(&map[i], doom->ceils, doom->img);
-			printf("ceils img - %d, i - %d\n", doom->ceils[0].image, i);	
+			//printf("ceils img - %d, i - %d\n", doom->ceils[0].image, i);	
 		}
 		if (*map[i] == 'F') //floor
 		{
 			doom->floors = load_texture(&map[i], doom->floors, doom->img);
-			printf("floors img - %d\n", doom->floors[0].image);
+			//printf("floors img - %d\n", doom->floors[0].image);
+		}
+		if (*map[i] == 'B') //floor
+		{
+			doom->bullet = load_texture(&map[i], doom->bullet, doom->img);
+			printf("B img - %d\n", doom->bullet[0].image);
 		}
 		i++;
 	}
@@ -171,6 +178,7 @@ int		count_params_obj(char *map, t_data *obj)
 	map = todigit(map, &tmp);
 	map = todigit(map, &tmp);
 	obj->type = (int)tmp;
+	printf("obj type %d\n", obj->type);
 	map = todigit(map, &tmp);
 	obj->states_count = (int)tmp;
 	obj->images = (int**)ft_memalloc(sizeof(int*) * obj->states_count);
@@ -248,10 +256,10 @@ int		count_params_pic(char *map, t_data *pic)
 	map = todigit(map, &tmp);
 	map = todigit(map, &tmp);
 	pic->type = (int)tmp;
-//	printf("pic type - %d\n", pic->type);
+	//printf("pic type - %d\n", pic->type);
 	map = todigit(map, &tmp);
 	pic->states_count = (int)tmp;
-//	printf("pic states - %d\n", pic->states_count);
+	//printf("pic states - %d\n", pic->states_count);
 	pic->images = (int**)ft_memalloc(sizeof(int*) * pic->states_count);
 	pic->anim_count = (int*)ft_memalloc(sizeof(int) * pic->states_count);
 	n = 0;
@@ -277,12 +285,15 @@ int		load_pic(char **map, t_data *pic, t_img *img)
 	t = 1;
 	n = 0;
 	count_params_pic(map[i], pic);
+	printf("states - %d\n", pic->states_count);
 	while (n < pic->states_count)
 	{
 		a = 0;
+		printf("anim - %d\n", pic->anim_count[n]);
 		while (a < pic->anim_count[n])
 		{
 			load_image(map[i + t], &pic->images[n][a], img);
+			printf("ind - %d\n", pic->images[n][a]);
 			t++;
 			a++;
 		}
@@ -329,7 +340,7 @@ int		count_params_weapon(char *map, t_weapon *weapon)
 	//printf("pic type - %d\n", pic->type);
 	map = todigit(map, &tmp);
 	weapon->states_count = (int)tmp;
-	printf("wep states - %d\n", weapon->states_count);
+	//printf("wep states - %d\n", weapon->states_count);
 	weapon->images = (int**)ft_memalloc(sizeof(int*) * weapon->states_count);
 	weapon->anim_count = (int*)ft_memalloc(sizeof(int) * weapon->states_count);
 	n = 0;
@@ -337,7 +348,7 @@ int		count_params_weapon(char *map, t_weapon *weapon)
 	{
 		map = todigit(map, &tmp);
 		weapon->anim_count[n] = (int)tmp;
-		printf("wep anim - %d\n", weapon->anim_count[n]);
+		//printf("wep anim - %d\n", weapon->anim_count[n]);
 		weapon->images[n] = (int*)ft_memalloc(sizeof(int) * weapon->anim_count[n]);
 		n++;
 	}
@@ -375,16 +386,16 @@ int		load_weapon_delay(t_weapon *weapon, int type)
 {
 	if (type == 0) //knife
 	{
-		weapon->delay = 0.15f;
 		weapon->ammo = 1;
+		weapon->delay = 0.15f;
 		weapon->damage = 40;
 		weapon->scatterx = 5;
 		weapon->scattery = 5;
 	}
 	if (type == 1) //pistol
 	{
-		weapon->delay = 0.07f;
 		weapon->ammo = 70;
+		weapon->delay = 0.07f;		
 		weapon->damage = 50;
 		weapon->scatterx = 5;
 		weapon->scattery = 5;
@@ -455,14 +466,14 @@ int		load_data(t_doom *doom, char **map)
 	return (0);
 }
 
-int		load_shot_pics(t_pics *shots)
+int		load_shot_pics(t_pics *shots, t_texture *bullet)
 {
 	int		i;
 	t_pics	p;
 
 	p.images = (int**)ft_memalloc(sizeof(int*) * 1);
 	p.images[0] = (int*)ft_memalloc(sizeof(int) * 1);
-	p.images[0][0] = 20;
+	p.images[0][0] = bullet->image;
 	p.type = 5;
 	i = 0;
 	while (i < 64)
@@ -512,7 +523,7 @@ int		load_params(t_doom *doom, char **map)
 	}
 	doom->player.where.z = doom->sectors[doom->player.sector].floor + EyeHeight;
 	doom->wall_col_size = 0.1f;
-	load_shot_pics(doom->shot_pics);
+	load_shot_pics(doom->shot_pics, &doom->bullet[0]);
 	free(v);
 	return (0);
 }
@@ -522,10 +533,14 @@ int		loadall(t_doom *doom)
 	char	**map;
 	int		j;
 
+	ft_putendl("Loading map.");
 	j = 0;
 	if (!(map = loadmap()))
 		return (0);
+	ft_putendl("Map loaded.");
 	//printf("Map loaded.\n");
+	if (!(doom->hud = (t_hud*)ft_memalloc(sizeof(t_hud))))
+		return (0);
 	load_data(doom, map);
 	load_params(doom, map);
 	if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 1024) < 0)
@@ -537,7 +552,7 @@ int		loadall(t_doom *doom)
 	
 	if (!(doom->len = (float*)ft_memalloc(sizeof(float) * doom->num.objs)))
 		return (0);
-	if (!(doom->lookwall = (float*)ft_memalloc(sizeof(float) * doom->num.sectors)))
+	if (!(doom->lookwall = (int*)ft_memalloc(sizeof(int) * doom->num.sectors)))
 		return (0);
 	/*
 	if (!(doom->txt = (t_texture*)ft_memalloc(sizeof(t_texture) * 1))) //нужно посчитать кол-во текстур
@@ -549,5 +564,6 @@ int		loadall(t_doom *doom)
 		printf("txtw - %d\n", doom->sector[j].txtw);		
 		j++;
 	}*/
+	
 	return (1);
 }

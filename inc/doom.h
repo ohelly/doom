@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/21 17:31:59 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/25 18:38:33 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <math.h>
 # include <SDL.h>
 # include <SDL_image.h>
+# include <SDL_ttf.h>
 # include <SDL_mixer.h>
 # include <get_next_line.h>
 
@@ -31,7 +32,7 @@
 # define NEARSIDE 1e-5f
 # define FARSIDE 20.f
 # define EyeHeight  15
-# define DuckHeight 2.5
+# define DuckHeight 4.5
 # define HeadMargin 1
 # define KneeHeight 2
 # define HFOV (0.73f * HEIGHT / WIDTH)
@@ -124,8 +125,9 @@ typedef struct	s_obj
 	int			states_frame;
 	float		col_size;
 	int			col_passable;
-	void		(*on_collision)(struct t_doom *doom, struct s_obj *obj);
-	void		(*on_interaction)(struct t_doom *doom, struct s_obj *obj);
+	void		(*on_collision)(struct s_doom *doom, struct s_obj *obj);
+	void		(*on_interaction)(struct s_doom *doom, struct s_obj *obj);
+	void		(*on_hit)(struct s_doom *doom, struct s_obj *obj);
 }				t_obj;
 
 typedef struct	s_data
@@ -163,18 +165,21 @@ typedef struct		s_player
 	int			sector;
 	int			move; // player moving
 	int			sit; // crouch
+	int			sprint; // crouch
 	int			stand; 
 	int			fall; // jump or fall
 	int			ground; // player on the ground (fall = !ground)
 	int			start;
 	int			end;
 	int			weapon;
+	int			allweapons[4];
 	int			hp;
 	float		blood; //intensity of blood on the screen
 	float		col_size;
 	int			reload;
 	int			shoots;
 	int			wall;
+	int			key;
 }				t_player;
 	float			col_size;
 
@@ -320,6 +325,28 @@ typedef struct 	s_item
 	int			*ybot;
 }				t_item;
 
+typedef struct	s_hudel
+{
+	TTF_Font	*f; // Font
+	char		*t; // Title
+	SDL_Surface	*s; // Surface
+	unsigned char		*p; // Pixels
+	int			w; // Width
+	int			h; // Height
+	int			x; // Offset X
+	int			y; // Offset Y
+	int			c; // Color
+	int			b; // Border Color
+}				t_hudel;
+
+typedef struct	s_hud
+{
+	TTF_Font	*font;
+	t_hudel		health;
+	t_hudel		ammo;
+	t_obj		*key;
+}				t_hud;
+
 typedef struct	s_music
 {
 	Mix_Music	*music;
@@ -336,10 +363,12 @@ typedef struct	s_doom
 {
 	t_img		img[512];
 	t_weapon	*weapon;
+	t_hud		*hud;
 	t_texture	*sky;
 	t_texture	*walls;
 	t_texture	*floors;
 	t_texture	*ceils;
+	t_texture	*bullet;
 	t_obj		*objs;
 	t_data		*objs_data;
 	t_pics		*pics;
@@ -403,6 +432,7 @@ typedef struct		s_enemy
 	void			(*on_framestart)(t_doom *doom, struct s_enemy *enemy);
 }					t_enemy;
 
+int		findpicpoints(t_doom *doom, t_pics *pic, float w);
 int		loadall(t_doom *doom);
 int		initall(t_doom *doom);
 int		countall(t_doom *doom, char **map);
@@ -412,6 +442,8 @@ char	*todigit(char *str, float *data);
 int		loadobjs(t_doom *doom, t_obj *obj, t_data *objs_data, char *str);
 int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str);
 int		loadplayer(t_player *player, char *str);
+int		load_hud(t_doom *doom);
+int		loadfonts(t_hud *hud);
 int		load_game(t_doom *doom);
 int		hooks(t_doom *doom, SDL_Event ev);
 int		profile_output(t_doom *doom);
@@ -421,6 +453,7 @@ int		rgb_multiply(int color, float value);
 float	vxs(float x0, float y0, float x1, float y1);
 float	yaw(float y, float z, t_player player);
 void	drawweapon(t_doom *doom, t_weapon *weapon);
+void	drawhud(t_doom *doom);
 int     drawsprites(t_doom *doom, t_obj *obj, t_player player);
 t_img	weapon_get_image(t_doom *doom, t_weapon *weapon);
 int		player_move(t_doom *doom, t_xy move_pos);

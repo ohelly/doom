@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/21 19:29:58 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/24 21:07:45 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,12 +135,15 @@ void	vline3(int x, t_ab_i wy, t_scaler ty, t_doom *doom)
 	if (doom->isshoot)
 		set = doom->img[doom->shot_pics[doom->cood.num].images[0][0]];
 	else
-		set = doom->img[doom->pics[doom->cood.num].images[0][doom->pics[doom->cood.num].anim_frame]];
+		set = doom->img[doom->pics[doom->cood.num].images[doom->pics[doom->cood.num].states_frame][doom->pics[doom->cood.num].anim_frame]];
     while (y <= y2)
     {
         txty = scaler_next(&ty);
 		color = set.data[txty % set.h * set.w + doom->cood.ptxtx % set.w];
-		if (x == WIDTH / 2 && y == HEIGHT / 2)
+		if (x >= WIDTH / 2 - doom->weapon[doom->player.weapon].scatterx &&
+			x <= WIDTH / 2 + doom->weapon[doom->player.weapon].scatterx &&
+			y >= HEIGHT / 2 - doom->weapon[doom->player.weapon].scattery &&
+			y <= HEIGHT / 2 + doom->weapon[doom->player.weapon].scattery)
 			doom->pic_interaction[doom->cood.num] = 1;
 		//if (color && color != prev_color)
 		//{
@@ -504,10 +507,11 @@ int			calc_pics(t_doom *doom, t_pics *pic, t_cood *cood, t_player player)
 			if (doom->a == 1)
 			{
 				pic[i].anim_frame++;
-				if (pic[i].anim_frame >= pic[i].anim_count[0] ||
+				if (pic[i].anim_frame >= pic[i].anim_count[pic[i].states_frame] ||
 					pic[i].images[pic[i].states_frame][pic[i].anim_frame] == -1)
 					pic[i].anim_frame = 0;
 			}
+			//printf("satte - %d, anim - %d\n", pic[i].states_frame, pic[i].anim_frame);
 			cood->picnum[count] = i;
 			cood->pv1[count].x = pic[i].p1.x - player.where.x;
 			cood->pv1[count].y = pic[i].p1.y - player.where.y;
@@ -560,8 +564,8 @@ int			calc_pics(t_doom *doom, t_pics *pic, t_cood *cood, t_player player)
 				i++;
 				continue ;
 			}
-			cood->pyceil[count] = pic[i].p.z / 2 + doom->sectors[doom->now.sector].floor + doom->img[pic[i].images[pic[i].states_frame][pic[i].anim_frame]].h / 7 - player.where.z;
-			cood->pyfloor[count] = pic[i].p.z / 2 + doom->sectors[doom->now.sector].floor - player.where.z;
+			cood->pyceil[count] = pic[i].p.z + doom->sectors[doom->now.sector].floor + (float)(doom->img[pic[i].images[pic[i].states_frame][pic[i].anim_frame]].h) / 9.f - player.where.z;
+			cood->pyfloor[count] = pic[i].p.z + doom->sectors[doom->now.sector].floor - player.where.z;
 			cood->pw1y[count].a = HEIGHT / 2 - (int)(yaw(cood->pyceil[count] , cood->pt1[count].z, player) * cood->pscale1[count].y);
 			cood->pw1y[count].b = HEIGHT / 2 - (int)(yaw(cood->pyfloor[count], cood->pt1[count].z, player) * cood->pscale1[count].y);
 			cood->pw2y[count].a = HEIGHT / 2 - (int)(yaw(cood->pyceil[count] , cood->pt2[count].z, player) * cood->pscale2[count].y);
@@ -647,7 +651,7 @@ int			draw_wall_shots(t_doom *doom, t_player player, t_pics *pic, t_cood *cood)
 			i++;
 			continue ;
 		}
-		cood->pyceil[i] = pic[i].p.z + doom->sectors[doom->now.sector].floor + doom->img[pic[i].images[0][0]].h / 7 - player.where.z;
+		cood->pyceil[i] = pic[i].p.z + doom->sectors[doom->now.sector].floor + (float)(doom->img[pic[i].images[0][0]].h) / 10.f - player.where.z;
 		cood->pyfloor[i] = pic[i].p.z + doom->sectors[doom->now.sector].floor - player.where.z;
 		cood->pw1y[i].a = HEIGHT / 2 - (int)(yaw(cood->pyceil[i] , cood->pt1[i].z, player) * cood->pscale1[i].y);
 		cood->pw1y[i].b = HEIGHT / 2 - (int)(yaw(cood->pyfloor[i], cood->pt1[i].z, player) * cood->pscale1[i].y);
@@ -658,7 +662,6 @@ int			draw_wall_shots(t_doom *doom, t_player player, t_pics *pic, t_cood *cood)
 		//printf("top - %d, bot - %d\n", doom->item[pic[i].neighbor].ytop[0], doom->item[pic[i].neighbor].ybot[0]);
 		while (x <= cood->pw2x[i])
 		{
-			
 			if (x >= 0 && x < WIDTH)
 			{
 				if (pic[i].sector != doom->player.sector)
@@ -868,6 +871,7 @@ int			draw_screen(t_doom *doom)
 	drawsprites(doom, doom->objs, doom->player);
 	drawweapon(doom, &doom->weapon[doom->player.weapon]);
 	draw_scope(doom->sdl);
+	drawhud(doom);
 	return (0);
 }
 
