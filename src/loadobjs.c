@@ -62,7 +62,7 @@ int		obj_collision_key_pickup(t_doom *doom, t_obj *obj)
 int		obj_collision_weapon_pickup(t_doom *doom, t_obj *obj)
 {
 	obj->enabled = 0;
-	play_sound(doom, SOUND_PICKUP);
+	play_sound(doom, SOUND_WEAPON_PICKUP);
 	printf("Picked up weapon with %d type!\n", obj->type);
 	doom->player.allweapons[obj->type - 3] = 1;
 	doom->player.weapon = obj->type - 3;
@@ -73,7 +73,7 @@ int		obj_collision_ammo_pickup(t_doom *doom, t_obj *obj)
 	if (doom->player.weapon)
 	{
 		obj->enabled = 0;
-		play_sound(doom, SOUND_PICKUP);
+		play_sound(doom, SOUND_WEAPON_PICKUP);
 		printf("Picked up 10 ammo!\n");
 		doom->weapon[doom->player.weapon].ammo += 10;
 	}

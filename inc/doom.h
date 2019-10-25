@@ -51,12 +51,13 @@
     vxs(vxs(x1,y1, x2,y2), (x1)-(x2), vxs(x3,y3, x4,y4), (x3)-(x4)) / vxs((x1)-(x2), (y1)-(y2), (x3)-(x4), (y3)-(y4)), \
     vxs(vxs(x1,y1, x2,y2), (y1)-(y2), vxs(x3,y3, x4,y4), (y3)-(y4)) / vxs((x1)-(x2), (y1)-(y2), (x3)-(x4), (y3)-(y4)) })
 
-# define SOUND_SHOOT	0
-# define SOUND_PICKUP	1
-# define SOUND_DEATH	2
-# define SOUND_INTERACT	3
-# define SOUND_E_ATTACK	4
-# define SOUND_LOSS		5
+# define SOUND_SHOOT			0
+# define SOUND_PICKUP			1
+# define SOUND_DEATH			2
+# define SOUND_INTERACT			3
+# define SOUND_E_ATTACK			4
+# define SOUND_LOSS				5
+# define SOUND_WEAPON_PICKUP	6
 
 # define ENEMY_STATE_IDLE	0
 # define ENEMY_STATE_DEAD	8

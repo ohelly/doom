@@ -26,6 +26,9 @@ int		load_music(t_doom *doom)
 	s = &doom->sound[SOUND_PICKUP];
 	s->sound = Mix_LoadWAV("pickup.wav");
 	s->volume = 100;
+	s = &doom->sound[SOUND_WEAPON_PICKUP];
+	s->sound = Mix_LoadWAV("weapon_pick.wav");
+	s->volume = 100;
 	s = &doom->sound[SOUND_DEATH];
 	s->sound = Mix_LoadWAV("death.wav");
 	s->volume = 100;
