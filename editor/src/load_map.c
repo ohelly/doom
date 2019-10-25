@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/12 16:27:03 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/23 15:56:11 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/25 20:02:13 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,8 +111,11 @@ void	load_sector(t_doom *doom, char *line)
 	while (line[i] != '\t')
 		i++;
 	doom->sects->sectors[doom->sects->count].ceiling = ft_atoi(&line[i++]);
-	while (!(ft_isdigit(line[i]) && line[i - 1] ==
-	'\t' && line[i + 1] == ' ' && line[i] != '\0'))
+	while (!(ft_isdigit(line[i])))
+		i++;
+	while (line[i] != '\t')
+		i++;
+	while (!(ft_isdigit(line[i])))
 		i++;
 	i = load_wall(doom, line, i);
 	//load_attr(doom, line, i);
