@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 14:46:49 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/20 19:21:22 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/23 19:26:52 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,12 +43,11 @@ void		mouse_press_left_two(t_doom *doom, int x, int y)
 
 void		mouse_press_left_thr(t_doom *doom, int x, int y)
 {
-	if ((x >= 950 && x <= 1000 && y >= 10 && y <= 60 && doom->obj->count > 1)
-	|| (x >= 1200 && x <= 1250 && y >= 10 && y <= 60 && doom->obj->count > 1))
+	if ((x >= 950 && x <= 1000 && y >= 10 && y <= 60)
+	|| (x >= 1200 && x <= 1250 && y >= 10 && y <= 60))
 		sel_object(x, y, doom->obj, doom->aspr);
-	else if ((x > 949 && x < 1001 && y > 109 && y < 161 &&
-	doom->aspr->count > 1) || (x > 1199 && x < 1251 && y > 109 &&
-	y < 161 && doom->aspr->count > 1))
+	else if ((x > 949 && x < 1001 && y > 109 && y < 161) ||
+	(x > 1199 && x < 1251 && y > 109 && y < 161))
 		sel_sprite(x, y, doom->obj, doom->aspr);
 	else if ((x >= 950 && x <= 1000 && y >= 210 && y <= 260) ||
 	(x >= 1200 && x <= 1250 && y >= 210 && y <= 260))

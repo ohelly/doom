@@ -1,0 +1,5 @@
+Vertex	70		0 140
+Vertex	140		150
+Vertex	150		0
+
+Sector	0		20		0 3 2 1		-1 -1 -1 -1
