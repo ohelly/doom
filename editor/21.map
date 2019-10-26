@@ -1,0 +1,31 @@
+Vertex	40		730
+Vertex	50		630
+Vertex	90		420
+Vertex	180		900
+Vertex	210		330
+Vertex	235		955
+Vertex	270		660
+Vertex	300		1020
+Vertex	337		688
+Vertex	339		689
+Vertex	350		520
+Vertex	360		320
+Vertex	373		703
+Vertex	410		720
+Vertex	424		554
+Vertex	445		259
+Vertex	500		590 700
+Vertex	540		640 950
+Vertex	560		180
+Vertex	660		820
+
+Sector	0		20		16 20 15 14		-1 -1 -1 7
+Sector	0		20		4 6 10 11		-1 2 -1 7
+Sector	0		20		2 1 6 4		-1 -1 3 1
+Sector	0		20		0 3 6 1		-1 -1 8 2
+Sector	0		20		7 13 12 5		-1 5 -1 9
+Sector	0		20		7 19 17 13		4 -1 6 -1
+Sector	0		20		19 21 18 17		5 -1 -1 -1
+Sector	0		20		11 10 14 15		-1 1 -1 0
+Sector	0		20		3 5 8 6		3 -1 9 -1
+Sector	0		20		9 8 5 12		-1 -1 8 4

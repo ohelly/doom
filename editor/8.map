@@ -1,0 +1,7 @@
+Vertex	170		520
+Vertex	250		420
+Vertex	320		590
+Vertex	430		490
+
+Sector	0		20		1 0 2		1 -1 -1
+Sector	0		20		1 2 3		-1 0 -1
