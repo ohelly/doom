@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 12:31:08 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 13:19:26 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,12 @@
 # define SOUND_SCREAM			8
 # define SOUND_JUMP				9
 # define SOUND_DAMAGE			10
+# define SOUND_PISTOL			11
+# define SOUND_SHOTGUN			12
+# define SOUND_RIPPER			13
+# define SOUND_FOOT				14
+# define SOUND_EXPLOSIVE		15
+# define SOUND_CRASH			16
 
 # define ENEMY_STATE_IDLE	0
 # define ENEMY_STATE_DEAD	8
@@ -417,7 +423,7 @@ typedef struct	s_doom
 	int			obj_num;
 	struct s_enemy		*enemies;
 	t_music		music[2];
-	t_sound		sound[16];
+	t_sound		sound[17];
 }				t_doom;
 
 typedef struct		s_enemy
@@ -448,7 +454,7 @@ int		loadvertexes(t_xy *v, char *str);
 int		loadsectors(t_sectors *s, t_xy *v, char *str);
 char	*todigit(char *str, float *data);
 int		loadobjs(t_doom *doom, t_obj *obj, t_data *objs_data, char *str);
-
+int		shoot(t_doom *doom);
 int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str);
 t_img	pic_get_image(t_doom *doom, t_pics *pic);
 void	pic_anim_next(t_pics *pic);

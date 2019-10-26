@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 18:08:49 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/26 12:08:27 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 13:06:26 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,9 +145,9 @@ void		drawweapon(t_doom *doom, t_weapon *weapon)
 	if (weapon->states_frame != 0)
 		weapon_anim_next(doom, &doom->player, weapon, doom->fps);
 	render_weapon(doom, weapon);
-	if (weapon->type == WEAPON_RIPPER && doom->lkey && weapon->anim_frame % 3 == 0 && weapon->ammo)
+	if (weapon->type == WEAPON_RIPPER && doom->lkey && weapon->anim_frame % 4 == 0 && weapon->ammo)
 	{
-		shoot(doom, weapon);
+		shoot(doom);
 		weapon->ammo--;
 		if (!weapon->ammo)
 			weapon_state_change(weapon, 0);

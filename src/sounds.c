@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 17:21:32 by njacobso          #+#    #+#             */
-/*   Updated: 2019/10/26 12:31:19 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 13:19:14 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,24 @@ int		load_music(t_doom *doom)
 	s = &doom->sound[SOUND_DAMAGE];
 	s->sound = Mix_LoadWAV("damage.wav");
 	s->volume = 100;
+	s = &doom->sound[SOUND_PISTOL];
+	s->sound = Mix_LoadWAV("pistol.wav");
+	s->volume = 100;
+	s = &doom->sound[SOUND_SHOTGUN];
+	s->sound = Mix_LoadWAV("shotgun.wav");
+	s->volume = 100;
+	s = &doom->sound[SOUND_RIPPER];
+	s->sound = Mix_LoadWAV("ripper.wav");
+	s->volume = 100;
+	s = &doom->sound[SOUND_FOOT];
+	s->sound = Mix_LoadWAV("foot.wav");
+	s->volume = 100;
+	s = &doom->sound[SOUND_EXPLOSIVE];
+	s->sound = Mix_LoadWAV("explosion.wav");
+	s->volume = 100;
+	s = &doom->sound[SOUND_CRASH];
+	s->sound = Mix_LoadWAV("crash.wav");
+	s->volume = 100;
 	printf("Music loaded!\n");
 }
 
@@ -61,7 +79,7 @@ int		play_sound(t_doom *doom, int index)
 	Mix_Chunk	*sound;
 	int			ch;
 
-	if (index >= 16 || index < 0)
+	if (index >= 17 || index < 0)
 		return (0);
 	sound = doom->sound[index].sound;
 	ch = Mix_PlayChannel(-1, sound, 0);

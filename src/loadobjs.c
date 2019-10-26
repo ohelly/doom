@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:50:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 07:13:06 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 13:15:26 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ void	obj_hit_explosive(t_doom *doom, t_obj *obj)
 	int		i;
 	t_obj	*o;
 
+	play_sound(doom, SOUND_EXPLOSIVE);
 	obj_state_change(obj, 1);
 	obj->on_anim_end = obj_anim_end_disable;
 	i = 0;

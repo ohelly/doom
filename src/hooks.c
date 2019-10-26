@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 12:28:13 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 13:20:15 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ int		find_pic_interaction(t_doom *doom, t_player player, t_pics *pics)
 				change_light(player, &doom->sectors[player.sector], &pics[i]);
 			if (pics[i].type == PIC_TYPE_DECOR && doom->lkey)
 			{
+				play_sound(doom, SOUND_CRASH);
 				pics[i].states_frame = 1;
 				pics[i].anim_frame = 0;
 			}
@@ -366,12 +367,25 @@ int		find_on_hit_obj(t_doom *doom)
 	return (t);
 }
 
+void	fire_sounds(t_doom *doom, int weapon)
+{
+	if (weapon == WEAPON_FOOT)
+		play_sound(doom, SOUND_FOOT);
+	if (weapon == WEAPON_PISTOL)
+		play_sound(doom, SOUND_PISTOL);
+	if (weapon == WEAPON_SHOTGUN)
+		play_sound(doom, SOUND_SHOTGUN);
+	if (weapon == WEAPON_RIPPER)
+		play_sound(doom, SOUND_RIPPER);
+}
+
 int		shoot(t_doom *doom)
 {
 	int		i;
 	int		j;
 
-	play_sound(doom, SOUND_SHOOT);
+	//play_sound(doom, SOUND_SHOOT);
+	fire_sounds(doom, doom->player.weapon);
 	i = -1;
 	while (++i < 32)
 	{
@@ -387,10 +401,13 @@ int		shoot(t_doom *doom)
 	return (0);
 }
 
+
+
 void	left_mouse_keydown(t_doom *doom, SDL_Event ev, t_weapon *weapon, t_player *player)
 {
 	if (ev.button.button == SDL_BUTTON_LEFT && !player->reload && weapon->ammo && !weapon->states_frame)
 	{
+		
 		doom->lkey = 1;
 		if (player->weapon)
 			weapon->ammo--;
