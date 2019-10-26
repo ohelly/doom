@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 14:46:27 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 15:04:30 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -262,7 +262,7 @@ int		shoot_wall(t_doom *doom, t_player player, t_sectors *sect, t_pics *pic)
 	{
 		if (doom->shot_pics.p.z > s->ceil || doom->shot_pics.p.z < s->floor)
 			return (0);
-		findpicpoints(doom, &doom->shot_pics, (float)(doom->img[doom->shot_pics.images[0][0]].w) / 256.f);
+		findpicpoints(doom, &doom->shot_pics, (float)(doom->img[doom->shot_pics.images[0][0]].w) / 270.f);
 	}
 	else
 	{

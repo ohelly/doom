@@ -319,20 +319,32 @@ int		load_game(t_doom *doom)
 	load_hud(doom);
 	while (1)
 	{
+		printf("ok1\n");
 		fps(&doom->fps);
+		printf("ok2\n");
 		animation(doom, doom->fps);
+		printf("ok3\n");
 		doors(doom, doom->player, doom->fps);
+		printf("ok4\n");
 		draw_screen(doom);
+		printf("ok5\n");
 		objects_update(doom);
+		printf("ok6\n");
 		enemies_update(doom);
+		printf("ok7\n");
 		player_blood_update(doom);
+		printf("ok8\n");
 		calc_jump(doom, &doom->player, doom->sectors, doom->fps);
+		printf("ok9\n");
 		if (doom->player.move == 1)
 			calciswall(doom, &doom->player);
+			printf("ok10\n");
 		while (SDL_PollEvent(&ev))
 			hooks(doom, ev);
+		printf("ok11\n");
 		calc_mouse(&doom->player, doom->player.yaw);
 		calc_move(doom, &doom->player);
+		printf("ok12\n");
 		SDL_UpdateWindowSurface(doom->sdl->win);
 		if (doom->a)
 			doom->a = 0;

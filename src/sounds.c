@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 17:21:32 by njacobso          #+#    #+#             */
-/*   Updated: 2019/10/26 13:19:14 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 15:46:10 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,7 +106,7 @@ int		sound_free_everything(t_doom *doom)
 	while (++i < 2)
 		Mix_FreeMusic(doom->music[i].music);
 	i = -1;
-	while (++i < 10)
+	while (++i < 17)
 		Mix_FreeChunk(doom->sound[i].sound);
 	return (1);
 }

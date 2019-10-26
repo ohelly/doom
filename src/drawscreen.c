@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 14:44:42 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 18:11:09 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void	vline3(int x, t_ab_i wy, t_scaler ty, t_doom *doom)
     y2 = clamp(y2, 0, HEIGHT - 1);
     pix += y1 * WIDTH + x;
 	y = y1;
-	set = pic_get_image(doom, &doom->pics[doom->cood.num]);//->img[doom->pics[doom->cood.num].images[doom->pics[doom->cood.num].states_frame][doom->pics[doom->cood.num].anim_frame]];
+	set = pic_get_image(doom, &doom->pics[doom->cood.num]);
     while (y <= y2)
     {
         txty = scaler_next(&ty);
@@ -138,7 +138,7 @@ void	vline3(int x, t_ab_i wy, t_scaler ty, t_doom *doom)
 			if (x >= WIDTH / 2 - doom->weapon[doom->player.weapon].scatterx &&
 				x <= WIDTH / 2 + doom->weapon[doom->player.weapon].scatterx &&
 				y >= HEIGHT / 2 - doom->weapon[doom->player.weapon].scattery &&
-				y <= HEIGHT / 2 + doom->weapon[doom->player.weapon].scattery)
+				y <= HEIGHT / 2 + doom->weapon[doom->player.weapon].scattery && doom->cood.num < 64)
 				doom->pic_interaction[doom->cood.num] = 1;
 			if (color != prev_color)
 			{
@@ -395,8 +395,11 @@ int			render_walls(t_doom *doom, t_sectors *s, t_cood *cood, t_player player)
 	cood->beginx = max(cood->w1x, doom->now.sx);
 	cood->endx = min(cood->w2x, doom->now.ex);
 	x = cood->beginx;
+	//printf("ok\n");
+	
 	while (x <= cood->endx)
 	{
+		
 		if (x == WIDTH / 2)
 			doom->lookwall[doom->now.sector] = cood->n;
 		cood->x = x;
@@ -405,6 +408,16 @@ int			render_walls(t_doom *doom, t_sectors *s, t_cood *cood, t_player player)
 		cood->cy.a = clamp(cood->wy.a, doom->ytop[x], doom->ybot[x]);
 		cood->wy.b = (x - cood->w1x) * (cood->w2y.b - cood->w1y.b) / (cood->w2x - cood->w1x) + cood->w1y.b;
 		cood->cy.b = clamp(cood->wy.b, doom->ytop[x], doom->ybot[x]);
+		// if (x == cood->beginx)
+		// {
+		// 	printf("wya - %d, wyb - %d\n", cood->wy.a, cood->wy.b);
+		// 	printf("w1ya - %d, w1yb - %d\n", cood->w1y.a, cood->w1y.b);
+		// 	printf("w2ya - %d, w2yb - %d\n", cood->w2y.a, cood->w2y.b);
+		// 	printf("t1x - %f, t1z - %f\n", cood->t1.x, cood->t1.z);
+		// 	printf("t2x - %f, t2z - %f\n", cood->t2.x, cood->t2.z);
+		// 	printf("scale1x - %f, scale1y - %f\n", cood->scale1.x, cood->scale1.y);
+		// 	printf("scale2x - %f, scale2y - %f\n", cood->scale2.x, cood->scale2.y);
+		// }
 		draw_ceil_floor(doom, s, cood, player);
 		render_walls2(doom, s, cood, player);
 		render_pics(doom, doom->pics, x);
@@ -472,9 +485,9 @@ int			find_pic_points(t_cood *cood, t_pics *pic, t_sectors *s, t_doom *doom)
 	img = pic_get_image(doom, pic);
 	cood->yceil = pic->p.z + s->floor + (float)(img.h) / tmp - doom->player.where.z;
 	cood->yfloor = pic->p.z + s->floor - doom->player.where.z;
-	cood->w1y.a = HEIGHT / 2 - (int)(yaw(cood->yceil , cood->t1.z, doom->player) * cood->scale1.y);
+	cood->w1y.a = HEIGHT / 2 - (int)(yaw(cood->yceil, cood->t1.z, doom->player) * cood->scale1.y);
 	cood->w1y.b = HEIGHT / 2 - (int)(yaw(cood->yfloor, cood->t1.z, doom->player) * cood->scale1.y);
-	cood->w2y.a = HEIGHT / 2 - (int)(yaw(cood->yceil , cood->t2.z, doom->player) * cood->scale2.y);
+	cood->w2y.a = HEIGHT / 2 - (int)(yaw(cood->yceil, cood->t2.z, doom->player) * cood->scale2.y);
 	cood->w2y.b = HEIGHT / 2 - (int)(yaw(cood->yfloor, cood->t2.z, doom->player) * cood->scale2.y);
 	pic->vis = 1;
 	return (0);
@@ -710,15 +723,22 @@ void		draw_scope(t_sdl *sdl)
 }
 
 int			draw_screen(t_doom *doom)
-{	
+{
+	printf("d1\n");
 	draw_walls(doom, doom->player);
+	printf("d2\n");
 	drawsky(doom, doom->player, doom->sky, doom->img);
+	printf("d3\n");
 	drawsprites(doom, doom->objs, doom->player);
+	printf("d4\n");
 	if (!doom->player.dead)
 	{
 		drawweapon(doom, &doom->weapon[doom->player.weapon]);
+		printf("d5\n");
 		draw_scope(doom->sdl);
+		printf("d6\n");
 	}
 	drawhud(doom);
+	printf("d7\n");
 	return (0);
 }

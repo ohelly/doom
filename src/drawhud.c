@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 17:27:54 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/25 18:39:13 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 17:31:48 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,14 @@ void			drawhud(t_doom *doom)
 	//printf("ammo - %s\n", doom->hud->ammo.t);
 	
 	//doom->hud->health.t = ft_itoa(doom->player.hp);
+	printf("1\n");
 	load_hud(doom);
+	printf("2\n");
 	drawhudel(doom->hud->health, doom->sdl->pix);
+	printf("3\n");
 	drawhudel(doom->hud->ammo, doom->sdl->pix);
+	printf("4\n");
 	if (doom->player.key)
 		drawkey(doom, doom->hud->key);
+	printf("5\n");
 }
