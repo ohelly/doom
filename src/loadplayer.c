@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 14:22:21 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/11 15:35:20 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/24 17:53:06 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,9 @@
 int		loadplayer(t_player *player, char *str)
 {
 	float	tmp;
+	int		n;
 
+	n = 0;
 	str = todigit(str, &player->where.y);
 	str = todigit(str, &player->where.x);
 	str = todigit(str, &player->angle);
@@ -26,6 +28,16 @@ int		loadplayer(t_player *player, char *str)
 	player->hp = (int)tmp;
 	str = todigit(str, &tmp);
 	player->weapon = (int)tmp;
+	
+	while (n < 4)
+	{
+		if (n == player->weapon)
+			player->allweapons[n] = 1;
+		else
+			player->allweapons[n] = 0;
+		n++;
+	}
+	player->allweapons[0] = 1;
 	str = todigit(str, &tmp);
 	player->end = (int)tmp;
 	printf("Angle - %f\n", player->angle);

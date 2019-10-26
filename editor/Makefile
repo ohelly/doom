@@ -6,7 +6,7 @@
 #    By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/02 20:58:32 by lminta            #+#    #+#              #
-#    Updated: 2019/10/15 19:49:33 by ohelly           ###   ########.fr        #
+#    Updated: 2019/10/26 15:43:39 by ohelly           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -35,8 +35,12 @@ src/put_canvas.o src/put_select.o src/math_line.o src/math_vectors.o \
 src/math_helpers.o src/export.o src/line_intersect.o src/select.o src/build.o \
 src/load_map.o src/build_portal.o src/move_map.o src/split_wall.o src/delete_action.o src/split_sectors.o \
 src/load_img.o src/put_image_on_screen.o src/put_string_on_screen.o src/mouse_press.o src/my_itoa.o \
-src/set_sprite_on_wall.o src/set_object.o src/init_all.o src/mouse_press_left_two.o \
-src/mouse_press_left_thr.o src/additional_func.o src/check_convex.o \
+src/set_sprite_on_wall.o src/set_object.o src/init_all.o src/mouse_press_left.o \
+src/additional_func.o src/check_convex.o src/sel_sector.o src/sel_wall.o src/mouse_press_right.o \
+src/sel_attr.o src/sel_value.o src/sel_texture_wall.o src/change_skybox.o src/sel_object.o src/sel_sprite.o \
+src/render_images.o src/edditing_img_render.o src/main_hud_for_edditing.o src/object_img_render.o \
+src/helper_draw.o src/height_spr.o src/export_vert.o src/export_sector.o src/export_helper.o \
+src/export_wall.o src/export_wall_rev.o \
 
 all: $(FRAMEDIR) $(LIBS) $(FRAME) $(NAME)
 

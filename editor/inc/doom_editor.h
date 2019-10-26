@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/15 19:22:45 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/26 15:37:54 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,11 +25,11 @@
 # include "get_next_line.h"
 # define WIDTH 1280
 # define HEIGHT 720
-# define BUFF_SIZE 1
 # define DELAY_ERR 50
 # define COUNT_T 21
 # define COUNT_H 21
 # define COUNT_O 21
+# define COUNT_SKY 3
 
 /*
 ** POS OF X AND Y
@@ -40,6 +40,17 @@ typedef struct			s_v2_vertex
 	int					x;
 	int					y;
 }						t_v2;
+
+/*
+** STRUCT FOR SCALE IMAGE
+*/
+
+typedef struct			s_scale
+{
+	t_v2				pos;
+	int					w;
+	int					h;
+}						t_scale;
 
 /*
 ** STRUCT FOR INTERSECT
@@ -133,8 +144,8 @@ typedef struct			s_vertex
 }						t_vertex;
 
 /*
-**Массив строящихся вершин built_v_index[2048];
-**num - номер стены на которой лежит проецируемая точка
+** Массив строящихся вершин built_v_index[2048];
+** num - номер стены на которой лежит проецируемая точка
 */
 
 typedef struct			s_all_vert
@@ -216,8 +227,9 @@ typedef struct			s_txt
 {
 	SDL_Texture			*wall[COUNT_T];
 	SDL_Texture			*obj[21];
-	SDL_Texture			*sky[3];
+	SDL_Texture			*sky[COUNT_SKY];
 	SDL_Texture			*huds[COUNT_H];
+	int					ind_sky;
 }						t_txt;
 
 /*
@@ -232,6 +244,7 @@ typedef struct			s_spr_wall
 	int					anim;
 	int					frame;
 	int					sector;
+	int					txt;
 }						t_spr_wall;
 
 typedef struct			s_all_spr_wall
@@ -251,6 +264,7 @@ typedef struct			s_spr_floor
 	t_v2				pos;
 	int					anim;
 	int					frame;
+	int					txt;
 }						t_spr_floor;
 
 typedef struct			s_all_spr_floor
@@ -274,7 +288,6 @@ typedef struct			s_doom
 	t_all_sect			*sects;
 	t_all_walls			*walls;
 	t_file				*file;
-	char				*save_name;
 	t_swall				*swall;
 	t_hud				*hud;
 	t_txt				*txt;
@@ -294,7 +307,7 @@ int						get_next_line(const int fd, char **line);
 int						line(t_doom *doom, int color);
 int						output_pixel(t_doom *doom, t_v2 pos, int color);
 int						draw_rectangle(t_doom *doom, t_v2 pos,
-						int color, int size);
+												int color, int size);
 void					put_canvas(t_doom *doom);
 void					put_select(t_doom *doom, t_mouse *mouse);
 float					line_distance(t_v2 l1, t_v2 l2, t_v2 p, t_v2 *hit);
@@ -319,15 +332,59 @@ void					put_string_on_screen(t_doom *doom);
 void					mouse_press(t_doom *doom, t_sdl *sdl, int app);
 void					mouse_press_left_two(t_doom *doom, int x, int y);
 void					mouse_press_left_thr(t_doom *doom, int x, int y);
+void					mouse_press_right(t_doom *doom, int x, int y);
 void					my_itoa(char *str, int num);
 void					set_sprite_on_wall(t_doom *doom);
 int						check_portal(t_doom *doom);
 void					set_object(t_doom *doom);
 int						num_walls(t_doom *doom, int ver, int sec);
 int						check_adjacent_wall(t_doom *doom, int ver1,
-						int ver2, int sec);
+													int ver2, int sec);
 int						check_portal(t_doom *doom);
-int						check_convex(t_doom *doom);
+int						check_convex(t_doom *doom, int *ind, t_vertex *list);
+void					sv(int *a, int *b);
+void					sel_sector(int x, int y, t_all_sect *sects,
+															t_all_walls *walls);
+void					sel_wall(int x, int y, t_all_sect *sects,
+															t_all_walls *walls);
+void					sel_attr(int x, int y, t_all_sect *sects,
+															t_all_walls *walls);
+void					sel_floor(int x, int y, t_all_sect *sects);
+void					sel_ceiling(int x, int y, t_all_sect *sects);
+void					sel_light(int x, int y, t_all_sect *sects);
+void					sel_texture_wall(int x, int y, t_all_walls *walls);
+void					change_skybox(int x, int y, t_txt *txt);
+void					sel_object(int x, int y, t_all_spr_floor *obj,
+														t_all_spr_wall *aspr);
+void					sel_sprite(int x, int y, t_all_spr_floor *obj,
+														t_all_spr_wall *aspr);
+void					render_img(SDL_Texture *tex, SDL_Renderer *ren,
+																t_scale scale);
+void					edditing_img_render(t_txt *txt, t_sdl *sdl,
+										t_all_sect *sects, t_all_walls *walls);
+void					main_hud_for_edditing(t_txt *txt, t_sdl *sdl,
+															t_all_walls *walls);
+void					object_img_render(t_txt *txt, t_sdl *sdl);
+void					draw_sprite(t_doom *doom, int color);
+void					draw_building_line(t_doom *doom, int color);
+void					draw_sector(t_doom *doom, int sector, int color);
+void					draw_wall(t_doom *doom, t_wall wall, int color);
+int						draw_rectangle(t_doom *doom, t_v2 pos, int color,
+																	int size);
+int						check_sprite(t_doom *doom, int sw, int aw);
+void					correction_height_sprite(t_doom *doom);
+void					height_spr(int x, int y, t_all_spr_wall *aspr,
+													t_all_sect *sectors);
+int						lines_intersect_loop(t_doom *doom, t_v2 p1, t_v2 p2);
+int						load_header(t_doom *doom, char *line);
+int						scalar_product(t_v2 v1, t_v2 v2, t_v2 v3);
+void					export_vert(t_doom *doom);
+int						sorted_vert(t_doom *doom, int index);
+int						count_wall(t_doom *doom, int ind);
+void					export_sector(t_doom *doom);
+int						check_rotation(t_doom *doom, int ind, t_vertex *list);
+void					output_wall(t_doom *doom, int count, int ind);
+void					output_wall_rev(t_doom *doom, int count, int ind);
 
 /*
 **	Math

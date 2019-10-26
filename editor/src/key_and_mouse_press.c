@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 22:12:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/15 14:35:56 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/26 15:52:24 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,20 @@ void	key_press_two(t_doom *doom)
 	key_press_three(doom);
 }
 
+void	kek(t_doom *doom)
+{
+	int		i = -1;
+	/*while (++i < doom->walls->count)
+		printf("i = %d  p = %d\n", i, doom->walls->wall[i].portal);
+	printf("\n\n");*/
+	/*while (++i < doom->sects->count)
+		printf("%d\n", check_rotation(doom, i, doom->verts->list));
+	printf("**\n");*/
+	while (++i < doom->verts->count)
+		printf("x = %d  y = %d\n", doom->verts->list[i].pos.x, doom->verts->list[i].pos.y);
+	printf("**\n");
+}
+
 void	key_press_one(t_doom *doom)
 {
 	if (doom->app < 2)
@@ -85,6 +99,8 @@ void	key_press_one(t_doom *doom)
 			set_sprite_on_wall(doom);
 		if (doom->sdl->ev.key.keysym.sym == 'o')
 			set_object(doom);
+		if (doom->sdl->ev.key.keysym.sym == 'k')
+			kek(doom);
 	}
 	key_press_two(doom);
 }
@@ -95,6 +111,8 @@ void	key_and_mouse_press(t_doom *doom)
 	{
 		if (doom->sdl->ev.type == SDL_KEYDOWN)
 			key_press_one(doom);
+		if (doom->sdl->ev.type == SDL_QUIT)
+			exit(0);
 		if (doom->app == 2 || doom->app == 3)
 			if (doom->sdl->ev.type == SDL_MOUSEBUTTONDOWN)
 				mouse_press(doom, doom->sdl, doom->app);

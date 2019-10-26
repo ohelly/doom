@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/25 17:09:53 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/15 16:07:53 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/25 20:11:33 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,15 +41,17 @@ void		change_sector(t_doom *doom, int v1, int v2, int sec)
 
 void		flip(t_doom *doom, t_swall *swall)
 {
+	doom->walls->wall[doom->walls->count].vert_one = swall->v2;
+	doom->walls->wall[doom->walls->count].vert_two = swall->v1;
+	doom->walls->wall[doom->walls->count].portal = -1;
+	doom->walls->wall[doom->walls->count++].sectors = doom->sects->count;
 	doom->walls->wall[doom->walls->count].vert_one = swall->v1;
 	doom->walls->wall[doom->walls->count].vert_two = swall->v2;
 	doom->walls->wall[doom->walls->count].portal = -1;
 	doom->walls->wall[doom->walls->count++].sectors = swall->sec;
-	doom->walls->wall[doom->walls->count].vert_one = swall->v1;
-	doom->walls->wall[doom->walls->count].vert_two = swall->v2;
-	doom->walls->wall[doom->walls->count].portal = -1;
-	doom->walls->wall[doom->walls->count++].sectors = doom->sects->count;
 	change_sector(doom, swall->v1, swall->v2, doom->sects->count);
+	doom->sects->sectors[doom->sects->count].ceiling = 20;
+	doom->sects->sectors[doom->sects->count].light = 100;
 	doom->sects->count++;
 }
 
@@ -74,7 +76,9 @@ void		split(t_doom *doom)
 		return ;
 	}
 	doom->swall->wall2 = num_walls(doom, doom->swall->v2, doom->swall->sec);
-	flip(doom, doom->swall);
+	if (!(lines_intersect_loop(doom, doom->verts->list[doom->swall->v1].pos,
+								doom->verts->list[doom->swall->v2].pos)))
+		flip(doom, doom->swall);
 	*doom->swall = (t_swall){ -1, -1, -1, -1, -1 };
 	doom->sects->selected_sector = -1;
 }

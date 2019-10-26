@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 11:56:24 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/17 15:00:34 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 14:53:07 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int		vlineobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom)
 	int		prev_light;
 
 	img = obj_get_image(doom, obj);
-	t.y = 0;
+	t.y = 1;
 	ybord.y = 0;
 	ybord.x = HEIGHT - 1;
 	scale.x = (float)img.w / (px.end - px.begin);
@@ -100,9 +100,13 @@ int		vlineobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom)
 				prev_color = color;
 				prev_light = rgb_multiply(color, doom->sectors[obj->sector].light);
 			}
+			if (obj->on_hit != NULL && px.x >= WIDTH / 2 - doom->weapon[doom->player.weapon].scatterx &&
+			px.x <= WIDTH / 2 + doom->weapon[doom->player.weapon].scatterx &&
+			y >= HEIGHT / 2 - doom->weapon[doom->player.weapon].scattery &&
+			y <= HEIGHT / 2 + doom->weapon[doom->player.weapon].scattery)
+				doom->obj_ind[doom->obj_num] = 1;
 			doom->sdl->pix[y * WIDTH + px.x] = prev_light;
 		}
-		//	doom->sdl->pix[y * WIDTH + px.x] = 0xFF0000;//img.data[(int)t.y * img.w + (int)t.x];
 		y++;
 		t.y += scale.y;
 	}
@@ -112,7 +116,7 @@ int		vlineobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom)
 int		renobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom)
 {
 	px.x = px.begin;
-	while(px.x < px.end)
+	while (px.x < px.end)
 	{
 		if (px.x >= doom->item[obj->sector].sx && px.x < doom->item[obj->sector].ex)
 			vlineobj(px, wy, obj, doom);
@@ -130,8 +134,8 @@ int		findobjxy2(t_xyz t, t_xy scale, t_obj *obj, t_doom *doom)
 	t_img	img;
 
 	img = obj_get_image(doom, obj);
-	size.y = (float)(img.h / 32);
-	size.x = (float)(img.w / 105);
+	size.y = img.h / 17.0f * obj->scale;
+	size.x = img.w / 57.0f * obj->scale;
 	wx = WIDTH / 2 - (int)(t.x * scale.x); 
 	wy.a = HEIGHT / 2 - (int)(yaw(size.y + doom->sectors[obj->sector].floor - doom->player.where.z, t.z, doom->player) * scale.y); 
 	wy.b = HEIGHT / 2 - (int)(yaw(doom->sectors[obj->sector].floor - doom->player.where.z, t.z, doom->player) * scale.y);
@@ -148,8 +152,8 @@ int      drawobj(t_doom *doom, t_obj *obj, t_xy pos)
 	t_xyz	t;
 	t_xy	scale;
 
-	//if (obj->enabled == 0)
-	//	return (0);
+	if (obj->enabled == 0)
+		return (0);
 	v.x = obj->p.x - doom->player.where.x;
 	v.y = obj->p.y - doom->player.where.y;
 	t.x = v.x * doom->player.psin - v.y * doom->player.pcos;
@@ -161,7 +165,6 @@ int      drawobj(t_doom *doom, t_obj *obj, t_xy pos)
 	}
 	if (t.z <= 0)
 		return (0);
-	
 	scale.x = (HFOV * WIDTH) / t.z;
 	scale.y = (VFOV * HEIGHT) / t.z;
 	findobjxy2(t, scale, obj, doom);
@@ -175,19 +178,24 @@ int     drawsprites(t_doom *doom, t_obj *obj, t_player player)
 	int		*order;
 	int		j;
 
+	j = 0;
+	while (j < 32)
+	{
+		doom->obj_ind[j] = 0;
+		j++;
+	}
 	order = (int*)malloc(sizeof(int) * doom->num.objs);
     sortobjs(doom, order, doom->player);
     n = 0;
     while (n < doom->num.objs)
     {
-		//printf("n - %d\n", n);
         o = &doom->objs[order[n]];
-		if (!doom->item[o->sector].sector || doom->len[n] < 1.5f)
+		doom->obj_num = o->n;
+		if (!doom->item[o->sector].sector || doom->len[n] < 3.f)
 		{
 			n++;
 			continue ;
 		}
-		
         if (!(drawobj(doom, o, o->p)))
 		{
 			n++;
@@ -195,5 +203,6 @@ int     drawsprites(t_doom *doom, t_obj *obj, t_player player)
 		}
         n++;
     }
+	free(order);
     return (0);
 }
