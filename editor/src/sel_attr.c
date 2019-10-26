@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/16 19:55:47 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/17 15:13:11 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/26 17:59:26 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,8 @@ void	sel_attr(int x, int y, t_all_sect *sects, t_all_walls *walls)
 	}
 	else
 	{
-		if (sects->sectors[sects->selected_sector].door == 0)
-			sects->sectors[sects->selected_sector].door = 1;
-		else
-			sects->sectors[sects->selected_sector].door = 0;
+		sects->sectors[sects->selected_sector].door == 2 ?
+		sects->sectors[sects->selected_sector].door = 0 :
+		sects->sectors[sects->selected_sector].door++;
 	}
 }

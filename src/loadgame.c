@@ -132,11 +132,11 @@ int		calcnewsector(float dx, float dy, t_doom *doom, t_player *player)
 	}
 	delta.x = dx;
 	delta.y = dy;
-	player_move(doom, delta);
-	//doom->player.where.x += dx;
-	//doom->player.where.y += dy;
-	//doom->player.psin = sinf(doom->player.angle);
-	//doom->player.pcos = cosf(doom->player.angle);
+	//player_move(doom, delta);
+	doom->player.where.x += dx;
+	doom->player.where.y += dy;
+	doom->player.psin = sinf(doom->player.angle);
+	doom->player.pcos = cosf(doom->player.angle);
 	return (0);
 }
 
@@ -160,14 +160,14 @@ int		calciswall(t_doom *doom, t_player *player)
 	sect = &doom->sectors[player->sector];
 	v = sect->vert;
 	//под вопросом 
-	while (n < sect->npoints)
+/*	while (n < sect->npoints)
 	{
 	 	if (PointSide(px + dx, py + dy, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) < 0)
 			t++;
 	 	if (t == sect->npoints - 2)
 	 		return (0);
 	 	n++;
-	}
+	}*/
 	tmp = player->sit ? DuckHeight : EyeHeight;
 	n = 0;
 	while (n < sect->npoints)

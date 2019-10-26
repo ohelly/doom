@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 12:36:00 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/18 14:55:21 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/26 18:09:35 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,9 @@ void	door(t_txt *txt, t_sdl *sdl, t_all_sect *sects)
 	else if (sects->sectors[sects->selected_sector].door == 1 &&
 												sects->selected_sector != -1)
 		render_img(txt->huds[9], sdl->rend, (t_scale) { 1200, 410, 50, 50 });
+	else if (sects->sectors[sects->selected_sector].door == 2 &&
+												sects->selected_sector != -1)
+		render_img(txt->huds[21], sdl->rend, (t_scale) { 1200, 410, 50, 50 });
 }
 
 void	window(t_txt *txt, t_sdl *sdl, t_all_walls *walls, t_all_sect *sects)
@@ -48,7 +51,7 @@ void	window(t_txt *txt, t_sdl *sdl, t_all_walls *walls, t_all_sect *sects)
 void	edditing_img_render(t_txt *txt, t_sdl *sdl, t_all_sect *sects,
 														t_all_walls *walls)
 {
-	main_hud_for_edditing(txt, sdl, walls);
+	main_hud_for_edditing(txt, sdl, walls, sects);
 	sky(txt, sdl, sects);
 	door(txt, sdl, sects);
 	window(txt, sdl, walls, sects);

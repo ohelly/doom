@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 16:02:38 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/23 17:38:48 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/26 18:52:15 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ int			sdl_init(t_doom *doom)
 		return (die_msg("Failed to init TTF"));
 	if (!(doom->sdl = (t_sdl*)ft_memalloc(sizeof(t_sdl))))
 		return (die_msg("Failed to allocate sdl struct"));
-	if (!(doom->sdl->win = SDL_CreateWindow("domm", 500, 500,
+	if (!(doom->sdl->win = SDL_CreateWindow("doom", 500, 500,
 	WIDTH, HEIGHT, 0)))
 		return (die_msg("SDL failed to create window"));
 	if (!(doom->sdl->rend = SDL_CreateRenderer(doom->sdl->win, -1, 0)))
@@ -74,6 +74,8 @@ int			sdl_init(t_doom *doom)
 	if (!(doom->line = (t_line*)ft_memalloc(sizeof(t_line))))
 		return (die_msg("Failed to allocate line struct"));
 	if (!(sdl_init_part_two(doom)))
+		return (0);
+	if (!(init_preview(doom)))
 		return (0);
 	init_default_value(doom);
 	return (1);

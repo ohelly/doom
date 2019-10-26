@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 15:37:54 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/26 19:12:12 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,11 @@
 # define WIDTH 1280
 # define HEIGHT 720
 # define DELAY_ERR 50
-# define COUNT_T 21
-# define COUNT_H 21
+# define COUNT_T 27
+# define COUNT_H 22
 # define COUNT_O 21
 # define COUNT_SKY 3
+# define COUNT_SP 6
 
 /*
 ** POS OF X AND Y
@@ -227,6 +228,7 @@ typedef struct			s_txt
 {
 	SDL_Texture			*wall[COUNT_T];
 	SDL_Texture			*obj[21];
+	SDL_Texture			*previews[COUNT_SP];
 	SDL_Texture			*sky[COUNT_SKY];
 	SDL_Texture			*huds[COUNT_H];
 	int					ind_sky;
@@ -363,8 +365,8 @@ void					render_img(SDL_Texture *tex, SDL_Renderer *ren,
 void					edditing_img_render(t_txt *txt, t_sdl *sdl,
 										t_all_sect *sects, t_all_walls *walls);
 void					main_hud_for_edditing(t_txt *txt, t_sdl *sdl,
-															t_all_walls *walls);
-void					object_img_render(t_txt *txt, t_sdl *sdl);
+										t_all_walls *walls, t_all_sect *sects);
+void					object_img_render(t_txt *txt, t_sdl *sdl, t_all_spr_wall *aspr);
 void					draw_sprite(t_doom *doom, int color);
 void					draw_building_line(t_doom *doom, int color);
 void					draw_sector(t_doom *doom, int sector, int color);
@@ -385,6 +387,10 @@ void					export_sector(t_doom *doom);
 int						check_rotation(t_doom *doom, int ind, t_vertex *list);
 void					output_wall(t_doom *doom, int count, int ind);
 void					output_wall_rev(t_doom *doom, int count, int ind);
+void					sel_txtc(int x, int y, t_all_sect *sects);
+void					sel_txtf(int x, int y, t_all_sect *sects);
+int						init_preview(t_doom *doom);
+void					sel_txt_spr(int x, int y, t_all_spr_wall *aspr);
 
 /*
 **	Math
