@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 17:24:41 by njacobso          #+#    #+#             */
-/*   Updated: 2019/10/26 10:56:16 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 12:28:35 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -175,9 +175,12 @@ int		player_take_damage(t_doom *doom, int damage)
 		return (0);
 	doom->player.blood = 0.4f;
 	doom->player.hp -= damage;
+	if (!doom->player.dead)
+		play_sound(doom, SOUND_DAMAGE);
 	if (doom->player.hp <= 0)
 	{
-		play_sound(doom, SOUND_LOSS);
+		if (!doom->player.dead)
+			play_sound(doom, SOUND_SCREAM);
 		doom->player.blood = 1.0f;
 		doom->player.dead = 1;
 		doom->player.where.z = doom->sectors[doom->player.sector].floor + 2;

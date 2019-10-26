@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 12:11:07 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 12:28:13 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,12 +121,13 @@ void	player_move_keydown(SDL_Event ev, int *wsad)
 		wsad[3] = 1;
 }
 
-void	jump_sprint_crouch(SDL_Event ev, t_player *player, t_sectors *s)
+void	jump_sprint_crouch(t_doom *doom, SDL_Event ev, t_player *player, t_sectors *s)
 {
 	if (ev.key.keysym.sym == SDLK_SPACE)
 	{
 		if (player->ground)
 		{
+			play_sound(doom, SOUND_JUMP);
 			player->velocity.z = 2.f;
 			player->fall = 1;
 		}
@@ -162,9 +163,11 @@ int		keydown(t_doom *doom, SDL_Event ev)
 	if (ev.key.keysym.sym == 'e')
 		if (find_door(doom, doom->player) || find_pic_interaction(doom, doom->player, doom->pics) || find_obj_interaction(doom))
 			play_sound(doom, SOUND_INTERACT);
-	jump_sprint_crouch(ev, &doom->player, doom->sectors);
+	jump_sprint_crouch(doom, ev, &doom->player, doom->sectors);
 	if (ev.key.keysym.sym == 'p')
+	{
 		profile_output(doom);
+	}
 	return (0);
 }
 

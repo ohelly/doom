@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 11:28:01 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 12:31:08 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,9 @@
 # define SOUND_LOSS				5
 # define SOUND_WEAPON_PICKUP	6
 # define SOUND_RELOAD			7
+# define SOUND_SCREAM			8
+# define SOUND_JUMP				9
+# define SOUND_DAMAGE			10
 
 # define ENEMY_STATE_IDLE	0
 # define ENEMY_STATE_DEAD	8
@@ -414,7 +417,7 @@ typedef struct	s_doom
 	int			obj_num;
 	struct s_enemy		*enemies;
 	t_music		music[2];
-	t_sound		sound[10];
+	t_sound		sound[16];
 }				t_doom;
 
 typedef struct		s_enemy
