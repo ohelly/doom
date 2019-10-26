@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 09:54:01 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 10:47:17 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@
 # define WEAPON_RIPPER			3
 
 # define SHOTS_NUM				128
+
 typedef struct	s_scaler
 {
 	int 		result;
@@ -241,6 +242,7 @@ typedef struct		s_player
 	int			shoots;
 	int			wall;
 	int			key;
+	int			dead;
 }				t_player;
 	float			col_size;
 

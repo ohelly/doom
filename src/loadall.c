@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:21:04 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 09:54:09 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 10:37:00 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -433,7 +433,6 @@ int		load_data(t_doom *doom, char **map)
 
 int		load_shot_pics(t_pics *shots, t_texture *bullet)
 {
-	printf("Ok\n");
 	shots->images = (int**)ft_memalloc(sizeof(int*) * 1);
 	shots->images[0] = (int*)ft_memalloc(sizeof(int) * 1);
 	shots->anim_count = (int*)ft_memalloc(sizeof(int) * 1);
@@ -443,7 +442,6 @@ int		load_shot_pics(t_pics *shots, t_texture *bullet)
 	shots->states_frame = 0;
 	shots->states_count = 1;
 	shots->anim_frame = 0;
-	printf("Ok\n");
 	return (0);
 }
 

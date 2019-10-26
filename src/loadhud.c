@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 20:36:12 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/24 18:47:22 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 10:45:28 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,8 @@ static int		load_hud_health(t_doom *doom)
 	e->f = doom->hud->font;
 	if (e->t)
 		free(e->t);
+	if (doom->player.hp <= 0)
+		doom->player.hp = 0;
 	e->t = ft_strjoin(ft_itoa(doom->player.hp), "%");
 	load_hudel(e);
 	e->x = 20;

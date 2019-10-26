@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   player_move.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njacobso <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 17:24:41 by njacobso          #+#    #+#             */
-/*   Updated: 2019/10/23 17:30:19 by njacobso         ###   ########.fr       */
+/*   Updated: 2019/10/26 10:56:16 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -179,6 +179,8 @@ int		player_take_damage(t_doom *doom, int damage)
 	{
 		play_sound(doom, SOUND_LOSS);
 		doom->player.blood = 1.0f;
+		doom->player.dead = 1;
+		doom->player.where.z = doom->sectors[doom->player.sector].floor + 2;
 		printf("You are dead!\n");
 	}
 	return (1);

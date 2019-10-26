@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 10:12:53 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 11:16:00 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ void	vline3(int x, t_ab_i wy, t_scaler ty, t_doom *doom)
     y2 = clamp(y2, 0, HEIGHT - 1);
     pix += y1 * WIDTH + x;
 	y = y1;
-	set = doom->img[doom->pics[doom->cood.num].images[doom->pics[doom->cood.num].states_frame][doom->pics[doom->cood.num].anim_frame]];
+	set = pic_get_image(doom, &doom->pics[doom->cood.num]);//->img[doom->pics[doom->cood.num].images[doom->pics[doom->cood.num].states_frame][doom->pics[doom->cood.num].anim_frame]];
     while (y <= y2)
     {
         txty = scaler_next(&ty);
@@ -140,7 +140,6 @@ void	vline3(int x, t_ab_i wy, t_scaler ty, t_doom *doom)
 				y >= HEIGHT / 2 - doom->weapon[doom->player.weapon].scattery &&
 				y <= HEIGHT / 2 + doom->weapon[doom->player.weapon].scattery)
 				doom->pic_interaction[doom->cood.num] = 1;
-		
 			if (color != prev_color)
 			{
 				prev_color = color;
@@ -158,6 +157,7 @@ int			renew(t_item *head, t_doom *doom, int *rensects)
 	int		x;
 	int		y;
 	int		i;
+
 	x = 0;
 	while (x < WIDTH)
 	{
@@ -204,7 +204,7 @@ int			assign_value(t_item *item, t_item now, int *rensects)
 	return (0);
 }
 
-int			find_t_points(t_xy *v, t_player player, t_cood *cood)
+void			find_t_points(t_xy *v, t_player player, t_cood *cood)
 {
 	cood->v1.x = v[cood->n].x - player.where.x;
 	cood->v1.y = v[cood->n].y - player.where.y;
@@ -214,16 +214,17 @@ int			find_t_points(t_xy *v, t_player player, t_cood *cood)
 	cood->t1.z = cood->v1.x * player.pcos + cood->v1.y * player.psin;
 	cood->t2.x = cood->v2.x * player.psin - cood->v2.y * player.pcos;
 	cood->t2.z = cood->v2.x * player.pcos + cood->v2.y * player.psin;
-	return (0);
 }
 
 t_xy		findintersect(t_xyz *t1, t_xyz *t2, int sign)
 {
 	t_xy	i;
 	
-	i.x = vxs(vxs(t1->x, t1->z, t2->x, t2->z), t1->x - t2->x, vxs(NEARSIDE * sign, NEARZ, FARSIDE * sign, FARZ), NEARSIDE * sign - FARSIDE * sign)
+	i.x = vxs(vxs(t1->x, t1->z, t2->x, t2->z), t1->x - t2->x,
+	vxs(NEARSIDE * sign, NEARZ, FARSIDE * sign, FARZ), NEARSIDE * sign - FARSIDE * sign)
 	/ vxs(t1->x - t2->x, t1->z - t2->z, NEARSIDE * sign - FARSIDE * sign, NEARZ - FARZ);
-	i.y = vxs(vxs(t1->x, t1->z, t2->x, t2->z), t1->z - t2->z, vxs(NEARSIDE * sign, NEARZ, FARSIDE * sign, FARZ), NEARZ - FARZ)
+	i.y = vxs(vxs(t1->x, t1->z, t2->x, t2->z), t1->z - t2->z,
+	vxs(NEARSIDE * sign, NEARZ, FARSIDE * sign, FARZ), NEARZ - FARZ)
 	/ vxs(t1->x - t2->x, t1->z - t2->z, NEARSIDE * sign - FARSIDE * sign, NEARZ - FARZ);
 	return (i);
 }
@@ -246,7 +247,6 @@ int			intersect(t_xyz *t1, t_xyz *t2, t_cood *cood)
 {
 	t_xy	i1;
 	t_xy	i2;
-	float		nearz = 1e-4f, farz = 5, nearside = 1e-5f, farside = 20.f;
 	
 	i1 = findintersect(t1, t2, -1);
 	i2 = findintersect(t1, t2, 1);
@@ -258,7 +258,6 @@ int			intersect(t_xyz *t1, t_xyz *t2, t_cood *cood)
 		iflower(t1, i1, i2);
 	if (t2->z < NEARZ)
 		iflower(t2, i1, i2);
-		
 	if (fabs(cood->t2.x - cood->t1.x) > fabs(cood->t2.z - cood->t1.z))
 	{
 		cood->u0 = (cood->t1.x - cood->org1.x) * cood->u1 / (cood->org2.x - cood->org1.x);
@@ -311,9 +310,6 @@ int			render_ceil_floor(t_doom *doom, t_sectors *s, t_cood *cood, t_player playe
 
 int			draw_ceil_floor(t_doom *doom, t_sectors *s, t_cood *cood, t_player player)
 {
-	float	hei;
-	int		ty = 0;
-	int		tx = 0;
 	int		y;
 
 	y = doom->ytop[cood->x];
@@ -605,6 +601,34 @@ int			draw_walls(t_doom *doom, t_player player)
 	return (0);
 }
 
+void		cut_txt_w(t_xy *t, int w)
+{
+	if (t->x >= w)
+	{
+		while (t->x >= w)
+			t->x -= w;
+	}
+	else if (t->x < 0)
+	{
+		while (t->x < 0)
+			t->x += w;
+	}
+}
+
+void		cut_txt_y(t_xy *t, int h)
+{
+	if (t->y > h)
+	{
+		while (t->y > h)
+			t->y = h - t->y;
+	}
+	else if (t->y < 0)
+	{
+		while (t->y < 0)
+			t->y = h + t->y;
+	}
+}
+
 int			drawsky(t_doom *doom, t_player player, t_texture *sky, t_img *img)
 {
 	int		y;
@@ -614,30 +638,18 @@ int			drawsky(t_doom *doom, t_player player, t_texture *sky, t_img *img)
 	t_img	set;
 
 	set = img[sky[0].image];
+	scale.x = (float)set.w / (WIDTH);
+	scale.y = (float)set.h / (HEIGHT);
 	x = 0;
 	while (x < WIDTH)
 	{
-		scale.x = (float)set.w / (WIDTH);
-		scale.y = (float)set.h / (HEIGHT);
 		t.y = player.yaw * 25;
 		t.x = (x * scale.x) + player.angle * 50;
-		if (t.x >= set.w)
-		{
-			while (t.x >= set.w)
-				t.x -= set.w;
-		}
-		else if (t.x < 0)
-		{
-			while (t.x < 0)
-				t.x += set.w;
-		}
+		cut_txt_w(&t, set.w);
 		y = 0;
 		while (y < HEIGHT)
 		{
-			if (t.y > set.h)
-				t.y = set.h - t.y;
-			else if (t.y < 0)
-				t.y = set.h + t.y;
+			cut_txt_y(&t, set.h);
 			if (doom->visible[y][x] == 1)
 				doom->sdl->pix[y * WIDTH + x] = set.data[(int)t.y * set.w + (int)t.x];
 			t.y += scale.y;
@@ -703,8 +715,11 @@ int			draw_screen(t_doom *doom)
 	draw_walls(doom, doom->player);
 	drawsky(doom, doom->player, doom->sky, doom->img);
 	drawsprites(doom, doom->objs, doom->player);
-	drawweapon(doom, &doom->weapon[doom->player.weapon]);
-	draw_scope(doom->sdl);
+	if (!doom->player.dead)
+	{
+		drawweapon(doom, &doom->weapon[doom->player.weapon]);
+		draw_scope(doom->sdl);
+	}
 	drawhud(doom);
 	return (0);
 }

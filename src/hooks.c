@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 10:14:59 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 11:24:16 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,6 @@ void	change_light(t_player player, t_sectors *s, t_pics *pic)
 {	
 	static int t = 0;
 
-	if (sqrt(pow(player.where.x - pic->p.x, 2) + pow(player.where.y - pic->p.y, 2)) > 15)
-		return ;
 	if (t == 0)
 	{
 		s->light = 15 / 100.f;
@@ -57,7 +55,7 @@ void	change_light(t_player player, t_sectors *s, t_pics *pic)
 	}
 }
 
-int		find_pic_interaction(t_doom *doom)
+int		find_pic_interaction(t_doom *doom, t_player player, t_pics *pics)
 {
 	int		i;
 	
@@ -66,16 +64,16 @@ int		find_pic_interaction(t_doom *doom)
 	{
 		if (doom->pic_interaction[i] == 1)
 		{
-			if (doom->pics[i].type == PIC_TYPE_SWITCH)
+			if (sqrt(pow(player.where.x - pics[i].p.x, 2) + pow(player.where.y - pics[i].p.y, 2)) > 10 && !player.weapon)
+				return (0);
+			if (pics[i].type == PIC_TYPE_SWITCH)
+				change_light(player, &doom->sectors[player.sector], &pics[i]);
+			if (pics[i].type == PIC_TYPE_DECOR && doom->lkey)
 			{
-				change_light(doom->player, &doom->sectors[doom->player.sector], &doom->pics[i]);
-				return (1);
+				pics[i].states_frame = 1;
+				pics[i].anim_frame = 0;
 			}
-			if (doom->pics[i].type == PIC_TYPE_DECOR)
-			{
-				doom->pics[i].states_frame = 1;
-				doom->pics[i].anim_frame = 0;
-			}
+			return (1);
 		}
 		i++;
 	}
@@ -90,7 +88,7 @@ void	change_weapon(t_player *player, t_weapon *weapon, int n)
 }
 
 void	change_all_weapons(t_weapon *weapon, SDL_Event ev, t_player *player, int	*allweapons)
-{
+{	
 	if (ev.key.keysym.sym == '1' && allweapons[WEAPON_FOOT])
 		change_weapon(player, weapon, WEAPON_FOOT);
 	if (ev.key.keysym.sym == '2' && allweapons[WEAPON_PISTOL])
@@ -155,16 +153,17 @@ void	close_program(SDL_Event ev, t_doom *doom)
 int		keydown(t_doom *doom, SDL_Event ev)
 {
 	close_program(ev, doom);
+	if (doom->player.dead)
+		return (0);
 	change_all_weapons(doom->weapon, ev, &doom->player, doom->player.allweapons);
 	reload_pistol(ev, doom->weapon[WEAPON_PISTOL], &doom->player);
 	player_move_keydown(ev, doom->wsad);
 	if (ev.key.keysym.sym == 'e')
-		if (find_door(doom, doom->player) || find_pic_interaction(doom) || find_obj_interaction(doom))
+		if (find_door(doom, doom->player) || find_pic_interaction(doom, doom->player, doom->pics) || find_obj_interaction(doom))
 			play_sound(doom, SOUND_INTERACT);
 	jump_sprint_crouch(ev, &doom->player, doom->sectors);
 	if (ev.key.keysym.sym == 'p')
 		profile_output(doom);
-
 	return (0);
 }
 
@@ -182,6 +181,8 @@ void	player_move_keyup(SDL_Event ev, int *wsad)
 
 int		keyup(t_doom *doom, SDL_Event ev)
 {
+	if (doom->player.dead)
+		return (0);
 	player_move_keyup(ev, doom->wsad);
 	if (ev.button.button == SDL_BUTTON_LEFT)
 		doom->lkey = 0;
@@ -345,10 +346,19 @@ int		find_on_hit_obj(t_doom *doom)
 	j = 0;
 	while (j < doom->num.objs)
 	{
+		if (t == 3)
+			return (t);
 		if (doom->obj_ind[j] == 1 && doom->objs[j].on_hit != NULL)
 		{
-			t++;
+			if (!doom->player.weapon
+			&& sqrt(pow(doom->player.where.x - doom->objs[j].p.x, 2) +
+			pow(doom->player.where.y - doom->objs[j].p.y, 2)) > 10)
+			{
+				printf("Ok\n");
+				return (0);
+			}
 			doom->objs[j].on_hit(doom, &doom->objs[j]);
+			t++;
 		}
 		j++;
 	}
@@ -365,12 +375,14 @@ int		shoot(t_doom *doom)
 	while (++i < 32)
 	{
 		if (doom->obj_ind[i] == 1)
+		{
 			if (find_on_hit_obj(doom) >= 3)
 				break ;
+		}
 	}
 	if (doom->player.weapon)
 		shoot_wall(doom, doom->player, doom->sectors, doom->pics);
-	find_pic_interaction(doom);
+	find_pic_interaction(doom, doom->player, doom->pics);
 	return (0);
 }
 

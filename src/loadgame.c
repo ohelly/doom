@@ -39,6 +39,8 @@ int		calc_mouse(t_player *player, float yaw)
 	int		x;
 	int		y;
 
+	if (player->dead)
+		return (0);
 	SDL_GetRelativeMouseState(&x, &y);
 	player->yaw = clamp(yaw + y * 0.01f, -5, 5);
 	player->angle += x * 0.003f;
@@ -90,6 +92,8 @@ int		calc_move(t_doom *doom, t_player *player)
 	float move_vec[2] = {0.f, 0.f};
 	float acceleration;
 
+	if (player->dead)
+		return (0);
 	direction(doom, player, move_vec, doom->fps);
 	doom->push = doom->wsad[0] || doom->wsad[1] || doom->wsad[2] || doom->wsad[3];
 	acceleration = doom->push ? 0.6 : 0.4;
@@ -103,20 +107,21 @@ int		calc_move(t_doom *doom, t_player *player)
 int		calcnewsector(float dx, float dy, t_doom *doom, t_player *player)
 {
 	int		n;
-	float	px, py;
+	t_xy	p;
 	t_sectors *sect;
 	t_xy	*v;
+	t_xy	delta;
 
-	px = player->where.x;
-	py = player->where.y;
+	p.x = player->where.x;
+	p.y = player->where.y;
 	sect = &doom->sectors[player->sector];
 	v = sect->vert;
 	n = 0;
 	while (n < sect->npoints)
 	{
 		if (sect->neighbors[n] >= 0 &&
-		IntersectBox(px, py, px + dx, py + dy, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) &&
-		PointSide(px + dx, py + dy, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) < 0)
+		IntersectBox(p.x, p.y, p.x + dx, p.y + dy, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) &&
+		PointSide(p.x + dx, p.y + dy, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) < 0)
 		{
 			player->sector = sect->neighbors[n];
 			if (player->where.z != doom->sectors[player->sector].floor)
@@ -125,10 +130,13 @@ int		calcnewsector(float dx, float dy, t_doom *doom, t_player *player)
 		}
 		n++;
 	}
-	doom->player.where.x += dx;
-	doom->player.where.y += dy;
-	doom->player.psin = sinf(doom->player.angle);
-	doom->player.pcos = cosf(doom->player.angle);
+	delta.x = dx;
+	delta.y = dy;
+	player_move(doom, delta);
+	//doom->player.where.x += dx;
+	//doom->player.where.y += dy;
+	//doom->player.psin = sinf(doom->player.angle);
+	//doom->player.pcos = cosf(doom->player.angle);
 	return (0);
 }
 
@@ -146,6 +154,7 @@ int		calciswall(t_doom *doom, t_player *player)
 	int		n;
 	float	tmp;
 	int		t = 0;
+
 
 	n = 0;
 	sect = &doom->sectors[player->sector];

@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 11:56:24 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/25 18:49:11 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 11:13:52 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int		vlineobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom)
 	int		prev_light;
 
 	img = obj_get_image(doom, obj);
-	t.y = 0;
+	t.y = 1;
 	ybord.y = 0;
 	ybord.x = HEIGHT - 1;
 	scale.x = (float)img.w / (px.end - px.begin);
@@ -107,7 +107,6 @@ int		vlineobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom)
 				doom->obj_ind[doom->obj_num] = 1;
 			doom->sdl->pix[y * WIDTH + px.x] = prev_light;
 		}
-		//	doom->sdl->pix[y * WIDTH + px.x] = 0xFF0000;//img.data[(int)t.y * img.w + (int)t.x];
 		y++;
 		t.y += scale.y;
 	}
@@ -192,7 +191,7 @@ int     drawsprites(t_doom *doom, t_obj *obj, t_player player)
     {
         o = &doom->objs[order[n]];
 		doom->obj_num = o->n;
-		if (!doom->item[o->sector].sector || doom->len[n] < 1.5f)
+		if (!doom->item[o->sector].sector || doom->len[n] < 3.f)
 		{
 			n++;
 			continue ;
