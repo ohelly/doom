@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 13:47:25 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 04:17:13 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 09:41:23 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,15 @@
 
 t_img	pic_get_image(t_doom *doom, t_pics *pic)
 {
-	return (doom->img[pic->images[pic->states_frame][pic->anim_frame]]);
+	return (doom->img[pic->images[0][pic->anim_frame]]);
+}
+
+void	pic_anim_next(t_pics *pic)
+{
+	pic->anim_frame++;
+	if (pic->anim_frame >= pic->anim_count[pic->states_frame] ||
+		pic->images[pic->states_frame][pic->anim_frame] == -1)
+		pic->anim_frame = 0;
 }
 
 int		findvx(t_xy *v1, t_xy *v2, t_xy *vert, int wall)
@@ -34,6 +42,7 @@ int		findpicpoints(t_doom *doom, t_pics *pic, float w)
 	t_xy	v2;
 	t_xy	dist;
 
+	printf("w - %f\n", w);
 	findvx(&v1, &v2, doom->sectors[pic->sector].vert, pic->wall);
 	d1.x = v1.x - pic->p.x;
 	d1.y = v1.y - pic->p.y;
@@ -45,6 +54,8 @@ int		findpicpoints(t_doom *doom, t_pics *pic, float w)
 	pic->p1.y = pic->p.y - ((w * (pic->p.y - v1.y)) / dist.x);
 	pic->p2.x = pic->p.x - ((w * (pic->p.x - v2.x)) / dist.y);
 	pic->p2.y = pic->p.y - ((w * (pic->p.y - v2.y)) / dist.y);
+	printf("p1x - %f, p1y - %f\n", pic->p1.x, pic->p1.y);
+	printf("p2x - %f, p2y - %f\n", pic->p2.x, pic->p2.y);
 	return (0);
 }
 

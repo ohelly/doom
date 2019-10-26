@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 04:20:56 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 09:54:01 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,6 +81,7 @@
 # define WEAPON_SHOTGUN			2
 # define WEAPON_RIPPER			3
 
+# define SHOTS_NUM				128
 typedef struct	s_scaler
 {
 	int 		result;
@@ -158,6 +159,44 @@ typedef struct	s_data
 	int			states_count;
 }				t_data;
 
+typedef	struct	s_cood
+{
+	int			x;
+	int			y;
+	int			n;
+	int			neighbor;
+	int			beginx;
+	int			endx;
+	float		u0;
+	float		u1;
+	float		yceil;
+	float		yfloor;
+	float		nyceil;
+	float		nyfloor;
+	int			txtx;
+	int			num;
+	t_xyz		v1;
+	t_xyz		v2;
+	t_xyz		t1;
+	t_xyz		t2;
+	t_xy		org1; 
+	t_xy		org2;
+	t_xy		scale1;
+	t_xy		scale2;
+	int			w1x; //left point
+	int			w2x; //right point
+	t_ab_i		wy; 
+	t_ab_i		wx; //current point
+	t_ab_i		cy;
+	t_ab_i		w1y;
+	t_ab_i		w2y;
+	t_ab_i		ny;
+	t_ab_i		nx;
+	t_ab_i		cny;
+	t_ab_i		n1y;
+	t_ab_i		n2y;
+}				t_cood;
+
 typedef struct	s_pics
 {
 	t_xyz		p;
@@ -172,6 +211,8 @@ typedef struct	s_pics
 	int			anim_frame;
 	int			states_count;
 	int			states_frame;
+	t_cood		pcood;
+	int			vis;
 }				t_pics;
 
 typedef struct		s_player
@@ -203,66 +244,7 @@ typedef struct		s_player
 }				t_player;
 	float			col_size;
 
-typedef	struct	s_cood
-{
-	int			x;
-	int			y;
-	int			n;
-	int			neighbor;
-	int			beginx;
-	int			endx;
-	float		u0;
-	float		u1;
-	int			yceil;
-	int			yfloor;
-	int			nyceil;
-	int			nyfloor;
-	int			txtx;
-	int			ptxtx;
-	int			piccount;
-	int			picnum[64];
-	int			num;
-	float		pu0[64];
-	float		pu1[64];
-	int			pyceil[64];
-	int			pyfloor[64];
-	t_xyz		pv1[64];
-	t_xyz		pv2[64];
-	t_xyz		pt1[64];
-	t_xyz		pt2[64];
-	t_xy		porg1[64]; 
-	t_xy		porg2[64];
-	t_xy		pscale1[64];
-	t_xy		pscale2[64];
-	int			pw1x[64];
-	int			pw2x[64];
-	t_ab_i		pwy[64]; 
-	t_ab_i		pwx[64]; //current point
-	t_ab_i		pcy[64];
-	t_ab_i		pw1y[64];
-	t_ab_i		pw2y[64];
 
-	t_xyz		v1;
-	t_xyz		v2;
-	t_xyz		t1;
-	t_xyz		t2;
-	t_xy		org1; 
-	t_xy		org2;
-	t_xy		scale1;
-	t_xy		scale2;
-	int			w1x; //left point
-	int			w2x; //right point
-	t_ab_i		wy; 
-	t_ab_i		wx; //current point
-	t_ab_i		cy;
-	t_ab_i		w1y;
-	t_ab_i		w2y;
-	t_ab_i		ny;
-	t_ab_i		nx;
-	t_ab_i		cny;
-	t_ab_i		n1y;
-	t_ab_i		n2y;
-}				t_cood;
 
 typedef struct	s_sectors
 {
@@ -392,7 +374,7 @@ typedef struct	s_doom
 	t_obj		*objs;
 	t_data		*objs_data;
 	t_pics		*pics;
-	t_pics		shot_pics[64];
+	t_pics		shot_pics;
 	int			num_shots;
 	int			isshoot;
 	t_data		*pics_data;
@@ -460,8 +442,10 @@ int		loadvertexes(t_xy *v, char *str);
 int		loadsectors(t_sectors *s, t_xy *v, char *str);
 char	*todigit(char *str, float *data);
 int		loadobjs(t_doom *doom, t_obj *obj, t_data *objs_data, char *str);
+
 int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str);
 t_img	pic_get_image(t_doom *doom, t_pics *pic);
+void	pic_anim_next(t_pics *pic);
 int		loadplayer(t_player *player, char *str);
 int		load_hud(t_doom *doom);
 int		loadfonts(t_hud *hud);

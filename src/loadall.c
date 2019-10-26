@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:21:04 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 04:06:11 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 09:54:09 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -433,21 +433,17 @@ int		load_data(t_doom *doom, char **map)
 
 int		load_shot_pics(t_pics *shots, t_texture *bullet)
 {
-	int		i;
-	t_pics	p;
-
-	p.images = (int**)ft_memalloc(sizeof(int*) * 1);
-	p.images[0] = (int*)ft_memalloc(sizeof(int) * 1);
-	p.images[0][0] = bullet->image;
-	p.type = 5;
-	i = 0;
-	while (i < 64)
-	{ 
-		shots[i] = p;
-		shots[i].states_frame = 0;
-		shots[i].anim_frame = 0;
-		i++;
-	}
+	printf("Ok\n");
+	shots->images = (int**)ft_memalloc(sizeof(int*) * 1);
+	shots->images[0] = (int*)ft_memalloc(sizeof(int) * 1);
+	shots->anim_count = (int*)ft_memalloc(sizeof(int) * 1);
+	shots->images[0][0] = bullet->image;
+	shots->type = 5;
+	shots->anim_count[0] = 1;
+	shots->states_frame = 0;
+	shots->states_count = 1;
+	shots->anim_frame = 0;
+	printf("Ok\n");
 	return (0);
 }
 
@@ -469,7 +465,7 @@ int		load_params(t_doom *doom, char **map)
 		return (0);
 	if (!(doom->objs = (t_obj*)ft_memalloc(sizeof(t_obj) * doom->num.objs)))
 		return (0);
-	if (!(doom->pics = (t_pics*)ft_memalloc(sizeof(t_pics) * doom->num.pics)))
+	if (!(doom->pics = (t_pics*)ft_memalloc(sizeof(t_pics) * (doom->num.pics + SHOTS_NUM))))
 		return (0);
 	if (!(doom->len = (float*)ft_memalloc(sizeof(float) * doom->num.objs)))
 		return (0);
@@ -488,14 +484,14 @@ int		load_params(t_doom *doom, char **map)
 		else if (ft_strncmp(map[i], "Objs", ft_strlen("objs")) == 0)
 			loadobjs(doom, doom->objs, doom->objs_data, map[i]);
 		else if (ft_strncmp(map[i], "Pics", ft_strlen("pic")) == 0)
-			loadpics(doom ,doom->pics, doom->pics_data, map[i]);
+			loadpics(doom, doom->pics, doom->pics_data, map[i]);
 		else if (ft_strncmp(map[i], "Player", ft_strlen("player")) == 0)
 			loadplayer(&doom->player, map[i]);
 		i++;
 	}
 	doom->player.where.z = doom->sectors[doom->player.sector].floor + EyeHeight;
 	doom->wall_col_size = 0.1f;
-	load_shot_pics(doom->shot_pics, &doom->bullet[0]);
+	load_shot_pics(&doom->shot_pics, &doom->bullet[0]);
 	free(v);
 	return (0);
 }
@@ -512,6 +508,7 @@ int		loadall(t_doom *doom)
 	ft_putendl("Map loaded.");
 	load_data(doom, map);
 	load_params(doom, map);
+	printf("Ok\n");
 	if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 1024) < 0)
 		printf("Error opening audio! %s\n", Mix_GetError());
 	else

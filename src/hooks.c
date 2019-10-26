@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 03:33:10 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 10:07:51 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -194,7 +194,7 @@ int		keyup(t_doom *doom, SDL_Event ev)
 	return (0);
 }
 
-t_xyz 	find_wall_intersection(t_xy t, t_xyz p, t_xy w1, t_xy w2)
+t_xyz 	find_wall_intersection(t_xy t, t_xy w1, t_xy w2, t_xyz p)
 {
 	t_xyz	i;
 	t_xy	s1;
@@ -214,9 +214,58 @@ t_xyz 	find_wall_intersection(t_xy t, t_xyz p, t_xy w1, t_xy w2)
         i.y = w1.y + (f * s1.y);
         return (i);
     }
+	i.x = -1;
+	i.y = -1;
 	return (i);
 }
 
+t_xy	find_t(t_player player, t_xyz p)
+{
+	t_xy	t;
+
+	t.x = p.x + 10000 * player.pcos;
+	t.y = p.y + 10000 * player.psin;
+	return (t);
+}
+
+int		shoot_wall(t_doom *doom, t_player player, t_sectors *sect, t_pics *pic)
+{
+	int		sector;
+	t_sectors	*s;
+	t_xyz	p;
+	t_xyz	i;
+
+ 	if (doom->num_shots == SHOTS_NUM)
+	 	doom->num_shots = 0;
+	sector = player.sector;
+	p = player.where;
+	s = &sect[sector];
+	if (doom->lookwall[sector] == -1)
+		return (0);
+	i = find_wall_intersection(find_t(player, p), s->vert[doom->lookwall[sector]], s->vert[doom->lookwall[sector] + 1], p);
+	if (!i.x && !i.y)
+		return (0);
+	doom->shot_pics.p = i;	
+	doom->shot_pics.p.z = player.where.z + tanf(atanf(-player.yaw)) * (sqrtf(powf(i.x - doom->player.where.x, 2) + powf(i.y - doom->player.where.y, 2)));
+	doom->shot_pics.wall = doom->lookwall[sector];
+	doom->shot_pics.sector = sector;
+	if (s->neighbors[doom->lookwall[sector]] < 0)
+	{
+		if (doom->shot_pics.p.z > s->ceil || doom->shot_pics.p.z < s->floor)
+			return (0);
+		findpicpoints(doom, &doom->shot_pics, (float)(doom->img[doom->shot_pics.images[0][0]].w) / 256.f);
+	}
+	else
+	{
+		return (0);
+	}
+	pic[doom->num.pics + doom->num_shots] = doom->shot_pics;
+	doom->num_shots++;
+	
+	return (0);
+}
+
+/*
 int		shoot_wall(t_doom *doom, t_player player, t_sectors *sectors)
 {
 	static int n = 0;
@@ -260,8 +309,7 @@ int		shoot_wall(t_doom *doom, t_player player, t_sectors *sectors)
 			break ;
 		}
 		else
-		{	
-		//	check_next_sector();
+		{
 			doom->shot_pics[n].neighbor = s->neighbors[doom->lookwall[sector]];
 			doom->shot_pics[n].sector = sector;
 			if ((doom->shot_pics[n].p.z > sectors[s->neighbors[doom->lookwall[sector]]].ceil && doom->shot_pics[n].p.z < s->ceil)
@@ -284,7 +332,7 @@ int		shoot_wall(t_doom *doom, t_player player, t_sectors *sectors)
 	n++;
 	return (0);
 }
-
+*/
 int		find_on_hit_obj(t_doom *doom)
 {
 	int		j;
@@ -318,7 +366,8 @@ int		shoot(t_doom *doom)
 				break ;
 	}
 	if (doom->player.weapon)
-		shoot_wall(doom, doom->player, doom->sectors);
+		shoot_wall(doom, doom->player, doom->sectors, doom->pics);
+	find_pic_interaction(doom);
 	return (0);
 }
 
@@ -340,7 +389,6 @@ void	left_mouse_keydown(t_doom *doom, SDL_Event ev, t_weapon *weapon, t_player *
 				player->reload = 1;
 			}
 		}
-		find_pic_interaction(doom);
 		shoot(doom);
 	}
 }
