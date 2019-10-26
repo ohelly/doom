@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 09:58:04 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 10:12:53 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -692,11 +692,10 @@ void		horizontal_line(int	*pix)
 	}
 }
 
-int			draw_scope(t_sdl *sdl)
+void		draw_scope(t_sdl *sdl)
 {
 	vertical_line(sdl->pix);
 	horizontal_line(sdl->pix);
-	return (0);
 }
 
 int			draw_screen(t_doom *doom)

@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 10:07:51 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 10:14:59 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,8 +126,11 @@ void	jump_sprint_crouch(SDL_Event ev, t_player *player, t_sectors *s)
 {
 	if (ev.key.keysym.sym == SDLK_SPACE)
 	{
-		player->velocity.z = 3.f;
-		player->fall = 1;
+		if (player->ground)
+		{
+			player->velocity.z = 2.f;
+			player->fall = 1;
+		}
 	}
 	if (ev.key.keysym.sym == SDLK_LCTRL)
 	{
