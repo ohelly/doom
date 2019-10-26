@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 11:24:16 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 12:11:07 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,10 +99,11 @@ void	change_all_weapons(t_weapon *weapon, SDL_Event ev, t_player *player, int	*a
 		change_weapon(player, weapon, WEAPON_RIPPER);
 }
 
-void	reload_pistol(SDL_Event ev, t_weapon weapon, t_player *player)
+void	reload_pistol(SDL_Event ev, t_doom *doom, t_weapon weapon, t_player *player)
 {
-	if (ev.key.keysym.sym == 'r' && player->weapon == WEAPON_PISTOL && weapon.ammo > 10 && player->shoots != 0)
+	if (ev.key.keysym.sym == 'r' && player->weapon == WEAPON_PISTOL && weapon.ammo > 10 && player->shoots)
 	{
+		play_sound(doom, SOUND_RELOAD);
 		player->reload = 1;
 		player->shoots = 0;
 	}
@@ -156,7 +157,7 @@ int		keydown(t_doom *doom, SDL_Event ev)
 	if (doom->player.dead)
 		return (0);
 	change_all_weapons(doom->weapon, ev, &doom->player, doom->player.allweapons);
-	reload_pistol(ev, doom->weapon[WEAPON_PISTOL], &doom->player);
+	reload_pistol(ev, doom, doom->weapon[WEAPON_PISTOL], &doom->player);
 	player_move_keydown(ev, doom->wsad);
 	if (ev.key.keysym.sym == 'e')
 		if (find_door(doom, doom->player) || find_pic_interaction(doom, doom->player, doom->pics) || find_obj_interaction(doom))
@@ -353,10 +354,7 @@ int		find_on_hit_obj(t_doom *doom)
 			if (!doom->player.weapon
 			&& sqrt(pow(doom->player.where.x - doom->objs[j].p.x, 2) +
 			pow(doom->player.where.y - doom->objs[j].p.y, 2)) > 10)
-			{
-				printf("Ok\n");
 				return (0);
-			}
 			doom->objs[j].on_hit(doom, &doom->objs[j]);
 			t++;
 		}

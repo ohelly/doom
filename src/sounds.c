@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   sounds.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njacobso <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 17:21:32 by njacobso          #+#    #+#             */
-/*   Updated: 2019/10/23 17:22:13 by njacobso         ###   ########.fr       */
+/*   Updated: 2019/10/26 11:32:29 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,9 @@ int		load_music(t_doom *doom)
 	s->volume = 100;
 	s = &doom->sound[SOUND_LOSS];
 	s->sound = Mix_LoadWAV("lost.wav");
+	s->volume = 100;
+	s = &doom->sound[SOUND_RELOAD];
+	s->sound = Mix_LoadWAV("reload.wav");
 	s->volume = 100;
 	printf("Music loaded!\n");
 }

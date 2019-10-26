@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 10:47:17 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 11:28:01 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@
 # define SOUND_E_ATTACK			4
 # define SOUND_LOSS				5
 # define SOUND_WEAPON_PICKUP	6
+# define SOUND_RELOAD			7
 
 # define ENEMY_STATE_IDLE	0
 # define ENEMY_STATE_DEAD	8

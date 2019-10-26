@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 18:08:49 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/26 03:40:24 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 12:08:27 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,17 +21,18 @@ void	weapon_state_change(t_weapon *weapon, int state)
 	weapon->anim_frame = 0;
 }
 
-void	weapon_anim_next(t_player *player, t_weapon *weapon, int state, t_fps fps)
+void	weapon_anim_next(t_doom *doom, t_player *player, t_weapon *weapon, t_fps fps)
 {
-	int index;
 	static float t = 0;
 
+	if (player->reload && t == 0 && !weapon->anim_frame)
+		play_sound(doom, SOUND_RELOAD);
 	t += fps.time_frame;
 	if (t >= weapon->delay)
 	{
 		weapon->anim_frame++;
-		if (weapon->anim_frame >= weapon->anim_count[state] ||
-			weapon->images[state][weapon->anim_frame] == -1)
+		if (weapon->anim_frame >= weapon->anim_count[weapon->states_frame] ||
+			weapon->images[weapon->states_frame][weapon->anim_frame] == -1)
 		{
 			if (weapon->states_frame == 2)
 				player->reload = 0;
@@ -138,11 +139,11 @@ void		drawweapon(t_doom *doom, t_weapon *weapon)
 	if (!(weapon_foot(doom, weapon)))
 		return ;
 	shake_timer(doom, doom->fps);
-	if (doom->player.reload == 1 && weapon->type == WEAPON_PISTOL)
-		weapon->states_frame = 2;
 	ripper_animation(doom, weapon);
+	if (doom->player.reload && weapon->type == WEAPON_PISTOL)
+		weapon->states_frame = 2;
 	if (weapon->states_frame != 0)
-		weapon_anim_next(&doom->player, weapon, weapon->states_frame, doom->fps);
+		weapon_anim_next(doom, &doom->player, weapon, doom->fps);
 	render_weapon(doom, weapon);
 	if (weapon->type == WEAPON_RIPPER && doom->lkey && weapon->anim_frame % 3 == 0 && weapon->ammo)
 	{
