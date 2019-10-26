@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 18:08:49 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/25 19:03:29 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 03:40:24 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,8 +35,8 @@ void	weapon_anim_next(t_player *player, t_weapon *weapon, int state, t_fps fps)
 		{
 			if (weapon->states_frame == 2)
 				player->reload = 0;
-			if (weapon->type != 3)
-				weapon->states_frame = 0;
+			if (weapon->type != WEAPON_RIPPER)
+				weapon_state_change(weapon, 0);
 			weapon->anim_frame = 0;
 		}
 		t = 0;
@@ -50,9 +50,9 @@ t_img	weapon_get_image(t_doom *doom, t_weapon *weapon)
 
 int			weapon_foot(t_doom *doom, t_weapon *weapon)
 {
-	if (weapon->type == 0 && weapon->states_frame == 0)
+	if (weapon->type == WEAPON_FOOT && weapon->states_frame == 0)
 		return (0);
-	if (weapon->type == 0 || weapon->states_frame == 1)
+	if (weapon->type == WEAPON_FOOT || weapon->states_frame == 1)
 	{
 		doom->shakey = 0;
 		doom->shakex = 0;
@@ -82,7 +82,7 @@ int			shake_timer(t_doom *doom, t_fps fps)
 
 int			ripper_animation(t_doom *doom, t_weapon *weapon)
 {
-	if (doom->lkey && weapon->type == 3 && weapon->ammo)
+	if (doom->lkey && weapon->type == WEAPON_RIPPER && weapon->ammo)
 	{
 		weapon->states_frame = 1;
 		if (weapon->anim_frame % 3 == 0)
@@ -90,36 +90,20 @@ int			ripper_animation(t_doom *doom, t_weapon *weapon)
 		else
 			doom->shakey = 0;
 	}
-	if (doom->lkey && weapon->type == 3 && !weapon->ammo)
-	{
-		weapon->states_frame = 0;
-		weapon->anim_frame = 0;
-	}
-	if (!doom->lkey && weapon->type == 3)
-	{
-		weapon->states_frame = 0;
-		weapon->anim_frame = 0;
-	}
+	if (doom->lkey && weapon->type == WEAPON_RIPPER && !weapon->ammo)
+		weapon_state_change(weapon, 0);
+	if (!doom->lkey && weapon->type == WEAPON_RIPPER)
+		weapon_state_change(weapon, 0);
 	return (0);
 }
 
-int			render_weapon(t_doom *doom, t_weapon *weapon)
+void		render_weapon2(t_doom *doom, t_xy scale, t_img img, int *pix)
 {
-	int		tmp = 0;
 	int		y;
 	int		x;
-	t_xy	scale;
 	t_xy	t;
-	t_img	img;
 
-	if (weapon->type == 0)
-		tmp = WIDTH / 4;
-	else
-		tmp = 0;
-	img = weapon_get_image(doom, weapon);
 	x = WIDTH / 4;
-	scale.x = (float)img.w / (WIDTH - WIDTH / 4);
-	scale.y = (float)img.h / (HEIGHT);
 	while (x < WIDTH)
 	{
 		t.y = 1;
@@ -128,13 +112,24 @@ int			render_weapon(t_doom *doom, t_weapon *weapon)
 		while (y < HEIGHT)
 		{
 			if (img.data[(int)t.y * img.w + (int)t.x])
-				doom->sdl->pix[y * WIDTH + x] =
+				pix[y * WIDTH + x] =
 					img.data[(int)t.y * img.w + (int)t.x];
 			t.y += scale.y;
 			y++;
 		}
 		x++;
 	}
+}
+
+int			render_weapon(t_doom *doom, t_weapon *weapon)
+{
+	t_xy	scale;
+	t_img	img;
+
+	img = weapon_get_image(doom, weapon);
+	scale.x = (float)img.w / (WIDTH - WIDTH / 4);
+	scale.y = (float)img.h / (HEIGHT);
+	render_weapon2(doom, scale, img, doom->sdl->pix);
 	return (0);
 }
 
@@ -143,22 +138,17 @@ void		drawweapon(t_doom *doom, t_weapon *weapon)
 	if (!(weapon_foot(doom, weapon)))
 		return ;
 	shake_timer(doom, doom->fps);
-	if (doom->player.reload == 1 && weapon->type == 1)
+	if (doom->player.reload == 1 && weapon->type == WEAPON_PISTOL)
 		weapon->states_frame = 2;
 	ripper_animation(doom, weapon);
 	if (weapon->states_frame != 0)
 		weapon_anim_next(&doom->player, weapon, weapon->states_frame, doom->fps);
 	render_weapon(doom, weapon);
-	
-	if (weapon->type == 3 && doom->lkey && weapon->anim_frame % 3 == 0 && weapon->ammo)
+	if (weapon->type == WEAPON_RIPPER && doom->lkey && weapon->anim_frame % 3 == 0 && weapon->ammo)
 	{
 		shoot(doom, weapon);
 		weapon->ammo--;
 		if (!weapon->ammo)
-		{
-			weapon->states_frame = 0;
-			weapon->anim_frame = 0;
-		}
+			weapon_state_change(weapon, 0);
 	}
-	
 }
