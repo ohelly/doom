@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 22:12:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/25 19:31:01 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/26 15:52:24 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,9 +64,15 @@ void	key_press_two(t_doom *doom)
 void	kek(t_doom *doom)
 {
 	int		i = -1;
-	while (++i < doom->walls->count)
+	/*while (++i < doom->walls->count)
 		printf("i = %d  p = %d\n", i, doom->walls->wall[i].portal);
-	printf("\n\n");
+	printf("\n\n");*/
+	/*while (++i < doom->sects->count)
+		printf("%d\n", check_rotation(doom, i, doom->verts->list));
+	printf("**\n");*/
+	while (++i < doom->verts->count)
+		printf("x = %d  y = %d\n", doom->verts->list[i].pos.x, doom->verts->list[i].pos.y);
+	printf("**\n");
 }
 
 void	key_press_one(t_doom *doom)

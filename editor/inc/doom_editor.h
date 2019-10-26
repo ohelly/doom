@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/25 20:19:29 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/26 15:37:54 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -382,6 +382,9 @@ void					export_vert(t_doom *doom);
 int						sorted_vert(t_doom *doom, int index);
 int						count_wall(t_doom *doom, int ind);
 void					export_sector(t_doom *doom);
+int						check_rotation(t_doom *doom, int ind, t_vertex *list);
+void					output_wall(t_doom *doom, int count, int ind);
+void					output_wall_rev(t_doom *doom, int count, int ind);
 
 /*
 **	Math

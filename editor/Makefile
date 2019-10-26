@@ -6,7 +6,7 @@
 #    By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/02 20:58:32 by lminta            #+#    #+#              #
-#    Updated: 2019/10/25 20:22:54 by ohelly           ###   ########.fr        #
+#    Updated: 2019/10/26 15:43:39 by ohelly           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,6 +40,7 @@ src/additional_func.o src/check_convex.o src/sel_sector.o src/sel_wall.o src/mou
 src/sel_attr.o src/sel_value.o src/sel_texture_wall.o src/change_skybox.o src/sel_object.o src/sel_sprite.o \
 src/render_images.o src/edditing_img_render.o src/main_hud_for_edditing.o src/object_img_render.o \
 src/helper_draw.o src/height_spr.o src/export_vert.o src/export_sector.o src/export_helper.o \
+src/export_wall.o src/export_wall_rev.o \
 
 all: $(FRAMEDIR) $(LIBS) $(FRAME) $(NAME)
 
