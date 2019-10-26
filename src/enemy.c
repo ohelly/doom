@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 17:31:17 by njacobso          #+#    #+#             */
-/*   Updated: 2019/10/26 11:03:38 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 14:31:14 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,6 +106,7 @@ void	enemy_on_framestart(t_doom *doom, t_enemy *enemy)
 	t_xy	move_pos;
 	t_xy	new_dir;
 
+//	printf("frame1\n");
 	if (enemy->health <= 0 || enemy->obj->enabled == 0)
 		return ;
 	if (enemy->state == 0)
@@ -142,6 +143,7 @@ void	enemy_on_framestart(t_doom *doom, t_enemy *enemy)
 		}
 	}
 	enemy->rot = v2_to_rot(enemy->dir);
+//	printf("frame2\n");
 }
 
 t_enemy	*get_enemy_by_obj_id(t_doom *doom, int id)
@@ -200,8 +202,10 @@ void	enemies_update(t_doom *doom)
 	t_enemy *enemy;
 
 	i = 0;
+	//printf("enemies - %d\n", doom->num.enemies);
 	while (i < doom->num.enemies)
 	{
+	//	printf("i - %d\n", i);
 		enemy = &doom->enemies[i];
 		if (enemy->obj->enabled && enemy->health > 0)
 			enemy->on_framestart(doom, enemy);

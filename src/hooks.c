@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 13:20:15 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 14:46:27 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -270,7 +270,6 @@ int		shoot_wall(t_doom *doom, t_player player, t_sectors *sect, t_pics *pic)
 	}
 	pic[doom->num.pics + doom->num_shots] = doom->shot_pics;
 	doom->num_shots++;
-	
 	return (0);
 }
 
@@ -342,6 +341,7 @@ int		shoot_wall(t_doom *doom, t_player player, t_sectors *sectors)
 	return (0);
 }
 */
+
 int		find_on_hit_obj(t_doom *doom)
 {
 	int		j;
@@ -367,7 +367,7 @@ int		find_on_hit_obj(t_doom *doom)
 	return (t);
 }
 
-void	fire_sounds(t_doom *doom, int weapon)
+void	weapon_sounds(t_doom *doom, int weapon)
 {
 	if (weapon == WEAPON_FOOT)
 		play_sound(doom, SOUND_FOOT);
@@ -385,7 +385,7 @@ int		shoot(t_doom *doom)
 	int		j;
 
 	//play_sound(doom, SOUND_SHOOT);
-	fire_sounds(doom, doom->player.weapon);
+	weapon_sounds(doom, doom->player.weapon);
 	i = -1;
 	while (++i < 32)
 	{
@@ -407,7 +407,6 @@ void	left_mouse_keydown(t_doom *doom, SDL_Event ev, t_weapon *weapon, t_player *
 {
 	if (ev.button.button == SDL_BUTTON_LEFT && !player->reload && weapon->ammo && !weapon->states_frame)
 	{
-		
 		doom->lkey = 1;
 		if (player->weapon)
 			weapon->ammo--;

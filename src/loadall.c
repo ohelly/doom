@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:21:04 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 10:37:00 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 14:47:24 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -346,9 +346,8 @@ int		load_weapon(char **map, t_weapon *weapon, t_img *img)
 	return (0);
 }
 
-int		load_weapon_delay(t_weapon *weapon, int type)
+int		load_weapon_params(t_weapon *weapon, int type)
 {
-	
 	if (type == WEAPON_FOOT) //knife
 	{
 		weapon->ammo = 1;
@@ -399,7 +398,7 @@ int		load_weapon_data(char **map, t_doom *doom)
 	while (*map[i] != '#')
 	{
 		load_weapon(&map[i], &doom->weapon[atoi(map[i])], doom->img);
-		load_weapon_delay(&doom->weapon[atoi(map[i])], atoi(map[i]));
+		load_weapon_params(&doom->weapon[atoi(map[i])], atoi(map[i]));
 		while (*map[i] != '.')
 		{
 			if (*map[i] == '#')
@@ -469,6 +468,7 @@ int		load_params(t_doom *doom, char **map)
 		return (0);
 	if (!(doom->lookwall = (int*)ft_memalloc(sizeof(int) * doom->num.sectors)))
 		return (0);
+	printf("numpics - %d\n", doom->num.pics + SHOTS_NUM);
 	i = 0;
 	while (map[i])
 	{

@@ -320,7 +320,6 @@ int		load_game(t_doom *doom)
 	while (1)
 	{
 		fps(&doom->fps);
-		//enemies_activedate(doom);
 		animation(doom, doom->fps);
 		doors(doom, doom->player, doom->fps);
 		draw_screen(doom);

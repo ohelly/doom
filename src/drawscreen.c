@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 11:16:00 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/26 14:44:42 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -486,10 +486,9 @@ int			calc_pics(t_doom *doom, t_pics *pic, t_player player)
 	t_xy	i1;
 	t_xy	i2;
 	t_cood	cood;
-	float		nearz = 1e-4f, farz = 5, nearside = 1e-5f, farside = 20.f;
 
 	i = 0;
-	while (i < doom->num.pics + doom->num_shots)
+	while (i < doom->num.pics + doom->num_shots && i < SHOTS_NUM)
 	{
 		pic[i].vis = 0;
 		if (pic[i].wall == doom->cood.n && pic[i].sector == doom->now.sector)
