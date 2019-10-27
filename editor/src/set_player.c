@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 14:29:45 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/27 15:27:51 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/27 18:14:14 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void		set_end_player(t_doom *doom)
 		doom->hud->msg = "Select valid sector";
 		return ;
 	}
-	doom->player->end = doom->sects->selected_sector; 
+	doom->player->end = doom->sects->selected_sector;
 }
 
 void		draw_player(t_doom *doom, int color)

@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:57:29 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/27 15:28:57 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/27 18:16:58 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,12 @@ int			main(int ac, char **av)
 		return (die_msg("Failed to allocate doom struct"));
 	if (!(doom->player = (t_player*)ft_memalloc(sizeof(t_player))))
 		return (die_msg("Failed to allocate player struct"));
+	if (!(doom->exp = (t_export*)ft_memalloc(sizeof(t_export))))
+		return (die_msg("Failed to allocate export struct"));
 	if (!(sdl_init(doom)))
 		return (die_msg("Failed to init doom"));
+	if (!(load_surface(doom)))
+		return (die_msg("Failed to load img in surface"));
 	err = load_map(av[1], doom);
 	if (err != 0)
 		return (puts_error(err));

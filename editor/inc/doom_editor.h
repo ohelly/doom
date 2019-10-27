@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/27 15:25:24 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/27 18:18:24 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -229,6 +229,7 @@ typedef struct			s_sdl
 typedef struct			s_txt
 {
 	SDL_Texture			*wall[COUNT_T];
+	SDL_Surface			*swall[COUNT_T];
 	SDL_Texture			*obj[21];
 	SDL_Texture			*previews[COUNT_SP];
 	SDL_Texture			*previewo[COUNT_OP];
@@ -294,6 +295,16 @@ typedef struct			s_player
 	int					end;
 }						t_player;
 
+/*
+** STRUCT FOR EXPORT
+*/
+
+typedef struct		s_exp
+{
+	int				wall[COUNT_T];
+	int				floor[COUNT_T];
+	int				ceil[COUNT_T];
+}					t_export;
 
 /*
 ** MAIN STRUCT
@@ -315,6 +326,7 @@ typedef struct			s_doom
 	t_all_spr_wall		*aspr;
 	t_all_spr_floor		*obj;
 	t_player			*player;
+	t_export			*exp;
 	int					sh;
 	t_v2				map_pos;
 	t_v2				move_vector;
@@ -418,6 +430,12 @@ void					draw_player(t_doom *doom, int color);
 void					set_end_player(t_doom *doom);
 void					render_player_settings(t_txt *txt, t_player *player, t_sdl *sdl);
 void					set_weapon(int x, int y, t_player *player);
+void					export_all_texture(t_doom *doom);
+void					export_wall_tx(t_doom *doom);
+int						load_txt_to_surface(t_txt *txt);
+void					export_ceil_tx(t_doom *doom);
+void					export_floor_tx(t_doom *doom);
+int						load_surface(t_doom *doom);
 
 /*
 **	Math

@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 16:33:37 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/26 18:28:06 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/27 16:33:28 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@ int		load_img_for_txt_p_3(t_txt *txt, t_sdl *sdl)
 	if (!(txt->wall[26] = IMG_LoadTexture(sdl->rend, "img/wall/6.png")))
 		return (0);
 	if (!(txt->huds[21] = IMG_LoadTexture(sdl->rend, "img/hud/key.png")))
+		return (0);
+	if (!(load_txt_to_surface(txt)))
 		return (0);
 	return (1);
 }
