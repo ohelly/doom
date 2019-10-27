@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 22:12:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/25 19:31:01 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/27 14:29:38 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	key_press_three(t_doom *doom)
 		exit(0);
 	if (doom->sdl->ev.key.keysym.sym == 's')
 		get_closest_sector(doom);
+	if (doom->sdl->ev.key.keysym.sym == 'q')
+		set_player(doom);
 }
 
 void	key_press_two(t_doom *doom)
@@ -61,14 +63,6 @@ void	key_press_two(t_doom *doom)
 	key_press_three(doom);
 }
 
-void	kek(t_doom *doom)
-{
-	int		i = -1;
-	while (++i < doom->walls->count)
-		printf("i = %d  p = %d\n", i, doom->walls->wall[i].portal);
-	printf("\n\n");
-}
-
 void	key_press_one(t_doom *doom)
 {
 	if (doom->app < 2)
@@ -93,8 +87,6 @@ void	key_press_one(t_doom *doom)
 			set_sprite_on_wall(doom);
 		if (doom->sdl->ev.key.keysym.sym == 'o')
 			set_object(doom);
-		if (doom->sdl->ev.key.keysym.sym == 'k')
-			kek(doom);
 	}
 	key_press_two(doom);
 }

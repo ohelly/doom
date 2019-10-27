@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/22 20:02:16 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/23 13:45:23 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/27 12:38:09 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	load_txt_wall(t_doom, char *line, int i, int ind)
 {
-	
+	return ;
 }
 
 void	value_sector(t_doom *doom, char *line)

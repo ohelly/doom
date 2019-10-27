@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 14:03:00 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/25 20:22:13 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/27 15:57:13 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 int		save(t_doom *doom)
 {
-	int			i = -1;
-
+	if (doom->player->end == -1)
+	{
+		doom->hud->msg = "Set player";
+		return (0);
+	}
 	if (open(doom->file->file_name, O_RDONLY))
 		remove(doom->file->file_name);
 	doom->file->fd = open(doom->file->file_name, O_WRONLY | O_CREAT, 444);
+	export_all_texture(doom);
 	export_vert(doom);
 	export_sector(doom);
-	/*printf("saved sectors	\n");
-	
-	str = ft_strjoinc(str, "\0");
-	write(doom->file->fd, str, ft_strlen(str) * sizeof(char));*/
 	close(doom->file->fd);
 	doom->hud->msg = "Saved file!";
 	exit(0);

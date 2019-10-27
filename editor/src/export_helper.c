@@ -6,11 +6,37 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 20:13:43 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/25 20:15:09 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/26 16:19:48 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom_editor.h"
+
+/*
+** Определяет в какую сторону нарисован сектор при экспорте.
+** От этого зависит порядок экспорта стен.
+*/
+
+int		check_rotation(t_doom *doom, int ind, t_vertex *list)
+{
+	int		j;
+	int		i;
+
+	j = -1;
+	i = -1;
+	while (++j < doom->walls->count)
+		if (doom->walls->wall[j].sectors == ind)
+			break ;
+	while (++i < doom->walls->count)
+		if (doom->walls->wall[i].sectors == ind && i != j &&
+		sorted_vert(doom, doom->walls->wall[j].vert_two) ==
+		sorted_vert(doom, doom->walls->wall[i].vert_one))
+			break ;
+	return (scalar_product(list[sorted_vert(doom,
+	doom->walls->wall[j].vert_one)].pos,
+	list[sorted_vert(doom, doom->walls->wall[j].vert_two)].pos,
+	list[sorted_vert(doom, doom->walls->wall[i].vert_two)].pos));
+}
 
 /*
 ** Возвращает количество стен данного сектора
