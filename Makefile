@@ -6,7 +6,7 @@
 #    By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/02 20:58:32 by lminta            #+#    #+#              #
-#    Updated: 2019/10/24 16:22:41 by dtoy             ###   ########.fr        #
+#    Updated: 2019/10/27 21:00:33 by dtoy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,7 +32,11 @@ FLAGS2 = -F ~/Library/Frameworks/ -framework SDL2 -framework SDL2_image \
 OBJ = src/main.o src/initall.o src/loadall.o src/countall.o src/loadsectors.o src/loadvertexes.o src/utils.o \
 src/loadobjs.o src/loadpics.o src/loadplayer.o src/loadgame.o src/hooks.o src/profiling.o src/rgb_manipulations.o \
 src/drawsprites.o src/drawscreen.o src/drawweapon.o src/vector_math.o src/object_triggers.o src/player_move.o \
-src/colliders.o src/enemy.o src/sounds.o src/drawhud.o src/loadhud.o src/loadfonts.o
+src/colliders.o src/enemy.o src/sounds.o src/drawhud.o src/loadhud.o src/loadfonts.o src/loadmap.o \
+src/loadtexturedata.o src/loadweapondata.o src/loadobjdata.o src/loadpicdata.o src/loadimage.o src/loadparams.o \
+src/doors.o src/calcmove.o src/calciswall.o src/calcjump.o src/animation.o src/drawscope.o src/drawsky.o \
+src/drawwalls.o src/vline2.o src/vline3.o src/tomapcood.o src/scaler.o src/drawceilandfloor.o src/findscales.o \
+src/render.o src/calcpics.o src/intersect.o src/calcsector.o src/render_weapon.o src/weapon_utils.o
 
 all: $(FRAMEDIR) $(LIBS) $(FRAME) $(NAME)
 

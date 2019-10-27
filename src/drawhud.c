@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 17:27:54 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/26 17:31:48 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/27 20:11:21 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ void			drawkey(t_doom *doom, t_obj *key)
 	t_xy	scale;
 	t_xy	t;
 	t_img	img;
-	
+
 	img = obj_get_image(doom, key);
 	scale.x = (float)img.w / (WIDTH / 5);
 	scale.y = (float)img.h / (HEIGHT / 3);
@@ -69,18 +69,9 @@ void			drawkey(t_doom *doom, t_obj *key)
 
 void			drawhud(t_doom *doom)
 {
-	//doom->hud->ammo.t = ft_itoa(doom->weapon[doom->player.weapon].ammo);
-	//printf("ammo - %s\n", doom->hud->ammo.t);
-	
-	//doom->hud->health.t = ft_itoa(doom->player.hp);
-	printf("1\n");
 	load_hud(doom);
-	printf("2\n");
 	drawhudel(doom->hud->health, doom->sdl->pix);
-	printf("3\n");
 	drawhudel(doom->hud->ammo, doom->sdl->pix);
-	printf("4\n");
 	if (doom->player.key)
 		drawkey(doom, doom->hud->key);
-	printf("5\n");
 }

@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 15:56:20 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/27 21:07:01 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -421,6 +421,7 @@ typedef struct	s_doom
 	int			pic_interaction[64];
 	int			obj_ind[64];
 	int			obj_num;
+	int			maplines;
 	struct s_enemy		*enemies;
 	t_music		music[2];
 	t_sound		sound[17];
@@ -447,8 +448,43 @@ typedef struct		s_enemy
 }					t_enemy;
 
 int		findpicpoints(t_doom *doom, t_pics *pic, float w);
-int		loadall(t_doom *doom);
-int		initall(t_doom *doom);
+
+int		load_all(t_doom *doom, char **av);
+char	**load_map(t_doom *doom, char *av);
+int		load_texture_data(char **map, t_doom *doom);
+int		load_weapon_data(char **map, t_doom *doom);
+int		load_obj_data(char **map, t_doom *doom);
+int		load_pic_data(char **map, t_doom *doom);
+int		load_params(t_doom *doom, char **map);
+int		load_image(char *map, int *image, t_img *img);
+int		new_image(char *str, t_img *img, int w, int h);
+
+int		calc_move(t_doom *doom, t_player *player);
+int		calc_is_wall(t_doom *doom, t_player *player);
+int		calc_jump(t_doom *doom, t_player *player, t_sectors *sectors, t_fps fps);
+int		doors(t_doom *doom, t_player player, t_fps fps);
+int		animation(t_doom *doom, t_fps fps);
+int		intersect(t_xyz *t1, t_xyz *t2, t_cood *cood);
+int		point_side(t_xy d, t_xy v1, t_xy v2);
+int		intersect_box(t_xy p, t_xy d, t_xy v1, t_xy v2);
+int		find_scales(t_doom *doom, t_cood *cood, t_player player);
+int		find_yceil_yfloor(t_doom *doom, t_sectors *s, t_cood *cood, t_player player);
+int		calc_pics(t_doom *doom, t_pics *pic, t_player player);
+int		render_walls(t_doom *doom, t_sectors *s, t_cood *cood, t_player player);
+void	drawsky(t_doom *doom, t_player player, t_texture *sky, t_img *img);
+int		draw_walls(t_doom *doom, t_player player);
+t_img	wpn_get_image(t_doom *doom, t_weapon *wpn);
+void	wpn_anim_next(t_doom *doom, t_player *player, t_weapon *wpn, t_fps fps);
+void	wpn_state_change(t_weapon *wpn, int state);
+int		render_weapon(t_doom *doom, t_weapon *wpn);
+void	vline2(int x, t_ab_i wy, t_scaler ty, t_doom *doom);
+void	vline3(int x, t_ab_i wy, t_scaler ty, t_doom *doom);
+t_scaler	scaler_init(t_ab_i wy, int cya, int u0, int u1);
+void	to_map_coordinates(float mapY, int screenX, int screenY, float *X, float *Z, t_player player);
+int		scaler_next(t_scaler* i);
+int		draw_ceil_floor(t_doom *doom, t_sectors *s, t_cood *cood, t_player player);
+int		calc_sector(t_doom *doom, t_sectors *s, t_cood *cood, t_player player);
+void	draw_scope(t_sdl *sdl);
 int		countall(t_doom *doom, char **map);
 int		loadvertexes(t_xy *v, char *str);
 int		loadsectors(t_sectors *s, t_xy *v, char *str);

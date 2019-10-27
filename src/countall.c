@@ -29,7 +29,6 @@ int		countvertexes(char *str, t_doom *doom)
 		else
 			j++;
 	}
-//printf("NumVertexes - %d\n", doom->num.vertexes);
 	return (0);
 }
 

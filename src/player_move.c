@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 17:24:41 by njacobso          #+#    #+#             */
-/*   Updated: 2019/10/26 12:28:35 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/27 18:12:20 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ int		walls_collision(t_doom *doom, t_xy pl1, t_xy pl2)
 	{
 		pos1 = v2_addf(v[n], doom->wall_col_size);
 		pos2 = v2_addf(v[n + 1], -doom->wall_col_size);
-		if (IntersectBox(pl1.x, pl1.y, pl2.x, pl2.y, pos1.x, pos1.y, pos2.x, pos2.y))
+		if (intersect_box(pl1, pl2, pos1, pos2))
 		{
 			hole.x = sect->neighbors[n] < 0 ? 9e9 : max(sect->floor, doom->sectors[sect->neighbors[n]].floor);
 			hole.y = sect->neighbors[n] < 0 ? -9e9 : min(sect->ceil, doom->sectors[sect->neighbors[n]].ceil);
