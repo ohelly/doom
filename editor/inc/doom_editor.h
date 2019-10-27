@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 19:12:12 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/27 15:25:24 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,8 @@
 # define COUNT_O 21
 # define COUNT_SKY 3
 # define COUNT_SP 6
+# define COUNT_OP 16
+# define COUNT_WP 3
 
 /*
 ** POS OF X AND Y
@@ -229,6 +231,8 @@ typedef struct			s_txt
 	SDL_Texture			*wall[COUNT_T];
 	SDL_Texture			*obj[21];
 	SDL_Texture			*previews[COUNT_SP];
+	SDL_Texture			*previewo[COUNT_OP];
+	SDL_Texture			*previeww[COUNT_WP];
 	SDL_Texture			*sky[COUNT_SKY];
 	SDL_Texture			*huds[COUNT_H];
 	int					ind_sky;
@@ -277,6 +281,21 @@ typedef struct			s_all_spr_floor
 }						t_all_spr_floor;
 
 /*
+** STRUCT FOR PLAYER
+*/
+
+typedef struct			s_player
+{
+	t_v2				pos;
+	int					angle;
+	int					sec;
+	int					hp;
+	int					weapon;
+	int					end;
+}						t_player;
+
+
+/*
 ** MAIN STRUCT
 */
 
@@ -295,6 +314,7 @@ typedef struct			s_doom
 	t_txt				*txt;
 	t_all_spr_wall		*aspr;
 	t_all_spr_floor		*obj;
+	t_player			*player;
 	int					sh;
 	t_v2				map_pos;
 	t_v2				move_vector;
@@ -366,7 +386,8 @@ void					edditing_img_render(t_txt *txt, t_sdl *sdl,
 										t_all_sect *sects, t_all_walls *walls);
 void					main_hud_for_edditing(t_txt *txt, t_sdl *sdl,
 										t_all_walls *walls, t_all_sect *sects);
-void					object_img_render(t_txt *txt, t_sdl *sdl, t_all_spr_wall *aspr);
+void					object_img_render(t_txt *txt, t_sdl *sdl,
+									t_all_spr_wall *aspr, t_all_spr_floor *obj);
 void					draw_sprite(t_doom *doom, int color);
 void					draw_building_line(t_doom *doom, int color);
 void					draw_sector(t_doom *doom, int sector, int color);
@@ -391,6 +412,12 @@ void					sel_txtc(int x, int y, t_all_sect *sects);
 void					sel_txtf(int x, int y, t_all_sect *sects);
 int						init_preview(t_doom *doom);
 void					sel_txt_spr(int x, int y, t_all_spr_wall *aspr);
+void					sel_txt_obj(int x, int y, t_all_spr_floor *obj);
+void					set_player(t_doom *doom);
+void					draw_player(t_doom *doom, int color);
+void					set_end_player(t_doom *doom);
+void					render_player_settings(t_txt *txt, t_player *player, t_sdl *sdl);
+void					set_weapon(int x, int y, t_player *player);
 
 /*
 **	Math

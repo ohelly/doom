@@ -1,30 +1,29 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   export.c                                           :+:      :+:    :+:   */
+/*   sel_txt_obj.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/23 14:03:00 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/27 15:33:54 by ohelly           ###   ########.fr       */
+/*   Created: 2019/10/27 13:58:03 by ohelly            #+#    #+#             */
+/*   Updated: 2019/10/27 14:05:02 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom_editor.h"
 
-int		save(t_doom *doom)
+void		sel_txt_obj(int x, int y, t_all_spr_floor *obj)
 {
-	if (doom->player->pos.x == -1 && doom->player->pos.y == -1)
+	if (x >= 950 && x <= 1000 && y >= 60 && y <= 110)
 	{
-		doom->hud->msg = "Set player";
-		return ;
+		obj->obj[obj->select_obj].txt == 0 ?
+		obj->obj[obj->select_obj].txt = COUNT_OP - 1 :
+		obj->obj[obj->select_obj].txt--;
 	}
-	if (open(doom->file->file_name, O_RDONLY))
-		remove(doom->file->file_name);
-	doom->file->fd = open(doom->file->file_name, O_WRONLY | O_CREAT, 444);
-	export_vert(doom);
-	export_sector(doom);
-	close(doom->file->fd);
-	doom->hud->msg = "Saved file!";
-	exit(0);
+	else
+	{
+		obj->obj[obj->select_obj].txt == COUNT_OP - 1 ?
+		obj->obj[obj->select_obj].txt = 0 :
+		obj->obj[obj->select_obj].txt++;
+	}
 }

@@ -6,7 +6,7 @@
 #    By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/02 20:58:32 by lminta            #+#    #+#              #
-#    Updated: 2019/10/26 19:10:33 by ohelly           ###   ########.fr        #
+#    Updated: 2019/10/27 14:31:18 by ohelly           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -41,7 +41,7 @@ src/sel_attr.o src/sel_value.o src/sel_texture_wall.o src/change_skybox.o src/se
 src/render_images.o src/edditing_img_render.o src/main_hud_for_edditing.o src/object_img_render.o \
 src/helper_draw.o src/height_spr.o src/export_vert.o src/export_sector.o src/export_helper.o \
 src/export_wall.o src/export_wall_rev.o src/sel_txtc.o src/sel_txtf.o src/init_preview.o \
-src/sel_txt_spr.o \
+src/sel_txt_spr.o src/sel_txt_obj.o src/set_player.o \
 
 all: $(FRAMEDIR) $(LIBS) $(FRAME) $(NAME)
 

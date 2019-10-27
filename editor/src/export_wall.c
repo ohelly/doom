@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 15:37:06 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/26 15:38:49 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/27 12:36:44 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ static void	output_neigh(t_doom *doom, int ind, int j, int count)
 	}
 }
 
-void	output_wall(t_doom *doom, int count, int ind)
+void		output_wall(t_doom *doom, int count, int ind)
 {
 	int		i;
 	int		j;

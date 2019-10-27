@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 17:57:29 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/22 18:25:04 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/27 15:28:57 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ int			main(int ac, char **av)
 		return (die_msg("Too many arguments"));
 	if (!(doom = (t_doom*)ft_memalloc(sizeof(t_doom))))
 		return (die_msg("Failed to allocate doom struct"));
+	if (!(doom->player = (t_player*)ft_memalloc(sizeof(t_player))))
+		return (die_msg("Failed to allocate player struct"));
 	if (!(sdl_init(doom)))
 		return (die_msg("Failed to init doom"));
 	err = load_map(av[1], doom);
