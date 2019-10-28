@@ -23,6 +23,7 @@ static int		load_hudel(t_hudel *e)
 	e->p = e->s->pixels;
 	e->w = e->s->w;
 	e->h = e->s->h;
+	return (1);
 }
 
 static int		load_hud_health(t_doom *doom)

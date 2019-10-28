@@ -146,28 +146,6 @@ typedef struct	s_texture
 	int			image; //0
 }				t_texture;
 
-typedef struct	s_obj
-{
-	int			id;
-	int			n;
-	int			enabled;
-	t_xy		p;
-	int			sector;
-	int			type;
-	int			**images;
-	int			*anim_count;
-	int			anim_frame;
-	int			states_count;
-	int			states_frame;
-	float		col_size;
-	int			col_passable;
-	float		scale;
-	void		(*on_collision)(struct s_doom *doom, struct s_obj *obj);
-	void		(*on_interaction)(struct s_doom *doom, struct s_obj *obj);
-	void		(*on_hit)(struct s_doom *doom, struct s_obj *obj);
-	void		(*on_anim_end)(struct s_obj *obj);
-}				t_obj;
-
 typedef struct	s_data
 {
 	int			type;
@@ -364,7 +342,7 @@ typedef struct	s_hud
 	TTF_Font	*font;
 	t_hudel		health;
 	t_hudel		ammo;
-	t_obj		*key;
+	struct s_obj	*key;
 }				t_hud;
 
 typedef struct	s_music
@@ -389,7 +367,7 @@ typedef struct	s_doom
 	t_texture	*floors;
 	t_texture	*ceils;
 	t_texture	*bullet;
-	t_obj		*objs;
+	struct s_obj	*objs;
 	t_data		*objs_data;
 	t_pics		*pics;
 	t_pics		shot_pics;
@@ -433,6 +411,28 @@ typedef struct	s_doom
 	t_music		music[2];
 	t_sound		sound[17];
 }				t_doom;
+
+typedef struct	s_obj
+{
+	int			id;
+	int			n;
+	int			enabled;
+	t_xy		p;
+	int			sector;
+	int			type;
+	int			**images;
+	int			*anim_count;
+	int			anim_frame;
+	int			states_count;
+	int			states_frame;
+	float		col_size;
+	int			col_passable;
+	float		scale;
+	void		(*on_collision)(t_doom *doom, struct s_obj *obj);
+	void		(*on_interaction)(t_doom *doom, struct s_obj *obj);
+	void		(*on_hit)(t_doom *doom, struct s_obj *obj);
+	void		(*on_anim_end)(struct s_obj *obj);
+}				t_obj;
 
 typedef struct		s_enemy
 {
