@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/25 17:01:23 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/20 19:18:42 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/27 14:36:49 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,7 @@ void		draw_all(t_doom *doom)
 																0x009900);
 	draw_verts(doom, 0xff0000);
 	draw_sprite(doom, 0x04ACFF);
+	draw_player(doom, 0x8cff9d);
 }
 
 void		output(t_doom *doom)

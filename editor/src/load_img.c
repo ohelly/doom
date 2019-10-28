@@ -6,11 +6,36 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 16:33:37 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/15 15:02:53 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/27 16:33:28 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom_editor.h"
+
+/*
+** IMG FOR WALL PART 3
+*/
+
+int		load_img_for_txt_p_3(t_txt *txt, t_sdl *sdl)
+{
+	if (!(txt->wall[21] = IMG_LoadTexture(sdl->rend, "img/wall/1.png")))
+		return (0);
+	if (!(txt->wall[22] = IMG_LoadTexture(sdl->rend, "img/wall/2.png")))
+		return (0);
+	if (!(txt->wall[23] = IMG_LoadTexture(sdl->rend, "img/wall/3.png")))
+		return (0);
+	if (!(txt->wall[24] = IMG_LoadTexture(sdl->rend, "img/wall/4.png")))
+		return (0);
+	if (!(txt->wall[25] = IMG_LoadTexture(sdl->rend, "img/wall/5.png")))
+		return (0);
+	if (!(txt->wall[26] = IMG_LoadTexture(sdl->rend, "img/wall/6.png")))
+		return (0);
+	if (!(txt->huds[21] = IMG_LoadTexture(sdl->rend, "img/hud/key.png")))
+		return (0);
+	if (!(load_txt_to_surface(txt)))
+		return (0);
+	return (1);
+}
 
 /*
 ** IMG FOR WALL PART 2
@@ -70,6 +95,8 @@ int		load_img_for_txt(t_txt *txt, t_sdl *sdl)
 	if (!(txt->wall[8] = IMG_LoadTexture(sdl->rend, "img/wall/wall9.png")))
 		return (0);
 	if (!(load_img_for_txt_p_2(txt, sdl)))
+		return (0);
+	if (!(load_img_for_txt_p_3(txt, sdl)))
 		return (0);
 	return (1);
 }

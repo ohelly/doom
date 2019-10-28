@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 22:12:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/20 17:00:29 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/27 14:29:38 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ void	key_press_three(t_doom *doom)
 		exit(0);
 	if (doom->sdl->ev.key.keysym.sym == 's')
 		get_closest_sector(doom);
+	if (doom->sdl->ev.key.keysym.sym == 'q')
+		set_player(doom);
 }
 
 void	key_press_two(t_doom *doom)
@@ -95,6 +97,8 @@ void	key_and_mouse_press(t_doom *doom)
 	{
 		if (doom->sdl->ev.type == SDL_KEYDOWN)
 			key_press_one(doom);
+		if (doom->sdl->ev.type == SDL_QUIT)
+			exit(0);
 		if (doom->app == 2 || doom->app == 3)
 			if (doom->sdl->ev.type == SDL_MOUSEBUTTONDOWN)
 				mouse_press(doom, doom->sdl, doom->app);

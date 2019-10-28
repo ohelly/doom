@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 18:32:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/18 15:11:02 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/27 14:59:41 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,5 +24,8 @@ void		put_image_on_screen(t_doom *doom)
 	if (doom->app == 2)
 		edditing_img_render(doom->txt, doom->sdl, doom->sects, doom->walls);
 	else if (doom->app == 3)
-		object_img_render(doom->txt, doom->sdl);
+	{
+		object_img_render(doom->txt, doom->sdl, doom->aspr, doom->obj);
+		render_player_settings(doom->txt, doom->player, doom->sdl);
+	}
 }

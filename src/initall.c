@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:16:07 by dtoy              #+#    #+#             */
-/*   Updated: 2019/09/27 14:31:41 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/27 16:34:37 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int		initall(t_doom *doom)
 {
-	if (!(doom->sdl = (t_sdl*)ft_memalloc(sizeof(t_sdl))))
-		return (0);
+
 	return (1);
 }
