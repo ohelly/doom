@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 18:01:59 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/28 20:13:21 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,9 @@ typedef struct	s_scaler
 
 typedef struct	s_be
 {
-	int		x;
-	int		begin;
-	int		end;
+	int			x;
+	int			begin;
+	int			end;
 }				t_be;
 
 typedef struct	s_py_i
@@ -479,7 +479,7 @@ int		intersect_box(t_xy p, t_xy d, t_xy v1, t_xy v2);
 int		find_scales(t_doom *doom, t_cood *cood, t_player player);
 int		find_yceil_yfloor(t_doom *doom, t_sectors *s, t_cood *cood, t_player player);
 int		calc_pics(t_doom *doom, t_pics *pic, t_player player);
-int		render_walls(t_doom *doom, t_sectors *s, t_cood *cood, t_player player);
+void	render_walls(t_doom *doom, t_sectors *s, t_cood *cood, t_player player);
 void	drawsky(t_doom *doom, t_player player, t_texture *sky, t_img *img);
 int		draw_walls(t_doom *doom, t_player player);
 t_img	wpn_get_image(t_doom *doom, t_weapon *wpn);
@@ -488,7 +488,8 @@ void	wpn_state_change(t_weapon *wpn, int state);
 int		render_weapon(t_doom *doom, t_weapon *wpn);
 void	vline2(int x, t_ab_i wy, t_scaler ty, t_doom *doom);
 void	vline3(int x, t_ab_i wy, t_scaler ty, t_doom *doom);
-int		vlineobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom);
+void	vlineobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom);
+int		render_pics(t_doom *doom, t_pics *pics, int x) ;
 t_scaler	scaler_init(t_ab_i wy, int cya, int u0, int u1);
 void	to_map_coordinates(float mapY, t_cood *cood, t_xyz *map, t_player player);
 int		scaler_next(t_scaler* i);
@@ -499,7 +500,7 @@ int		countall(t_doom *doom, char **map);
 int		loadvertexes(t_xy *v, char *str);
 int		loadsectors(t_sectors *s, t_xy *v, char *str);
 char	*todigit(char *str, float *data);
-int		loadobjs(t_doom *doom, t_obj *obj, t_data *objs_data, char *str);
+int		loadobjs(t_doom *doom, char *str);
 int		shoot(t_doom *doom);
 int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str);
 t_img	pic_get_image(t_doom *doom, t_pics *pic);
@@ -531,6 +532,10 @@ t_img	obj_get_image(t_doom *doom, t_obj *obj);
 //enemies
 void	enemies_update(t_doom *doom);
 t_enemy	*create_enemy_default(t_doom *doom, t_obj *obj);
+void	enemy_on_framestart(t_doom *doom, t_enemy *enemy);
+void	enemy_on_attack(t_doom *doom, t_enemy *enemy);
+void	enemy_on_hit(t_doom *doom, t_enemy *enemy);
+void	enemy_obj_on_hit(t_doom *doom, t_obj *obj);
 //collisions
 int		collision_box(t_xy p1, t_xy p2, t_xy v1, t_xy v2);
 int		collision_circle(t_xy pos1, float rad1, t_xy pos2, float rad2);
@@ -540,7 +545,7 @@ int		overlap(float a0, float a1, float b0, float b1);
 int		sound_free_everything(t_doom *doom);
 int		play_music(t_doom *doom, int index);
 int		play_sound(t_doom *doom, int index);
-int		load_music(t_doom *doom);
+void	load_music(t_doom *doom);
 //math
 t_xy	rot_to_v2(float rot);
 float	v2_to_rot(t_xy v2);
@@ -552,5 +557,19 @@ t_xy	v2_normalize(t_xy v2);
 float	distance(t_xy p1, t_xy p2);
 float	rad_to_deg(float rad);
 
+void	close_program(SDL_Event ev, t_doom *doom);
+void	jump_sprint_crouch(t_doom *doom, SDL_Event ev,
+t_player *player, t_sectors *s);
+void	reload_pistol(SDL_Event ev, t_doom *doom,
+t_weapon weapon, t_player *player);
+void	change_all_weapons(t_weapon *weapon, SDL_Event ev,
+t_player *player, int *allweapons);
+void	change_weapon(t_player *player, t_weapon *weapon, int n);
+int		find_on_hit_obj(t_doom *doom);
+int		find_pic_interaction(t_doom *doom, t_player player, t_pics *pics);
+int		find_door(t_doom *doom, t_player player);
+int		shoot_wall(t_doom *doom, t_player player, t_sectors *sect, t_pics *pic);
+void	left_mouse_keydown(t_doom *doom, SDL_Event ev,
+t_weapon *weapon, t_player *player);
 
 #endif

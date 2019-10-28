@@ -1,32 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   loadvertexes.c                                     :+:      :+:    :+:   */
+/*   hooks_move.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/27 11:49:53 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 19:59:43 by dtoy             ###   ########.fr       */
+/*   Created: 2019/10/28 19:51:18 by dtoy              #+#    #+#             */
+/*   Updated: 2019/10/28 19:52:21 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-int		loadvertexes(t_xy *v, char *str)
+void	jump_sprint_crouch(t_doom *doom, SDL_Event ev,
+t_player *player, t_sectors *s)
 {
-	static int	n = 0;
-	float		y;
-
-	str = todigit(str, &y);
-	while (*str)
+	if (ev.key.keysym.sym == SDLK_SPACE)
 	{
-		v[n].y = y;
-		if (!(str = todigit(str, &v[n].x)))
+		if (player->ground)
 		{
-			break ;
-			n++;
+			play_sound(doom, SOUND_JUMP);
+			player->velocity.z = 2.f;
+			player->fall = 1;
 		}
-		n++;
 	}
-	return (0);
+	if (ev.key.keysym.sym == SDLK_LCTRL)
+	{
+		player->sit = 1;
+		player->where.z = s[player->sector].floor + DuckHeight;
+	}
+	if (ev.key.keysym.sym == SDLK_LSHIFT)
+		player->sprint = 1;
 }

@@ -1,32 +1,24 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   loadvertexes.c                                     :+:      :+:    :+:   */
+/*   hooks_close.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/09/27 11:49:53 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 19:59:43 by dtoy             ###   ########.fr       */
+/*   Created: 2019/10/28 19:52:30 by dtoy              #+#    #+#             */
+/*   Updated: 2019/10/28 19:52:55 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-int		loadvertexes(t_xy *v, char *str)
+void	close_program(SDL_Event ev, t_doom *doom)
 {
-	static int	n = 0;
-	float		y;
-
-	str = todigit(str, &y);
-	while (*str)
+	if (ev.key.keysym.sym == '\033')
 	{
-		v[n].y = y;
-		if (!(str = todigit(str, &v[n].x)))
-		{
-			break ;
-			n++;
-		}
-		n++;
+		sound_free_everything(doom);
+		Mix_Quit();
+		SDL_Quit();
+		exit(0);
 	}
-	return (0);
 }
