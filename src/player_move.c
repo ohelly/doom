@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 17:24:41 by njacobso          #+#    #+#             */
-/*   Updated: 2019/10/28 19:40:14 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/28 21:39:34 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int		walls_collision(t_doom *doom, t_xy pl)
 	t_xy		*v;
 	int			n;
 	t_xy		hole;
-	t_xy		move_pos;
 	float		height;
 
 	sect = &doom->sectors[doom->player.sector];
