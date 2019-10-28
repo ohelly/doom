@@ -6,7 +6,7 @@
 /*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 20:54:11 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/28 20:54:57 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/28 20:58:35 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,4 +39,3 @@ int		create_obj_medkit(t_doom *doom, t_obj *obj)
 	obj->col_size = 3.0f;
 	obj->on_collision = obj_collision_medkit_pickup;
 }
-
