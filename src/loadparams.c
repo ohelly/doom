@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 17:31:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/27 17:32:43 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/28 17:32:03 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,10 @@ int		init_structs(t_doom *doom)
 		sizeof(t_item) * doom->num.sectors)))
 		return (0);
 	if (!(doom->objs = (t_obj*)ft_memalloc(sizeof(t_obj) * doom->num.objs)))
+		return (0);
+	if (!(doom->obj_ind = (t_obj*)ft_memalloc(sizeof(t_obj) * doom->num.objs)))
+		return (0);
+	if (!(doom->order = (t_obj*)ft_memalloc(sizeof(t_obj) * doom->num.objs)))
 		return (0);
 	if (!(doom->pics = (t_pics*)ft_memalloc(
 		sizeof(t_pics) * (doom->num.pics + SHOTS_NUM))))

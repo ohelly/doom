@@ -6,29 +6,17 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 14:22:21 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/24 17:53:06 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/28 18:30:19 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-int		loadplayer(t_player *player, char *str)
+void	default_player_params(t_player *player)
 {
-	float	tmp;
 	int		n;
 
 	n = 0;
-	str = todigit(str, &player->where.y);
-	str = todigit(str, &player->where.x);
-	str = todigit(str, &player->angle);
-	str = todigit(str, &tmp);
-	player->sector = (int)tmp;
-	player->start = player->sector;
-	str = todigit(str, &tmp);
-	player->hp = (int)tmp;
-	str = todigit(str, &tmp);
-	player->weapon = (int)tmp;
-	
 	while (n < 4)
 	{
 		if (n == player->weapon)
@@ -38,9 +26,6 @@ int		loadplayer(t_player *player, char *str)
 		n++;
 	}
 	player->allweapons[0] = 1;
-	str = todigit(str, &tmp);
-	player->end = (int)tmp;
-	printf("Angle - %f\n", player->angle);
 	player->psin = sinf(player->angle);
 	player->pcos = cosf(player->angle);
 	player->fall = 0;
@@ -52,11 +37,24 @@ int		loadplayer(t_player *player, char *str)
 	player->velocity.x = 0;
 	player->velocity.y = 0;
 	player->velocity.z = 0;
-	printf("anglesin - %f\n", player->psin);
-	printf("anglecos - %f\n", player->pcos);
 	player->col_size = 1.0f;
-	printf("x - %f\n", player->where.x);
-	printf("y - %f\n", player->where.y);
+}
 
+int		loadplayer(t_player *player, char *str)
+{
+	float	tmp;
+
+	str = todigit(str, &player->where.y);
+	str = todigit(str, &player->where.x);
+	str = todigit(str, &player->angle);
+	str = todigit(str, &tmp);
+	player->sector = (int)tmp;
+	player->start = player->sector;
+	str = todigit(str, &tmp);
+	player->hp = (int)tmp;
+	str = todigit(str, &tmp);
+	player->weapon = (int)tmp;
+	str = todigit(str, &tmp);
+	player->end = (int)tmp;
 	return (0);
 }

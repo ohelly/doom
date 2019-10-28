@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   0all.c                                         :+:      :+:    :+:   */
+/*   countall.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:26:30 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/20 17:05:37 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/28 16:37:30 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,10 +51,9 @@ int		countall(t_doom *doom, char **map)
 			doom->num.pics++;
 		i++;
 	}
-	printf("NumVertexes - %d\n", doom->num.vertexes);//<----------------------
+	printf("NumVertexes - %d\n", doom->num.vertexes);
 	printf("NumSectors - %d\n", doom->num.sectors);
 	printf("NumObjs - %d\n", doom->num.objs);
 	printf("NumPics - %d\n", doom->num.pics);
 	return (0);
 }
-
