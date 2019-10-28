@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 17:31:17 by njacobso          #+#    #+#             */
-/*   Updated: 2019/10/26 14:31:14 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/28 17:21:05 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ void	enemy_on_hit(t_doom *doom, t_enemy *enemy)
 		return ;
 	obj_state_change(enemy->obj, ENEMY_STATE_HIT);
 	enemy->health -= doom->weapon[doom->player.weapon].damage /
-		sqrt(pow(enemy->obj->p.x - doom->player.where.x, 2) + pow(enemy->obj->p.y - doom->player.where.y, 2));
+		sqrt(pow(enemy->obj->p.x - doom->player.where.x, 2) +
+		pow(enemy->obj->p.y - doom->player.where.y, 2));
 	if (enemy->health <= 0)
 	{
 		obj_state_change(enemy->obj, ENEMY_STATE_DEAD);
@@ -106,19 +107,20 @@ void	enemy_on_framestart(t_doom *doom, t_enemy *enemy)
 	t_xy	move_pos;
 	t_xy	new_dir;
 
-//	printf("frame1\n");
 	if (enemy->health <= 0 || enemy->obj->enabled == 0)
 		return ;
 	if (enemy->state == 0)
 	{
-		move_pos = v2_add(enemy->obj->p, v2_multf(enemy->dir, (enemy->move_speed * doom->fps.time_frame)));
+		move_pos = v2_add(enemy->obj->p,
+		v2_multf(enemy->dir, (enemy->move_speed * doom->fps.time_frame)));
 		if (can_move(doom, enemy, move_pos))
 		{
 			enemy->obj->p = move_pos;
 		}
 		else
 		{
-			new_dir = v2_normalize((t_xy){random_range(-1, 1), random_range(-1, 1)});
+			new_dir = v2_normalize((t_xy)
+			{random_range(-1, 1), random_range(-1, 1)});
 			enemy->dir = new_dir;
 		}
 		if (detect_player(doom, enemy))
@@ -143,7 +145,6 @@ void	enemy_on_framestart(t_doom *doom, t_enemy *enemy)
 		}
 	}
 	enemy->rot = v2_to_rot(enemy->dir);
-//	printf("frame2\n");
 }
 
 t_enemy	*get_enemy_by_obj_id(t_doom *doom, int id)
@@ -202,10 +203,8 @@ void	enemies_update(t_doom *doom)
 	t_enemy *enemy;
 
 	i = 0;
-	//printf("enemies - %d\n", doom->num.enemies);
 	while (i < doom->num.enemies)
 	{
-	//	printf("i - %d\n", i);
 		enemy = &doom->enemies[i];
 		if (enemy->obj->enabled && enemy->health > 0)
 			enemy->on_framestart(doom, enemy);

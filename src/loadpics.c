@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 13:47:25 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 10:13:14 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/28 17:42:56 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,9 +59,9 @@ int		findpicpoints(t_doom *doom, t_pics *pic, float w)
 int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str)
 {
 	static int	n = 0;
-	float	tmp;
-	int		id;
-	
+	float		tmp;
+	int			id;
+
 	str = todigit(str, &tmp);
 	id = (int)tmp;
 	str = todigit(str, &pic[n].p.y);
@@ -75,7 +75,8 @@ int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str)
 	pic[n].images = pics_data[id].images;
 	pic[n].anim_count = pics_data[id].anim_count;
 	pic[n].states_count = pics_data[id].states_count;
-	findpicpoints(doom, &pic[n], (float)(doom->img[pic[n].images[0][0]].w) / 64.f);
+	findpicpoints(doom, &pic[n],
+	(float)(doom->img[pic[n].images[0][0]].w) / 64.f);
 	n++;
 	return (0);
 }
