@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 20:13:21 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/28 20:31:59 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -531,6 +531,7 @@ t_img	obj_get_image(t_doom *doom, t_obj *obj);
 //enemies
 void	enemies_update(t_doom *doom);
 t_enemy	*create_enemy_default(t_doom *doom, t_obj *obj);
+t_enemy	*get_enemy_by_obj_id(t_doom *doom, int id);
 void	enemy_on_framestart(t_doom *doom, t_enemy *enemy);
 void	enemy_on_attack(t_doom *doom, t_enemy *enemy);
 void	enemy_on_hit(t_doom *doom, t_enemy *enemy);
