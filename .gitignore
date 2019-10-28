@@ -3,4 +3,6 @@ Frameworks/.DS_Store
 
 .vscode/settings.json
 src/*.o
-doom-nuken
+Get_Next_Line/*.o
+lib/*.a
+doom-nukem
