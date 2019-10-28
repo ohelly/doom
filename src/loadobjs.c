@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:50:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 18:26:01 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/28 20:09:17 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -225,28 +225,26 @@ int		create_obj(t_doom *doom, t_obj *obj)
 	return (1);
 }
 
-int		loadobjs(t_doom *doom, t_obj *obj, t_data *objs_data, char *str)
+int		loadobjs(t_doom *doom, char *str)
 {
 	static int	n = 0;
 	float		tmp;
-	int			id;
 	int			i;
 	int			j;
 	t_obj		*o;
 
 	o = &doom->objs[n];
 	str = todigit(str, &tmp);
-	id = (int)tmp;
+	o->id = (int)tmp;
 	str = todigit(str, &o->p.y);
 	str = todigit(str, &o->p.x);
 	str = todigit(str, &tmp);
-	o->id = id;
 	o->sector = (int)tmp;
-	o->type = objs_data[id].type;
-	o->images = objs_data[id].images;
-	o->states_count = objs_data[id].states_count;
-	o->anim_count = objs_data[id].anim_count;
-	o->images = objs_data[id].images;
+	o->type = doom->objs_data[o->id].type;
+	o->images = doom->objs_data[o->id].images;
+	o->states_count = doom->objs_data[o->id].states_count;
+	o->anim_count = doom->objs_data[o->id].anim_count;
+	o->images = doom->objs_data[o->id].images;
 	o->enabled = 1;
 	o->n = n;
 	o->scale = 4.0f;

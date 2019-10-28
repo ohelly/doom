@@ -6,22 +6,11 @@
 /*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 19:42:30 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/28 19:49:10 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/28 20:15:06 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
-
-void	enemy_on_framestart(t_doom *doom, t_enemy *enemy)
-{
-	if (enemy->health <= 0 || enemy->obj->enabled == 0)
-		return ;
-	if (enemy->state == 0)
-		enemy_on_framestart_state0(doom, enemy);
-	else if (enemy->state == 1)
-		enemy_on_framestart_state1(doom, enemy);
-	enemy->rot = v2_to_rot(enemy->dir);
-}
 
 void	enemy_on_framestart_state0(t_doom *doom, t_enemy *enemy)
 {
@@ -62,4 +51,15 @@ void	enemy_on_framestart_state1(t_doom *doom, t_enemy *enemy)
 		enemy->on_attack(doom, enemy);
 		obj_state_change(enemy->obj, ENEMY_STATE_ATTACK);
 	}
+}
+
+void	enemy_on_framestart(t_doom *doom, t_enemy *enemy)
+{
+	if (enemy->health <= 0 || enemy->obj->enabled == 0)
+		return ;
+	if (enemy->state == 0)
+		enemy_on_framestart_state0(doom, enemy);
+	else if (enemy->state == 1)
+		enemy_on_framestart_state1(doom, enemy);
+	enemy->rot = v2_to_rot(enemy->dir);
 }
