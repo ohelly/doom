@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 19:43:19 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/28 22:59:22 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@
 # define COUNT_T 27
 # define COUNT_H 22
 # define COUNT_STOBJ 32
+# define COUNT_PICS 14
 # define COUNT_SKY 3
 # define COUNT_SP 6
 # define COUNT_OP 16
@@ -245,6 +246,7 @@ typedef struct			s_txt
 	SDL_Surface			*pistol[COUNT_PIST];
 	SDL_Surface			*shotgun[COUNT_SHOTG];
 	SDL_Surface			*ripper[COUNT_RIPPER];
+	SDL_Surface			*pics[COUNT_PICS];
 	SDL_Surface			*shot;
 	int					ind_sky;
 }						t_txt;
@@ -315,6 +317,9 @@ typedef struct		s_exp
 	int				floor[COUNT_T];
 	int				ceil[COUNT_T];
 	int				stobj[COUNT_OP];
+	int				pics[COUNT_SP];
+	int				order[2048];
+	int				count;
 }					t_export;
 
 /*
@@ -456,6 +461,12 @@ void					export_stobj_data(t_doom *doom);
 int						load_st_obj(t_doom *doom);
 int						load_pickobj(t_doom *doom);
 void					output_text_stobj(int ind, t_doom *doom);
+void					export_pics(t_doom *doom);
+int						load_pics(t_doom *doom);
+void					export_attr(t_doom *doom, int ind);
+void					export_objs(t_doom *doom);
+void					export_pospics(t_doom *doom);
+void					export_player(t_doom *doom);
 
 /*
 **	Math

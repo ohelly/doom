@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/12 16:27:03 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/26 15:57:06 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/28 21:55:56 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,6 @@ int		load_wall(t_doom *doom, char *line, int i)
 {
 	int		count;
 
-	puts(&line[i]);
 	count = doom->walls->count;
 	while (line[i] != '\t')
 	{

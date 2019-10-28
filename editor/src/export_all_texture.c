@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 15:46:55 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/28 18:17:03 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/28 20:54:31 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,4 +21,5 @@ void	export_all_texture(t_doom *doom)
 	export_shot_tx(doom);
 	export_weapon_data(doom);
 	export_stobj_data(doom);
+	export_pics(doom);
 }

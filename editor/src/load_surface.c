@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 18:17:56 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/28 20:01:27 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/28 20:57:16 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int		load_surface(t_doom *doom)
 	if (!(load_st_obj(doom)))
 		return (0);
 	if (!(load_pickobj(doom)))
+		return (0);
+	if (!(load_pics(doom)))
 		return (0);
 	return (1);
 }
