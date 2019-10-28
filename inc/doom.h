@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 19:56:30 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/28 20:13:21 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -500,7 +500,7 @@ int		countall(t_doom *doom, char **map);
 int		loadvertexes(t_xy *v, char *str);
 int		loadsectors(t_sectors *s, t_xy *v, char *str);
 char	*todigit(char *str, float *data);
-int		loadobjs(t_doom *doom, t_obj *obj, t_data *objs_data, char *str);
+int		loadobjs(t_doom *doom, char *str);
 int		shoot(t_doom *doom);
 int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str);
 t_img	pic_get_image(t_doom *doom, t_pics *pic);
@@ -531,6 +531,10 @@ t_img	obj_get_image(t_doom *doom, t_obj *obj);
 //enemies
 void	enemies_update(t_doom *doom);
 t_enemy	*create_enemy_default(t_doom *doom, t_obj *obj);
+void	enemy_on_framestart(t_doom *doom, t_enemy *enemy);
+void	enemy_on_attack(t_doom *doom, t_enemy *enemy);
+void	enemy_on_hit(t_doom *doom, t_enemy *enemy);
+void	enemy_obj_on_hit(t_doom *doom, t_obj *obj);
 //collisions
 int		collision_box(t_xy p1, t_xy p2, t_xy v1, t_xy v2);
 int		collision_circle(t_xy pos1, float rad1, t_xy pos2, float rad2);

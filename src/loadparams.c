@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 17:31:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 17:32:03 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/28 20:08:05 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int		load_all_params(t_doom *doom, char **map, t_xy *v)
 				return (0);
 		}
 		else if (ft_strncmp(map[i], "Objs", ft_strlen("objs")) == 0)
-			loadobjs(doom, doom->objs, doom->objs_data, map[i]);
+			loadobjs(doom, map[i]);
 		else if (ft_strncmp(map[i], "Pics", ft_strlen("pic")) == 0)
 			loadpics(doom, doom->pics, doom->pics_data, map[i]);
 		else if (ft_strncmp(map[i], "Player", ft_strlen("player")) == 0)
