@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 20:31:59 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/28 20:44:07 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -501,6 +501,10 @@ int		loadvertexes(t_xy *v, char *str);
 int		loadsectors(t_sectors *s, t_xy *v, char *str);
 char	*todigit(char *str, float *data);
 int		loadobjs(t_doom *doom, char *str);
+int		obj_collision_key_pickup(t_doom *doom, t_obj *obj);
+int		obj_collision_weapon_pickup(t_doom *doom, t_obj *obj);
+void	obj_collision_ammo_pickup(t_doom *doom, t_obj *obj);
+int		obj_collision_medkit_pickup(t_doom *doom, t_obj *obj);
 int		shoot(t_doom *doom);
 int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str);
 t_img	pic_get_image(t_doom *doom, t_pics *pic);

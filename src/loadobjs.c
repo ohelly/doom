@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:50:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 20:09:17 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/28 20:37:27 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,71 +56,6 @@ int		create_obj_decor(t_doom *doom, t_obj *obj)
 {
 	obj->col_passable = 1;
 	obj->col_size = 0.1f;
-}
-
-int		obj_collision_key_pickup(t_doom *doom, t_obj *obj)
-{
-	obj->enabled = 0;
-	play_sound(doom, SOUND_PICKUP);
-	doom->player.key = 1;
-}
-
-int		obj_collision_weapon_pickup(t_doom *doom, t_obj *obj)
-{
-	int index_offset;
-
-	index_offset = OBJ_TYPE_PISTOL - 1;
-	obj->enabled = 0;
-	play_sound(doom, SOUND_WEAPON_PICKUP);
-	doom->player.allweapons[obj->type - index_offset] = 1;
-	doom->player.weapon = obj->type - index_offset;
-}
-
-void	obj_collision_ammo_pickup(t_doom *doom, t_obj *obj)
-{
-	int weapon;
-	int ammo;
-
-	if (obj->type == OBJ_TYPE_AMMO_P)
-	{
-		weapon = 1;
-		ammo = 10;
-	}
-	else if (obj->type == OBJ_TYPE_AMMO_SH)
-	{
-		weapon = 2;
-		ammo = 5;
-	}
-	else if (obj->type == OBJ_TYPE_AMMO_SMG)
-	{
-		weapon = 3;
-		ammo = 20;
-	}
-	else
-		return ;
-	doom->weapon[weapon].ammo += ammo;
-	obj->enabled = 0;
-	play_sound(doom, SOUND_WEAPON_PICKUP);
-}
-
-int		obj_collision_medkit_pickup(t_doom *doom, t_obj *obj)
-{
-	int hp;
-
-	if (obj->type == OBJ_TYPE_MED_SMALL)
-		hp = 10;
-	else if (obj->type == OBJ_TYPE_MED_MEDIUM)
-		hp = 30;
-	else if (obj->type == OBJ_TYPE_MED_BIG)
-		hp = 60;
-	if (doom->player.hp < 100)
-	{
-		obj->enabled = 0;
-		play_sound(doom, SOUND_PICKUP);
-		doom->player.hp += hp;
-		if (doom->player.hp > 100)
-			doom->player.hp = 100;
-	}
 }
 
 int		create_obj_key(t_doom *doom, t_obj *obj)
@@ -229,8 +164,6 @@ int		loadobjs(t_doom *doom, char *str)
 {
 	static int	n = 0;
 	float		tmp;
-	int			i;
-	int			j;
 	t_obj		*o;
 
 	o = &doom->objs[n];
