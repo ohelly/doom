@@ -6,11 +6,33 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/25 20:13:43 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/26 16:19:48 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/28 17:26:17 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom_editor.h"
+
+/*
+** Выводит пиксели из сурфейса в файл
+*/
+
+void	out_img_weapon(SDL_Surface *sur, t_file *file)
+{
+	int		i;
+	int		*pix;
+
+	i = -1;
+	pix = sur->pixels;
+	ft_putnbr_fd(sur->w, file->fd);
+	ft_putstr_fd(" ", file->fd);
+	ft_putnbr_fd(sur->h, file->fd);
+	while (++i < sur->w * sur->h)
+	{
+		ft_putstr_fd(" ", file->fd);
+		ft_putnbr_fd(pix[i], file->fd);
+	}
+	ft_putstr_fd("\n", file->fd);
+}
 
 /*
 ** Определяет в какую сторону нарисован сектор при экспорте.
