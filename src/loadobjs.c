@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:50:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 20:37:27 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/28 20:54:48 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,35 +57,6 @@ int		create_obj_decor(t_doom *doom, t_obj *obj)
 	obj->col_passable = 1;
 	obj->col_size = 0.1f;
 }
-
-int		create_obj_key(t_doom *doom, t_obj *obj)
-{
-	obj->col_passable = 1;
-	obj->col_size = 3.0f;
-	obj->on_collision = obj_collision_key_pickup;
-}
-
-int		create_obj_weapon(t_doom *doom, t_obj *obj)
-{
-	obj->col_passable = 1;
-	obj->col_size = 3.0f;
-	obj->on_collision = obj_collision_weapon_pickup;
-}
-
-int		create_obj_ammo(t_doom *doom, t_obj *obj)
-{
-	obj->col_passable = 1;
-	obj->col_size = 3.0f;
-	obj->on_collision = obj_collision_ammo_pickup;
-}
-
-int		create_obj_medkit(t_doom *doom, t_obj *obj)
-{
-	obj->col_passable = 1;
-	obj->col_size = 3.0f;
-	obj->on_collision = obj_collision_medkit_pickup;
-}
-
 void	obj_anim_end_disable(t_obj *obj)
 {
 	obj->enabled = 0;
