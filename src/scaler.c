@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 20:20:36 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/27 20:20:51 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/28 19:16:29 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 t_scaler	scaler_init(t_ab_i wy, int cya, int u0, int u1)
 {
-	t_scaler t;
+	t_scaler	t;
 
 	if ((wy.b - wy.a) == 0)
 		wy.b -= 1;
@@ -26,9 +26,13 @@ t_scaler	scaler_init(t_ab_i wy, int cya, int u0, int u1)
 	return (t);
 }
 
-int		scaler_next(t_scaler* i)
+int			scaler_next(t_scaler *i)
 {
-    for (i->cache += i->fd; i->cache >= i->ca; i->cache -= i->ca)
+	i->cache += i->fd;
+	while (i->cache >= i->ca)
+	{
+		i->cache -= i->ca;
 		i->result += i->bop;
-    return (i->result);
+	}
+	return (i->result);
 }

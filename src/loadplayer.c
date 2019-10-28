@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 14:22:21 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 18:30:19 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/28 18:55:27 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,5 +56,6 @@ int		loadplayer(t_player *player, char *str)
 	player->weapon = (int)tmp;
 	str = todigit(str, &tmp);
 	player->end = (int)tmp;
+	default_player_params(player);
 	return (0);
 }

@@ -6,7 +6,7 @@
 #    By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/02 20:58:32 by lminta            #+#    #+#              #
-#    Updated: 2019/10/28 17:38:57 by dtoy             ###   ########.fr        #
+#    Updated: 2019/10/28 19:00:58 by dtoy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,8 +36,8 @@ src/colliders.o src/enemy.o src/sounds.o src/drawhud.o src/loadhud.o src/loadfon
 src/loadtexturedata.o src/loadweapondata.o src/loadobjdata.o src/loadpicdata.o src/loadimage.o src/loadparams.o \
 src/doors.o src/calcmove.o src/calciswall.o src/calcjump.o src/animation.o src/drawscope.o src/drawsky.o \
 src/drawwalls.o src/vline2.o src/vline3.o src/tomapcood.o src/scaler.o src/drawceilandfloor.o src/findscales.o \
-src/render.o src/calcpics.o src/intersect.o src/calcsector.o src/render_weapon.o src/weapon_utils.o src/vlineobj.o \
-src/drawobj.o 
+src/render_walls.o src/calcpics.o src/intersect.o src/calcsector.o src/render_weapon.o src/weapon_utils.o src/vlineobj.o \
+src/drawobj.o src/render_pics.o
 
 all: $(FRAMEDIR) $(LIBS) $(FRAME) $(NAME)
 

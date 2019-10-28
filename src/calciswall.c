@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   caliswall.c                                        :+:      :+:    :+:   */
+/*   calciswall.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 19:23:01 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/27 19:23:11 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/28 18:42:14 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int		calc_newsector(t_xy d, t_doom *doom, t_player *player)
 	n = 0;
 	while (n < sect->npoints)
 	{
-		if (sect->neighbors[n] >= 0 &&
+	                                                                                                                                               	if (sect->neighbors[n] >= 0 &&
 		intersect_box(p, p1, sect->vert[n], sect->vert[n + 1]) &&
 		point_side(p1, sect->vert[n], sect->vert[n + 1]) < 0)
 		{

@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 18:01:59 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/28 19:05:13 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,9 +104,9 @@ typedef struct	s_scaler
 
 typedef struct	s_be
 {
-	int		x;
-	int		begin;
-	int		end;
+	int			x;
+	int			begin;
+	int			end;
 }				t_be;
 
 typedef struct	s_py_i
@@ -479,7 +479,7 @@ int		intersect_box(t_xy p, t_xy d, t_xy v1, t_xy v2);
 int		find_scales(t_doom *doom, t_cood *cood, t_player player);
 int		find_yceil_yfloor(t_doom *doom, t_sectors *s, t_cood *cood, t_player player);
 int		calc_pics(t_doom *doom, t_pics *pic, t_player player);
-int		render_walls(t_doom *doom, t_sectors *s, t_cood *cood, t_player player);
+void	render_walls(t_doom *doom, t_sectors *s, t_cood *cood, t_player player);
 void	drawsky(t_doom *doom, t_player player, t_texture *sky, t_img *img);
 int		draw_walls(t_doom *doom, t_player player);
 t_img	wpn_get_image(t_doom *doom, t_weapon *wpn);
@@ -488,7 +488,8 @@ void	wpn_state_change(t_weapon *wpn, int state);
 int		render_weapon(t_doom *doom, t_weapon *wpn);
 void	vline2(int x, t_ab_i wy, t_scaler ty, t_doom *doom);
 void	vline3(int x, t_ab_i wy, t_scaler ty, t_doom *doom);
-int		vlineobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom);
+void	vlineobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom);
+int		render_pics(t_doom *doom, t_pics *pics, int x) ;
 t_scaler	scaler_init(t_ab_i wy, int cya, int u0, int u1);
 void	to_map_coordinates(float mapY, t_cood *cood, t_xyz *map, t_player player);
 int		scaler_next(t_scaler* i);
