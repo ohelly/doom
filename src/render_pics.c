@@ -6,11 +6,31 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 18:59:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 19:13:31 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/28 21:39:14 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
+
+void		render_pics3(t_cood cood, int x, t_pics *pic, t_doom *doom)
+{
+	t_img	img;
+
+	img = pic_get_image(doom, pic);
+	if (x >= cood.w1x && x <= cood.w2x)
+	{
+		pic->pcood.txtx = (cood.u0 * ((cood.w2x - x) * cood.t2.z) +
+		cood.u1 * ((x - cood.w1x) * cood.t1.z)) / ((cood.w2x - x) *
+		cood.t2.z + (x - cood.w1x) * cood.t1.z);
+		cood.wy.a = (x - cood.w1x) * (cood.n2y.a - cood.n1y.a) /
+		(cood.w2x - cood.w1x) + cood.n1y.a;
+		cood.cy.a = clamp(cood.wy.a, doom->ytop[x], doom->ybot[x]);
+		cood.wy.b = (x - cood.w1x) * (cood.n2y.b - cood.n1y.b) /
+		(cood.w2x - cood.w1x) + cood.n1y.b;
+		cood.cy.b = clamp(cood.wy.b, doom->ytop[x], doom->ybot[x]);
+		vline3(x, cood.cy, scaler_init(cood.wy, cood.cy.a, 0, img.w), doom);
+	}
+}
 
 void		render_pics2(t_cood cood, int x, t_pics *pic, t_doom *doom)
 {
@@ -48,7 +68,11 @@ int			render_pics(t_doom *doom, t_pics *pics, int x)
 		}
 		cood = pics[i].pcood;
 		doom->cood.num = i;
-		render_pics2(cood, x, &pics[i], doom);
+		if (cood.neighbor >= 0)
+			render_pics2(cood, x, &pics[i], doom);
+	//	else
+	//		render_pics3(cood, x, &pics[i], doom);
+		
 		i++;
 	}
 	return (0);

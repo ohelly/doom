@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 17:31:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 20:08:05 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/28 23:10:29 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,9 @@ int		init_structs(t_doom *doom)
 		return (0);
 	if (!(doom->objs = (t_obj*)ft_memalloc(sizeof(t_obj) * doom->num.objs)))
 		return (0);
-	if (!(doom->obj_ind = (t_obj*)ft_memalloc(sizeof(t_obj) * doom->num.objs)))
+	if (!(doom->obj_ind = (int*)ft_memalloc(sizeof(int) * doom->num.objs)))
 		return (0);
-	if (!(doom->order = (t_obj*)ft_memalloc(sizeof(t_obj) * doom->num.objs)))
+	if (!(doom->order = (int*)ft_memalloc(sizeof(int) * doom->num.objs)))
 		return (0);
 	if (!(doom->pics = (t_pics*)ft_memalloc(
 		sizeof(t_pics) * (doom->num.pics + SHOTS_NUM))))
@@ -56,7 +56,7 @@ int		load_all_params(t_doom *doom, char **map, t_xy *v)
 		}
 		else if (ft_strncmp(map[i], "Objs", ft_strlen("objs")) == 0)
 			loadobjs(doom, map[i]);
-		else if (ft_strncmp(map[i], "Pics", ft_strlen("pic")) == 0)
+		else if (ft_strncmp(map[i], "Pics", ft_strlen("pics")) == 0)
 			loadpics(doom, doom->pics, doom->pics_data, map[i]);
 		else if (ft_strncmp(map[i], "Player", ft_strlen("player")) == 0)
 			loadplayer(&doom->player, map[i]);

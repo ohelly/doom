@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 17:18:55 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/27 17:20:12 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/28 23:08:08 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,8 @@ int		load_obj(char **map, t_data *obj, t_img *img)
 	i = 0;
 	t = 1;
 	n = 0;
+	if (*map[0] == '.')
+		return (0);
 	count_params_obj(map[i], obj);
 	while (n < obj->states_count)
 	{
@@ -63,17 +65,16 @@ int		load_obj(char **map, t_data *obj, t_img *img)
 	return (0);
 }
 
-int		load_obj_data(char **map, t_doom *doom)
+int		load_obj_data(char **map, t_doom *doom, int i)
 {
-	int		i;
 	int		t;
 	int		count;
 	float	tmp;
 
-	map[0] = todigit(map[0], &tmp);
+	map[i] = todigit(map[i], &tmp);
 	count = (int)tmp;
-	doom->objs_data = (t_data*)ft_memalloc(sizeof(t_data) * (count + 1));
-	i = 1;
+	doom->objs_data = (t_data*)ft_memalloc(sizeof(t_data) * (count));
+	i++;
 	while (*map[i] != '#')
 	{
 		load_obj(&map[i], &doom->objs_data[atoi(map[i])], doom->img);

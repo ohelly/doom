@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:15:03 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 19:36:51 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/28 23:25:47 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,11 +99,11 @@ int		loadsectors(t_sectors *s, t_xy *v, char *str)
 	s[n].constceil = s[n].ceil;
 	str = vertinsect(str, s[n].vert, v, vnum);
 	str = neighinsect(str, &s[n], vnum);
+	str = wallsinsect(str, &s[n], vnum);
 	str = todigit(str, &tmp);
 	s[n].txtf = (int)tmp;
 	str = todigit(str, &tmp);
 	s[n].txtc = (int)tmp;
-	str = wallsinsect(str, &s[n], vnum);
 	str = todigit(str, &s[n].light);
 	s[n].light = s[n].light / 100.0f;
 	str = todigit(str, &tmp);

@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 21:18:49 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/28 23:04:45 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -406,7 +406,7 @@ typedef struct	s_doom
 	int			*obj_ind;
 	int			*order;
 	int			obj_num;
-	int			maplines;
+	char		**map;
 	struct s_enemy		*enemies;
 	t_music		music[2];
 	t_sound		sound[17];
@@ -457,11 +457,12 @@ typedef struct		s_enemy
 int		findpicpoints(t_doom *doom, t_pics *pic, float w);
 
 int		load_all(t_doom *doom, char **av);
-char	**load_map(t_doom *doom, char *av);
-int		load_texture_data(char **map, t_doom *doom);
-int		load_weapon_data(char **map, t_doom *doom);
-int		load_obj_data(char **map, t_doom *doom);
-int		load_pic_data(char **map, t_doom *doom);
+int		load_map(t_doom *doom, char *av);
+int		load_texture_data(char **map, t_doom *doom, int i);
+int		load_weapon_data(char **map, t_doom *doom, int i);
+int		load_obj_data(char **map, t_doom *doom, int i);
+int		load_pic_data(char **map, t_doom *doom, int i);
+int		load_shot_pics(t_pics *shots, t_texture *bullet);
 int		load_params(t_doom *doom, char **map);
 int		load_image(char *map, int *image, t_img *img);
 int		new_image(char *str, t_img *img, int w, int h);

@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 16:57:47 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/27 17:06:50 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/28 23:08:02 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,8 @@ t_texture	*load_texture(char **map, t_texture *txt, t_img *img)
 	return (txt);
 }
 
-int			load_texture_data(char **map, t_doom *doom)
+int			load_texture_data(char **map, t_doom *doom, int i)
 {
-	int		i;
-
-	i = 0;
 	while (*map[i] != '#')
 	{
 		if (*map[i] == 'S')

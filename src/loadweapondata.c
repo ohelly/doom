@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 17:08:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/27 17:27:13 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/28 23:08:18 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,18 +100,17 @@ int		load_weapon(char **map, t_weapon *weapon, t_img *img)
 	return (0);
 }
 
-int		load_weapon_data(char **map, t_doom *doom)
+int		load_weapon_data(char **map, t_doom *doom, int i)
 {
-	int		i;
 	int		t;
 	int		count;
 	float	tmp;
 
-	map[0] = todigit(map[0], &tmp);
+	map[i] = todigit(map[i], &tmp);
 	count = (int)tmp;
 	doom->num.weapons = count;
 	doom->weapon = (t_weapon*)ft_memalloc(sizeof(t_weapon) * (count + 1));
-	i = 1;
+	i++;
 	while (*map[i] != '#')
 	{
 		load_weapon(&map[i], &doom->weapon[atoi(map[i])], doom->img);
