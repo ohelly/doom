@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 23:54:31 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:41:29 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -473,23 +473,22 @@ int		load_shot_pics(t_pics *shots, t_texture *bullet);
 int		load_params(t_doom *doom, char **map);
 int		load_image(char *map, int *image, t_img *img);
 int		new_image(char *str, t_img *img, int w, int h);
-int		drawobj(t_doom *doom, t_obj *obj, t_xy pos);
+int		drawobj(t_doom *doom, t_obj *obj);
 void	obj_anim_next(t_obj *obj);
 int		check_light(int color, t_sectors *s);
 int		calc_move(t_doom *doom, t_player *player);
 int		calc_is_wall(t_doom *doom, t_player *player);
-int		calc_jump(t_doom *doom, t_player *player, t_sectors *sectors, t_fps fps);
+int		calc_jump(t_player *player, t_sectors *sectors, t_fps fps);
 int		doors(t_doom *doom, t_player player, t_fps fps);
 int		animation(t_doom *doom, t_fps fps);
 int		intersect(t_xyz *t1, t_xyz *t2, t_cood *cood);
 int		point_side(t_xy d, t_xy v1, t_xy v2);
 int		intersect_box(t_xy p, t_xy d, t_xy v1, t_xy v2);
-int		find_scales(t_doom *doom, t_cood *cood, t_player player);
+int		find_scales(t_cood *cood);
 int		find_yceil_yfloor(t_doom *doom, t_sectors *s, t_cood *cood, t_player player);
-int		calc_pics(t_doom *doom, t_pics *pic, t_player player);
+int		calc_pics(t_doom *doom, t_pics *pic);
 void	render_walls(t_doom *doom, t_sectors *s, t_cood *cood, t_player player);
 void	drawsky(t_doom *doom, t_player player, t_texture *sky, t_img *img);
-int		draw_walls(t_doom *doom, t_player player);
 t_img	wpn_get_image(t_doom *doom, t_weapon *wpn);
 void	wpn_anim_next(t_doom *doom, t_player *player, t_weapon *wpn, t_fps fps);
 void	wpn_state_change(t_weapon *wpn, int state);
@@ -516,14 +515,14 @@ int		create_obj_box(t_doom *doom, t_obj *obj);
 int		create_obj_breakable(t_doom *doom, t_obj *obj);
 void	obj_hit_explosive(t_doom *doom, t_obj *obj);
 void	obj_hit_breakable(t_doom *doom, t_obj *obj);
-int		create_obj_key(t_doom *doom, t_obj *obj);
-int		create_obj_weapon(t_doom *doom, t_obj *obj);
-int		create_obj_ammo(t_doom *doom, t_obj *obj);
-int		create_obj_medkit(t_doom *doom, t_obj *obj);
-int		obj_collision_key_pickup(t_doom *doom, t_obj *obj);
-int		obj_collision_weapon_pickup(t_doom *doom, t_obj *obj);
+void	create_obj_key(t_doom *doom, t_obj *obj);
+void	create_obj_weapon(t_doom *doom, t_obj *obj);
+void	create_obj_ammo(t_doom *doom, t_obj *obj);
+void	create_obj_medkit(t_doom *doom, t_obj *obj);
+void	obj_collision_key_pickup(t_doom *doom, t_obj *obj);
+void	obj_collision_weapon_pickup(t_doom *doom, t_obj *obj);
 void	obj_collision_ammo_pickup(t_doom *doom, t_obj *obj);
-int		obj_collision_medkit_pickup(t_doom *doom, t_obj *obj);
+void	obj_collision_medkit_pickup(t_doom *doom, t_obj *obj);
 int		shoot(t_doom *doom);
 int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str);
 t_img	pic_get_image(t_doom *doom, t_pics *pic);
@@ -535,25 +534,30 @@ int		load_game(t_doom *doom);
 int		hooks(t_doom *doom, SDL_Event ev);
 int		profile_output(t_doom *doom);
 int		draw_screen(t_doom *doom);
-int		draw_walls(t_doom *doom, t_player player);
+int		draw_walls(t_doom *doom);
 int		rgb_multiply(int color, float value);
 float	vxs(float x0, float y0, float x1, float y1);
 float	yaw(float y, float z, t_player player);
 void	drawweapon(t_doom *doom, t_weapon *weapon);
 void	drawhud(t_doom *doom);
-int     drawsprites(t_doom *doom, t_obj *obj, t_player player);
+int     drawsprites(t_doom *doom, t_obj *objs);
 t_img	weapon_get_image(t_doom *doom, t_weapon *weapon);
 int		player_move(t_doom *doom, t_xy move_pos);
 int		player_take_damage(t_doom *doom, int damage);
 int		player_blood_update(t_doom *doom);
 char	*ft_strjoinc(char *s1, char const *s2);
 //objects
+int		obj_collision(t_doom *doom, t_xy player);
 int		objects_update(t_doom *doom);
 void	on_collision_key(t_doom *doom, t_obj *obj);
 int		find_obj_interaction(t_doom *doom);
 t_img	obj_get_image(t_doom *doom, t_obj *obj);
 void	obj_state_change(t_obj *obj, int state);
 //enemies
+int		can_move(t_doom *doom, t_enemy *enemy, t_xy new_pos);
+float	random_range(float min, float max);
+int		detect_player(t_doom *doom, t_enemy *enemy);
+int		rotate_enemy(t_doom *doom, t_enemy *enemy);
 void	enemies_update(t_doom *doom);
 t_enemy	*create_enemy_default(t_doom *doom, t_obj *obj);
 t_enemy	*get_enemy_by_obj_id(t_doom *doom, int id);
@@ -571,6 +575,7 @@ int		sound_free_everything(t_doom *doom);
 int		play_music(t_doom *doom, int index);
 int		play_sound(t_doom *doom, int index);
 void	load_music(t_doom *doom);
+int		sound_free_everything(t_doom *doom);
 //math
 t_xy	rot_to_v2(float rot);
 float	v2_to_rot(t_xy v2);
@@ -581,6 +586,10 @@ t_xy	v2_multf(t_xy v2, float f);
 t_xy	v2_normalize(t_xy v2);
 float	distance(t_xy p1, t_xy p2);
 float	rad_to_deg(float rad);
+int		sqr(int x);
+
+int		rgb_mix(int rgb1, int rgb2, float percent);
+float	line_distance(t_xy l1, t_xy l2, t_xy p);
 
 void	close_program(SDL_Event ev, t_doom *doom);
 void	jump_sprint_crouch(t_doom *doom, SDL_Event ev,

@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 19:23:01 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 19:28:23 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/29 01:35:31 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ int		calc_newsector(t_xy d, t_doom *doom, t_player *player)
 	t_xy		p;
 	t_xy		p1;
 	t_sectors	*sect;
-	t_xy		delta;
 
 	px_p1x(&p, &p1, d, player);
 	sect = &doom->sectors[player->sector];

@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 20:20:00 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 00:33:36 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:03:07 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,19 @@ int			check_light(int color, t_sectors *s)
 	return (prev_light);
 }
 
+int			is_sky(t_cf *p, t_cood *cood, t_doom *doom, t_sectors *s)
+{
+	p->hei = cood->y < cood->cy.a ? cood->yceil : cood->yfloor;
+	p->x = cood->x;
+	p->y = cood->y;
+	if (s->sky == 1 && p->hei == cood->yceil)
+	{
+		doom->visible[cood->y][cood->x] = 1;
+		return (0);
+	}
+	return (1);
+}
+
 int			render_ceil_floor(t_doom *doom, t_sectors *s,
 t_cood *cood, t_player player)
 {
@@ -34,14 +47,8 @@ t_cood *cood, t_player player)
 	int		color;
 	t_img	img;
 
-	p.hei = cood->y < cood->cy.a ? cood->yceil : cood->yfloor;
-	if (s->sky == 1 && p.hei == cood->yceil)
-	{
-		doom->visible[cood->y][cood->x] = 1;
+	if (!(is_sky(&p, cood, doom, s)))
 		return (0);
-	}
-	p.x = cood->x;
-	p.y = cood->y;
 	to_map_coordinates(&p, &map, player);
 	txt.x = (map.x * 8);
 	txt.z = (map.z * 8);

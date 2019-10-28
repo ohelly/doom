@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 19:48:11 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 19:48:42 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:42:16 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ void	weapon_sounds(t_doom *doom, int weapon)
 int		shoot(t_doom *doom)
 {
 	int		i;
-	int		j;
 
 	weapon_sounds(doom, doom->player.weapon);
 	i = -1;

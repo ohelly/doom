@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:50:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 21:18:24 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/29 01:19:50 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,7 @@ void	obj_state_change(t_obj *obj, int state)
 
 void	obj_anim_next(t_obj *obj)
 {
-	int index;
 	int state;
-	int anim_frame;
 
 	if (obj->enabled == 0)
 		return ;

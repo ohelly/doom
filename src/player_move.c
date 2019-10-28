@@ -6,41 +6,11 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 17:24:41 by njacobso          #+#    #+#             */
-/*   Updated: 2019/10/28 21:39:34 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/29 00:49:46 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
-
-int		sqr(int x)
-{
-	return (x * x);
-}
-
-/*
-**	l1, l2 - точки отрезка, к которому ищем расстояние
-**	p - точка, от которой ищем расстояние
-**	hit - проекция точки на отрезок
-**	Возвращает расстояние между отрезком и точкой
-*/
-
-float	line_distance(t_xy l1, t_xy l2, t_xy p)
-{
-	float	dist;
-	float	t;
-	t_xy	proj;
-
-	dist = (sqr(l1.x - l2.x) + sqr(l1.y - l2.y));
-	if (dist == 0)
-		return (distance(l1, p));
-	t = ((p.x - l1.x) * (l2.x - l1.x) +
-	(p.y - l1.y) * (l2.y - l1.y)) / dist;
-	t = clamp(t, 0, 1);
-	proj.x = l1.x + t * (l2.x - l1.x);
-	proj.y = l1.y + t * (l2.y - l1.y);
-	dist = distance(p, proj);
-	return (dist);
-}
 
 /*
 **	Возвращает 1, если стена i ближе чем player.col_size
@@ -97,28 +67,6 @@ int		walls_collision(t_doom *doom, t_xy pl)
 ** returns 0 if quad pl1-pl2 intersected with obj collider
 */
 
-int		obj_collision(t_doom *doom, t_xy player)
-{
-	int		n;
-	t_obj	obj;
-
-	n = 0;
-	while (n < doom->num.objs)
-	{
-		obj = doom->objs[n];
-		if (obj.col_passable || !obj.enabled)
-		{
-			n++;
-			continue ;
-		}
-		if (collision_circle(player, doom->player.col_size,
-		obj.p, obj.col_size))
-			return (0);
-		n++;
-	}
-	return (1);
-}
-
 int		player_move(t_doom *doom, t_xy delta)
 {
 	t_xy		player;
@@ -146,50 +94,6 @@ int		player_move(t_doom *doom, t_xy delta)
 /*
 ** returns 1 if found interactable obj in closest proximity
 */
-
-int		find_obj_interaction(t_doom *doom)
-{
-	int		n;
-	t_obj	*obj;
-	t_xy	p;
-	t_xy	d;
-
-	p = (t_xy){doom->player.where.x, doom->player.where.y};
-	d = (t_xy){doom->player.pcos * 4, doom->player.psin * 4};
-	n = 0;
-	while (n < doom->num.objs)
-	{
-		obj = &doom->objs[n];
-		if (!obj->enabled || obj->on_interaction == NULL)
-		{
-			n++;
-			continue ;
-		}
-		if (collision_box(p, v2_add(p, d), v2_addf(obj->p, -obj->col_size),
-		v2_addf(obj->p, obj->col_size)))
-		{
-			obj->on_interaction(doom, obj);
-			return (1);
-		}
-		n++;
-	}
-	return (0);
-}
-
-int		rgb_mix(int rgb1, int rgb2, float percent)
-{
-	float percent2;
-
-	percent = clamp(percent, 0, 1);
-	percent2 = 1 - percent;
-	rgb1 = ((int)(((rgb1 >> 16) & 0xff) * percent +
-				((rgb2 >> 16) & 0xff) * percent2) << 16) |
-			((int)(((rgb1 >> 8) & 0xff) * percent +
-				((rgb2 >> 8) & 0xff) * percent2) << 8) |
-			((int)((rgb1 & 0xff) * percent +
-				(rgb2 & 0xff) * percent2));
-	return (rgb1);
-}
 
 int		player_blood_update(t_doom *doom)
 {

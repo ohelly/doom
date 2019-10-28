@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 17:18:55 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 23:08:08 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:34:10 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,6 @@ int		count_params_obj(char *map, t_data *obj)
 {
 	float	tmp;
 	int		n;
-	int		a;
-	int		w;
-	int		h;
 
 	map = todigit(map, &tmp);
 	map = todigit(map, &tmp);
@@ -67,7 +64,6 @@ int		load_obj(char **map, t_data *obj, t_img *img)
 
 int		load_obj_data(char **map, t_doom *doom, int i)
 {
-	int		t;
 	int		count;
 	float	tmp;
 

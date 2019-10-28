@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 17:38:08 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 17:38:17 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:41:20 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int			findobjxy2(t_xyz t, t_xy scale, t_obj *obj, t_doom *doom)
 	return (0);
 }
 
-int			drawobj(t_doom *doom, t_obj *obj, t_xy pos)
+int			drawobj(t_doom *doom, t_obj *obj)
 {
 	t_xy	v;
 	t_xyz	t;

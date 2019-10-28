@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:15:03 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 23:25:47 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:05:46 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ int		loadsectors(t_sectors *s, t_xy *v, char *str)
 	static int	n = 0;
 	float		tmp;
 	int			vnum;
-	int			j;
 
 	vnum = ((takencount(str) - 7) / 3);
 	s[n].npoints = vnum;

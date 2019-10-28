@@ -3,23 +3,45 @@
 /*                                                        :::      ::::::::   */
 /*   loadobjs_collision.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 20:47:23 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/28 21:04:24 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/29 01:29:07 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-int		obj_collision_key_pickup(t_doom *doom, t_obj *obj)
+int		obj_collision(t_doom *doom, t_xy player)
+{
+	int		n;
+	t_obj	obj;
+
+	n = 0;
+	while (n < doom->num.objs)
+	{
+		obj = doom->objs[n];
+		if (obj.col_passable || !obj.enabled)
+		{
+			n++;
+			continue ;
+		}
+		if (collision_circle(player, doom->player.col_size,
+		obj.p, obj.col_size))
+			return (0);
+		n++;
+	}
+	return (1);
+}
+
+void	obj_collision_key_pickup(t_doom *doom, t_obj *obj)
 {
 	obj->enabled = 0;
 	play_sound(doom, SOUND_PICKUP);
 	doom->player.key = 1;
 }
 
-int		obj_collision_weapon_pickup(t_doom *doom, t_obj *obj)
+void	obj_collision_weapon_pickup(t_doom *doom, t_obj *obj)
 {
 	int index_offset;
 
@@ -57,7 +79,7 @@ void	obj_collision_ammo_pickup(t_doom *doom, t_obj *obj)
 	play_sound(doom, SOUND_WEAPON_PICKUP);
 }
 
-int		obj_collision_medkit_pickup(t_doom *doom, t_obj *obj)
+void	obj_collision_medkit_pickup(t_doom *doom, t_obj *obj)
 {
 	int hp;
 

@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 18:59:19 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 00:32:12 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:39:36 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,7 @@ void		clamp_ny(t_doom *doom, t_cood *cood)
 }
 
 void		render_walls2(t_doom *doom, t_sectors *s,
-t_cood *cood, t_player player)
+t_cood *cood)
 {
 	t_ab_i	scaler;
 
@@ -52,7 +52,6 @@ void		render_walls(t_doom *doom, t_sectors *s,
 t_cood *cood, t_player player)
 {
 	int		x;
-	int		i;
 
 	cood->beginx = max(cood->w1x, doom->now.sx);
 	cood->endx = min(cood->w2x, doom->now.ex);
@@ -72,7 +71,7 @@ t_cood *cood, t_player player)
 		(cood->w2x - cood->w1x) + cood->w1y.b;
 		cood->cy.b = clamp(cood->wy.b, doom->ytop[x], doom->ybot[x]);
 		draw_ceil_floor(doom, s, cood, player);
-		render_walls2(doom, s, cood, player);
+		render_walls2(doom, s, cood);
 		render_pics(doom, doom->pics, x);
 	}
 }

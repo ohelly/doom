@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 20:18:01 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 23:18:15 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:40:19 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,30 +25,6 @@ int			find_t_pic_points(t_pics *pic, t_player player, t_cood *cood)
 	return (0);
 }
 
-int			find_pic_nyceil_nyfloor(t_doom *doom, t_sectors *s,
-t_cood *cood, t_pics *pic)
-{
-	t_img	img;
-	float	tmp;
-
-	if (cood->num >= doom->num.pics)
-		tmp = 70.f;
-	else
-		tmp = 9.f;
-	img = pic_get_image(doom, pic);
-	cood->nyceil = pic->p.z + doom->sectors[cood->neighbor].ceil + (float)(img.h) / tmp - doom->player.where.z;
-	cood->nyfloor = pic->p.z + doom->sectors[cood->neighbor].floor - doom->player.where.z;
-	cood->n1y.a = HEIGHT / 2 - (int)
-	(yaw(cood->nyceil, cood->t1.z, doom->player) * cood->scale1.y);
-	cood->n1y.b = HEIGHT / 2 - (int)
-	(yaw(cood->nyfloor, cood->t1.z, doom->player) * cood->scale1.y);
-	cood->n2y.a = HEIGHT / 2 - (int)
-	(yaw(cood->nyceil, cood->t2.z, doom->player) * cood->scale2.y);
-	cood->n2y.b = HEIGHT / 2 - (int)
-	(yaw(cood->nyfloor, cood->t2.z, doom->player) * cood->scale2.y);
-	return (0);
-}
-
 int			find_pic_points(t_cood *cood, t_pics *pic,
 t_sectors *s, t_doom *doom)
 {
@@ -60,8 +36,6 @@ t_sectors *s, t_doom *doom)
 	else
 		tmp = 9.f;
 	img = pic_get_image(doom, pic);
-	//if (cood->neighbor < 0)
-	//	find_pic_nyceil_nyfloor(doom, s, cood, pic);
 	cood->yceil = pic->p.z + s->floor +
 	(float)(img.h) / tmp - doom->player.where.z;
 	cood->yfloor = pic->p.z + s->floor - doom->player.where.z;
@@ -95,17 +69,15 @@ int			calc_pics2(t_doom *doom, t_pics *pic, t_cood *cood)
 {
 	if (!(intersect_pics(doom, pic, cood)))
 		return (0);
-	if (!(find_scales(doom, cood, doom->player)))
+	if (!(find_scales(cood)))
 		return (0);
 	find_pic_points(cood, pic, &doom->sectors[doom->now.sector], doom);
 	return (1);
 }
 
-int			calc_pics(t_doom *doom, t_pics *pic, t_player player)
+int			calc_pics(t_doom *doom, t_pics *pic)
 {
 	int		i;
-	t_xy	i1;
-	t_xy	i2;
 	t_cood	cood;
 
 	i = 0;

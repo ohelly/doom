@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:13:26 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/27 19:23:39 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:35:59 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ int		load_game(t_doom *doom)
 		objects_update(doom);
 		enemies_update(doom);
 		player_blood_update(doom);
-		calc_jump(doom, &doom->player, doom->sectors, doom->fps);
+		calc_jump(&doom->player, doom->sectors, doom->fps);
 		if (doom->player.move == 1)
 			calc_is_wall(doom, &doom->player);
 		while (SDL_PollEvent(&ev))

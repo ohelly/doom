@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 17:08:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 23:08:18 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:05:23 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ int		count_params_weapon(char *map, t_weapon *wpn)
 {
 	float	tmp;
 	int		n;
-	int		a;
 
 	map = todigit(map, &tmp);
 	wpn->type = (int)tmp;
@@ -62,7 +61,7 @@ void	load_weapon_params(t_weapon *weapon, int type)
 		weapon->ammo = 10;
 		weapon->delay = 0.1f;
 		weapon->damage = 80;
-		weapon->scatterx = 30;
+		weapon->scatterx = 20;
 		weapon->scattery = 15;
 	}
 	if (type == WEAPON_RIPPER)
@@ -102,7 +101,6 @@ int		load_weapon(char **map, t_weapon *weapon, t_img *img)
 
 int		load_weapon_data(char **map, t_doom *doom, int i)
 {
-	int		t;
 	int		count;
 	float	tmp;
 

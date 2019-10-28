@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 20:14:26 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/27 20:51:56 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:36:50 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,6 @@ int			renew2(t_doom *doom, int *rensects)
 int			renew(t_item *head, t_doom *doom, int *rensects)
 {
 	int		x;
-	int		y;
 	int		i;
 
 	x = 0;
@@ -73,7 +72,7 @@ int			assign_value(t_item *item, t_item now, int *rensects)
 	return (0);
 }
 
-int			draw_walls(t_doom *doom, t_player player)
+int			draw_walls(t_doom *doom)
 {
 	int			rensects[doom->num.sectors];
 	t_sectors	*s;

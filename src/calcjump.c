@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   player_jump.c                                      :+:      :+:    :+:   */
+/*   calcjump.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 19:22:11 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/27 19:22:31 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:35:45 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ void	player_on_ground(t_player *player, t_sectors *s, float height)
 	player->ground = 1;
 }
 
-int		calc_jump(t_doom *doom, t_player *player, t_sectors *sectors, t_fps fps)
+int		calc_jump(t_player *player, t_sectors *sectors, t_fps fps)
 {
 	float	nextz;
 	float	height;

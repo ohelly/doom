@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 18:59:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 21:39:14 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:41:43 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ void		render_pics2(t_cood cood, int x, t_pics *pic, t_doom *doom)
 int			render_pics(t_doom *doom, t_pics *pics, int x)
 {
 	int		i;
-	t_img	img;
 	t_cood	cood;
 
 	i = 0;
@@ -70,9 +69,6 @@ int			render_pics(t_doom *doom, t_pics *pics, int x)
 		doom->cood.num = i;
 		if (cood.neighbor >= 0)
 			render_pics2(cood, x, &pics[i], doom);
-	//	else
-	//		render_pics3(cood, x, &pics[i], doom);
-		
 		i++;
 	}
 	return (0);

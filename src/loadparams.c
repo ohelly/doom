@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 17:31:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 23:10:29 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:35:15 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,6 @@ int		load_all_params(t_doom *doom, char **map, t_xy *v)
 
 int		load_params(t_doom *doom, char **map)
 {
-	int		i;
 	t_xy	*v;
 
 	countall(doom, map);

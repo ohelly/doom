@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 16:46:56 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 22:44:11 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 00:59:40 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ static int	count_map_lines(char *av)
 	close(fd);
 	return (i);
 }
+
 int			load_map(t_doom *doom, char *av)
 {
 	int		fd;
