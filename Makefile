@@ -43,6 +43,8 @@ all: $(FRAMEDIR) $(LIBS) $(FRAME) $(NAME)
 $(NAME): $(OBJ)
 	make -C Get_Next_Line
 	gcc $(OBJ) -L $(LIBS) $(INC) $(FLAGS2) -o $(NAME)
+	mkdir ~/Documents/DoomNukem
+	cp -r Resources/* ~/Documents/DoomNukem/
 $(OBJ): %.o: %.c
 	gcc $(FLAGS) $(INC) $< -o $@
 
@@ -54,6 +56,7 @@ fclean: clean
 	make -C Get_Next_Line fclean
 	rm -f $(NAME)
 	rm -rf $(FRAME)
+	rm -rf ~/Documents/DoomNukem/
 
 $(FRAMEDIR):
 	mkdir $(FRAMEDIR)
