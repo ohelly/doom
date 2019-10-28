@@ -56,14 +56,15 @@ int		intersect_walls(t_doom *doom, t_xy pl)
 	sect = &doom->sectors[doom->player.sector];
 	while (i < sect->npoints)
 	{
+		if (sect->neighbors[i] != -1)
+		{
+			i++;
+			continue ;
+		}
 		pos1 = sect->vert[i];
 		pos2 = sect->vert[i + 1];
 		if (line_distance(pos1, pos2, pl) < doom->player.col_size)
-		{
-			printf("So we collided with wall %f:%f - %f:%f while player is at %f:%f and col_size is %f\n",
-			pos1.x, pos1.y, pos2.x, pos2.y, pl.x, pl.y, doom->player.col_size);
 			return (1);
-		}
 		i++;
 	}
 	return (0);
