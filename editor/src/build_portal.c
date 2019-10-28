@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/17 15:47:05 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/20 16:51:24 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 00:51:33 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ int			get_duplicate_wall(t_doom *doom, t_wall w1)
 	return (-1);
 }
 
-int			toggle(t_doom *doom, t_wall w1, int *ind)
+int			toggle(t_doom *doom, t_wall *w1, int *ind)
 {
 	int		wall;
 
@@ -50,8 +50,8 @@ int			toggle(t_doom *doom, t_wall w1, int *ind)
 		doom->sects->selected_sector = -1;
 	doom->walls->selected_wall = get_closest_wall(doom);
 	wall = doom->walls->selected_wall;
-	w1 = doom->walls->wall[wall];
-	*ind = get_duplicate_wall(doom, w1);
+	*w1 = doom->walls->wall[wall];
+	*ind = get_duplicate_wall(doom, *w1);
 	return (1);
 }
 
@@ -61,7 +61,7 @@ void		find_portal(t_doom *doom)
 	t_wall	w1;
 	t_wall	w2;
 
-	if (!(toggle(doom, w1, &ind)))
+	if (!(toggle(doom, &w1, &ind)))
 		return ;
 	if (ind != -1)
 	{

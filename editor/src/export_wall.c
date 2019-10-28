@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 15:37:06 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/28 23:16:19 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 00:19:15 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,8 @@ void		output_wall(t_doom *doom, int count, int ind)
 
 	i = -1;
 	j = -1;
-	while (++i < doom->walls->count)
-		if (doom->walls->wall[i].sectors == ind)
-			break ;
+	while (doom->walls->wall[i].sectors != ind && i < doom->walls->count)
+		i++;
 	doom->exp->order[doom->exp->count++] = i;
 	ft_putnbr_fd(sorted_vert(doom, doom->walls->wall[i].vert_one),
 													doom->file->fd);
