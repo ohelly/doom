@@ -38,7 +38,7 @@ src/doors.o src/calcmove.o src/calciswall.o src/calcjump.o src/animation.o src/d
 src/drawwalls.o src/vline2.o src/vline3.o src/tomapcood.o src/scaler.o src/drawceilandfloor.o src/findscales.o \
 src/render_walls.o src/calcpics.o src/intersect.o src/calcsector.o src/render_weapon.o src/weapon_utils.o src/vlineobj.o \
 src/drawobj.o src/render_pics.o src/hooks_move.o src/hooks_weapons.o src/hooks_interact.o src/hooks_close.o src/shoot_wall.o \
-src/mouse_hooks.o 
+src/mouse_hooks.o src/ft_strjoinc.o
 
 all: $(FRAMEDIR) $(LIBS) $(FRAME) $(NAME)
 

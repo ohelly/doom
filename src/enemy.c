@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 17:31:17 by njacobso          #+#    #+#             */
-/*   Updated: 2019/10/28 19:50:34 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/28 20:21:58 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,7 @@ t_enemy	*create_enemy_default(t_doom *doom, t_obj *obj)
 	t_enemy	*enemy;
 	t_xy	new_dir;
 
-	enemy = (t_enemy*)malloc(sizeof(t_enemy));
+	enemy = &doom->enemies[doom->num.enemies];
 	enemy->obj = obj;
 	enemy->obj->enabled = 1;
 	new_dir = v2_normalize((t_xy){random_range(-1, 1), random_range(-1, 1)});
@@ -93,7 +93,6 @@ t_enemy	*create_enemy_default(t_doom *doom, t_obj *obj)
 	enemy->on_attack = enemy_on_attack;
 	enemy->obj->on_hit = enemy_obj_on_hit;
 	enemy->on_hit = enemy_on_hit;
-	doom->enemies[doom->num.enemies] = *enemy;
 	doom->num.enemies++;
 	return (enemy);
 }

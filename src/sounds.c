@@ -14,8 +14,12 @@
 
 void	load_sound(t_sound *s, char *env, char *str, int volume)
 {
-	s->sound = Mix_LoadWAV(ft_strjoin(env, "str"));
+	char *tmp;
+
+	tmp = ft_strjoin(env, "str");
+	s->sound = Mix_LoadWAV(tmp);
 	s->volume = volume;
+	ft_strdel(&tmp);
 }
 
 void	load_music(t_doom *doom)
@@ -23,10 +27,13 @@ void	load_music(t_doom *doom)
 	t_music *m;
 	t_sound *s;
 	char	*env;
+	char	*tmp;
 
 	env = ft_strjoin(getenv("HOME"), "/Documents/DoomNukem");
 	m = &doom->music[0];
-	m->music = Mix_LoadMUS(ft_strjoin(env, "/music.mp3"));
+	tmp = ft_strjoin(env, "/music.mp3");
+	m->music = Mix_LoadMUS(tmp);
+	ft_strdel(&tmp);
 	m->volume = 0;
 	load_sound(&doom->sound[SOUND_SHOOT], env, "/hit.wav", 100);
 	load_sound(&doom->sound[SOUND_PICKUP], env, "/pickup.wav", 100);
@@ -45,6 +52,7 @@ void	load_music(t_doom *doom)
 	load_sound(&doom->sound[SOUND_FOOT], env, "/foot.wav", 100);
 	load_sound(&doom->sound[SOUND_EXPLOSIVE], env, "/explosion.wav", 100);
 	load_sound(&doom->sound[SOUND_CRASH], env, "/crach.wav", 100);
+	ft_strdel(&env);
 }
 
 int		play_sound(t_doom *doom, int index)
