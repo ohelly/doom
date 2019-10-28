@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 18:59:19 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 21:36:49 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 00:32:12 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ t_cood *cood, t_player player)
 		doom->ytop[cood->x] = clamp(max(cood->cy.a, cood->cny.a - 1),
 		doom->ytop[cood->x], HEIGHT - 1);
 		scaler.a = cood->cny.b;
-		scaler.b = cood->cy.b - 1;
+		scaler.b = cood->cy.b;
 		vline2(cood->x, scaler, scaler_init(cood->wy, cood->cny.b, 0,
 		doom->img[doom->walls[s->txtw[cood->n]].image].w), doom);
 		doom->ybot[cood->x] = clamp(min(cood->cy.b, cood->cny.b), 0,

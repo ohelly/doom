@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 20:13:40 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/27 20:53:42 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 00:29:29 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ void		drawsky(t_doom *doom, t_player player, t_texture *sky, t_img *img)
 		y = -1;
 		while (++y < HEIGHT)
 		{
+			
 			cut_txt_y(&t, set.h);
 			if (doom->visible[y][x] == 1)
 				doom->sdl->pix[y * WIDTH + x] =

@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 23:04:45 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/28 23:54:31 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,6 +108,13 @@ typedef struct	s_be
 	int			begin;
 	int			end;
 }				t_be;
+
+typedef struct	s_cf
+{
+	float		hei;
+	int			x;
+	int			y;
+}				t_cf;
 
 typedef struct	s_py_i
 {
@@ -492,7 +499,7 @@ void	vline3(int x, t_ab_i wy, t_scaler ty, t_doom *doom);
 void	vlineobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom);
 int		render_pics(t_doom *doom, t_pics *pics, int x) ;
 t_scaler	scaler_init(t_ab_i wy, int cya, int u0, int u1);
-void	to_map_coordinates(float mapY, t_cood *cood, t_xyz *map, t_player player);
+void	to_map_coordinates(t_cf *p, t_xyz *map, t_player player);
 int		scaler_next(t_scaler* i);
 int		draw_ceil_floor(t_doom *doom, t_sectors *s, t_cood *cood, t_player player);
 int		calc_sector(t_doom *doom, t_sectors *s, t_cood *cood, t_player player);
