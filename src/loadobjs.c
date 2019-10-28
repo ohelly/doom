@@ -46,26 +46,26 @@ t_img	obj_get_image(t_doom *doom, t_obj *obj)
 	return (doom->img[obj->images[obj->states_frame][obj->anim_frame]]);
 }
 
-int		create_obj_box(t_doom *doom, t_obj *obj)
+void	create_obj_box(t_doom *doom, t_obj *obj)
 {
 	obj->col_passable = 0;
 	obj->col_size = 3.0f;
 }
 
-int		create_obj_decor(t_doom *doom, t_obj *obj)
+void	create_obj_decor(t_doom *doom, t_obj *obj)
 {
 	obj->col_passable = 1;
 	obj->col_size = 0.1f;
 }
 
-int		obj_collision_key_pickup(t_doom *doom, t_obj *obj)
+void	obj_collision_key_pickup(t_doom *doom, t_obj *obj)
 {
 	obj->enabled = 0;
 	play_sound(doom, SOUND_PICKUP);
 	doom->player.key = 1;
 }
 
-int		obj_collision_weapon_pickup(t_doom *doom, t_obj *obj)
+void	obj_collision_weapon_pickup(t_doom *doom, t_obj *obj)
 {
 	int index_offset;
 
@@ -103,7 +103,7 @@ void	obj_collision_ammo_pickup(t_doom *doom, t_obj *obj)
 	play_sound(doom, SOUND_WEAPON_PICKUP);
 }
 
-int		obj_collision_medkit_pickup(t_doom *doom, t_obj *obj)
+void	obj_collision_medkit_pickup(t_doom *doom, t_obj *obj)
 {
 	int hp;
 
@@ -123,28 +123,28 @@ int		obj_collision_medkit_pickup(t_doom *doom, t_obj *obj)
 	}
 }
 
-int		create_obj_key(t_doom *doom, t_obj *obj)
+void	create_obj_key(t_doom *doom, t_obj *obj)
 {
 	obj->col_passable = 1;
 	obj->col_size = 3.0f;
 	obj->on_collision = obj_collision_key_pickup;
 }
 
-int		create_obj_weapon(t_doom *doom, t_obj *obj)
+void	create_obj_weapon(t_doom *doom, t_obj *obj)
 {
 	obj->col_passable = 1;
 	obj->col_size = 3.0f;
 	obj->on_collision = obj_collision_weapon_pickup;
 }
 
-int		create_obj_ammo(t_doom *doom, t_obj *obj)
+void	create_obj_ammo(t_doom *doom, t_obj *obj)
 {
 	obj->col_passable = 1;
 	obj->col_size = 3.0f;
 	obj->on_collision = obj_collision_ammo_pickup;
 }
 
-int		create_obj_medkit(t_doom *doom, t_obj *obj)
+void	create_obj_medkit(t_doom *doom, t_obj *obj)
 {
 	obj->col_passable = 1;
 	obj->col_size = 3.0f;
@@ -174,7 +174,7 @@ void	obj_hit_explosive(t_doom *doom, t_obj *obj)
 	}
 }
 
-int		create_obj_explosive(t_doom *doom, t_obj *obj)
+void	create_obj_explosive(t_doom *doom, t_obj *obj)
 {
 	obj->col_passable = 0;
 	obj->col_size = 3.0f;
@@ -186,14 +186,14 @@ void	obj_hit_breakable(t_doom *doom, t_obj *obj)
 	obj_state_change(obj, 1);
 }
 
-int		create_obj_breakable(t_doom *doom, t_obj *obj)
+void	create_obj_breakable(t_doom *doom, t_obj *obj)
 {
 	obj->col_passable = 0;
 	obj->col_size = 3.0f;
 	obj->on_hit = obj_hit_breakable;
 }
 
-int		create_obj_enemy_default(t_doom *doom, t_obj *obj)
+void	create_obj_enemy_default(t_doom *doom, t_obj *obj)
 {
 	obj->col_passable = 1;
 	obj->col_size = 5.0f;
