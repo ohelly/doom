@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:50:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 21:00:22 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/28 21:15:27 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,66 +46,11 @@ t_img	obj_get_image(t_doom *doom, t_obj *obj)
 	return (doom->img[obj->images[obj->states_frame][obj->anim_frame]]);
 }
 
-int		create_obj_box(t_doom *doom, t_obj *obj)
-{
-	obj->col_passable = 0;
-	obj->col_size = 3.0f;
-}
-
-int		create_obj_decor(t_doom *doom, t_obj *obj)
-{
-	obj->col_passable = 1;
-	obj->col_size = 0.1f;
-}
-
-void	obj_anim_end_disable(t_obj *obj)
-{
-	obj->enabled = 0;
-}
-
-void	obj_hit_explosive(t_doom *doom, t_obj *obj)
-{
-	int		i;
-	t_obj	*o;
-
-	play_sound(doom, SOUND_EXPLOSIVE);
-	obj_state_change(obj, 1);
-	obj->on_anim_end = obj_anim_end_disable;
-	i = 0;
-	while (i < doom->num.objs)
-	{
-		o = &doom->objs[i];
-		if (obj->n != i && o->on_hit != NULL && distance(o->p, obj->p) < 20.0f)
-			o->on_hit(doom, o);
-		i++;
-	}
-}
-
-int		create_obj_explosive(t_doom *doom, t_obj *obj)
-{
-	obj->col_passable = 0;
-	obj->col_size = 3.0f;
-	obj->on_hit = obj_hit_explosive;
-}
-
-void	obj_hit_breakable(t_doom *doom, t_obj *obj)
-{
-	obj_state_change(obj, 1);
-}
-
 int		create_obj_breakable(t_doom *doom, t_obj *obj)
 {
 	obj->col_passable = 0;
 	obj->col_size = 3.0f;
 	obj->on_hit = obj_hit_breakable;
-}
-
-int		create_obj_enemy_default(t_doom *doom, t_obj *obj)
-{
-	obj->col_passable = 1;
-	obj->col_size = 5.0f;
-	obj->scale = 6.0f;
-	create_enemy_default(doom, obj);
 }
 
 int		create_obj(t_doom *doom, t_obj *obj)
