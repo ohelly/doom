@@ -522,6 +522,7 @@ t_img	weapon_get_image(t_doom *doom, t_weapon *weapon);
 int		player_move(t_doom *doom, t_xy move_pos);
 int		player_take_damage(t_doom *doom, int damage);
 int		player_blood_update(t_doom *doom);
+char	*ft_strjoinc(char *s1, char const *s2);
 //objects
 int		objects_update(t_doom *doom);
 void	on_collision_key(t_doom *doom, t_obj *obj);

@@ -37,7 +37,7 @@ src/loadtexturedata.o src/loadweapondata.o src/loadobjdata.o src/loadpicdata.o s
 src/doors.o src/calcmove.o src/calciswall.o src/calcjump.o src/animation.o src/drawscope.o src/drawsky.o \
 src/drawwalls.o src/vline2.o src/vline3.o src/tomapcood.o src/scaler.o src/drawceilandfloor.o src/findscales.o \
 src/render.o src/calcpics.o src/intersect.o src/calcsector.o src/render_weapon.o src/weapon_utils.o src/vlineobj.o \
-src/drawobj.o 
+src/drawobj.o src/ft_strjoinc.o
 
 all: $(FRAMEDIR) $(LIBS) $(FRAME) $(NAME)
 

@@ -12,67 +12,66 @@
 
 #include "doom.h"
 
+t_sound	*add_sound(t_doom *doom, char *name, int index, int volume)
+{
+	t_sound *s;
+
+	s = &doom->sound[index];
+	s->sound = Mix_LoadWAV(name);
+	s->volume = volume;
+	ft_strdel(&name);
+	return (s);
+}
+
 int		load_music(t_doom *doom)
 {
 	t_music *m;
 	t_sound *s;
 	char	*env;
+	char	*tmp;
 
 	env = ft_strjoin(getenv("HOME"), "/Documents/DoomNukem");
 	m = &doom->music[0];
-	m->music = Mix_LoadMUS(ft_strjoin(env, "/music.mp3"));
+	tmp = ft_strjoin(env, "/music.mp3");
+	m->music = Mix_LoadMUS(tmp);
 	m->volume = 0;
-	s = &doom->sound[SOUND_SHOOT];
-	s->sound = Mix_LoadWAV(ft_strjoin(env, "/hit.wav"));
-	s->volume = 100;
-	s = &doom->sound[SOUND_PICKUP];
-	s->sound = Mix_LoadWAV(ft_strjoin(env, "/pickup.wav"));
-	s->volume = 100;
-	s = &doom->sound[SOUND_WEAPON_PICKUP];
-	s->sound = Mix_LoadWAV(ft_strjoin(env, "/weapon_pick.wav"));
-	s->volume = 100;
-	s = &doom->sound[SOUND_DEATH];
-	s->sound = Mix_LoadWAV(ft_strjoin(env, "/death.wav"));
-	s->volume = 100;
-	s = &doom->sound[SOUND_INTERACT];
-	s->sound = Mix_LoadWAV(ft_strjoin(env, "/interact.wav"));
-	s->volume = 100;
-	s = &doom->sound[SOUND_E_ATTACK];
-	s->sound = Mix_LoadWAV(ft_strjoin(env, "/enemy_attack.wav"));
-	s->volume = 100;
-	s = &doom->sound[SOUND_LOSS];
-	s->sound = Mix_LoadWAV(ft_strjoin(env, "/lost.wav"));
-	s->volume = 100;
-	s = &doom->sound[SOUND_RELOAD];
-	s->sound = Mix_LoadWAV(ft_strjoin(env, "/reload.wav"));
-	s->volume = 100;
-	s = &doom->sound[SOUND_SCREAM];
-	s->sound = Mix_LoadWAV(ft_strjoin(env, "/scream.wav"));
-	s->volume = 100;
-	s = &doom->sound[SOUND_JUMP];
-	s->sound = Mix_LoadWAV(ft_strjoin(env, "/jump.wav"));
-	s->volume = 100;
-	s = &doom->sound[SOUND_DAMAGE];
-	s->sound = Mix_LoadWAV(ft_strjoin(env, "/damage.wav"));
-	s->volume = 100;
-	s = &doom->sound[SOUND_PISTOL];
-	s->sound = Mix_LoadWAV(ft_strjoin(env, "/pistol.wav"));
-	s->volume = 100;
-	s = &doom->sound[SOUND_SHOTGUN];
-	s->sound = Mix_LoadWAV(ft_strjoin(env, "/shotgun.wav"));
-	s->volume = 100;
-	s = &doom->sound[SOUND_RIPPER];
-	s->sound = Mix_LoadWAV(ft_strjoin(env, "/ripper.wav"));
-	s->volume = 70;
-	s = &doom->sound[SOUND_FOOT];
-	s->sound = Mix_LoadWAV(ft_strjoin(env, "/foot.wav"));
-	s->volume = 100;
-	s = &doom->sound[SOUND_EXPLOSIVE];
-	s->sound = Mix_LoadWAV(ft_strjoin(env, "/explosion.wav"));
-	s->volume = 100;
-	s = &doom->sound[SOUND_CRASH];
-	s->sound = Mix_LoadWAV(ft_strjoin(env, "/crash.wav"));
-	s->volume = 100;
+	ft_strdel(&tmp);
+
+	tmp = ft_strjoin(env, "/hit.wav");
+	add_sound(doom, tmp, SOUND_SHOOT, 100);
+	tmp = ft_strjoin(env, "/pickup.wav");
+	add_sound(doom, tmp, SOUND_PICKUP, 100);
+	tmp = ft_strjoin(env, "/weapon_pick.wav");
+	add_sound(doom, tmp, SOUND_WEAPON_PICKUP, 100);
+	tmp = ft_strjoin(env, "/death.wav");
+	add_sound(doom, tmp, SOUND_DEATH, 100);
+	tmp = ft_strjoin(env, "/interact.wav");
+	add_sound(doom, tmp, SOUND_INTERACT, 100);
+	tmp = ft_strjoin(env, "/enemy_attack.wav");
+	add_sound(doom, tmp, SOUND_E_ATTACK, 100);
+	tmp = ft_strjoin(env, "/lost.wav");
+	add_sound(doom, tmp, SOUND_LOSS, 100);
+	tmp = ft_strjoin(env, "/reload.wav");
+	add_sound(doom, tmp, SOUND_RELOAD, 100);
+	tmp = ft_strjoin(env, "/scream.wav");
+	add_sound(doom, tmp, SOUND_SCREAM, 100);
+	tmp = ft_strjoin(env, "/jump.wav");
+	add_sound(doom, tmp, SOUND_JUMP, 100);
+	tmp = ft_strjoin(env, "/damage.wav");
+	add_sound(doom, tmp, SOUND_DAMAGE, 100);
+	tmp = ft_strjoin(env, "/pistol.wav");
+	add_sound(doom, tmp, SOUND_PISTOL, 100);
+	tmp = ft_strjoin(env, "/shotgun.wav");
+	add_sound(doom, tmp, SOUND_SHOTGUN, 100);
+	tmp = ft_strjoin(env, "/ripper.wav");
+	add_sound(doom, tmp, SOUND_RIPPER, 60);
+	tmp = ft_strjoin(env, "/foot.wav");
+	add_sound(doom, tmp, SOUND_FOOT, 100);
+	tmp = ft_strjoin(env, "/explosion.wav");
+	add_sound(doom, tmp, SOUND_EXPLOSIVE, 100);
+	tmp = ft_strjoin(env, "/crash.wav");
+	add_sound(doom, tmp, SOUND_CRASH, 100);
+	free(env);
 	printf("Music loaded!\n");
 }
 

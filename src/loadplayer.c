@@ -56,5 +56,6 @@ int		loadplayer(t_player *player, char *str)
 	player->weapon = (int)tmp;
 	str = todigit(str, &tmp);
 	player->end = (int)tmp;
+	default_player_params(player);
 	return (0);
 }
