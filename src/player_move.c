@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 17:24:41 by njacobso          #+#    #+#             */
-/*   Updated: 2019/10/27 18:12:20 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/28 19:40:14 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,8 @@ float	line_distance(t_xy l1, t_xy l2, t_xy p)
 	dist = (sqr(l1.x - l2.x) + sqr(l1.y - l2.y));
 	if (dist == 0)
 		return (distance(l1, p));
-	t = ((p.x - l1.x) * (l2.x - l1.x) + (p.y - l1.y) * (l2.y - l1.y)) / dist;
+	t = ((p.x - l1.x) * (l2.x - l1.x) +
+	(p.y - l1.y) * (l2.y - l1.y)) / dist;
 	t = clamp(t, 0, 1);
 	proj.x = l1.x + t * (l2.x - l1.x);
 	proj.y = l1.y + t * (l2.y - l1.y);
@@ -95,8 +96,10 @@ int		walls_collision(t_doom *doom, t_xy pl)
 		pos2 = v2_addf(v[n + 1], -doom->wall_col_size);
 		if (intersect_walls(doom, pl))
 		{
-			hole.x = sect->neighbors[n] < 0 ? 9e9 : max(sect->floor, doom->sectors[sect->neighbors[n]].floor);
-			hole.y = sect->neighbors[n] < 0 ? -9e9 : min(sect->ceil, doom->sectors[sect->neighbors[n]].ceil);
+			hole.x = sect->neighbors[n] < 0 ? 9e9 :
+			max(sect->floor, doom->sectors[sect->neighbors[n]].floor);
+			hole.y = sect->neighbors[n] < 0 ? -9e9 :
+			min(sect->ceil, doom->sectors[sect->neighbors[n]].ceil);
 			if (hole.y < doom->player.where.z + HeadMargin ||
 				hole.x > doom->player.where.z - EyeHeight + KneeHeight)
 				return (0);
@@ -124,7 +127,8 @@ int		obj_collision(t_doom *doom, t_xy player)
 			n++;
 			continue ;
 		}
-		if (collision_circle(player, doom->player.col_size, obj.p, obj.col_size))
+		if (collision_circle(player, doom->player.col_size,
+		obj.p, obj.col_size))
 			return (0);
 		n++;
 	}
@@ -177,10 +181,10 @@ int		find_obj_interaction(t_doom *doom)
 			n++;
 			continue ;
 		}
-		if (collision_box(p, v2_add(p, d), v2_addf(obj->p, -obj->col_size), v2_addf(obj->p, obj->col_size)))
+		if (collision_box(p, v2_add(p, d), v2_addf(obj->p, -obj->col_size),
+		v2_addf(obj->p, obj->col_size)))
 		{
 			obj->on_interaction(doom, obj);
-			printf("Player interacted with obj %d\n", obj->id);
 			return (1);
 		}
 		n++;
@@ -239,7 +243,6 @@ int		player_take_damage(t_doom *doom, int damage)
 		doom->player.blood = 1.0f;
 		doom->player.dead = 1;
 		doom->player.where.z = doom->sectors[doom->player.sector].floor + 2;
-		printf("You are dead!\n");
 	}
 	return (1);
 }

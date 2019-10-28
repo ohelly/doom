@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:15:03 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 10:36:52 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/28 19:36:51 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		takencount(char *str)
 {
-	int 	j;
+	int		j;
 	int		count;
 
 	j = 0;
@@ -82,9 +82,9 @@ char	*wallsinsect(char *str, t_sectors *s, int vnum)
 int		loadsectors(t_sectors *s, t_xy *v, char *str)
 {
 	static int	n = 0;
-	float	tmp;
-	int		vnum;
-	int		j;
+	float		tmp;
+	int			vnum;
+	int			j;
 
 	vnum = ((takencount(str) - 7) / 3);
 	s[n].npoints = vnum;

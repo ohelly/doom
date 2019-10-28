@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 19:05:13 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/28 19:56:30 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -540,7 +540,7 @@ int		overlap(float a0, float a1, float b0, float b1);
 int		sound_free_everything(t_doom *doom);
 int		play_music(t_doom *doom, int index);
 int		play_sound(t_doom *doom, int index);
-int		load_music(t_doom *doom);
+void	load_music(t_doom *doom);
 //math
 t_xy	rot_to_v2(float rot);
 float	v2_to_rot(t_xy v2);
@@ -552,5 +552,19 @@ t_xy	v2_normalize(t_xy v2);
 float	distance(t_xy p1, t_xy p2);
 float	rad_to_deg(float rad);
 
+void	close_program(SDL_Event ev, t_doom *doom);
+void	jump_sprint_crouch(t_doom *doom, SDL_Event ev,
+t_player *player, t_sectors *s);
+void	reload_pistol(SDL_Event ev, t_doom *doom,
+t_weapon weapon, t_player *player);
+void	change_all_weapons(t_weapon *weapon, SDL_Event ev,
+t_player *player, int *allweapons);
+void	change_weapon(t_player *player, t_weapon *weapon, int n);
+int		find_on_hit_obj(t_doom *doom);
+int		find_pic_interaction(t_doom *doom, t_player player, t_pics *pics);
+int		find_door(t_doom *doom, t_player player);
+int		shoot_wall(t_doom *doom, t_player player, t_sectors *sect, t_pics *pic);
+void	left_mouse_keydown(t_doom *doom, SDL_Event ev,
+t_weapon *weapon, t_player *player);
 
 #endif
