@@ -14,6 +14,10 @@
 
 int		loadfonts(t_hud *hud)
 {
-	return (!(hud->font = TTF_OpenFont("./DooM.ttf",
+	char *env;
+
+	env = ft_strjoin(getenv("HOME"), "/Documents/DoomNukem");
+	printf("env %s\n", env);
+	return (!(hud->font = TTF_OpenFont(ft_strjoin(env, "/DooM.ttf"),
 			20)));
 }
