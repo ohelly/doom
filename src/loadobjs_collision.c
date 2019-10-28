@@ -6,7 +6,7 @@
 /*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 20:47:23 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/28 20:49:38 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/28 21:04:24 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,4 +60,19 @@ void	obj_collision_ammo_pickup(t_doom *doom, t_obj *obj)
 int		obj_collision_medkit_pickup(t_doom *doom, t_obj *obj)
 {
 	int hp;
+
+	if (obj->type == OBJ_TYPE_MED_SMALL)
+		hp = 10;
+	else if (obj->type == OBJ_TYPE_MED_MEDIUM)
+		hp = 30;
+	else if (obj->type == OBJ_TYPE_MED_BIG)
+		hp = 60;
+	if (doom->player.hp < 100)
+	{
+		obj->enabled = 0;
+		play_sound(doom, SOUND_PICKUP);
+		doom->player.hp += hp;
+		if (doom->player.hp > 100)
+			doom->player.hp = 100;
+	}
 }
