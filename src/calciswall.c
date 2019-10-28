@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 19:23:01 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 01:35:31 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:54:56 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,15 +54,15 @@ int		glide_on_wall(t_xy *d, t_doom *doom, t_sectors *sect, int n)
 	float		tmp;
 	t_xy		a;
 
-	tmp = doom->player.sit ? DuckHeight : EyeHeight;
+	tmp = doom->player.sit ? DUCKHEIGHT : EYEHEIGHT;
 	doom->player.velocity.x = 0;
 	doom->player.velocity.y = 0;
 	hole_low = sect->neighbors[n] < 0 ? 9e9 :
-	max(sect->floor, doom->sectors[sect->neighbors[n]].floor);
+	MAX(sect->floor, doom->sectors[sect->neighbors[n]].floor);
 	hole_high = sect->neighbors[n] < 0 ? -9e9 :
-	min(sect->ceil, doom->sectors[sect->neighbors[n]].ceil);
-	if (hole_high < doom->player.where.z + HeadMargin
-	|| hole_low > doom->player.where.z - tmp + KneeHeight)
+	MIN(sect->ceil, doom->sectors[sect->neighbors[n]].ceil);
+	if (hole_high < doom->player.where.z + HEADMARGIN
+	|| hole_low > doom->player.where.z - tmp + KNEEHEIGHT)
 	{
 		d->x = d->x - doom->player.where.x;
 		d->y = d->y - doom->player.where.y;

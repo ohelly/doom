@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 20:22:03 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 18:24:53 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:55:39 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,8 +30,8 @@ void	vline3(int x, t_ab_i wy, t_scaler ty, t_doom *doom)
 	int			color;
 	t_img		img;
 
-	p.y1 = clamp(wy.a, 0, HEIGHT - 1);
-	p.y2 = clamp(wy.b, 0, HEIGHT - 1);
+	p.y1 = CLAMP(wy.a, 0, HEIGHT - 1);
+	p.y2 = CLAMP(wy.b, 0, HEIGHT - 1);
 	s = &doom->sectors[doom->now.sector];
 	img = pic_get_image(doom, &doom->pics[doom->cood.num]);
 	while (p.y1 <= p.y2)

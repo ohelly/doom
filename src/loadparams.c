@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 17:31:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 01:35:15 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:54:07 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ int		load_params(t_doom *doom, char **map)
 	if (!(init_structs(doom)))
 		return (0);
 	load_all_params(doom, map, v);
-	doom->player.where.z = doom->sectors[doom->player.sector].floor + EyeHeight;
+	doom->player.where.z = doom->sectors[doom->player.sector].floor + EYEHEIGHT;
 	doom->wall_col_size = 0.1f;
 	load_shot_pics(&doom->shot_pics, &doom->bullet[0]);
 	free(v);

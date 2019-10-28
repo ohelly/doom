@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 17:21:06 by njacobso          #+#    #+#             */
-/*   Updated: 2019/10/29 00:57:53 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:50:30 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int		rgb_mix(int rgb1, int rgb2, float percent)
 {
 	float percent2;
 
-	percent = clamp(percent, 0, 1);
+	percent = CLAMP(percent, 0, 1);
 	percent2 = 1 - percent;
 	rgb1 = ((int)(((rgb1 >> 16) & 0xff) * percent +
 				((rgb2 >> 16) & 0xff) * percent2) << 16) |

@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 17:24:41 by njacobso          #+#    #+#             */
-/*   Updated: 2019/10/29 00:49:46 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:51:41 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,17 +45,17 @@ int		walls_collision(t_doom *doom, t_xy pl)
 	sect = &doom->sectors[doom->player.sector];
 	v = sect->vert;
 	n = 0;
-	height = doom->player.sit ? DuckHeight : EyeHeight;
+	height = doom->player.sit ? DUCKHEIGHT : EYEHEIGHT;
 	while (n < sect->npoints)
 	{
 		if (intersect_walls(doom, pl, n) == 1)
 		{
 			hole.x = sect->neighbors[n] < 0 ? 9e9 :
-			max(sect->floor, doom->sectors[sect->neighbors[n]].floor);
+			MAX(sect->floor, doom->sectors[sect->neighbors[n]].floor);
 			hole.y = sect->neighbors[n] < 0 ? -9e9 :
-			min(sect->ceil, doom->sectors[sect->neighbors[n]].ceil);
-			if (hole.y < doom->player.where.z + HeadMargin ||
-				hole.x > doom->player.where.z - EyeHeight + KneeHeight)
+			MIN(sect->ceil, doom->sectors[sect->neighbors[n]].ceil);
+			if (hole.y < doom->player.where.z + HEADMARGIN ||
+				hole.x > doom->player.where.z - EYEHEIGHT + KNEEHEIGHT)
 				return (0);
 		}
 		n++;
@@ -112,7 +112,7 @@ int		player_blood_update(t_doom *doom)
 		i++;
 	}
 	doom->player.blood -= doom->fps.time_frame;
-	doom->player.blood = clamp(doom->player.blood, 0.0f, 1.0f);
+	doom->player.blood = CLAMP(doom->player.blood, 0.0f, 1.0f);
 	return (1);
 }
 

@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 19:22:11 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 01:35:45 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:55:18 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int		calc_jump(t_player *player, t_sectors *sectors, t_fps fps)
 	float	nextz;
 	float	height;
 
-	height = player->sit ? DuckHeight : EyeHeight;
+	height = player->sit ? DUCKHEIGHT : EYEHEIGHT;
 	player->ground = !player->fall;
 	if (player->fall)
 	{

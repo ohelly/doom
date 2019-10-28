@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 00:51:11 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 00:52:20 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:59:48 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,14 @@ float	line_distance(t_xy l1, t_xy l2, t_xy p)
 		return (distance(l1, p));
 	t = ((p.x - l1.x) * (l2.x - l1.x) +
 	(p.y - l1.y) * (l2.y - l1.y)) / dist;
-	t = clamp(t, 0, 1);
+	t = CLAMP(t, 0, 1);
 	proj.x = l1.x + t * (l2.x - l1.x);
 	proj.y = l1.y + t * (l2.y - l1.y);
 	dist = distance(p, proj);
 	return (dist);
+}
+
+int     overlap(float a0, float a1, float b0, float b1)
+{
+    return ((MIN(a0,a1) <= MAX(b0,b1) && MIN(b0,b1) <= MAX(a0,a1)));
 }

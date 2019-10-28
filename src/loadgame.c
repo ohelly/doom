@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:13:26 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 01:35:59 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:49:23 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int		calc_mouse(t_player *player, float yaw)
 	if (player->dead)
 		return (0);
 	SDL_GetRelativeMouseState(&x, &y);
-	player->yaw = clamp(yaw + y * 0.01f, -5, 5);
+	player->yaw = CLAMP(yaw + y * 0.01f, -5, 5);
 	player->angle += x * 0.003f;
 	player->psin = sinf(player->angle);
 	player->pcos = cosf(player->angle);
