@@ -21,8 +21,6 @@ int		load_music(t_doom *doom)
 	env = ft_strjoin(getenv("HOME"), "/Documents/DoomNukem");
 	m = &doom->music[0];
 	m->music = Mix_LoadMUS(ft_strjoin(env, "/music.mp3"));
-	if (m->music == NULL)
-		printf("Mus error: %s\n", Mix_GetError());
 	m->volume = 0;
 	s = &doom->sound[SOUND_SHOOT];
 	s->sound = Mix_LoadWAV(ft_strjoin(env, "/hit.wav"));
@@ -65,7 +63,7 @@ int		load_music(t_doom *doom)
 	s->volume = 100;
 	s = &doom->sound[SOUND_RIPPER];
 	s->sound = Mix_LoadWAV(ft_strjoin(env, "/ripper.wav"));
-	s->volume = 100;
+	s->volume = 70;
 	s = &doom->sound[SOUND_FOOT];
 	s->sound = Mix_LoadWAV(ft_strjoin(env, "/foot.wav"));
 	s->volume = 100;

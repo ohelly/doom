@@ -43,6 +43,7 @@ all: $(FRAMEDIR) $(LIBS) $(FRAME) $(NAME)
 $(NAME): $(OBJ)
 	make -C Get_Next_Line
 	gcc $(OBJ) -L $(LIBS) $(INC) $(FLAGS2) -o $(NAME)
+	rm -rf ~/Documents/DoomNukem/
 	mkdir ~/Documents/DoomNukem
 	cp -r Resources/* ~/Documents/DoomNukem/
 $(OBJ): %.o: %.c
