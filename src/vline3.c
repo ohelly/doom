@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 20:22:03 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 01:55:39 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 02:21:24 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	check_scatter(int x, int y, t_weapon weapon, t_doom *doom)
 		x <= WIDTH / 2 + weapon.scatterx &&
 		y >= HEIGHT / 2 - weapon.scattery &&
 		y <= HEIGHT / 2 + weapon.scattery &&
-		doom->cood.num < doom->num.objs)
+		doom->cood.num < doom->num.pics)
 		doom->pic_interaction[doom->cood.num] = 1;
 }
 

@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 11:56:24 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 01:42:43 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 02:30:54 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,8 @@ int			drawsprites(t_doom *doom, t_obj *objs)
 	{
 		o = &objs[doom->order[n]];
 		doom->obj_num = o->n;
-		if (!doom->item[o->sector].sector || doom->len[n] < 3.f)
+		if (!doom->item[o->sector].sector ||
+		doom->len[doom->order[n]] < 3.f)
 		{
 			n++;
 			continue ;

@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 02:13:45 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 02:22:45 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,10 +59,10 @@
 # define SOUND_EXPLOSIVE		15
 # define SOUND_CRASH			16
 
-# define ENEMY_STATE_IDLE	0
-# define ENEMY_STATE_DEAD	8
-# define ENEMY_STATE_HIT	9
-# define ENEMY_STATE_ATTACK	10
+# define ENEMY_STATE_IDLE		0
+# define ENEMY_STATE_DEAD		8
+# define ENEMY_STATE_HIT		9
+# define ENEMY_STATE_ATTACK		10
 
 # define OBJ_TYPE_BOX			0
 # define OBJ_TYPE_BREAKABLE		1
@@ -388,7 +388,7 @@ typedef struct		s_doom
 	int				*lookwall;
 	float			wall_col_size;
 	int				change_y;
-	int				pic_interaction[64];
+	int				pic_interaction[128];
 	int				*obj_ind;
 	int				*order;
 	int				obj_num;
