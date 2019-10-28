@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:50:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 21:15:27 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/28 21:18:24 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,6 @@ void	obj_anim_next(t_obj *obj)
 t_img	obj_get_image(t_doom *doom, t_obj *obj)
 {
 	return (doom->img[obj->images[obj->states_frame][obj->anim_frame]]);
-}
-
-int		create_obj_breakable(t_doom *doom, t_obj *obj)
-{
-	obj->col_passable = 0;
-	obj->col_size = 3.0f;
-	obj->on_hit = obj_hit_breakable;
 }
 
 int		create_obj(t_doom *doom, t_obj *obj)

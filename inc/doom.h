@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 21:14:44 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/28 21:18:49 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -505,6 +505,7 @@ int		create_obj_decor(t_doom *doom, t_obj *obj);
 int		create_obj_explosive(t_doom *doom, t_obj *obj);
 int		create_obj_enemy_default(t_doom *doom, t_obj *obj);
 int		create_obj_box(t_doom *doom, t_obj *obj);
+int		create_obj_breakable(t_doom *doom, t_obj *obj);
 void	obj_hit_explosive(t_doom *doom, t_obj *obj);
 void	obj_hit_breakable(t_doom *doom, t_obj *obj);
 int		create_obj_key(t_doom *doom, t_obj *obj);
