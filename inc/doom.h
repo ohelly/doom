@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 20:56:00 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/28 20:56:08 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -537,6 +537,7 @@ int		objects_update(t_doom *doom);
 void	on_collision_key(t_doom *doom, t_obj *obj);
 int		find_obj_interaction(t_doom *doom);
 t_img	obj_get_image(t_doom *doom, t_obj *obj);
+void	obj_state_change(t_obj *obj, int state);
 //enemies
 void	enemies_update(t_doom *doom);
 t_enemy	*create_enemy_default(t_doom *doom, t_obj *obj);

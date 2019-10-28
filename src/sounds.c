@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 17:21:32 by njacobso          #+#    #+#             */
-/*   Updated: 2019/10/28 19:34:07 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/28 20:58:50 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ void	load_sound(t_sound *s, char *env, char *str, int volume)
 {
 	char *tmp;
 
-	tmp = ft_strjoin(env, "str");
+	tmp = ft_strjoin(env, str);
 	s->sound = Mix_LoadWAV(tmp);
 	s->volume = volume;
 	ft_strdel(&tmp);
@@ -51,7 +51,7 @@ void	load_music(t_doom *doom)
 	load_sound(&doom->sound[SOUND_RIPPER], env, "/ripper.wav", 70);
 	load_sound(&doom->sound[SOUND_FOOT], env, "/foot.wav", 100);
 	load_sound(&doom->sound[SOUND_EXPLOSIVE], env, "/explosion.wav", 100);
-	load_sound(&doom->sound[SOUND_CRASH], env, "/crach.wav", 100);
+	load_sound(&doom->sound[SOUND_CRASH], env, "/crash.wav", 100);
 	ft_strdel(&env);
 }
 
@@ -77,6 +77,7 @@ int		play_music(t_doom *doom, int index)
 	music = doom->music[index].music;
 	Mix_PlayMusic(music, -1);
 	Mix_VolumeMusic(doom->music[index].volume);
+	return (1);
 }
 
 int		sound_free_everything(t_doom *doom)
