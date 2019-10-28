@@ -6,7 +6,7 @@
 #    By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/02 20:58:32 by lminta            #+#    #+#              #
-#    Updated: 2019/10/28 19:43:36 by ohelly           ###   ########.fr        #
+#    Updated: 2019/10/28 22:59:35 by ohelly           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,7 +44,8 @@ src/export_wall.o src/export_wall_rev.o src/sel_txtc.o src/sel_txtf.o src/init_p
 src/sel_txt_spr.o src/sel_txt_obj.o src/set_player.o src/export_all_texture.o src/load_surface_wall.o \
 src/export_wall_t.o src/export_ceil_tx.o src/export_floor_tx.o src/load_surface.o src/export_sky_tx.o \
 src/export_shot_tx.o src/export_weapon_data.o src/load_weapon.o src/export_stobj_data.o src/load_st_obj.o \
-src/load_pickobj.o src/output_text_stobj.o \
+src/load_pickobj.o src/output_text_stobj.o src/export_pics.o src/load_pics.o src/export_attr.o \
+src/export_objs.o src/export_pospics.o src/export_player.o \
 
 all: $(FRAMEDIR) $(LIBS) $(FRAME) $(NAME)
 
