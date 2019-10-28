@@ -6,13 +6,13 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 18:59:19 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 01:56:07 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 02:35:43 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-void		CLAMP_ny(t_doom *doom, t_cood *cood)
+void		clamp_ny(t_doom *doom, t_cood *cood)
 {
 	cood->ny.a = (cood->x - cood->w1x) * (cood->n2y.a - cood->n1y.a) /
 	(cood->w2x - cood->w1x) + cood->n1y.a;
@@ -29,7 +29,7 @@ t_cood *cood)
 
 	if (cood->neighbor >= 0)
 	{
-		CLAMP_ny(doom, cood);
+		clamp_ny(doom, cood);
 		scaler.a = cood->cy.a;
 		scaler.b = cood->cny.a - 1;
 		vline2(cood->x, scaler, scaler_init(cood->wy, cood->cy.a, 0,

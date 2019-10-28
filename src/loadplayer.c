@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 14:22:21 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 18:55:27 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 02:54:35 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,10 @@ int		loadplayer(t_player *player, char *str)
 {
 	float	tmp;
 
-	str = todigit(str, &player->where.y);
-	str = todigit(str, &player->where.x);
+	str = todigit(str, &tmp);
+	player->where.y = tmp / 5.f;
+	str = todigit(str, &tmp);
+	player->where.x = tmp / 5.f;
 	str = todigit(str, &player->angle);
 	str = todigit(str, &tmp);
 	player->sector = (int)tmp;
