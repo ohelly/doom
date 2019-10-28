@@ -6,7 +6,7 @@
 #    By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/02 20:58:32 by lminta            #+#    #+#              #
-#    Updated: 2019/10/27 18:18:35 by ohelly           ###   ########.fr        #
+#    Updated: 2019/10/28 19:43:36 by ohelly           ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,7 +42,9 @@ src/render_images.o src/edditing_img_render.o src/main_hud_for_edditing.o src/ob
 src/helper_draw.o src/height_spr.o src/export_vert.o src/export_sector.o src/export_helper.o \
 src/export_wall.o src/export_wall_rev.o src/sel_txtc.o src/sel_txtf.o src/init_preview.o \
 src/sel_txt_spr.o src/sel_txt_obj.o src/set_player.o src/export_all_texture.o src/load_surface_wall.o \
-src/export_wall_t.o src/export_ceil_tx.o src/export_floor_tx.o src/load_surface.o \
+src/export_wall_t.o src/export_ceil_tx.o src/export_floor_tx.o src/load_surface.o src/export_sky_tx.o \
+src/export_shot_tx.o src/export_weapon_data.o src/load_weapon.o src/export_stobj_data.o src/load_st_obj.o \
+src/load_pickobj.o src/output_text_stobj.o \
 
 all: $(FRAMEDIR) $(LIBS) $(FRAME) $(NAME)
 
