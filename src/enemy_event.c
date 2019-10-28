@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enemy_event.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 19:39:30 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/28 20:26:02 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/28 20:55:16 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,6 @@ void	enemy_obj_on_hit(t_doom *doom, t_obj *obj)
 {
 	t_enemy *enemy;
 
-	printf("Enemy obj on hit\n");
 	enemy = get_enemy_by_obj_id(doom, obj->n);
 	enemy->on_hit(doom, enemy);
 }

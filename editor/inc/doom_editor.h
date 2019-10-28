@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/27 18:18:24 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/28 19:43:19 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,11 +28,15 @@
 # define DELAY_ERR 50
 # define COUNT_T 27
 # define COUNT_H 22
-# define COUNT_O 21
+# define COUNT_STOBJ 32
 # define COUNT_SKY 3
 # define COUNT_SP 6
 # define COUNT_OP 16
 # define COUNT_WP 3
+# define COUNT_FOOT 3
+# define COUNT_PIST 12
+# define COUNT_SHOTG 8
+# define COUNT_RIPPER 7
 
 /*
 ** POS OF X AND Y
@@ -230,12 +234,18 @@ typedef struct			s_txt
 {
 	SDL_Texture			*wall[COUNT_T];
 	SDL_Surface			*swall[COUNT_T];
-	SDL_Texture			*obj[21];
+	SDL_Surface			*stobj[COUNT_STOBJ];
 	SDL_Texture			*previews[COUNT_SP];
 	SDL_Texture			*previewo[COUNT_OP];
 	SDL_Texture			*previeww[COUNT_WP];
 	SDL_Texture			*sky[COUNT_SKY];
+	SDL_Surface			*ssky[COUNT_SKY];
 	SDL_Texture			*huds[COUNT_H];
+	SDL_Surface			*foot[COUNT_FOOT];
+	SDL_Surface			*pistol[COUNT_PIST];
+	SDL_Surface			*shotgun[COUNT_SHOTG];
+	SDL_Surface			*ripper[COUNT_RIPPER];
+	SDL_Surface			*shot;
 	int					ind_sky;
 }						t_txt;
 
@@ -304,6 +314,7 @@ typedef struct		s_exp
 	int				wall[COUNT_T];
 	int				floor[COUNT_T];
 	int				ceil[COUNT_T];
+	int				stobj[COUNT_OP];
 }					t_export;
 
 /*
@@ -436,6 +447,15 @@ int						load_txt_to_surface(t_txt *txt);
 void					export_ceil_tx(t_doom *doom);
 void					export_floor_tx(t_doom *doom);
 int						load_surface(t_doom *doom);
+void					export_sky_tx(t_doom *doom);
+void					export_shot_tx(t_doom *doom);
+void					export_weapon_data(t_doom *doom);
+void					out_img_weapon(SDL_Surface *sur, t_file *file);
+int						load_weapon(t_doom *doom);
+void					export_stobj_data(t_doom *doom);
+int						load_st_obj(t_doom *doom);
+int						load_pickobj(t_doom *doom);
+void					output_text_stobj(int ind, t_doom *doom);
 
 /*
 **	Math

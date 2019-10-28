@@ -146,28 +146,6 @@ typedef struct	s_texture
 	int			image; //0
 }				t_texture;
 
-typedef struct	s_obj
-{
-	int			id;
-	int			n;
-	int			enabled;
-	t_xy		p;
-	int			sector;
-	int			type;
-	int			**images;
-	int			*anim_count;
-	int			anim_frame;
-	int			states_count;
-	int			states_frame;
-	float		col_size;
-	int			col_passable;
-	float		scale;
-	void		(*on_collision)(struct s_doom *doom, struct s_obj *obj);
-	void		(*on_interaction)(struct s_doom *doom, struct s_obj *obj);
-	void		(*on_hit)(struct s_doom *doom, struct s_obj *obj);
-	void		(*on_anim_end)(struct s_obj *obj);
-}				t_obj;
-
 typedef struct	s_data
 {
 	int			type;
@@ -364,7 +342,7 @@ typedef struct	s_hud
 	TTF_Font	*font;
 	t_hudel		health;
 	t_hudel		ammo;
-	t_obj		*key;
+	struct s_obj	*key;
 }				t_hud;
 
 typedef struct	s_music
@@ -389,7 +367,7 @@ typedef struct	s_doom
 	t_texture	*floors;
 	t_texture	*ceils;
 	t_texture	*bullet;
-	t_obj		*objs;
+	struct s_obj	*objs;
 	t_data		*objs_data;
 	t_pics		*pics;
 	t_pics		shot_pics;
@@ -433,6 +411,28 @@ typedef struct	s_doom
 	t_music		music[2];
 	t_sound		sound[17];
 }				t_doom;
+
+typedef struct	s_obj
+{
+	int			id;
+	int			n;
+	int			enabled;
+	t_xy		p;
+	int			sector;
+	int			type;
+	int			**images;
+	int			*anim_count;
+	int			anim_frame;
+	int			states_count;
+	int			states_frame;
+	float		col_size;
+	int			col_passable;
+	float		scale;
+	void		(*on_collision)(t_doom *doom, struct s_obj *obj);
+	void		(*on_interaction)(t_doom *doom, struct s_obj *obj);
+	void		(*on_hit)(t_doom *doom, struct s_obj *obj);
+	void		(*on_anim_end)(struct s_obj *obj);
+}				t_obj;
 
 typedef struct		s_enemy
 {
@@ -538,11 +538,13 @@ t_img	weapon_get_image(t_doom *doom, t_weapon *weapon);
 int		player_move(t_doom *doom, t_xy move_pos);
 int		player_take_damage(t_doom *doom, int damage);
 int		player_blood_update(t_doom *doom);
+char	*ft_strjoinc(char *s1, char const *s2);
 //objects
 int		objects_update(t_doom *doom);
 void	on_collision_key(t_doom *doom, t_obj *obj);
 int		find_obj_interaction(t_doom *doom);
 t_img	obj_get_image(t_doom *doom, t_obj *obj);
+void	obj_state_change(t_obj *obj, int state);
 //enemies
 void	enemies_update(t_doom *doom);
 t_enemy	*create_enemy_default(t_doom *doom, t_obj *obj);
@@ -560,7 +562,7 @@ int		overlap(float a0, float a1, float b0, float b1);
 int		sound_free_everything(t_doom *doom);
 int		play_music(t_doom *doom, int index);
 int		play_sound(t_doom *doom, int index);
-int		load_music(t_doom *doom);
+void	load_music(t_doom *doom);
 //math
 t_xy	rot_to_v2(float rot);
 float	v2_to_rot(t_xy v2);
@@ -572,5 +574,19 @@ t_xy	v2_normalize(t_xy v2);
 float	distance(t_xy p1, t_xy p2);
 float	rad_to_deg(float rad);
 
+void	close_program(SDL_Event ev, t_doom *doom);
+void	jump_sprint_crouch(t_doom *doom, SDL_Event ev,
+t_player *player, t_sectors *s);
+void	reload_pistol(SDL_Event ev, t_doom *doom,
+t_weapon weapon, t_player *player);
+void	change_all_weapons(t_weapon *weapon, SDL_Event ev,
+t_player *player, int *allweapons);
+void	change_weapon(t_player *player, t_weapon *weapon, int n);
+int		find_on_hit_obj(t_doom *doom);
+int		find_pic_interaction(t_doom *doom, t_player player, t_pics *pics);
+int		find_door(t_doom *doom, t_player player);
+int		shoot_wall(t_doom *doom, t_player player, t_sectors *sect, t_pics *pic);
+void	left_mouse_keydown(t_doom *doom, SDL_Event ev,
+t_weapon *weapon, t_player *player);
 
 #endif

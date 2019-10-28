@@ -17,11 +17,13 @@ static int		load_hudel(t_hudel *e)
 	SDL_Color	color;
 
 	color = (SDL_Color) { 255, 255, 255 };
+	SDL_FreeSurface(e->s);
 	if (!(e->s = TTF_RenderText_Solid(e->f, e->t, color)))
 		return (0);
 	e->p = e->s->pixels;
 	e->w = e->s->w;
 	e->h = e->s->h;
+	return (1);
 }
 
 static int		load_hud_health(t_doom *doom)
@@ -34,7 +36,7 @@ static int		load_hud_health(t_doom *doom)
 		free(e->t);
 	if (doom->player.hp <= 0)
 		doom->player.hp = 0;
-	e->t = ft_strjoin(ft_itoa(doom->player.hp), "%");
+	e->t = ft_strjoinc(ft_itoa(doom->player.hp), "%");
 	load_hudel(e);
 	e->x = 20;
 	e->y = HEIGHT - e->h - 20;
