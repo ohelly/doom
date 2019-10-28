@@ -1,0 +1,91 @@
+Norme: ./src/additional_func.c
+Norme: ./src/change_skybox.c
+Norme: ./src/delete_action.c
+Norme: ./src/check_convex.c
+Norme: ./src/export.c
+Norme: ./src/export_all_texture.c
+Norme: ./src/edditing_img_render.c
+Norme: ./src/build.c
+Norme: ./src/build_portal.c
+Norme: ./src/export_attr.c
+Norme: ./src/export_ceil_tx.c
+Norme: ./src/export_objs.c
+Norme: ./src/export_floor_tx.c
+Norme: ./src/export_helper.c
+Norme: ./src/export_player.c
+Norme: ./src/export_sector.c
+Norme: ./src/export_shot_tx.c
+Norme: ./src/export_sky_tx.c
+Norme: ./src/export_pospics.c
+Norme: ./src/export_pics.c
+Norme: ./src/export_stobj_data.c
+Norme: ./src/export_vert.c
+Norme: ./src/export_weapon_data.c
+Norme: ./src/export_wall_t.c
+Norme: ./src/health_player.c
+Norme: ./src/height_spr.c
+Norme: ./src/ft_line.c
+Norme: ./src/export_wall.c
+Norme: ./src/export_wall_rev.c
+Norme: ./src/helper_draw.c
+Norme: ./src/line_intersect.c
+Norme: ./src/load_header.c
+Warning: /Users/ohelly/doomgit/editor/src/load_header.c may not compile or is invalid for some reasons.
+Norme: ./src/init_preview.c
+Norme: ./src/init_all.c
+Norme: ./src/key_and_mouse_press.c
+Norme: ./src/load_pics.c
+Norme: ./src/load_pickobj.c
+Norme: ./src/load_surface.c
+Norme: ./src/load_st_obj.c
+Norme: ./src/load_surface_wall.c
+Norme: ./src/load_weapon.c
+Norme: ./src/load_map.c
+Error: 10 functions in the file
+Error (line 119): C++ comment
+Error (line 175): bad indentation
+Error (line 175): C++ comment
+Error (line 176): C++ comment
+Error (line 177): C++ comment
+Error (line 178): C++ comment
+Error (line 179): bad indentation
+Error (line 179): C++ comment
+Error (line 180): bad indentation
+Error (line 180): C++ comment
+Norme: ./src/math_helpers.c
+Norme: ./src/math_line.c
+Norme: ./src/load_img.c
+Norme: ./src/math_vectors.c
+Norme: ./src/mouse_press.c
+Norme: ./src/main.c
+Norme: ./src/mouse_press_right.c
+Norme: ./src/move_map.c
+Norme: ./src/main_hud_for_edditing.c
+Error (line 20): comment not well formatted
+Norme: ./src/my_itoa.c
+Norme: ./src/output_text_stobj.c
+Norme: ./src/output.c
+Norme: ./src/object_img_render.c
+Norme: ./src/put_canvas.c
+Norme: ./src/put_select.c
+Norme: ./src/mouse_press_left.c
+Norme: ./src/render_images.c
+Norme: ./src/put_image_on_screen.c
+Norme: ./src/sel_object.c
+Norme: ./src/sel_attr.c
+Norme: ./src/sel_sector.c
+Norme: ./src/sel_texture_wall.c
+Norme: ./src/sel_sprite.c
+Norme: ./src/sel_txt_obj.c
+Norme: ./src/sel_txtc.c
+Norme: ./src/sel_txtf.c
+Norme: ./src/sel_wall.c
+Norme: ./src/sel_value.c
+Norme: ./src/select.c
+Norme: ./src/set_object.c
+Norme: ./src/put_string_on_screen.c
+Norme: ./src/set_player.c
+Norme: ./src/sel_txt_spr.c
+Norme: ./src/set_sprite_on_wall.c
+Norme: ./src/split_wall.c
+Norme: ./src/split_sectors.c

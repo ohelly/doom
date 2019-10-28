@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/09 18:42:53 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/20 16:58:44 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 00:58:13 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ static void		error(char *str, t_doom *doom)
 {
 	doom->hud->msg = str;
 	doom->sects->selected_sector = -1;
-	doom->verts->projected_v = (t_vertex) { -1, -1, -1 };
+	doom->verts->projected_v = (t_vertex) { -1, { -1, -1 } };
 }
 
 void			set_object(t_doom *doom)
@@ -37,6 +37,6 @@ void			set_object(t_doom *doom)
 	doom->obj->obj[doom->obj->count].sector = doom->sects->selected_sector;
 	doom->obj->obj[doom->obj->count].pos = doom->mouse->ppos;
 	doom->obj->count++;
-	doom->verts->projected_v = (t_vertex) { -1, -1, -1 };
+	doom->verts->projected_v = (t_vertex) { -1, { -1, -1 } };
 	doom->sects->selected_sector = -1;
 }

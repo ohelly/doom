@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 22:59:22 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 02:36:04 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@
 # define HEIGHT 720
 # define DELAY_ERR 50
 # define COUNT_T 27
-# define COUNT_H 22
+# define COUNT_H 24
 # define COUNT_STOBJ 32
 # define COUNT_PICS 14
 # define COUNT_SKY 3
@@ -311,16 +311,16 @@ typedef struct			s_player
 ** STRUCT FOR EXPORT
 */
 
-typedef struct		s_exp
+typedef struct			s_exp
 {
-	int				wall[COUNT_T];
-	int				floor[COUNT_T];
-	int				ceil[COUNT_T];
-	int				stobj[COUNT_OP];
-	int				pics[COUNT_SP];
-	int				order[2048];
-	int				count;
-}					t_export;
+	int					wall[COUNT_T];
+	int					floor[COUNT_T];
+	int					ceil[COUNT_T];
+	int					stobj[COUNT_OP];
+	int					pics[COUNT_SP];
+	int					order[2048];
+	int					count;
+}						t_export;
 
 /*
 ** MAIN STRUCT
@@ -444,7 +444,8 @@ void					sel_txt_obj(int x, int y, t_all_spr_floor *obj);
 void					set_player(t_doom *doom);
 void					draw_player(t_doom *doom, int color);
 void					set_end_player(t_doom *doom);
-void					render_player_settings(t_txt *txt, t_player *player, t_sdl *sdl);
+void					render_player_settings(t_txt *txt, t_player *player,
+																t_sdl *sdl);
 void					set_weapon(int x, int y, t_player *player);
 void					export_all_texture(t_doom *doom);
 void					export_wall_tx(t_doom *doom);
@@ -467,6 +468,7 @@ void					export_attr(t_doom *doom, int ind);
 void					export_objs(t_doom *doom);
 void					export_pospics(t_doom *doom);
 void					export_player(t_doom *doom);
+void					health_player(int x, int y, t_player *player);
 
 /*
 **	Math

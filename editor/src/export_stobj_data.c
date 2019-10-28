@@ -6,13 +6,13 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 17:54:41 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/28 19:59:53 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 01:07:43 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom_editor.h"
 
-void		out_st_obj_p2(int c, int ind, t_doom *doom)
+void		out_st_obj_p2(int ind, t_doom *doom)
 {
 	if (ind == 9)
 		ft_putstr_fd("\t\t23\t\t1\t\t1\n", doom->file->fd);
@@ -50,7 +50,7 @@ void		out_st_obj(int c, int ind, t_doom *doom)
 	else if (ind == 8)
 		ft_putstr_fd("\t\t29\t\t1\t\t1\n", doom->file->fd);
 	else
-		out_st_obj_p2(c, ind, doom);
+		out_st_obj_p2(ind, doom);
 	output_text_stobj(ind, doom);
 }
 

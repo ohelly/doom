@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 16:02:38 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/27 15:28:51 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 00:58:29 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 static void	init_default_value(t_doom *doom)
 {
 	*doom->swall = (t_swall){ -1, -1, -1, -1, -1 };
-	*doom->player = (t_player){ -1, -1, 0, -1, 100, 0, -1};
+	*doom->player = (t_player){ { -1, -1 }, 0, -1, 100, 0, -1};
 	doom->sh = 20;
 	doom->sects->selected_sector = -1;
 	doom->walls->selected_wall = -1;

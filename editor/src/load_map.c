@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/12 16:27:03 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/28 21:55:56 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 00:50:50 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,8 +88,6 @@ int		load_wall(t_doom *doom, char *line, int i)
 
 void	load_attr(t_doom *doom, char *line, int i)
 {
-	int		type;
-
 	while (!(ft_isdigit(line[i])))
 		i++;
 	doom->sects->sectors[doom->sects->count].light = ft_atoi(&line[i]);
@@ -174,10 +172,10 @@ int		read_map(int fd, t_doom *doom)
 			load_vertex(doom, line);
 		else if (ft_strnstr(line, "Sector", 6))
 			load_sector(doom, line);
-		else if (ft_strnstr(line, "Objs", 4))
-			load_obj(doom, line);
-		else if (ft_strnstr(line, "Pics", 4))
-			load_spr(doom, line);
+	//	else if (ft_strnstr(line, "Objs", 4))
+//			load_obj(doom, line);
+//		else if (ft_strnstr(line, "Pics", 4))
+//			load_spr(doom, line);
 		//else if (ft_strnstr(line, "header {", 8) && tr == 1)
 		//	tr = load_header(doom, line);
 		free(line);

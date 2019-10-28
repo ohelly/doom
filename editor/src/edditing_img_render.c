@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 12:36:00 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/26 18:09:35 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 01:09:42 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,38 +14,38 @@
 
 void	sky(t_txt *txt, t_sdl *sdl, t_all_sect *sects)
 {
-	render_img(txt->huds[7], sdl->rend, (t_scale) { 1000, 357, 200, 50 });
+	render_img(txt->huds[7], sdl->rend, (t_scale) { { 1000, 357 }, 200, 50 });
 	if (sects->sectors[sects->selected_sector].skyb == 0 &&
 												sects->selected_sector != -1)
-		render_img(txt->huds[8], sdl->rend, (t_scale) { 1200, 360, 50, 50 });
+		render_img(txt->huds[8], sdl->rend, (t_scale) { {1200, 360}, 50, 50 });
 	else if (sects->sectors[sects->selected_sector].skyb == 1 &&
 												sects->selected_sector != -1)
-		render_img(txt->huds[9], sdl->rend, (t_scale) { 1200, 360, 50, 50});
+		render_img(txt->huds[9], sdl->rend, (t_scale) { { 1200, 360 }, 50, 50});
 }
 
 void	door(t_txt *txt, t_sdl *sdl, t_all_sect *sects)
 {
-	render_img(txt->huds[10], sdl->rend, (t_scale) { 1000, 407, 200, 50 });
+	render_img(txt->huds[10], sdl->rend, (t_scale) { { 1000, 407 }, 200, 50 });
 	if (sects->sectors[sects->selected_sector].door == 0 &&
 												sects->selected_sector != -1)
-		render_img(txt->huds[8], sdl->rend, (t_scale) { 1200, 410, 50, 50 });
+		render_img(txt->huds[8], sdl->rend, (t_scale) { {1200, 410}, 50, 50 });
 	else if (sects->sectors[sects->selected_sector].door == 1 &&
 												sects->selected_sector != -1)
-		render_img(txt->huds[9], sdl->rend, (t_scale) { 1200, 410, 50, 50 });
+		render_img(txt->huds[9], sdl->rend, (t_scale) { {1200, 410}, 50, 50 });
 	else if (sects->sectors[sects->selected_sector].door == 2 &&
 												sects->selected_sector != -1)
-		render_img(txt->huds[21], sdl->rend, (t_scale) { 1200, 410, 50, 50 });
+		render_img(txt->huds[21], sdl->rend, (t_scale) { {1200, 410}, 50, 50 });
 }
 
 void	window(t_txt *txt, t_sdl *sdl, t_all_walls *walls, t_all_sect *sects)
 {
-	render_img(txt->huds[14], sdl->rend, (t_scale) { 1000, 457, 200, 50 });
+	render_img(txt->huds[14], sdl->rend, (t_scale) { {1000, 457}, 200, 50 });
 	if (walls->wall[walls->selected_wall].portal == -1 &&
 												sects->selected_sector == -1)
-		render_img(txt->huds[8], sdl->rend, (t_scale) { 1200, 460, 50, 50 });
+		render_img(txt->huds[8], sdl->rend, (t_scale) { {1200, 460}, 50, 50 });
 	else if (walls->wall[walls->selected_wall].portal == -2 &&
 												sects->selected_sector == -1)
-		render_img(txt->huds[9], sdl->rend, (t_scale) { 1200, 460, 50, 50 });
+		render_img(txt->huds[9], sdl->rend, (t_scale) { {1200, 460}, 50, 50 });
 }
 
 void	edditing_img_render(t_txt *txt, t_sdl *sdl, t_all_sect *sects,
