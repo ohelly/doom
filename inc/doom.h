@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/25 18:38:33 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/28 20:31:59 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,28 +40,58 @@
 # define min(a,b)             (((a) < (b)) ? (a) : (b))
 # define max(a,b)             (((a) > (b)) ? (a) : (b))
 # define clamp(a, mi,ma)      min(max(a,mi),ma)
-//# define VXS(x0,y0, x1,y1)    ((x0)*(y1) - (x1)*(y0))
-
-//Whether two number ranges overlap
 # define Overlap(a0,a1,b0,b1) (min(a0,a1) <= max(b0,b1) && min(b0,b1) <= max(a0,a1))
-//Whether two 2D boxes intersect
 # define IntersectBox(x0,y0, x1,y1, x2,y2, x3,y3) (Overlap(x0,x1,x2,x3) && Overlap(y0,y1,y2,y3))
 # define PointSide(px,py, x0,y0, x1,y1) vxs((x1)-(x0), (y1)-(y0), (px)-(x0), (py)-(y0))
-//# define Intersect(x1,y1, x2,y2, x3,y3, x4,y4) ((t_xy) { \
-    vxs(vxs(x1,y1, x2,y2), (x1)-(x2), vxs(x3,y3, x4,y4), (x3)-(x4)) / vxs((x1)-(x2), (y1)-(y2), (x3)-(x4), (y3)-(y4)), \
-    vxs(vxs(x1,y1, x2,y2), (y1)-(y2), vxs(x3,y3, x4,y4), (y3)-(y4)) / vxs((x1)-(x2), (y1)-(y2), (x3)-(x4), (y3)-(y4)) })
 
-# define SOUND_SHOOT	0
-# define SOUND_PICKUP	1
-# define SOUND_DEATH	2
-# define SOUND_INTERACT	3
-# define SOUND_E_ATTACK	4
-# define SOUND_LOSS		5
+# define SOUND_SHOOT			0
+# define SOUND_PICKUP			1
+# define SOUND_DEATH			2
+# define SOUND_INTERACT			3
+# define SOUND_E_ATTACK			4
+# define SOUND_LOSS				5
+# define SOUND_WEAPON_PICKUP	6
+# define SOUND_RELOAD			7
+# define SOUND_SCREAM			8
+# define SOUND_JUMP				9
+# define SOUND_DAMAGE			10
+# define SOUND_PISTOL			11
+# define SOUND_SHOTGUN			12
+# define SOUND_RIPPER			13
+# define SOUND_FOOT				14
+# define SOUND_EXPLOSIVE		15
+# define SOUND_CRASH			16
 
 # define ENEMY_STATE_IDLE	0
 # define ENEMY_STATE_DEAD	8
 # define ENEMY_STATE_HIT	9
 # define ENEMY_STATE_ATTACK	10
+
+# define OBJ_TYPE_BOX			0
+# define OBJ_TYPE_BREAKABLE		1
+# define OBJ_TYPE_EXPLOSIVE		2
+# define OBJ_TYPE_ENEMY_REG		10
+# define OBJ_TYPE_PISTOL		20
+# define OBJ_TYPE_SHOTGUN		21
+# define OBJ_TYPE_SMG			22
+# define OBJ_TYPE_AMMO_P		23
+# define OBJ_TYPE_AMMO_SH		24
+# define OBJ_TYPE_AMMO_SMG		25
+# define OBJ_TYPE_MED_SMALL		26
+# define OBJ_TYPE_MED_MEDIUM	27
+# define OBJ_TYPE_MED_BIG		28
+# define OBJ_TYPE_KEY			29
+
+# define PIC_TYPE_DECOR			0
+# define PIC_TYPE_SWITCH		1
+# define PIC_TYPE_END			2
+
+# define WEAPON_FOOT			0
+# define WEAPON_PISTOL			1
+# define WEAPON_SHOTGUN			2
+# define WEAPON_RIPPER			3
+
+# define SHOTS_NUM				128
 
 typedef struct	s_scaler
 {
@@ -74,10 +104,16 @@ typedef struct	s_scaler
 
 typedef struct	s_be
 {
-	int		x;
-	int		begin;
-	int		end;
+	int			x;
+	int			begin;
+	int			end;
 }				t_be;
+
+typedef struct	s_py_i
+{
+	int			y1;
+	int			y2;
+}				t_py_i;
 
 typedef struct	s_xy
 {
@@ -125,9 +161,11 @@ typedef struct	s_obj
 	int			states_frame;
 	float		col_size;
 	int			col_passable;
+	float		scale;
 	void		(*on_collision)(struct s_doom *doom, struct s_obj *obj);
 	void		(*on_interaction)(struct s_doom *doom, struct s_obj *obj);
 	void		(*on_hit)(struct s_doom *doom, struct s_obj *obj);
+	void		(*on_anim_end)(struct s_obj *obj);
 }				t_obj;
 
 typedef struct	s_data
@@ -137,6 +175,44 @@ typedef struct	s_data
 	int			*anim_count;
 	int			states_count;
 }				t_data;
+
+typedef	struct	s_cood
+{
+	int			x;
+	int			y;
+	int			n;
+	int			neighbor;
+	int			beginx;
+	int			endx;
+	float		u0;
+	float		u1;
+	float		yceil;
+	float		yfloor;
+	float		nyceil;
+	float		nyfloor;
+	int			txtx;
+	int			num;
+	t_xyz		v1;
+	t_xyz		v2;
+	t_xyz		t1;
+	t_xyz		t2;
+	t_xy		org1; 
+	t_xy		org2;
+	t_xy		scale1;
+	t_xy		scale2;
+	int			w1x; //left point
+	int			w2x; //right point
+	t_ab_i		wy; 
+	t_ab_i		wx; //current point
+	t_ab_i		cy;
+	t_ab_i		w1y;
+	t_ab_i		w2y;
+	t_ab_i		ny;
+	t_ab_i		nx;
+	t_ab_i		cny;
+	t_ab_i		n1y;
+	t_ab_i		n2y;
+}				t_cood;
 
 typedef struct	s_pics
 {
@@ -152,6 +228,8 @@ typedef struct	s_pics
 	int			anim_frame;
 	int			states_count;
 	int			states_frame;
+	t_cood		pcood;
+	int			vis;
 }				t_pics;
 
 typedef struct		s_player
@@ -180,69 +258,11 @@ typedef struct		s_player
 	int			shoots;
 	int			wall;
 	int			key;
+	int			dead;
 }				t_player;
 	float			col_size;
 
-typedef	struct	s_cood
-{
-	int			x;
-	int			y;
-	int			n;
-	int			neighbor;
-	int			beginx;
-	int			endx;
-	float		u0;
-	float		u1;
-	int			yceil;
-	int			yfloor;
-	int			nyceil;
-	int			nyfloor;
-	int			txtx;
-	int			ptxtx;
-	int			piccount;
-	int			picnum[64];
-	int			num;
-	float		pu0[64];
-	float		pu1[64];
-	int			pyceil[64];
-	int			pyfloor[64];
-	t_xyz		pv1[64];
-	t_xyz		pv2[64];
-	t_xyz		pt1[64];
-	t_xyz		pt2[64];
-	t_xy		porg1[64]; 
-	t_xy		porg2[64];
-	t_xy		pscale1[64];
-	t_xy		pscale2[64];
-	int			pw1x[64];
-	int			pw2x[64];
-	t_ab_i		pwy[64]; 
-	t_ab_i		pwx[64]; //current point
-	t_ab_i		pcy[64];
-	t_ab_i		pw1y[64];
-	t_ab_i		pw2y[64];
 
-	t_xyz		v1;
-	t_xyz		v2;
-	t_xyz		t1;
-	t_xyz		t2;
-	t_xy		org1; 
-	t_xy		org2;
-	t_xy		scale1;
-	t_xy		scale2;
-	int			w1x; //left point
-	int			w2x; //right point
-	t_ab_i		wy; 
-	t_ab_i		wx; //current point
-	t_ab_i		cy;
-	t_ab_i		w1y;
-	t_ab_i		w2y;
-	t_ab_i		ny;
-	t_ab_i		nx;
-	t_ab_i		cny;
-	t_ab_i		n1y;
-	t_ab_i		n2y;
-}				t_cood;
 
 typedef struct	s_sectors
 {
@@ -372,7 +392,7 @@ typedef struct	s_doom
 	t_obj		*objs;
 	t_data		*objs_data;
 	t_pics		*pics;
-	t_pics		shot_pics[64];
+	t_pics		shot_pics;
 	int			num_shots;
 	int			isshoot;
 	t_data		*pics_data;
@@ -405,11 +425,13 @@ typedef struct	s_doom
 	int			change_y;
 	//int			change_tmp;
 	int			pic_interaction[64];
-	int			obj_ind[64];
+	int			*obj_ind;
+	int			*order;
 	int			obj_num;
+	int			maplines;
 	struct s_enemy		*enemies;
 	t_music		music[2];
-	t_sound		sound[10];
+	t_sound		sound[17];
 }				t_doom;
 
 typedef struct		s_enemy
@@ -433,14 +455,56 @@ typedef struct		s_enemy
 }					t_enemy;
 
 int		findpicpoints(t_doom *doom, t_pics *pic, float w);
-int		loadall(t_doom *doom);
-int		initall(t_doom *doom);
+
+int		load_all(t_doom *doom, char **av);
+char	**load_map(t_doom *doom, char *av);
+int		load_texture_data(char **map, t_doom *doom);
+int		load_weapon_data(char **map, t_doom *doom);
+int		load_obj_data(char **map, t_doom *doom);
+int		load_pic_data(char **map, t_doom *doom);
+int		load_params(t_doom *doom, char **map);
+int		load_image(char *map, int *image, t_img *img);
+int		new_image(char *str, t_img *img, int w, int h);
+int		drawobj(t_doom *doom, t_obj *obj, t_xy pos);
+void	obj_anim_next(t_obj *obj);
+int		check_light(int color, t_sectors *s);
+int		calc_move(t_doom *doom, t_player *player);
+int		calc_is_wall(t_doom *doom, t_player *player);
+int		calc_jump(t_doom *doom, t_player *player, t_sectors *sectors, t_fps fps);
+int		doors(t_doom *doom, t_player player, t_fps fps);
+int		animation(t_doom *doom, t_fps fps);
+int		intersect(t_xyz *t1, t_xyz *t2, t_cood *cood);
+int		point_side(t_xy d, t_xy v1, t_xy v2);
+int		intersect_box(t_xy p, t_xy d, t_xy v1, t_xy v2);
+int		find_scales(t_doom *doom, t_cood *cood, t_player player);
+int		find_yceil_yfloor(t_doom *doom, t_sectors *s, t_cood *cood, t_player player);
+int		calc_pics(t_doom *doom, t_pics *pic, t_player player);
+void	render_walls(t_doom *doom, t_sectors *s, t_cood *cood, t_player player);
+void	drawsky(t_doom *doom, t_player player, t_texture *sky, t_img *img);
+int		draw_walls(t_doom *doom, t_player player);
+t_img	wpn_get_image(t_doom *doom, t_weapon *wpn);
+void	wpn_anim_next(t_doom *doom, t_player *player, t_weapon *wpn, t_fps fps);
+void	wpn_state_change(t_weapon *wpn, int state);
+int		render_weapon(t_doom *doom, t_weapon *wpn);
+void	vline2(int x, t_ab_i wy, t_scaler ty, t_doom *doom);
+void	vline3(int x, t_ab_i wy, t_scaler ty, t_doom *doom);
+void	vlineobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom);
+int		render_pics(t_doom *doom, t_pics *pics, int x) ;
+t_scaler	scaler_init(t_ab_i wy, int cya, int u0, int u1);
+void	to_map_coordinates(float mapY, t_cood *cood, t_xyz *map, t_player player);
+int		scaler_next(t_scaler* i);
+int		draw_ceil_floor(t_doom *doom, t_sectors *s, t_cood *cood, t_player player);
+int		calc_sector(t_doom *doom, t_sectors *s, t_cood *cood, t_player player);
+void	draw_scope(t_sdl *sdl);
 int		countall(t_doom *doom, char **map);
 int		loadvertexes(t_xy *v, char *str);
 int		loadsectors(t_sectors *s, t_xy *v, char *str);
 char	*todigit(char *str, float *data);
-int		loadobjs(t_doom *doom, t_obj *obj, t_data *objs_data, char *str);
+int		loadobjs(t_doom *doom, char *str);
+int		shoot(t_doom *doom);
 int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str);
+t_img	pic_get_image(t_doom *doom, t_pics *pic);
+void	pic_anim_next(t_pics *pic);
 int		loadplayer(t_player *player, char *str);
 int		load_hud(t_doom *doom);
 int		loadfonts(t_hud *hud);
@@ -459,6 +523,7 @@ t_img	weapon_get_image(t_doom *doom, t_weapon *weapon);
 int		player_move(t_doom *doom, t_xy move_pos);
 int		player_take_damage(t_doom *doom, int damage);
 int		player_blood_update(t_doom *doom);
+char	*ft_strjoinc(char *s1, char const *s2);
 //objects
 int		objects_update(t_doom *doom);
 void	on_collision_key(t_doom *doom, t_obj *obj);
@@ -467,6 +532,11 @@ t_img	obj_get_image(t_doom *doom, t_obj *obj);
 //enemies
 void	enemies_update(t_doom *doom);
 t_enemy	*create_enemy_default(t_doom *doom, t_obj *obj);
+t_enemy	*get_enemy_by_obj_id(t_doom *doom, int id);
+void	enemy_on_framestart(t_doom *doom, t_enemy *enemy);
+void	enemy_on_attack(t_doom *doom, t_enemy *enemy);
+void	enemy_on_hit(t_doom *doom, t_enemy *enemy);
+void	enemy_obj_on_hit(t_doom *doom, t_obj *obj);
 //collisions
 int		collision_box(t_xy p1, t_xy p2, t_xy v1, t_xy v2);
 int		collision_circle(t_xy pos1, float rad1, t_xy pos2, float rad2);
@@ -476,7 +546,7 @@ int		overlap(float a0, float a1, float b0, float b1);
 int		sound_free_everything(t_doom *doom);
 int		play_music(t_doom *doom, int index);
 int		play_sound(t_doom *doom, int index);
-int		load_music(t_doom *doom);
+void	load_music(t_doom *doom);
 //math
 t_xy	rot_to_v2(float rot);
 float	v2_to_rot(t_xy v2);
@@ -488,5 +558,19 @@ t_xy	v2_normalize(t_xy v2);
 float	distance(t_xy p1, t_xy p2);
 float	rad_to_deg(float rad);
 
+void	close_program(SDL_Event ev, t_doom *doom);
+void	jump_sprint_crouch(t_doom *doom, SDL_Event ev,
+t_player *player, t_sectors *s);
+void	reload_pistol(SDL_Event ev, t_doom *doom,
+t_weapon weapon, t_player *player);
+void	change_all_weapons(t_weapon *weapon, SDL_Event ev,
+t_player *player, int *allweapons);
+void	change_weapon(t_player *player, t_weapon *weapon, int n);
+int		find_on_hit_obj(t_doom *doom);
+int		find_pic_interaction(t_doom *doom, t_player player, t_pics *pics);
+int		find_door(t_doom *doom, t_player player);
+int		shoot_wall(t_doom *doom, t_player player, t_sectors *sect, t_pics *pic);
+void	left_mouse_keydown(t_doom *doom, SDL_Event ev,
+t_weapon *weapon, t_player *player);
 
 #endif

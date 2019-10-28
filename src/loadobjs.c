@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:50:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/25 18:24:03 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/28 20:09:17 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,19 @@ void	obj_anim_next(t_obj *obj)
 	int state;
 	int anim_frame;
 
+	if (obj->enabled == 0)
+		return ;
 	state = obj->states_frame;
 	if (obj->anim_count[state] <= 1)
 		return ;
 	obj->anim_frame++;
-	if (obj->anim_frame >= obj->anim_count[state] || obj->images[state][obj->anim_frame] == -1)
+	if (obj->anim_frame >= obj->anim_count[state] ||
+	obj->images[state][obj->anim_frame] == -1)
+	{
 		obj->anim_frame = 0;
+		if (obj->on_anim_end != NULL)
+			obj->on_anim_end(obj);
+	}
 }
 
 t_img	obj_get_image(t_doom *doom, t_obj *obj)
@@ -55,38 +62,62 @@ int		obj_collision_key_pickup(t_doom *doom, t_obj *obj)
 {
 	obj->enabled = 0;
 	play_sound(doom, SOUND_PICKUP);
-	printf("Picked up key with %d id!\n", obj->id);
 	doom->player.key = 1;
 }
 
 int		obj_collision_weapon_pickup(t_doom *doom, t_obj *obj)
 {
+	int index_offset;
+
+	index_offset = OBJ_TYPE_PISTOL - 1;
 	obj->enabled = 0;
-	play_sound(doom, SOUND_PICKUP);
-	printf("Picked up weapon with %d type!\n", obj->type);
-	doom->player.allweapons[obj->type - 3] = 1;
-	doom->player.weapon = obj->type - 3;
+	play_sound(doom, SOUND_WEAPON_PICKUP);
+	doom->player.allweapons[obj->type - index_offset] = 1;
+	doom->player.weapon = obj->type - index_offset;
 }
 
-int		obj_collision_ammo_pickup(t_doom *doom, t_obj *obj)
+void	obj_collision_ammo_pickup(t_doom *doom, t_obj *obj)
 {
-	if (doom->player.weapon)
+	int weapon;
+	int ammo;
+
+	if (obj->type == OBJ_TYPE_AMMO_P)
 	{
-		obj->enabled = 0;
-		play_sound(doom, SOUND_PICKUP);
-		printf("Picked up 10 ammo!\n");
-		doom->weapon[doom->player.weapon].ammo += 10;
+		weapon = 1;
+		ammo = 10;
 	}
+	else if (obj->type == OBJ_TYPE_AMMO_SH)
+	{
+		weapon = 2;
+		ammo = 5;
+	}
+	else if (obj->type == OBJ_TYPE_AMMO_SMG)
+	{
+		weapon = 3;
+		ammo = 20;
+	}
+	else
+		return ;
+	doom->weapon[weapon].ammo += ammo;
+	obj->enabled = 0;
+	play_sound(doom, SOUND_WEAPON_PICKUP);
 }
 
 int		obj_collision_medkit_pickup(t_doom *doom, t_obj *obj)
 {
+	int hp;
+
+	if (obj->type == OBJ_TYPE_MED_SMALL)
+		hp = 10;
+	else if (obj->type == OBJ_TYPE_MED_MEDIUM)
+		hp = 30;
+	else if (obj->type == OBJ_TYPE_MED_BIG)
+		hp = 60;
 	if (doom->player.hp < 100)
 	{
 		obj->enabled = 0;
 		play_sound(doom, SOUND_PICKUP);
-		printf("Picked up medkit!\n");
-		doom->player.hp += 50;
+		doom->player.hp += hp;
 		if (doom->player.hp > 100)
 			doom->player.hp = 100;
 	}
@@ -120,14 +151,32 @@ int		create_obj_medkit(t_doom *doom, t_obj *obj)
 	obj->on_collision = obj_collision_medkit_pickup;
 }
 
+void	obj_anim_end_disable(t_obj *obj)
+{
+	obj->enabled = 0;
+}
+
 void	obj_hit_explosive(t_doom *doom, t_obj *obj)
 {
+	int		i;
+	t_obj	*o;
+
+	play_sound(doom, SOUND_EXPLOSIVE);
 	obj_state_change(obj, 1);
+	obj->on_anim_end = obj_anim_end_disable;
+	i = 0;
+	while (i < doom->num.objs)
+	{
+		o = &doom->objs[i];
+		if (obj->n != i && o->on_hit != NULL && distance(o->p, obj->p) < 20.0f)
+			o->on_hit(doom, o);
+		i++;
+	}
 }
 
 int		create_obj_explosive(t_doom *doom, t_obj *obj)
 {
-	obj->col_passable = 1;
+	obj->col_passable = 0;
 	obj->col_size = 3.0f;
 	obj->on_hit = obj_hit_explosive;
 }
@@ -146,104 +195,60 @@ int		create_obj_breakable(t_doom *doom, t_obj *obj)
 
 int		create_obj_enemy_default(t_doom *doom, t_obj *obj)
 {
-	//enemies should ALWAYS be passable!
 	obj->col_passable = 1;
-	//col_size is just for not colliding with walls
 	obj->col_size = 5.0f;
+	obj->scale = 6.0f;
 	create_enemy_default(doom, obj);
-}
-
-void	obj_collision_ammo(t_doom *doom, t_obj *obj)
-{
-	int weapon;
-	int ammo;
-
-	if (obj->type == 10)
-	{
-		weapon = 1;
-		ammo = 10;
-	}
-	else if (obj->type == 11)
-	{
-		weapon = 2;
-		ammo = 5;
-	}
-	else if (obj->type == 12)
-	{
-		weapon = 3;
-		ammo = 20;
-	}
-	else
-		return ;
-	doom->weapon[weapon].ammo += ammo;
-	play_sound(doom, SOUND_PICKUP);
-	obj->enabled = 0;
-	printf("Picked up ammo!\n");
-}
-
-void	obj_collision_medkit(t_doom *doom, t_obj *obj)
-{
-	int health;
-
-	if (obj->type == 13)
-		health = 10;
-	else if (obj->type == 14)
-		health = 30;
-	if (obj->type == 15)
-		health = 60;
-	doom->player.hp += health;
-	doom->player.hp = clamp(doom->player.hp, 0, 100);
-	obj->enabled = 0;
-	play_sound(doom, SOUND_PICKUP);
 }
 
 int		create_obj(t_doom *doom, t_obj *obj)
 {
-	printf("Creating obj of type %d\n", obj->type);
-	if (obj->type == 0)
+	if (obj->type == OBJ_TYPE_BOX)
 		create_obj_box(doom, obj);
-	else if (obj->type == 1)
-		create_obj_key(doom, obj);
-	else if (obj->type == 2)
+	else if (obj->type == OBJ_TYPE_BREAKABLE)
 		create_obj_breakable(doom, obj);
-	else if (obj->type == 3)
+	else if (obj->type == OBJ_TYPE_EXPLOSIVE)
+		create_obj_explosive(doom, obj);
+	else if (obj->type == OBJ_TYPE_ENEMY_REG)
 		create_obj_enemy_default(doom, obj);
-	else if (obj->type == 4 || obj->type == 5 || obj->type == 6)
+	else if (obj->type == OBJ_TYPE_PISTOL ||
+	obj->type == OBJ_TYPE_SHOTGUN || obj->type == OBJ_TYPE_SMG)
 		create_obj_weapon(doom, obj);
-	else if (obj->type == 7)
+	else if (obj->type == OBJ_TYPE_AMMO_P ||
+	obj->type == OBJ_TYPE_AMMO_SH || obj->type == OBJ_TYPE_AMMO_SMG)
 		create_obj_ammo(doom, obj);
-	else if (obj->type == 8)
+	else if (obj->type == OBJ_TYPE_MED_SMALL ||
+	obj->type == OBJ_TYPE_MED_MEDIUM || obj->type == OBJ_TYPE_MED_BIG)
 		create_obj_medkit(doom, obj);
+	else if (obj->type == OBJ_TYPE_KEY)
+		create_obj_key(doom, obj);
 	return (1);
-	//create_obj_decor(doom, obj);
-	//create_obj_key(doom, obj);
 }
 
-int		loadobjs(t_doom *doom, t_obj *obj, t_data *objs_data, char *str)
+int		loadobjs(t_doom *doom, char *str)
 {
 	static int	n = 0;
 	float		tmp;
-	int			id;
 	int			i;
 	int			j;
 	t_obj		*o;
 
 	o = &doom->objs[n];
 	str = todigit(str, &tmp);
-	id = (int)tmp;
+	o->id = (int)tmp;
 	str = todigit(str, &o->p.y);
 	str = todigit(str, &o->p.x);
 	str = todigit(str, &tmp);
-	o->id = id;
 	o->sector = (int)tmp;
-	o->type = objs_data[id].type;
-	o->images = objs_data[id].images;
-	o->states_count = objs_data[id].states_count;
-	o->anim_count = objs_data[id].anim_count;
-	o->images = objs_data[id].images;
+	o->type = doom->objs_data[o->id].type;
+	o->images = doom->objs_data[o->id].images;
+	o->states_count = doom->objs_data[o->id].states_count;
+	o->anim_count = doom->objs_data[o->id].anim_count;
+	o->images = doom->objs_data[o->id].images;
 	o->enabled = 1;
 	o->n = n;
-	if (o->type == 1)
+	o->scale = 4.0f;
+	if (o->type == OBJ_TYPE_KEY)
 		doom->hud->key = o;
 	create_obj(doom, o);
 	n++;

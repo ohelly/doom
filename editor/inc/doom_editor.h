@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/22 14:31:32 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/28 19:43:19 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,12 +25,18 @@
 # include "get_next_line.h"
 # define WIDTH 1280
 # define HEIGHT 720
-# define BUFF_SIZE 1
 # define DELAY_ERR 50
-# define COUNT_T 21
-# define COUNT_H 21
-# define COUNT_O 21
+# define COUNT_T 27
+# define COUNT_H 22
+# define COUNT_STOBJ 32
 # define COUNT_SKY 3
+# define COUNT_SP 6
+# define COUNT_OP 16
+# define COUNT_WP 3
+# define COUNT_FOOT 3
+# define COUNT_PIST 12
+# define COUNT_SHOTG 8
+# define COUNT_RIPPER 7
 
 /*
 ** POS OF X AND Y
@@ -227,9 +233,19 @@ typedef struct			s_sdl
 typedef struct			s_txt
 {
 	SDL_Texture			*wall[COUNT_T];
-	SDL_Texture			*obj[21];
+	SDL_Surface			*swall[COUNT_T];
+	SDL_Surface			*stobj[COUNT_STOBJ];
+	SDL_Texture			*previews[COUNT_SP];
+	SDL_Texture			*previewo[COUNT_OP];
+	SDL_Texture			*previeww[COUNT_WP];
 	SDL_Texture			*sky[COUNT_SKY];
+	SDL_Surface			*ssky[COUNT_SKY];
 	SDL_Texture			*huds[COUNT_H];
+	SDL_Surface			*foot[COUNT_FOOT];
+	SDL_Surface			*pistol[COUNT_PIST];
+	SDL_Surface			*shotgun[COUNT_SHOTG];
+	SDL_Surface			*ripper[COUNT_RIPPER];
+	SDL_Surface			*shot;
 	int					ind_sky;
 }						t_txt;
 
@@ -245,6 +261,7 @@ typedef struct			s_spr_wall
 	int					anim;
 	int					frame;
 	int					sector;
+	int					txt;
 }						t_spr_wall;
 
 typedef struct			s_all_spr_wall
@@ -264,6 +281,7 @@ typedef struct			s_spr_floor
 	t_v2				pos;
 	int					anim;
 	int					frame;
+	int					txt;
 }						t_spr_floor;
 
 typedef struct			s_all_spr_floor
@@ -272,6 +290,32 @@ typedef struct			s_all_spr_floor
 	int					select_obj;
 	t_spr_floor			obj[1000];
 }						t_all_spr_floor;
+
+/*
+** STRUCT FOR PLAYER
+*/
+
+typedef struct			s_player
+{
+	t_v2				pos;
+	int					angle;
+	int					sec;
+	int					hp;
+	int					weapon;
+	int					end;
+}						t_player;
+
+/*
+** STRUCT FOR EXPORT
+*/
+
+typedef struct		s_exp
+{
+	int				wall[COUNT_T];
+	int				floor[COUNT_T];
+	int				ceil[COUNT_T];
+	int				stobj[COUNT_OP];
+}					t_export;
 
 /*
 ** MAIN STRUCT
@@ -287,12 +331,13 @@ typedef struct			s_doom
 	t_all_sect			*sects;
 	t_all_walls			*walls;
 	t_file				*file;
-	char				*save_name;
 	t_swall				*swall;
 	t_hud				*hud;
 	t_txt				*txt;
 	t_all_spr_wall		*aspr;
 	t_all_spr_floor		*obj;
+	t_player			*player;
+	t_export			*exp;
 	int					sh;
 	t_v2				map_pos;
 	t_v2				move_vector;
@@ -363,8 +408,9 @@ void					render_img(SDL_Texture *tex, SDL_Renderer *ren,
 void					edditing_img_render(t_txt *txt, t_sdl *sdl,
 										t_all_sect *sects, t_all_walls *walls);
 void					main_hud_for_edditing(t_txt *txt, t_sdl *sdl,
-															t_all_walls *walls);
-void					object_img_render(t_txt *txt, t_sdl *sdl);
+										t_all_walls *walls, t_all_sect *sects);
+void					object_img_render(t_txt *txt, t_sdl *sdl,
+									t_all_spr_wall *aspr, t_all_spr_floor *obj);
 void					draw_sprite(t_doom *doom, int color);
 void					draw_building_line(t_doom *doom, int color);
 void					draw_sector(t_doom *doom, int sector, int color);
@@ -374,8 +420,42 @@ int						draw_rectangle(t_doom *doom, t_v2 pos, int color,
 int						check_sprite(t_doom *doom, int sw, int aw);
 void					correction_height_sprite(t_doom *doom);
 void					height_spr(int x, int y, t_all_spr_wall *aspr,
-															t_all_sect *sectors);
+													t_all_sect *sectors);
 int						lines_intersect_loop(t_doom *doom, t_v2 p1, t_v2 p2);
+int						load_header(t_doom *doom, char *line);
+int						scalar_product(t_v2 v1, t_v2 v2, t_v2 v3);
+void					export_vert(t_doom *doom);
+int						sorted_vert(t_doom *doom, int index);
+int						count_wall(t_doom *doom, int ind);
+void					export_sector(t_doom *doom);
+int						check_rotation(t_doom *doom, int ind, t_vertex *list);
+void					output_wall(t_doom *doom, int count, int ind);
+void					output_wall_rev(t_doom *doom, int count, int ind);
+void					sel_txtc(int x, int y, t_all_sect *sects);
+void					sel_txtf(int x, int y, t_all_sect *sects);
+int						init_preview(t_doom *doom);
+void					sel_txt_spr(int x, int y, t_all_spr_wall *aspr);
+void					sel_txt_obj(int x, int y, t_all_spr_floor *obj);
+void					set_player(t_doom *doom);
+void					draw_player(t_doom *doom, int color);
+void					set_end_player(t_doom *doom);
+void					render_player_settings(t_txt *txt, t_player *player, t_sdl *sdl);
+void					set_weapon(int x, int y, t_player *player);
+void					export_all_texture(t_doom *doom);
+void					export_wall_tx(t_doom *doom);
+int						load_txt_to_surface(t_txt *txt);
+void					export_ceil_tx(t_doom *doom);
+void					export_floor_tx(t_doom *doom);
+int						load_surface(t_doom *doom);
+void					export_sky_tx(t_doom *doom);
+void					export_shot_tx(t_doom *doom);
+void					export_weapon_data(t_doom *doom);
+void					out_img_weapon(SDL_Surface *sur, t_file *file);
+int						load_weapon(t_doom *doom);
+void					export_stobj_data(t_doom *doom);
+int						load_st_obj(t_doom *doom);
+int						load_pickobj(t_doom *doom);
+void					output_text_stobj(int ind, t_doom *doom);
 
 /*
 **	Math
