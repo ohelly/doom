@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 20:58:37 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 18:50:14 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 18:57:39 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void		render_weapon2(t_doom *doom, t_xy scale, t_img img, int *pix)
 	int		x;
 	t_xy	t;
 
-	x = WIDTH / 2;
+	x = 0;;
 	while (x < WIDTH)
 	{
 		t.y = 0;
