@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 20:14:26 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 12:43:46 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 14:39:50 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,13 @@ int			renew2(t_doom *doom, int *rensects)
 	x = 0;
 	while (x < doom->num.sectors)
 	{
+		y = 0;
+		while (y < WIDTH)
+		{
+			doom->item[x].ytop[y] = 0;
+			doom->item[x].ybot[y] = HEIGHT - 1;
+			y++;
+		}
 		doom->lookwall[x] = -1;
 		doom->item[x].sector = 0;
 		rensects[x] = 0;

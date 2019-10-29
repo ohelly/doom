@@ -30,5 +30,6 @@ int		save(t_doom *doom)
 	export_player(doom);
 	close(doom->file->fd);
 	doom->hud->msg = "Saved file!";
-	exit(0);
+	//exit(0);
+	return (0);
 }
