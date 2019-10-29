@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 18:08:49 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/27 20:59:23 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 17:31:03 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,13 +65,18 @@ void		drawweapon(t_doom *doom, t_weapon *wpn)
 {
 	if (!(wpn_foot(doom, wpn)))
 		return ;
+	//printf("1\n");
 	shake_timer(doom, doom->fps);
+	//printf("2\n");
 	ripper_animation(doom, wpn);
+	//printf("3\n");
 	if (doom->player.reload && wpn->type == WEAPON_PISTOL)
 		wpn->states_frame = 2;
 	if (wpn->states_frame != 0)
 		wpn_anim_next(doom, &doom->player, wpn, doom->fps);
+		//printf("4\n");
 	render_weapon(doom, wpn);
+	//printf("5\n");
 	if (wpn->type == WEAPON_RIPPER && doom->lkey
 	&& wpn->anim_frame % 4 == 0 && wpn->ammo)
 	{

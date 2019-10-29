@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:15:03 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 01:05:46 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 18:30:24 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ int		loadsectors(t_sectors *s, t_xy *v, char *str)
 
 	vnum = ((takencount(str) - 7) / 3);
 	s[n].npoints = vnum;
+	//printf("vnum - %d", vnum);
 	if (!(s[n].vert = ft_memalloc(sizeof(t_xy) * (vnum + 1))))
 		return (0);
 	if (!(s[n].neighbors = ft_memalloc(sizeof(int) * vnum)))

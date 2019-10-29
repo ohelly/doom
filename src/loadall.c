@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:21:04 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 10:57:59 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 18:08:59 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ int		load_data(t_doom *doom, char **map)
 		else if (ft_strcmp(map[i], "weapon_data") == 0)
 			load_weapon_data(map, doom, i + 1);
 		else if (ft_strcmp(map[i], "obj_data") == 0)
-		{
 			load_obj_data(map, doom, i + 1);
-		}
 		else if (ft_strcmp(map[i], "pic_data") == 0)
 			load_pic_data(map, doom, i + 1);
 		else
