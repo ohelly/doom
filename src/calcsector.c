@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   calcsector.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 20:15:57 by dtoy              #+#    #+#             */
 /*   Updated: 2019/10/29 17:30:10 by dtoy             ###   ########.fr       */

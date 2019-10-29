@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   drawwalls.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 20:14:26 by dtoy              #+#    #+#             */
 /*   Updated: 2019/10/29 17:27:31 by dtoy             ###   ########.fr       */

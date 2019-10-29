@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calciswall.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 19:23:01 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 08:49:52 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 17:31:50 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ int		calc_newsector(t_xy d, t_doom *doom, t_player *player)
 	px_p1x(&p, &p1, d, player);
 	sect = &doom->sectors[player->sector];
 	v = sect->vert;
-	n = 0;
-	while (n < sect->npoints)
+	n = -1;
+	while (++n < sect->npoints)
 	{
 		if (sect->neighbors[n] >= 0 && collision_box_dir(p, p1, v[n], v[n + 1]))
 		{
@@ -47,7 +47,6 @@ int		calc_newsector(t_xy d, t_doom *doom, t_player *player)
 				doom->player.fall = 1;
 			break ;
 		}
-		n++;
 	}
 	player_move(doom, d);
 	return (0);

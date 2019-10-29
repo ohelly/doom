@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   render_walls.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 18:59:19 by dtoy              #+#    #+#             */
 /*   Updated: 2019/10/29 17:33:14 by dtoy             ###   ########.fr       */

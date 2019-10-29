@@ -316,7 +316,6 @@ typedef struct		s_item
 	int				ybot[WIDTH];
 }					t_item;
 
-
 typedef struct		s_hudel
 {
 	TTF_Font		*f;
@@ -470,8 +469,6 @@ int					calc_jump(t_player *player, t_sectors *sectors, t_fps fps);
 int					doors(t_doom *doom, t_player player, t_fps fps);
 int					animation(t_doom *doom, t_fps fps);
 int					intersect(t_xyz *t1, t_xyz *t2, t_cood *cood);
-//int					point_side(t_xy d, t_xy v1, t_xy v2);
-//int					intersect_box(t_xy p, t_xy d, t_xy v1, t_xy v2);
 int					find_scales(t_cood *cood);
 int					find_yceil_yfloor(t_doom *doom, t_sectors *s,
 t_cood *cood, t_player player);
