@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 17:24:41 by njacobso          #+#    #+#             */
-/*   Updated: 2019/10/29 01:51:41 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 04:02:49 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int		walls_collision(t_doom *doom, t_xy pl)
 			hole.y = sect->neighbors[n] < 0 ? -9e9 :
 			MIN(sect->ceil, doom->sectors[sect->neighbors[n]].ceil);
 			if (hole.y < doom->player.where.z + HEADMARGIN ||
-				hole.x > doom->player.where.z - EYEHEIGHT + KNEEHEIGHT)
+				hole.x > doom->player.where.z - height + KNEEHEIGHT)
 				return (0);
 		}
 		n++;

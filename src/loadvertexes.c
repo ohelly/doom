@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:49:53 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 02:57:01 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 03:20:36 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,14 @@ int		loadvertexes(t_xy *v, char *str)
 	str = todigit(str, &y);
 	while (*str)
 	{
-		v[n].y = y / 5.f;
+		v[n].y = y / 4.f;
 		if (!(str = todigit(str, &tmp)))
 		{
 			break ;
 			n++;
 		}
 		else
-			v[n].x = tmp / 5.f;
+			v[n].x = tmp / 4.f;
 		n++;
 	}
 	return (0);
