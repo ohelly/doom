@@ -100,37 +100,43 @@ int		player_blood_update(t_doom *doom)
 	int		i;
 	int		size;
 	float	intensity;
+	t_player *pl;
 
-	intensity = doom->player.blood;
+	pl = &doom->player;
+	intensity = pl->flash_duration;
 	if (intensity <= 0)
 		return (0);
 	size = WIDTH * HEIGHT;
 	i = 0;
 	while (i < size)
 	{
-		doom->sdl->pix[i] = rgb_mix(0xff0000, doom->sdl->pix[i], intensity);
+		doom->sdl->pix[i] = rgb_mix(pl->flash_color, doom->sdl->pix[i], intensity);
 		i++;
 	}
-	doom->player.blood -= doom->fps.time_frame;
-	doom->player.blood = CLAMP(doom->player.blood, 0.0f, 1.0f);
+	pl->flash_duration -= doom->fps.time_frame;
+	pl->flash_duration = CLAMP(pl->flash_duration, 0.0f, 1.0f);
 	return (1);
 }
 
 int		player_take_damage(t_doom *doom, int damage)
 {
-	if (doom->player.hp < 0)
+	t_player *pl;
+
+	pl = &doom->player;
+	if (pl->hp < 0)
 		return (0);
-	doom->player.blood = 0.4f;
-	doom->player.hp -= damage;
-	if (!doom->player.dead)
+	pl->flash_color = 0xff0000;
+	pl->flash_duration = 0.4f;
+	pl->hp -= damage;
+	if (!pl->dead)
 		play_sound(doom, SOUND_DAMAGE);
-	if (doom->player.hp <= 0)
+	if (pl->hp <= 0)
 	{
-		if (!doom->player.dead)
+		if (!pl->dead)
 			play_sound(doom, SOUND_SCREAM);
-		doom->player.blood = 1.0f;
-		doom->player.dead = 1;
-		doom->player.where.z = doom->sectors[doom->player.sector].floor + 2;
+		pl->flash_duration = 1.0f;
+		pl->dead = 1;
+		pl->where.z = doom->sectors[pl->sector].floor + 2;
 	}
 	return (1);
 }
