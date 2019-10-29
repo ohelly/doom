@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 10:02:57 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 09:16:00 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -444,9 +444,9 @@ typedef struct		s_enemy
 }					t_enemy;
 
 int					findpicpoints(t_doom *doom, t_pics *pic, float w);
-int					load_all(t_doom *doom, char *av);
+int					load_all(t_doom *doom, char **av);
 int					load_level(t_doom *doom, char **av);
-int					load_map(t_doom *doom, char *av);
+int					load_map(char **map, char *av);
 int					load_texture_data(char **map, t_doom *doom, int i);
 int					load_weapon_data(char **map, t_doom *doom, int i);
 int					load_obj_data(char **map, t_doom *doom, int i);

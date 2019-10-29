@@ -30,27 +30,26 @@ static int	count_map_lines(char *av)
 	return (i);
 }
 
-int			load_map(t_doom *doom, char *av)
+int			load_map(char **map, char *av)
 {
 	int		fd;
 	int		i;
 	char	*line;
 
 	i = count_map_lines(av);
-	if (!(doom->map = (char**)ft_memalloc(sizeof(char*) * (i + 1))))
+	if (!(map = (char**)ft_memalloc(sizeof(char*) * (i + 1))))
 		return (0);
 	fd = open(av, O_RDONLY);
 	
 	i = 0;
 	while (get_next_line(fd, &line))
 	{
-	//	printf("Ok\n");
-		if (!(doom->map[i] = ft_strdup(line)))
+		if (!(map[i] = ft_strdup(line)))
 			return (0);
 		free(line);
 		i++;
 	}
-	doom->map[i] = NULL;
+	map[i] = NULL;
 	close(fd);
 	return (1);
 }

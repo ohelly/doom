@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:14:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 08:46:35 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 09:08:32 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int		validate_av(int ac, char **av)
 
 int		load_level(t_doom *doom, char **av)
 {
-	if (!(load_all(doom, av[1])))
+	if (!(load_all(doom, av)))
 		return (0);
 	return (1);
 }
@@ -55,6 +55,10 @@ int		main(int ac, char **av)
 	if (!(validate_av(ac, av)))
 		return (0);
 	if (!(doom = (t_doom*)ft_memalloc(sizeof(t_doom))))
+		return (0);
+	doom->ac = ac;
+	doom->av = av;
+	if (!(doom->sdl = (t_sdl*)ft_memalloc(sizeof(t_sdl))))
 		return (0);
 	load_level(doom, av);
 	return (0);

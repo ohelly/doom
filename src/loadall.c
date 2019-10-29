@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:21:04 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 08:47:30 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 09:16:29 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,12 +48,9 @@ int		load_data(t_doom *doom, char **map)
 	return (0);
 }
 
-int		load_all(t_doom *doom, char *av)
+int		load_all(t_doom *doom, char **av)
 {
-	
-	if (!(doom->sdl = (t_sdl*)ft_memalloc(sizeof(t_sdl))))
-		return (0);
-	if (!(load_map(doom, av)))
+	if (!(load_map(doom->map, av[1])))
 		return (0);
 	load_data(doom, doom->map);
 	load_params(doom, doom->map);
