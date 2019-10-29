@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 15:44:15 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 16:38:22 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -401,6 +401,7 @@ typedef struct		s_doom
 	int				level;
 	char			**av;
 	int				enem_n[WIDTH];
+	int				difficult;
 	struct s_enemy	*enemies;
 	t_music			music[2];
 	t_sound			sound[17];
