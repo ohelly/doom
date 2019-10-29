@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 12:42:36 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 17:27:08 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -237,13 +237,15 @@ typedef struct		s_player
 	int				weapon;
 	int				allweapons[4];
 	int				hp;
-	float			blood;
 	float			col_size;
 	int				reload;
 	int				shoots;
 	int				wall;
 	int				key;
 	int				dead;
+	int				f_col;
+	float			f_dur;
+	int				won;
 }					t_player;
 
 typedef struct		s_sectors
@@ -314,7 +316,6 @@ typedef struct		s_item
 	int				ybot[WIDTH];
 }					t_item;
 
-
 typedef struct		s_hudel
 {
 	TTF_Font		*f;
@@ -334,6 +335,7 @@ typedef struct		s_hud
 	TTF_Font		*font;
 	t_hudel			health;
 	t_hudel			ammo;
+	t_hudel			message;
 	struct s_obj	*key;
 }					t_hud;
 
@@ -371,7 +373,7 @@ typedef struct		s_doom
 	t_player		player;
 	t_num			num;
 	t_fps			fps;
-	t_item			queue[32];
+	t_item			queue[128];
 	t_item			*head;
 	t_item			*tail;
 	t_item			*item;
@@ -400,6 +402,8 @@ typedef struct		s_doom
 	int				ac;
 	int				level;
 	char			**av;
+	int				enem_n[WIDTH];
+	int				difficult;
 	struct s_enemy	*enemies;
 	t_music			music[2];
 	t_sound			sound[17];
@@ -465,8 +469,6 @@ int					calc_jump(t_player *player, t_sectors *sectors, t_fps fps);
 int					doors(t_doom *doom, t_player player, t_fps fps);
 int					animation(t_doom *doom, t_fps fps);
 int					intersect(t_xyz *t1, t_xyz *t2, t_cood *cood);
-//int					point_side(t_xy d, t_xy v1, t_xy v2);
-//int					intersect_box(t_xy p, t_xy d, t_xy v1, t_xy v2);
 int					find_scales(t_cood *cood);
 int					find_yceil_yfloor(t_doom *doom, t_sectors *s,
 t_cood *cood, t_player player);

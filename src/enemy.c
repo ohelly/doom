@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   enemy.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 17:31:17 by njacobso          #+#    #+#             */
-/*   Updated: 2019/10/28 20:21:58 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/29 17:33:37 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,8 @@ t_enemy	*create_enemy_default(t_doom *doom, t_obj *obj)
 	enemy->state = 0;
 	enemy->health = 10;
 	enemy->attack_speed = 3.0f;
-	enemy->attack_damage = (int)random_range(4, 7);
+	enemy->attack_damage = (int)random_range(doom->difficult * 4,
+												doom->difficult * 7);
 	enemy->move_speed = 8;
 	enemy->view_distance = 25.0f;
 	enemy->on_framestart = enemy_on_framestart;

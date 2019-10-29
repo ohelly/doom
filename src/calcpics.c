@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 20:18:01 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 13:13:40 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 17:51:31 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,8 +25,7 @@ int			find_t_pic_points(t_pics *pic, t_player player, t_cood *cood)
 	return (0);
 }
 
-int			find_pic_points(t_cood *cood, t_pics *pic,
-t_sectors *s, t_doom *doom)
+int			find_pic_points(t_cood *cood, t_pics *pic, t_doom *doom)
 {
 	t_img	img;
 	float	tmp;
@@ -71,7 +70,7 @@ int			calc_pics2(t_doom *doom, t_pics *pic, t_cood *cood)
 		return (0);
 	if (!(find_scales(cood)))
 		return (0);
-	find_pic_points(cood, pic, &doom->sectors[doom->now.sector], doom);
+	find_pic_points(cood, pic, doom);
 	return (1);
 }
 

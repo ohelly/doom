@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colliders.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 17:19:06 by njacobso          #+#    #+#             */
-/*   Updated: 2019/10/29 03:49:37 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 17:28:55 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,10 @@ int		collision_box(t_xy p1, t_xy p2, t_xy v1, t_xy v2)
 
 int		collision_box_dir(t_xy pos1, t_xy pos2, t_xy col_pos1, t_xy col_pos2)
 {
-	if (IntersectBox(pos1.x, pos1.y, pos2.x, pos2.y, col_pos1.x, col_pos1.y, col_pos2.x, col_pos2.y) &&
-		PointSide(pos2.x, pos2.y, col_pos1.x, col_pos1.y, col_pos2.x, col_pos2.y) <= 0)
+	if (IntersectBox(pos1.x, pos1.y, pos2.x, pos2.y,
+		col_pos1.x, col_pos1.y, col_pos2.x, col_pos2.y) &&
+		PointSide(pos2.x, pos2.y, col_pos1.x, col_pos1.y,
+		col_pos2.x, col_pos2.y) <= 0)
 		return (1);
 	return (0);
 }

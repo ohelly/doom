@@ -6,18 +6,18 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 14:03:00 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/28 22:57:43 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 15:26:32 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom_editor.h"
 
-int		save(t_doom *doom)
+void	save(t_doom *doom)
 {
 	if (doom->player->end == -1)
 	{
 		doom->hud->msg = "Set player";
-		return (0);
+		return ;
 	}
 	if (open(doom->file->file_name, O_RDONLY))
 		remove(doom->file->file_name);
@@ -30,5 +30,5 @@ int		save(t_doom *doom)
 	export_player(doom);
 	close(doom->file->fd);
 	doom->hud->msg = "Saved file!";
-	exit(0);
+	return (0);
 }
