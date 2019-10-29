@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 17:24:41 by njacobso          #+#    #+#             */
-/*   Updated: 2019/10/29 04:02:49 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 17:49:07 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ int		walls_collision(t_doom *doom, t_xy pl)
 int		player_move(t_doom *doom, t_xy delta)
 {
 	t_xy		player;
-	t_xy		move_pos;
 	t_xy		pl;
 
 	if (doom->player.velocity.x == 0 || doom->player.velocity.y == 0)

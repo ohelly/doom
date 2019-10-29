@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:14:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 16:46:53 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 17:48:45 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int		difficulty(t_doom *doom, char *av)
 	return (1);
 }
 
-int		validate_av(t_doom *doom, int ac, char **av)
+int		validate_av(char **av)
 {
 	if (!(check_extension(av[0])))
 		return (0);
@@ -57,7 +57,8 @@ int		main(int ac, char **av)
 		ft_putendl("Usage :\n\t./doom-nukem [map] [difficulty]");
 		return (0);
 	}
-	if (!(validate_av(doom, ac, &av[1])))
+	ac += 0;;
+	if (!(validate_av(&av[1])))
 		return (0);
 	if (!(doom = (t_doom*)ft_memalloc(sizeof(t_doom))))
 		return (0);
