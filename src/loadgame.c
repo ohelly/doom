@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loadgame.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:13:26 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/27 19:23:39 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 09:42:22 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int		calc_mouse(t_player *player, float yaw)
 	if (player->dead)
 		return (0);
 	SDL_GetRelativeMouseState(&x, &y);
-	player->yaw = clamp(yaw + y * 0.01f, -5, 5);
+	player->yaw = CLAMP(yaw + y * 0.01f, -5, 5);
 	player->angle += x * 0.003f;
 	player->psin = sinf(player->angle);
 	player->pcos = cosf(player->angle);
@@ -64,13 +64,13 @@ int		load_game(t_doom *doom)
 		objects_update(doom);
 		enemies_update(doom);
 		player_blood_update(doom);
-		calc_jump(doom, &doom->player, doom->sectors, doom->fps);
+		calc_jump(&doom->player, doom->sectors, doom->fps);
 		if (doom->player.move == 1)
-			calc_is_wall(doom, &doom->player);
+			calc_is_wall(doom, &doom->player);;
 		while (SDL_PollEvent(&ev))
-			hooks(doom, ev);
-		calc_mouse(&doom->player, doom->player.yaw);
-		calc_move(doom, &doom->player);
+			hooks(doom, ev);;
+		calc_mouse(&doom->player, doom->player.yaw);;
+		calc_move(doom, &doom->player);;
 		SDL_UpdateWindowSurface(doom->sdl->win);
 		if (doom->a)
 			doom->a = 0;

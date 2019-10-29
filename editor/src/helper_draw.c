@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 15:43:49 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/18 15:48:53 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 01:07:04 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ void		draw_building_line(t_doom *doom, int color)
 
 	v = doom->verts->list[doom->verts->built_v_index
 							[doom->verts->built_v_count - 1]];
-	*doom->line = (t_line){v.pos, doom->mouse->ppos, 0, 0};
+	*doom->line = (t_line){v.pos, doom->mouse->ppos, { 0, 0 } };
 	line(doom, color);
 }
 
@@ -60,8 +60,6 @@ void		draw_sector(t_doom *doom, int sector, int color)
 {
 	int			i;
 	t_wall		w;
-	t_vertex	v1;
-	t_vertex	v2;
 
 	if (sector == -1)
 		return ;
@@ -86,7 +84,7 @@ void		draw_wall(t_doom *doom, t_wall wall, int color)
 
 	v1 = doom->verts->list[wall.vert_one];
 	v2 = doom->verts->list[wall.vert_two];
-	*doom->line = (t_line){v1.pos, v2.pos};
+	*doom->line = (t_line){v1.pos, v2.pos, { 0, 0 }};
 	line(doom, color);
 }
 
@@ -98,7 +96,6 @@ int			draw_rectangle(t_doom *doom, t_v2 pos, int color, int size)
 {
 	int i;
 	int j;
-	int n;
 
 	i = -size;
 	while (i <= size)

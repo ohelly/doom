@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/29 11:56:24 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 17:38:03 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 10:47:20 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,7 @@ int			*sortobjs(t_doom *doom, int *order, t_player player)
 {
 	int		n;
 	int		j;
-	float	l;
 	float	len[doom->num.objs];
-	int		tmp;
 
 	findobjslen(doom, doom->objs, len, player);
 	ft_memmove(doom->len, len, doom->num.objs * 4);
@@ -79,24 +77,24 @@ int			*sortobjs(t_doom *doom, int *order, t_player player)
 	return (order);
 }
 
-int			drawsprites(t_doom *doom, t_obj *obj, t_player player)
+int			drawsprites(t_doom *doom, t_obj *objs)
 {
 	int		n;
 	t_obj	*o;
-	int		j;
 
 	sortobjs(doom, doom->order, doom->player);
 	n = 0;
 	while (n < doom->num.objs)
 	{
-		o = &doom->objs[doom->order[n]];
+		o = &objs[doom->order[n]];
 		doom->obj_num = o->n;
-		if (!doom->item[o->sector].sector || doom->len[n] < 3.f)
+		if (!doom->item[o->sector].sector ||
+		doom->len[doom->order[n]] < 3.f)
 		{
 			n++;
 			continue ;
 		}
-		if (!(drawobj(doom, o, o->p)))
+		if (!(drawobj(doom, o)))
 		{
 			n++;
 			continue ;

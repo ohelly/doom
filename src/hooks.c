@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 19:54:55 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:50:20 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ int		keyup(t_doom *doom, SDL_Event ev)
 	{
 		doom->player.sit = 0;
 		doom->player.where.z =
-		doom->sectors[doom->player.sector].floor + EyeHeight;
+		doom->sectors[doom->player.sector].floor + EYEHEIGHT;
 	}
 	if (ev.key.keysym.sym == SDLK_LSHIFT)
 		doom->player.sprint = 0;

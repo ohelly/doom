@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   laodpicdata.c                                      :+:      :+:    :+:   */
+/*   loadpicdata.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 17:21:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/27 17:21:21 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:34:58 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,6 @@ int		count_params_pic(char *map, t_data *pic)
 {
 	float	tmp;
 	int		n;
-	int		a;
-	int		w;
-	int		h;
 
 	map = todigit(map, &tmp);
 	map = todigit(map, &tmp);
@@ -63,17 +60,15 @@ int		load_pic(char **map, t_data *pic, t_img *img)
 	return (0);
 }
 
-int		load_pic_data(char **map, t_doom *doom)
+int		load_pic_data(char **map, t_doom *doom, int i)
 {
-	int		i;
-	int		t;
 	int		count;
 	float	tmp;
 
-	map[0] = todigit(map[0], &tmp);
+	map[i] = todigit(map[i], &tmp);
 	count = (int)tmp;
 	doom->pics_data = (t_data*)ft_memalloc(sizeof(t_data) * (count + 1));
-	i = 1;
+	i++;
 	while (*map[i] != '#')
 	{
 		load_pic(&map[i], &doom->pics_data[atoi(map[i])], doom->img);

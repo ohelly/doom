@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/09 14:46:25 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/20 16:58:41 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 00:57:41 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ static void		error(char *str, t_doom *doom)
 {
 	doom->hud->msg = str;
 	doom->sects->selected_sector = -1;
-	doom->verts->projected_v = (t_vertex) { -1, -1, -1 };
+	doom->verts->projected_v = (t_vertex) { -1, { -1, -1 } };
 }
 
 void			set_sprite_on_wall(t_doom *doom)
@@ -58,6 +58,6 @@ void			set_sprite_on_wall(t_doom *doom)
 	doom->aspr->spr[doom->aspr->count].z =
 	doom->sects->sectors[doom->sects->selected_sector].floor;
 	doom->aspr->count++;
-	doom->verts->projected_v = (t_vertex) { -1, -1, -1 };
+	doom->verts->projected_v = (t_vertex) { -1, { -1, -1 } };
 	doom->sects->selected_sector = -1;
 }

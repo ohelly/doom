@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 18:53:05 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/27 15:11:22 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 13:34:08 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ int		init_previeww(t_txt *txt, t_sdl *sdl)
 	if (!(txt->previeww[0] = IMG_LoadTexture(sdl->rend,
 												"img/stobject/pistol.png")))
 		return (0);
-	if (!(txt->previeww[1] = IMG_LoadTexture(sdl->rend,
+	if (!(txt->previeww[2] = IMG_LoadTexture(sdl->rend,
 												"img/stobject/ripper.png")))
 		return (0);
-	if (!(txt->previeww[2] = IMG_LoadTexture(sdl->rend,
+	if (!(txt->previeww[1] = IMG_LoadTexture(sdl->rend,
 												"img/stobject/shotgun.png")))
 		return (0);
 	return (1);
@@ -105,5 +105,7 @@ int		init_preview(t_doom *doom)
 		return (die_msg("Failed to load preview sprite img"));
 	if (!(init_previewo_p1(doom->txt, doom->sdl)))
 		return (die_msg("Faild to load preview object img"));
+	if (!(load_sky(doom->txt, doom->sdl)))
+		return (die_msg("Failed to load skybox img"));
 	return (1);
 }

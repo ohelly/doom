@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 13:47:25 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 17:42:56 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 05:34:21 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,19 +64,31 @@ int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str)
 
 	str = todigit(str, &tmp);
 	id = (int)tmp;
-	str = todigit(str, &pic[n].p.y);
-	str = todigit(str, &pic[n].p.x);
+	str = todigit(str, &tmp);
+	pic[n].p.y = tmp / 4.f;
+	str = todigit(str, &tmp);
+	pic[n].p.x = tmp / 4.f;
 	str = todigit(str, &pic[n].p.z);
 	str = todigit(str, &tmp);
 	pic[n].wall = (int)tmp;
 	str = todigit(str, &tmp);
 	pic[n].sector = (int)tmp;
+	int		i;
+
+	i = 0;
+	while (i < pic[n].sector)
+	{
+		pic[n].wall -= doom->sectors[i].npoints;
+		i++;
+	}
+	pic[n].wall++;
+	printf("wall - %d\n", pic[n].wall);
 	pic[n].type = pics_data[id].type;
 	pic[n].images = pics_data[id].images;
 	pic[n].anim_count = pics_data[id].anim_count;
 	pic[n].states_count = pics_data[id].states_count;
 	findpicpoints(doom, &pic[n],
-	(float)(doom->img[pic[n].images[0][0]].w) / 64.f);
+	(float)(doom->img[pic[n].images[0][0]].w) / (64.f));
 	n++;
 	return (0);
 }

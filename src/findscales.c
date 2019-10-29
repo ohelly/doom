@@ -6,13 +6,13 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 20:18:48 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 17:19:54 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:39:06 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-int			find_scales(t_doom *doom, t_cood *cood, t_player player)
+int			find_scales(t_cood *cood)
 {
 	cood->scale1.x = (HFOV * WIDTH) / cood->t1.z;
 	cood->scale1.y = (VFOV * HEIGHT) / cood->t1.z;
@@ -25,7 +25,7 @@ int			find_scales(t_doom *doom, t_cood *cood, t_player player)
 	return (1);
 }
 
-int			find_nyceil_nyfloor(t_doom *doom, t_sectors *s,
+int			find_nyceil_nyfloor(t_doom *doom,
 t_cood *cood, t_player player)
 {
 	cood->nyceil = doom->sectors[cood->neighbor].ceil - player.where.z;
@@ -48,7 +48,7 @@ t_cood *cood, t_player player)
 	cood->yfloor = s->floor - player.where.z;
 	cood->neighbor = s->neighbors[cood->n];
 	if (cood->neighbor >= 0)
-		find_nyceil_nyfloor(doom, s, cood, player);
+		find_nyceil_nyfloor(doom, cood, player);
 	cood->w1y.a = HEIGHT / 2 - (int)
 	(yaw(cood->yceil, cood->t1.z, player) * cood->scale1.y);
 	cood->w1y.b = HEIGHT / 2 - (int)

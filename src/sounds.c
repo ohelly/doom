@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 17:21:32 by njacobso          #+#    #+#             */
-/*   Updated: 2019/10/28 19:34:07 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:33:13 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,27 +14,30 @@
 
 void	load_sound(t_sound *s, char *env, char *str, int volume)
 {
-	char *tmp;
+	char	*tmp;
 
-	tmp = ft_strjoin(env, "str");
+	tmp = ft_strjoin(env, str);
 	s->sound = Mix_LoadWAV(tmp);
 	s->volume = volume;
 	ft_strdel(&tmp);
 }
 
-void	load_music(t_doom *doom)
+void	load_sound_music(t_music *m, char *env, char *str, int volume)
 {
-	t_music *m;
-	t_sound *s;
-	char	*env;
 	char	*tmp;
 
-	env = ft_strjoin(getenv("HOME"), "/Documents/DoomNukem");
-	m = &doom->music[0];
-	tmp = ft_strjoin(env, "/music.mp3");
+	tmp = ft_strjoin(env, str);
 	m->music = Mix_LoadMUS(tmp);
 	ft_strdel(&tmp);
-	m->volume = 0;
+	m->volume = volume;
+}
+
+void	load_music(t_doom *doom)
+{
+	char	*env;
+
+	env = ft_strjoin(getenv("HOME"), "/Documents/DoomNukem");
+	load_sound_music(&doom->music[0], env, "/music.mp3", 30);
 	load_sound(&doom->sound[SOUND_SHOOT], env, "/hit.wav", 100);
 	load_sound(&doom->sound[SOUND_PICKUP], env, "/pickup.wav", 100);
 	load_sound(&doom->sound[SOUND_WEAPON_PICKUP], env, "/weapon_pick.wav", 100);
@@ -51,7 +54,7 @@ void	load_music(t_doom *doom)
 	load_sound(&doom->sound[SOUND_RIPPER], env, "/ripper.wav", 70);
 	load_sound(&doom->sound[SOUND_FOOT], env, "/foot.wav", 100);
 	load_sound(&doom->sound[SOUND_EXPLOSIVE], env, "/explosion.wav", 100);
-	load_sound(&doom->sound[SOUND_CRASH], env, "/crach.wav", 100);
+	load_sound(&doom->sound[SOUND_CRASH], env, "/crash.wav", 100);
 	ft_strdel(&env);
 }
 
@@ -77,17 +80,5 @@ int		play_music(t_doom *doom, int index)
 	music = doom->music[index].music;
 	Mix_PlayMusic(music, -1);
 	Mix_VolumeMusic(doom->music[index].volume);
-}
-
-int		sound_free_everything(t_doom *doom)
-{
-	int i;
-
-	i = -1;
-	while (++i < 2)
-		Mix_FreeMusic(doom->music[i].music);
-	i = -1;
-	while (++i < 17)
-		Mix_FreeChunk(doom->sound[i].sound);
 	return (1);
 }
