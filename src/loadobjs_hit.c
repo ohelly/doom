@@ -54,11 +54,12 @@ void	obj_hit_explosive(t_doom *doom, t_obj *obj)
 	play_sound(doom, SOUND_EXPLOSIVE);
 	obj_state_change(obj, 1);
 	obj->on_anim_end = obj_anim_end_disable;
+	obj->on_hit = NULL;
 	i = 0;
 	while (i < doom->num.objs)
 	{
 		o = &doom->objs[i];
-		if (obj->n != i && o->on_hit != NULL && distance(o->p, obj->p) < 20.0f)
+		if (o->enabled && obj->n != i && o->on_hit != NULL && distance(o->p, obj->p) < 20.0f)
 			o->on_hit(doom, o);
 		i++;
 	}
