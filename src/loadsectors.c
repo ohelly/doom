@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:15:03 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/26 10:36:52 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:05:46 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 int		takencount(char *str)
 {
-	int 	j;
+	int		j;
 	int		count;
 
 	j = 0;
@@ -82,9 +82,8 @@ char	*wallsinsect(char *str, t_sectors *s, int vnum)
 int		loadsectors(t_sectors *s, t_xy *v, char *str)
 {
 	static int	n = 0;
-	float	tmp;
-	int		vnum;
-	int		j;
+	float		tmp;
+	int			vnum;
 
 	vnum = ((takencount(str) - 7) / 3);
 	s[n].npoints = vnum;
@@ -99,11 +98,11 @@ int		loadsectors(t_sectors *s, t_xy *v, char *str)
 	s[n].constceil = s[n].ceil;
 	str = vertinsect(str, s[n].vert, v, vnum);
 	str = neighinsect(str, &s[n], vnum);
+	str = wallsinsect(str, &s[n], vnum);
 	str = todigit(str, &tmp);
 	s[n].txtf = (int)tmp;
 	str = todigit(str, &tmp);
 	s[n].txtc = (int)tmp;
-	str = wallsinsect(str, &s[n], vnum);
 	str = todigit(str, &s[n].light);
 	s[n].light = s[n].light / 100.0f;
 	str = todigit(str, &tmp);
