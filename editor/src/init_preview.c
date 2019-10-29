@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 18:53:05 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/27 15:11:22 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 11:41:58 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,10 @@ int		init_previeww(t_txt *txt, t_sdl *sdl)
 	if (!(txt->previeww[0] = IMG_LoadTexture(sdl->rend,
 												"img/stobject/pistol.png")))
 		return (0);
-	if (!(txt->previeww[1] = IMG_LoadTexture(sdl->rend,
+	if (!(txt->previeww[2] = IMG_LoadTexture(sdl->rend,
 												"img/stobject/ripper.png")))
 		return (0);
-	if (!(txt->previeww[2] = IMG_LoadTexture(sdl->rend,
+	if (!(txt->previeww[1] = IMG_LoadTexture(sdl->rend,
 												"img/stobject/shotgun.png")))
 		return (0);
 	return (1);
