@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 13:40:26 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 15:25:49 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -349,7 +349,7 @@ typedef struct			s_doom
 }						t_doom;
 
 int						die_msg(char *msg);
-int						save(t_doom *doom);
+void					save(t_doom *doom);
 int						sdl_init(t_doom *doom);
 void					output(t_doom *doom);
 void					key_and_mouse_press(t_doom *doom);
