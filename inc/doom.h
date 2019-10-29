@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 06:06:40 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 08:42:13 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -396,6 +396,9 @@ typedef struct		s_doom
 	int				*order;
 	int				obj_num;
 	char			**map;
+	int				ac;
+	int				level;
+	char			**av;
 	struct s_enemy	*enemies;
 	t_music			music[2];
 	t_sound			sound[17];
@@ -441,7 +444,8 @@ typedef struct		s_enemy
 }					t_enemy;
 
 int					findpicpoints(t_doom *doom, t_pics *pic, float w);
-int					load_all(t_doom *doom, char **av);
+int					load_all(t_doom *doom, char *av);
+int					load_level(t_doom *doom, char **av);
 int					load_map(t_doom *doom, char *av);
 int					load_texture_data(char **map, t_doom *doom, int i);
 int					load_weapon_data(char **map, t_doom *doom, int i);

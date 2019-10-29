@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 19:23:01 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 04:05:11 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 08:49:52 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ int		calc_newsector(t_xy d, t_doom *doom, t_player *player)
 		PointSide(p1.x, p1.y, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) < 0)
 		{
 			player->sector = sect->neighbors[n];
+			//if (player->sector == player->end)
+			//{
+			//	SDL_Quit();
+			//	exit(0);
+			//}
 			if (player->where.z != doom->sectors[player->sector].floor)
 				doom->player.fall = 1;
 			break ;
