@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:50:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 02:57:45 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 03:20:08 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,9 @@ int		loadobjs(t_doom *doom, char *str)
 	str = todigit(str, &tmp);
 	o->id = (int)tmp;
 	str = todigit(str, &tmp);
-	o->p.y = tmp / 5.f;
+	o->p.y = tmp / 4.f;
 	str = todigit(str, &tmp);
-	o->p.x = tmp / 5.f;
+	o->p.x = tmp / 4.f;
 	str = todigit(str, &tmp);
 	o->sector = (int)tmp;
 	o->type = doom->objs_data[o->id].type;
