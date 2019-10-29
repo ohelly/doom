@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 12:42:36 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 20:05:23 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,6 +92,10 @@
 # define WEAPON_RIPPER			3
 
 # define SHOTS_NUM				128
+
+# define MENU_WIDTH				300
+# define MENU_HEIGHT			240
+# define BTN_HEIGHT				40
 
 typedef struct		s_scaler
 {
@@ -327,6 +331,7 @@ typedef struct		s_hudel
 	int				y;
 	int				c;
 	int				b;
+	int				bc;
 }					t_hudel;
 
 typedef struct		s_hud
@@ -348,6 +353,28 @@ typedef struct		s_sound
 	Mix_Chunk		*sound;
 	id_t			volume;
 }					t_sound;
+
+typedef struct		s_menu_button
+{
+	t_ab_i			p;
+	t_ab_i			s;
+	t_hudel			he;
+	int				h;
+	int				a;
+	int				d;
+	int				color;
+	int				h_color;
+	int				a_color;
+	int				d_color;
+}					t_menu_button;
+
+typedef struct		s_menu
+{
+	TTF_Font		*font;
+	int				s;
+	t_ab_i			p;
+	t_menu_button	btn;
+}					t_menu;
 
 typedef struct		s_doom
 {
@@ -403,6 +430,7 @@ typedef struct		s_doom
 	struct s_enemy	*enemies;
 	t_music			music[2];
 	t_sound			sound[17];
+	t_menu			menu;
 }					t_doom;
 
 typedef struct		s_obj
@@ -519,7 +547,8 @@ t_img				pic_get_image(t_doom *doom, t_pics *pic);
 void				pic_anim_next(t_pics *pic);
 int					loadplayer(t_player *player, char *str);
 int					load_hud(t_doom *doom);
-int					loadfonts(t_hud *hud);
+int					load_hudel(t_hudel *e);
+int					load_fonts(t_doom *doom);
 int					load_game(t_doom *doom);
 int					hooks(t_doom *doom, SDL_Event ev);
 int					profile_output(t_doom *doom);
@@ -530,6 +559,7 @@ float				vxs(float x0, float y0, float x1, float y1);
 float				yaw(float y, float z, t_player player);
 void				drawweapon(t_doom *doom, t_weapon *weapon);
 void				drawhud(t_doom *doom);
+void				drawhudel(t_hudel e, int *pix);
 int					drawsprites(t_doom *doom, t_obj *objs);
 t_img				weapon_get_image(t_doom *doom, t_weapon *weapon);
 int					player_move(t_doom *doom, t_xy move_pos);
@@ -592,5 +622,12 @@ int					shoot_wall(t_doom *doom, t_player player,
 t_sectors *sect, t_pics *pic);
 void				left_mouse_keydown(t_doom *doom, SDL_Event ev,
 t_weapon *weapon, t_player *player);
+int					load_menu(t_doom *doom);
+int					load_menu_main(t_doom *doom);
+void				draw_menu(t_doom *doom);
+void				menu_mouse(t_doom *doom, int a);
+void				menu_click(t_doom *doom, t_menu_button *b);
+void				menu_hover(t_doom *doom, t_menu_button *b);
+void				menu_active(t_doom *doom, t_menu_button *b);
 
 #endif

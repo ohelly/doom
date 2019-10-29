@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 09:27:48 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 16:04:33 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,5 +23,6 @@ int			draw_screen(t_doom *doom)
 		draw_scope(doom->sdl);
 	}
 	drawhud(doom);
+	draw_menu(doom);
 	return (0);
 }

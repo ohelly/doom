@@ -6,13 +6,13 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 17:27:54 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/27 20:11:21 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 18:06:19 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-static void		drawhudel(t_hudel e, int *pix)
+void			drawhudel(t_hudel e, int *pix)
 {
 	int			i;
 	int			j;
@@ -29,11 +29,11 @@ static void		drawhudel(t_hudel e, int *pix)
 			m = i * e.s->pitch + j * e.s->format->BytesPerPixel;
 			if (e.p[m] != 0 && j >= 0)
 				pix[n] = e.c;
-			else if ((j < 0 && e.p[m + 1] != 0) || (j >= 0 && (e.p[m + 1] != 0
-					|| e.p[m - 1] != 0) && j + 1 < e.w && j - 1 >= 0) ||
-					((e.p[m + e.w] != 0 || e.p[m - e.w] != 0) &&
-					(i + 1 < e.h && i - 1 >= 0)))
-				pix[n] = e.b;
+			else if (e.b && ((j < 0 && e.p[m + 1] != 0) || (j >= 0 &&
+					(e.p[m + 1] != 0 || e.p[m - 1] != 0) && j + 1 < e.w &&
+					j - 1 >= 0) || ((e.p[m + e.w] != 0 || e.p[m - e.w] != 0) &&
+					(i + 1 < e.h && i - 1 >= 0))))
+				pix[n] = e.bc;
 		}
 	}
 }
