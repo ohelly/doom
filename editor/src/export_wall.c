@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 15:37:06 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/29 00:19:15 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 05:19:55 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void		output_wall(t_doom *doom, int count, int ind)
 	int		i;
 	int		j;
 
-	i = -1;
+	i = 0;
 	j = -1;
 	while (doom->walls->wall[i].sectors != ind && i < doom->walls->count)
 		i++;

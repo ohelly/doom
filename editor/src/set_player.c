@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 14:29:45 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/29 02:48:48 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 04:33:16 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,6 @@ void		set_weapon(int x, int y, t_player *player)
 		player->weapon = 0 :
 		player->weapon++;
 	}
-	printf("%d\n", player->weapon);
 }
 
 void		set_end_player(t_doom *doom)
