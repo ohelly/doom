@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 18:59:19 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 12:54:59 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 16:10:15 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,14 +34,14 @@ t_cood *cood)
 		scaler.b = cood->cny.a - 1;
 		vline2(cood->x, scaler, scaler_init(cood->wy, cood->cy.a, 0,
 		doom->img[doom->walls[s->txtw[cood->n]].image].w), doom);
-		doom->item[doom->now.sector].ytop[cood->x] = CLAMP(MAX(cood->cny.a, cood->cy.a), 0, HEIGHT - 1);
+		doom->item[doom->now.sector].ytop[cood->x] = CLAMP(doom->ytop[cood->x], 0, HEIGHT - 1);;//CLAMP(MIN(cood->cny.a, cood->cy.a), doom->item[doom->now.sector].ytop[cood->x], HEIGHT - 1);
 		doom->ytop[cood->x] = CLAMP(MAX(cood->cy.a, cood->cny.a - 1),
 		doom->ytop[cood->x], HEIGHT - 1);
 		scaler.a = cood->cny.b;
 		scaler.b = cood->cy.b;
 		vline2(cood->x, scaler, scaler_init(cood->wy, cood->cny.b, 0,
 		doom->img[doom->walls[s->txtw[cood->n]].image].w), doom);
-		doom->item[doom->now.sector].ybot[cood->x] = CLAMP(MIN(cood->cny.b, cood->cy.b), 0, HEIGHT - 1);
+		doom->item[doom->now.sector].ybot[cood->x] = CLAMP(doom->ybot[cood->x], 0, HEIGHT - 1);//CLAMP(MAX(cood->cny.b, cood->cy.b), 0, doom->item[doom->now.sector].ybot[cood->x]);
 		doom->ybot[cood->x] = CLAMP(MIN(cood->cy.b, cood->cny.b), 0,
 		doom->ybot[cood->x]);
 	}
@@ -49,9 +49,8 @@ t_cood *cood)
 	{
 		vline2(cood->x, cood->cy, scaler_init(cood->wy, cood->cy.a, 0,
 		doom->img[doom->walls[s->txtw[cood->n]].image].w), doom);
-		//printf("cood->x - %d\n", cood->x);
-		doom->item[doom->now.sector].ytop[cood->x] = CLAMP(cood->cy.a, 0, HEIGHT - 1);
-		doom->item[doom->now.sector].ybot[cood->x] = CLAMP(cood->cy.b, 0, HEIGHT - 1);
+		doom->item[doom->now.sector].ytop[cood->x] = doom->ytop[cood->x];//CLAMP(cood->cy.a,	doom->item[doom->now.sector].ytop[cood->x], HEIGHT - 1);
+		doom->item[doom->now.sector].ybot[cood->x] = doom->ybot[cood->x];//cood->cny.b;// + cood->cy.b;//CLAMP(cood->cy.b, 0, doom->item[doom->now.sector].ybot[cood->x]);
 	}
 }
 
@@ -67,6 +66,7 @@ t_cood *cood, t_player player)
 	{
 		if (x == WIDTH / 2)
 			doom->lookwall[doom->now.sector] = cood->n;
+		doom->enem_n[x] = s->neighbors[cood->n];
 		cood->x = x;
 		cood->txtx = (cood->u0 * ((cood->w2x - x) * cood->t2.z) +
 		cood->u1 * ((x - cood->w1x) * cood->t1.z)) / ((cood->w2x - x) *
