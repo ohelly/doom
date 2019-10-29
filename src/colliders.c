@@ -38,8 +38,10 @@ int		collision_box(t_xy p1, t_xy p2, t_xy v1, t_xy v2)
 
 int		collision_box_dir(t_xy pos1, t_xy pos2, t_xy col_pos1, t_xy col_pos2)
 {
-	if (IntersectBox(pos1.x, pos1.y, pos2.x, pos2.y, col_pos1.x, col_pos1.y, col_pos2.x, col_pos2.y) &&
-		PointSide(pos2.x, pos2.y, col_pos1.x, col_pos1.y, col_pos2.x, col_pos2.y) <= 0)
+	if (IntersectBox(pos1.x, pos1.y, pos2.x, pos2.y,
+		col_pos1.x, col_pos1.y, col_pos2.x, col_pos2.y) &&
+		PointSide(pos2.x, pos2.y, col_pos1.x, col_pos1.y,
+		col_pos2.x, col_pos2.y) <= 0)
 		return (1);
 	return (0);
 }

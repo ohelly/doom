@@ -46,6 +46,7 @@ t_img	obj_get_image(t_doom *doom, t_obj *obj)
 
 int		create_obj(t_doom *doom, t_obj *obj)
 {
+	obj->enabled = 1;
 	if (obj->type == OBJ_TYPE_BOX)
 		create_obj_box(doom, obj);
 	else if (obj->type == OBJ_TYPE_BREAKABLE)
@@ -88,7 +89,6 @@ int		loadobjs(t_doom *doom, char *str)
 	o->states_count = doom->objs_data[o->id].states_count;
 	o->anim_count = doom->objs_data[o->id].anim_count;
 	o->images = doom->objs_data[o->id].images;
-	o->enabled = 1;
 	o->n = n;
 	o->scale = 4.0f;
 	if (o->type == OBJ_TYPE_KEY)

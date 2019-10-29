@@ -243,8 +243,8 @@ typedef struct		s_player
 	int				wall;
 	int				key;
 	int				dead;
-	int				flash_color;
-	float			flash_duration;
+	int				f_col;
+	float			f_dur;
 	int				won;
 }					t_player;
 

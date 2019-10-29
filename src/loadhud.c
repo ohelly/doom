@@ -79,7 +79,8 @@ static int		load_hud_message(t_doom *doom)
 
 int				load_hud(t_doom *doom)
 {
-	if (!(load_hud_health(doom)) || !(load_hud_ammo(doom)) || !(load_hud_message(doom)))
+	if (!(load_hud_health(doom)) || !(load_hud_ammo(doom)) ||
+		!(load_hud_message(doom)))
 		return (0);
 	return (1);
 }

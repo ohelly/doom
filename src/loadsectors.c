@@ -87,7 +87,6 @@ int		loadsectors(t_sectors *s, t_xy *v, char *str)
 
 	vnum = ((takencount(str) - 7) / 3);
 	s[n].npoints = vnum;
-	//printf("vnum - %d", vnum);
 	if (!(s[n].vert = ft_memalloc(sizeof(t_xy) * (vnum + 1))))
 		return (0);
 	if (!(s[n].neighbors = ft_memalloc(sizeof(int) * vnum)))

@@ -59,7 +59,8 @@ void	obj_hit_explosive(t_doom *doom, t_obj *obj)
 	while (i < doom->num.objs)
 	{
 		o = &doom->objs[i];
-		if (o->enabled && obj->n != i && o->on_hit != NULL && distance(o->p, obj->p) < 20.0f)
+		if (o->enabled && obj->n != i && o->on_hit != NULL &&
+			distance(o->p, obj->p) < 20.0f)
 			o->on_hit(doom, o);
 		i++;
 	}

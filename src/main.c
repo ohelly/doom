@@ -12,19 +12,18 @@
 
 #include "doom.h"
 
-int        check_extension(char *av)
+int		check_extension(char *av)
 {
-    int		i;
+	int		i;
 
-    i = ft_strlen(av) - 4;
-    if (!(ft_strcmp(&av[i], ".map")))
-        return (1);
-    return (0);
+	i = ft_strlen(av) - 4;
+	if (!(ft_strcmp(&av[i], ".map")))
+		return (1);
+	return (0);
 }
 
 int		difficulty(t_doom *doom, char *av)
 {
-	
 	if (ft_strequ(av, "Easy"))
 		doom->difficult = 1;
 	if (ft_strequ(av, "Medium"))
@@ -57,7 +56,6 @@ int		main(int ac, char **av)
 		ft_putendl("Usage :\n\t./doom-nukem [map] [difficulty]");
 		return (0);
 	}
-	ac += 0;;
 	if (!(validate_av(&av[1])))
 		return (0);
 	if (!(doom = (t_doom*)ft_memalloc(sizeof(t_doom))))

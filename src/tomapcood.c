@@ -12,7 +12,6 @@
 
 #include "doom.h"
 
-
 void	to_absolute_ones(t_xyz *map, t_player player)
 {
 	float rtx;

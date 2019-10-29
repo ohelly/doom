@@ -61,6 +61,7 @@ int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str)
 	static int	n = 0;
 	float		tmp;
 	int			id;
+	int			i;
 
 	str = todigit(str, &tmp);
 	id = (int)tmp;
@@ -73,8 +74,6 @@ int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str)
 	pic[n].wall = (int)tmp;
 	str = todigit(str, &tmp);
 	pic[n].sector = (int)tmp;
-	int		i;
-
 	i = 0;
 	while (i < pic[n].sector)
 	{
@@ -88,7 +87,7 @@ int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str)
 	pic[n].anim_count = pics_data[id].anim_count;
 	pic[n].states_count = pics_data[id].states_count;
 	findpicpoints(doom, &pic[n],
-	(float)(doom->img[pic[n].images[0][0]].w) / (64.f));
+		(float)(doom->img[pic[n].images[0][0]].w) / (64.f));
 	n++;
 	return (0);
 }
