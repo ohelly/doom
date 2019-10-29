@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 17:38:08 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 01:41:20 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 11:34:34 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,10 +61,8 @@ int			drawobj(t_doom *doom, t_obj *obj)
 	t.x = v.x * doom->player.psin - v.y * doom->player.pcos;
 	t.z = v.x * doom->player.pcos + v.y * doom->player.psin;
 	if (obj->anim_count[obj->states_frame] > 1)
-	{
 		if (doom->a == 1)
 			obj_anim_next(obj);
-	}
 	if (t.z <= 0)
 		return (0);
 	scale.x = (HFOV * WIDTH) / t.z;

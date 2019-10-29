@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 20:14:26 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 10:41:16 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 12:43:46 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,21 +72,6 @@ int			assign_value(t_item *item, t_item now, int *rensects)
 	return (0);
 }
 
-int			allren(t_doom *doom, int *rensects)
-{
-	int	i;
-
-	i = 0;
-	while (i < doom->num.sectors)
-	{
-		if (rensects[i])
-			i++;
-		else
-			return (1);
-	}
-	return (0);
-}
-
 int			draw_walls(t_doom *doom)
 {
 	int			rensects[doom->num.sectors];
@@ -100,8 +85,6 @@ int			draw_walls(t_doom *doom)
 	while (doom->head != doom->tail)
 	{
 		doom->now = *doom->tail;
-		//if (!(allren(doom, rensects)))
-		//	return (0);
 		if (++doom->tail == doom->queue + 32)
 			doom->tail = doom->queue;
 		if (rensects[doom->now.sector] & 0x21)
@@ -109,7 +92,7 @@ int			draw_walls(t_doom *doom)
 		++rensects[doom->now.sector];
 		assign_value(doom->item, doom->now, rensects);
 		s = &doom->sectors[doom->now.sector];
-		printf("doom->now.sector - %d\n", doom->now.sector);
+		//printf("doom->now.sector - %d\n", doom->now.sector);
 		calc_sector(doom, s, &doom->cood, doom->player);
 		++rensects[doom->now.sector];
 	}
