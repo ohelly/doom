@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 20:20:00 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 01:03:07 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 06:06:55 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,8 +50,8 @@ t_cood *cood, t_player player)
 	if (!(is_sky(&p, cood, doom, s)))
 		return (0);
 	to_map_coordinates(&p, &map, player);
-	txt.x = (map.x * 8);
-	txt.z = (map.z * 8);
+	txt.x = (map.x * 4);
+	txt.z = (map.z * 4);
 	img = cood->y < cood->cy.a - 1 ? doom->img[doom->ceils[s->txtc].image] :
 	doom->img[doom->floors[s->txtf].image];
 	color = img.data[((int)txt.z % img.h) * img.w + ((int)txt.x % img.w)];
