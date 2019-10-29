@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:13:26 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 17:20:00 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 18:21:25 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int		load_game(t_doom *doom)
 		//printf("1\n");
 		fps(&doom->fps);
 		//printf("2\n");
-		//animation(doom, doom->fps);
+		animation(doom, doom->fps);
 		//printf("3\n");
 		doors(doom, doom->player, doom->fps);
 		//printf("4\n");

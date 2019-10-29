@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 20:58:37 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 18:05:10 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 18:50:14 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,12 +18,11 @@ void		render_weapon2(t_doom *doom, t_xy scale, t_img img, int *pix)
 	int		x;
 	t_xy	t;
 
-	x = WIDTH / 4;
+	x = WIDTH / 2;
 	while (x < WIDTH)
 	{
-		//printf("t.y - %d, t.x - %d, scale - %f\n", (int)t.y, (int)t.x, scale.x);
 		t.y = 0;
-		t.x = (x - WIDTH) * scale.x;
+		t.x = (x - WIDTH / 2) * scale.x;
 		y = 0 + doom->shakey;
 		while (y < HEIGHT)
 		{
@@ -47,7 +46,7 @@ int			render_weapon(t_doom *doom, t_weapon *wpn)
 	t_img	img;
 
 	img = wpn_get_image(doom, wpn);
-	scale.x = (float)img.w / (WIDTH - WIDTH / 4);
+	scale.x = (float)img.w / (WIDTH / 2);
 	scale.y = (float)img.h / (HEIGHT);
 	if (!doom->player.weapon && doom->weapon[doom->player.weapon].states_frame == 0)
 		return (0);
