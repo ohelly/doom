@@ -34,16 +34,15 @@ int		calc_newsector(t_xy d, t_doom *doom, t_player *player)
 	n = 0;
 	while (n < sect->npoints)
 	{
-		if (sect->neighbors[n] >= 0 &&
-		IntersectBox(p.x, p.y, p1.x, p1.y, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) &&
-		PointSide(p1.x, p1.y, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) < 0)
+		if (sect->neighbors[n] >= 0 && collision_box_dir(p, p1, v[n], v[n + 1]))
 		{
 			player->sector = sect->neighbors[n];
-			//if (player->sector == player->end)
-			//{
-			//	SDL_Quit();
-			//	exit(0);
-			//}
+			if (player->sector == player->end)
+			{
+				doom->player.flash_color = 0x0000ff;
+				doom->player.flash_duration = 2.0f;
+				doom->player.won = 1;
+			}
 			if (player->where.z != doom->sectors[player->sector].floor)
 				doom->player.fall = 1;
 			break ;

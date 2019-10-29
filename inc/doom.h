@@ -245,6 +245,7 @@ typedef struct		s_player
 	int				dead;
 	int				flash_color;
 	float			flash_duration;
+	int				won;
 }					t_player;
 
 typedef struct		s_sectors
@@ -335,6 +336,7 @@ typedef struct		s_hud
 	TTF_Font		*font;
 	t_hudel			health;
 	t_hudel			ammo;
+	t_hudel			message;
 	struct s_obj	*key;
 }					t_hud;
 
