@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 20:15:57 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 16:46:16 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 12:43:50 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,12 @@ t_cood *cood, t_player player)
 	if (cood->t1.z <= 0 && cood->t2.z <= 0)
 		return (0);
 	cood->u0 = 0;
-	cood->u1 = (int)sqrt(powf(cood->v1.x - cood->v2.x, 2) +
-	powf(cood->v1.y - cood->v2.y, 2)) / ((s->ceil + s->floor) / 64) * 3;
+	cood->u1 = 128;
 	if (cood->t1.z <= 0 || cood->t2.z <= 0)
 		intersect(&cood->t1, &cood->t2, cood);
-	if (!(find_scales(doom, cood, player)))
+	if (!(find_scales(cood)))
 		return (0);
-	calc_pics(doom, doom->pics, doom->player);
+	calc_pics(doom, doom->pics);
 	find_yceil_yfloor(doom, s, cood, player);
 	render_walls(doom, s, cood, player);
 	return (1);
@@ -51,6 +50,7 @@ t_cood *cood, t_player player)
 	n = 0;
 	while (n < s->npoints)
 	{
+		//printf("n - %d\n", n);
 		cood->n = n;
 		if (!(calc_points(doom, s, cood, player)))
 		{
@@ -58,8 +58,8 @@ t_cood *cood, t_player player)
 			continue ;
 		}
 		n++;
-		doom->item[doom->now.sector].ytop = doom->ytop;
-		doom->item[doom->now.sector].ybot = doom->ybot;
+		//doom->item[doom->now.sector].ytop = doom->ytop;
+		//doom->item[doom->now.sector].ybot = doom->ybot;
 		if (cood->neighbor >= 0 && cood->endx >= cood->beginx
 		&& (doom->head + 32 + 1 - doom->tail) % 32)
 		{

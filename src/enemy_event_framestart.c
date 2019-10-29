@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   enemy_event_framerate.c                            :+:      :+:    :+:   */
+/*   enemy_event_framestart.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 19:42:30 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/28 20:23:12 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/29 01:33:02 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,6 @@ void	enemy_on_framestart_state0(t_doom *doom, t_enemy *enemy)
 
 void	enemy_on_framestart_state1(t_doom *doom, t_enemy *enemy)
 {
-	t_xy	move_pos;
-	t_xy	new_dir;
-
 	if (detect_player(doom, enemy) != 1)
 		enemy->state = 0;
 	if (enemy->attack_cd > 0)

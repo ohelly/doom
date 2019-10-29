@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 15:49:22 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/15 16:15:48 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 00:50:15 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,6 @@ float	calc_dist(t_doom *doom, int vert1, int vert2, t_v2 *hit)
 void	get_closest_sector(t_doom *doom)
 {
 	int wall;
-	int i;
 
 	if (doom->sects->selected_sector != -1)
 	{

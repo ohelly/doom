@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 19:23:01 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 19:28:23 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/29 08:49:52 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,18 +26,24 @@ int		calc_newsector(t_xy d, t_doom *doom, t_player *player)
 	t_xy		p;
 	t_xy		p1;
 	t_sectors	*sect;
-	t_xy		delta;
+	t_xy		*v;
 
 	px_p1x(&p, &p1, d, player);
 	sect = &doom->sectors[player->sector];
+	v = sect->vert;
 	n = 0;
 	while (n < sect->npoints)
 	{
 		if (sect->neighbors[n] >= 0 &&
-		intersect_box(p, p1, sect->vert[n], sect->vert[n + 1]) &&
-		point_side(p1, sect->vert[n], sect->vert[n + 1]) < 0)
+		IntersectBox(p.x, p.y, p1.x, p1.y, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) &&
+		PointSide(p1.x, p1.y, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) < 0)
 		{
 			player->sector = sect->neighbors[n];
+			//if (player->sector == player->end)
+			//{
+			//	SDL_Quit();
+			//	exit(0);
+			//}
 			if (player->where.z != doom->sectors[player->sector].floor)
 				doom->player.fall = 1;
 			break ;
@@ -55,15 +61,15 @@ int		glide_on_wall(t_xy *d, t_doom *doom, t_sectors *sect, int n)
 	float		tmp;
 	t_xy		a;
 
-	tmp = doom->player.sit ? DuckHeight : EyeHeight;
+	tmp = doom->player.sit ? DUCKHEIGHT : EYEHEIGHT;
 	doom->player.velocity.x = 0;
 	doom->player.velocity.y = 0;
 	hole_low = sect->neighbors[n] < 0 ? 9e9 :
-	max(sect->floor, doom->sectors[sect->neighbors[n]].floor);
+	MAX(sect->floor, doom->sectors[sect->neighbors[n]].floor);
 	hole_high = sect->neighbors[n] < 0 ? -9e9 :
-	min(sect->ceil, doom->sectors[sect->neighbors[n]].ceil);
-	if (hole_high < doom->player.where.z + HeadMargin
-	|| hole_low > doom->player.where.z - tmp + KneeHeight)
+	MIN(sect->ceil, doom->sectors[sect->neighbors[n]].ceil);
+	if (hole_high < doom->player.where.z + HEADMARGIN
+	|| hole_low > doom->player.where.z - tmp + KNEEHEIGHT)
 	{
 		d->x = d->x - doom->player.where.x;
 		d->y = d->y - doom->player.where.y;
@@ -87,8 +93,8 @@ int		is_wall(t_doom *doom, t_sectors *sect, t_xy *d, int n)
 	p.y = doom->player.where.y;
 	p1.x = doom->player.where.x + d->x;
 	p1.y = doom->player.where.y + d->y;
-	if ((intersect_box(p, p1, v[n], v[n + 1]) &&
-	point_side(p1, v[n], v[n + 1]) < 0))
+	if ((IntersectBox(p.x, p.y, p1.x, p1.y, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) &&
+	PointSide(p1.x, p1.y, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) < 0))
 		if (glide_on_wall(d, doom, sect, n))
 			return (1);
 	return (0);

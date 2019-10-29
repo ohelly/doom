@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 19:51:18 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 19:52:21 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:56:34 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ t_player *player, t_sectors *s)
 	if (ev.key.keysym.sym == SDLK_LCTRL)
 	{
 		player->sit = 1;
-		player->where.z = s[player->sector].floor + DuckHeight;
+		player->where.z = s[player->sector].floor + DUCKHEIGHT;
 	}
 	if (ev.key.keysym.sym == SDLK_LSHIFT)
 		player->sprint = 1;

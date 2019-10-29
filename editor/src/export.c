@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 14:03:00 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/27 15:57:13 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/28 22:57:43 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,9 @@ int		save(t_doom *doom)
 	export_all_texture(doom);
 	export_vert(doom);
 	export_sector(doom);
+	export_objs(doom);
+	export_pospics(doom);
+	export_player(doom);
 	close(doom->file->fd);
 	doom->hud->msg = "Saved file!";
 	exit(0);

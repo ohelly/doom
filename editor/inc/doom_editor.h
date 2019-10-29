@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 19:43:19 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 13:40:26 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,10 @@
 # define HEIGHT 720
 # define DELAY_ERR 50
 # define COUNT_T 27
-# define COUNT_H 22
+# define COUNT_H 24
 # define COUNT_STOBJ 32
-# define COUNT_SKY 3
+# define COUNT_PICS 14
+# define COUNT_SKY 4
 # define COUNT_SP 6
 # define COUNT_OP 16
 # define COUNT_WP 3
@@ -245,6 +246,7 @@ typedef struct			s_txt
 	SDL_Surface			*pistol[COUNT_PIST];
 	SDL_Surface			*shotgun[COUNT_SHOTG];
 	SDL_Surface			*ripper[COUNT_RIPPER];
+	SDL_Surface			*pics[COUNT_PICS];
 	SDL_Surface			*shot;
 	int					ind_sky;
 }						t_txt;
@@ -309,13 +311,16 @@ typedef struct			s_player
 ** STRUCT FOR EXPORT
 */
 
-typedef struct		s_exp
+typedef struct			s_exp
 {
-	int				wall[COUNT_T];
-	int				floor[COUNT_T];
-	int				ceil[COUNT_T];
-	int				stobj[COUNT_OP];
-}					t_export;
+	int					wall[COUNT_T];
+	int					floor[COUNT_T];
+	int					ceil[COUNT_T];
+	int					stobj[COUNT_OP];
+	int					pics[COUNT_SP];
+	int					order[2048];
+	int					count;
+}						t_export;
 
 /*
 ** MAIN STRUCT
@@ -422,7 +427,6 @@ void					correction_height_sprite(t_doom *doom);
 void					height_spr(int x, int y, t_all_spr_wall *aspr,
 													t_all_sect *sectors);
 int						lines_intersect_loop(t_doom *doom, t_v2 p1, t_v2 p2);
-int						load_header(t_doom *doom, char *line);
 int						scalar_product(t_v2 v1, t_v2 v2, t_v2 v3);
 void					export_vert(t_doom *doom);
 int						sorted_vert(t_doom *doom, int index);
@@ -439,7 +443,8 @@ void					sel_txt_obj(int x, int y, t_all_spr_floor *obj);
 void					set_player(t_doom *doom);
 void					draw_player(t_doom *doom, int color);
 void					set_end_player(t_doom *doom);
-void					render_player_settings(t_txt *txt, t_player *player, t_sdl *sdl);
+void					render_player_settings(t_txt *txt, t_player *player,
+																t_sdl *sdl);
 void					set_weapon(int x, int y, t_player *player);
 void					export_all_texture(t_doom *doom);
 void					export_wall_tx(t_doom *doom);
@@ -456,6 +461,18 @@ void					export_stobj_data(t_doom *doom);
 int						load_st_obj(t_doom *doom);
 int						load_pickobj(t_doom *doom);
 void					output_text_stobj(int ind, t_doom *doom);
+void					export_pics(t_doom *doom);
+int						load_pics(t_doom *doom);
+void					export_attr(t_doom *doom, int ind);
+void					export_objs(t_doom *doom);
+void					export_pospics(t_doom *doom);
+void					export_player(t_doom *doom);
+void					health_player(int x, int y, t_player *player);
+void					load_sector(t_doom *doom, char *line);
+void					load_obj(t_doom *doom, char *line);
+void					load_spr(t_doom *doom, char *line);
+void					import_player(t_doom *doom, char *line);
+int						load_sky(t_txt *txt, t_sdl *sdl);
 
 /*
 **	Math

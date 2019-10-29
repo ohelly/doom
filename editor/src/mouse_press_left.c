@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/15 14:46:49 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/27 15:23:24 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 02:39:57 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,4 +75,7 @@ void		mouse_press_left_thr(t_doom *doom, int x, int y)
 	else if ((x >= 950 && x <= 1000 && y >= 360 && y <= 410) ||
 	(x >= 1200 && x <= 1250 && y >= 360 && y <= 410))
 		set_weapon(x, y, doom->player);
+	else if ((x >= 950 && x <= 1000 && y >= 410 && y <= 460) ||
+	(x >= 1200 && x <= 1250 && y >= 410 && y <= 460))
+		health_player(x, y, doom->player);
 }

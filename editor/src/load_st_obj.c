@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 18:00:22 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/28 18:11:30 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/28 23:24:42 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,7 +51,7 @@ int			load_table_chair(t_txt *txt)
 int			load_st_obj(t_doom *doom)
 {
 	if (!(load_table_chair(doom->txt)))
-		return (0);	
+		return (0);
 	if (!(load_exp_propane(doom->txt)))
 		return (0);
 	if (!(load_toilet(doom->txt)))

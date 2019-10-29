@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 20:36:12 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/26 17:27:33 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:33:38 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,14 @@ static int		load_hudel(t_hudel *e)
 {
 	SDL_Color	color;
 
-	color = (SDL_Color) { 255, 255, 255 };
+	color = (SDL_Color) { 255, 255, 255, 0};
 	SDL_FreeSurface(e->s);
 	if (!(e->s = TTF_RenderText_Solid(e->f, e->t, color)))
 		return (0);
 	e->p = e->s->pixels;
 	e->w = e->s->w;
 	e->h = e->s->h;
+	return (1);
 }
 
 static int		load_hud_health(t_doom *doom)

@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/23 22:12:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/27 14:29:38 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 05:23:17 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,8 @@ void	key_and_mouse_press(t_doom *doom)
 				mouse_press(doom, doom->sdl, doom->app);
 		if (doom->sdl->ev.type == SDL_MOUSEMOTION)
 		{
-			*doom->mouse = (t_mouse){ doom->sdl->ev.motion.x,
-			doom->sdl->ev.motion.y, 0, 0 };
+			*doom->mouse = (t_mouse){ { doom->sdl->ev.motion.x,
+			doom->sdl->ev.motion.y }, { 0, 0 } };
 			doom->move_vector = (t_v2){0, 0};
 		}
 		output(doom);

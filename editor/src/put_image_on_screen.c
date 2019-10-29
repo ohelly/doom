@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 18:32:24 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/27 14:59:41 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 11:44:08 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 void		hud_img_render(t_hud *hud, t_sdl *sdl)
 {
-	render_img(hud->text_for_app, sdl->rend, (t_scale) { 0, 0, 200, 50 });
-	render_img(hud->text_for_app, sdl->rend, (t_scale) { 200, 0, 200, 50 });
+	render_img(hud->text_for_app, sdl->rend, (t_scale) { { 0, 0 }, 200, 50 });
+	render_img(hud->text_for_app, sdl->rend, (t_scale) { { 200, 0 }, 200, 50 });
 }
 
 void		put_image_on_screen(t_doom *doom)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   object_triggers.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: njacobso <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 17:23:48 by njacobso          #+#    #+#             */
-/*   Updated: 2019/10/23 17:24:00 by njacobso         ###   ########.fr       */
+/*   Updated: 2019/10/29 01:32:40 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	on_collision_key(t_doom *doom, t_obj *obj)
 	if (obj->enabled == 0)
 		return ;
 	obj->enabled = 0;
-	printf("obj %d has been triggered\n", obj->id);
+	doom->a = doom->a;
 }
 
 int		check_player_collision(t_doom *doom, t_obj *obj)

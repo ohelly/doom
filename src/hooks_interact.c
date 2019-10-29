@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 19:49:33 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 19:50:25 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 01:42:01 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ int		find_door(t_doom *doom, t_player player)
 	return (0);
 }
 
-void	change_light(t_player player, t_sectors *s, t_pics *pic)
+void	change_light(t_sectors *s, t_pics *pic)
 {
 	static int t = 0;
 
@@ -71,7 +71,7 @@ int		find_pic_interaction(t_doom *doom, t_player player, t_pics *pics)
 			pow(player.where.y - pics[i].p.y, 2)) > 10 && !player.weapon)
 				return (0);
 			if (pics[i].type == PIC_TYPE_SWITCH)
-				change_light(player, &doom->sectors[player.sector], &pics[i]);
+				change_light(&doom->sectors[player.sector], &pics[i]);
 			if (pics[i].type == PIC_TYPE_DECOR && doom->lkey)
 			{
 				play_sound(doom, SOUND_CRASH);
