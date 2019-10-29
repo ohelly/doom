@@ -73,17 +73,17 @@ int		player_move(t_doom *doom, t_xy delta)
 	t_xy		move_pos;
 	t_xy		pl;
 
+	if (doom->player.velocity.x == 0 || doom->player.velocity.y == 0)
+		return (0);
 	player = (t_xy){doom->player.where.x, doom->player.where.y};
-	move_pos = v2_add(player, (t_xy){delta.x, 0});
-	pl = move_pos;
+	pl = v2_add(player, (t_xy){delta.x, 0});
 	delta.x *= walls_collision(doom, pl);
-	move_pos = v2_add(player, (t_xy){0, delta.y});
-	pl = move_pos;
+	pl = v2_add(player, (t_xy){0, delta.y});
 	delta.y *= walls_collision(doom, pl);
-	move_pos = v2_add(player, (t_xy){delta.x, 0});
-	delta.x *= obj_collision(doom, move_pos);
-	move_pos = v2_add(player, (t_xy){0, delta.y});
-	delta.y *= obj_collision(doom, move_pos);
+	pl = v2_add(player, (t_xy){delta.x, 0});
+	delta.x *= obj_collision(doom, pl);
+	pl = v2_add(player, (t_xy){0, delta.y});
+	delta.y *= obj_collision(doom, pl);
 	doom->player.where.x = player.x + delta.x;
 	doom->player.where.y = player.y + delta.y;
 	doom->player.psin = sinf(doom->player.angle);
