@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/26 18:53:05 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/29 11:41:58 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 13:34:08 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,5 +105,7 @@ int		init_preview(t_doom *doom)
 		return (die_msg("Failed to load preview sprite img"));
 	if (!(init_previewo_p1(doom->txt, doom->sdl)))
 		return (die_msg("Faild to load preview object img"));
+	if (!(load_sky(doom->txt, doom->sdl)))
+		return (die_msg("Failed to load skybox img"));
 	return (1);
 }
