@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 21:17:29 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/29 21:54:18 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -628,11 +628,12 @@ void				left_mouse_keydown(t_doom *doom, SDL_Event ev,
 t_weapon *weapon, t_player *player);
 int					load_menu(t_doom *doom);
 void				load_menu_button(t_doom *doom, t_menu_button *b);
-int					load_menu_button1(t_doom *doom);
-int					load_menu_button2(t_doom *doom);
-int					load_menu_button3(t_doom *doom);
-int					load_menu_button4(t_doom *doom);
-int					load_menu_button5(t_doom *doom);
+void				load_menu_button_hudel(t_doom *doom, t_menu_button *b);
+int					load_menu_button1(t_doom *doom, int v_insets);
+int					load_menu_button2(t_doom *doom, int v_insets);
+int					load_menu_button3(t_doom *doom, int v_insets);
+int					load_menu_button4(t_doom *doom, int v_insets);
+int					load_menu_button5(t_doom *doom, int v_insets);
 void				draw_menu(t_doom *doom);
 void				menu_mouse(t_doom *doom, int a);
 void				menu_click(t_doom *doom, t_menu_button *cb);
