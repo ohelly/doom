@@ -237,13 +237,14 @@ typedef struct		s_player
 	int				weapon;
 	int				allweapons[4];
 	int				hp;
-	float			blood;
 	float			col_size;
 	int				reload;
 	int				shoots;
 	int				wall;
 	int				key;
 	int				dead;
+	int				flash_color;
+	float			flash_duration;
 }					t_player;
 
 typedef struct		s_sectors
