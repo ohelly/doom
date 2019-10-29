@@ -6,7 +6,7 @@
 #    By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/02 20:58:32 by lminta            #+#    #+#              #
-#    Updated: 2019/10/29 20:07:38 by glormell         ###   ########.fr        #
+#    Updated: 2019/10/29 22:14:50 by glormell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -39,7 +39,7 @@ src/drawwalls.o src/vline2.o src/vline3.o src/tomapcood.o src/scaler.o src/drawc
 src/render_walls.o src/calcpics.o src/intersect.o src/calcsector.o src/render_weapon.o src/weapon_utils.o src/vlineobj.o \
 src/drawobj.o src/render_pics.o src/hooks_move.o src/hooks_weapons.o src/hooks_interact.o src/hooks_close.o src/shoot_wall.o \
 src/mouse_hooks.o src/ft_strjoinc.o src/sound_free.o src/utils2.o \
-src/loadmenu.o src/loadmenumain.o src/drawmenu.o src/menu_mouse.o \
+src/loadmenu.o src/loadmenumain.o src/loadmenuclick.o src/drawmenu.o src/menu_mouse.o \
 src/menu_click.o src/menu_hover.o src/menu_active.o
 
 all: $(FRAMEDIR) $(LIBS) $(FRAME) $(NAME)

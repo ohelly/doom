@@ -6,7 +6,7 @@
 /*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 15:33:53 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/29 21:56:44 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/29 22:12:55 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int					load_menu_button1(t_doom *doom, int v_insets)
 		v_insets + h / 5 * 1 - h / 10 - b->s.b / 2 };
 	b->he.c = 0xffffff;
 	load_menu_button_hudel(doom, b);
+	b->click = menu_button1_click;
 	return (1);
 }
 
@@ -43,6 +44,7 @@ int					load_menu_button2(t_doom *doom, int v_insets)
 		v_insets + h / 5 * 2 - h / 10 - b->s.b / 2 };
 	b->he.c = 0xffffff;
 	load_menu_button_hudel(doom, b);
+	b->click = menu_button2_click;
 	return (1);
 }
 
@@ -60,6 +62,7 @@ int					load_menu_button3(t_doom *doom, int v_insets)
 		v_insets + h / 5 * 3 - h / 10 - b->s.b / 2 };
 	b->he.c = 0xffffff;
 	load_menu_button_hudel(doom, b);
+	b->click = menu_button3_click;
 	return (1);
 }
 
@@ -77,6 +80,7 @@ int					load_menu_button4(t_doom *doom, int v_insets)
 		v_insets + h / 5 * 4 - h / 10 - b->s.b / 2 };
 	b->he.c = 0xffffff;
 	load_menu_button_hudel(doom, b);
+	b->click = menu_button4_click;
 	return (1);
 }
 
@@ -94,5 +98,6 @@ int					load_menu_button5(t_doom *doom, int v_insets)
 		v_insets + h / 5 * 5 - h / 10 - b->s.b / 2 };
 	b->he.c = 0xffffff;
 	load_menu_button_hudel(doom, b);
+	b->click = menu_button5_click;
 	return (1);
 }

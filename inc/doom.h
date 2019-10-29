@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 22:02:47 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/29 22:17:12 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -635,6 +635,16 @@ int					load_menu_button2(t_doom *doom, int v_insets);
 int					load_menu_button3(t_doom *doom, int v_insets);
 int					load_menu_button4(t_doom *doom, int v_insets);
 int					load_menu_button5(t_doom *doom, int v_insets);
+void				menu_button1_click(struct s_doom *doom,
+										struct s_menu_button *b);
+void				menu_button2_click(struct s_doom *doom,
+										struct s_menu_button *b);
+void				menu_button3_click(struct s_doom *doom,
+										struct s_menu_button *b);
+void				menu_button4_click(struct s_doom *doom,
+										struct s_menu_button *b);
+void				menu_button5_click(struct s_doom *doom,
+										struct s_menu_button *b);
 void				draw_menu(t_doom *doom);
 void				menu_mouse(t_doom *doom, int a);
 void				menu_click(t_doom *doom, t_menu_button *cb);
