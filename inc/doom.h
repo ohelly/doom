@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 20:05:23 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/29 20:27:43 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -373,7 +373,11 @@ typedef struct		s_menu
 	TTF_Font		*font;
 	int				s;
 	t_ab_i			p;
-	t_menu_button	btn;
+	t_menu_button	btn1;
+	t_menu_button	btn2;
+	t_menu_button	btn3;
+	t_menu_button	btn4;
+	t_menu_button	btn5;
 }					t_menu;
 
 typedef struct		s_doom
@@ -623,7 +627,11 @@ t_sectors *sect, t_pics *pic);
 void				left_mouse_keydown(t_doom *doom, SDL_Event ev,
 t_weapon *weapon, t_player *player);
 int					load_menu(t_doom *doom);
-int					load_menu_main(t_doom *doom);
+int					load_menu_button1(t_doom *doom, t_menu m);
+int					load_menu_button2(t_doom *doom, t_menu m);
+int					load_menu_button3(t_doom *doom, t_menu m);
+int					load_menu_button4(t_doom *doom, t_menu m);
+int					load_menu_button5(t_doom *doom, t_menu m);
 void				draw_menu(t_doom *doom);
 void				menu_mouse(t_doom *doom, int a);
 void				menu_click(t_doom *doom, t_menu_button *b);
