@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/03 18:32:49 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/29 02:32:08 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 05:59:21 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,10 +56,12 @@ void	edditing_hud_render(t_all_sect *sects, t_hud *hud, t_sdl *sdl)
 	hud->sur = TTF_RenderText_Solid(hud->font, hud->str, hud->color);
 	hud->string = SDL_CreateTextureFromSurface(sdl->rend, hud->sur);
 	render_img(hud->string, sdl->rend, (t_scale) { { 1160, 68 }, 35, 25 });
+	SDL_FreeSurface(hud->sur);
 	my_itoa(hud->str, sects->sectors[sects->selected_sector].floor);
 	hud->sur = TTF_RenderText_Solid(hud->font, hud->str, hud->color);
 	hud->string = SDL_CreateTextureFromSurface(sdl->rend, hud->sur);
 	render_img(hud->string, sdl->rend, (t_scale) { { 1150, 118 }, 45, 25 });
+	SDL_FreeSurface(hud->sur);
 	my_itoa(hud->str, sects->sectors[sects->selected_sector].light);
 	hud->sur = TTF_RenderText_Solid(hud->font, hud->str, hud->color);
 	hud->string = SDL_CreateTextureFromSurface(sdl->rend, hud->sur);
@@ -77,6 +79,7 @@ void	edditing_obj_render(t_all_spr_wall *aspr, t_hud *hud, t_sdl *sdl,
 		hud->sur = TTF_RenderText_Solid(hud->font, hud->str, hud->color);
 		hud->string = SDL_CreateTextureFromSurface(sdl->rend, hud->sur);
 		render_img(hud->string, sdl->rend, (t_scale) {{1160, 415}, 35, 30 });
+		SDL_FreeSurface(hud->sur);
 	}
 	if (aspr->select_spr == -1)
 		return ;
