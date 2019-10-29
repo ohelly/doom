@@ -18,7 +18,7 @@ void		render_weapon2(t_doom *doom, t_xy scale, t_img img, int *pix)
 	int		x;
 	t_xy	t;
 
-	x = 0;;
+	x = 0;
 	while (x < WIDTH)
 	{
 		t.y = 0;
