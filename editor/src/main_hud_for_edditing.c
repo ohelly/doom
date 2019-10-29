@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/18 14:28:33 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/29 02:43:19 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 13:47:52 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,8 @@ void	sky_sect_ceil(t_txt *txt, t_sdl *sdl)
 	render_img(txt->huds[0], sdl->rend, (t_scale) { { 650, 10 }, 50, 50 });
 	render_img(txt->huds[1], sdl->rend, (t_scale) { { 900, 10 }, 50, 50 });
 	render_img(txt->huds[7], sdl->rend, (t_scale) { { 700, 7 }, 200, 50 });
-	/* текстурка на скайбокс */
+	render_img(txt->sky[txt->ind_sky], sdl->rend,
+										(t_scale) {{755, 57}, 70, 70});
 	render_img(txt->huds[0], sdl->rend, (t_scale) { { 950, 10 }, 50, 50 });
 	render_img(txt->huds[1], sdl->rend, (t_scale) { { 1200, 10 }, 50, 50 });
 	render_img(txt->huds[2], sdl->rend, (t_scale) { { 1000, 7 }, 200, 50 });

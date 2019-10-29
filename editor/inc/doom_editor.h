@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 04:06:20 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 13:40:26 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@
 # define COUNT_H 24
 # define COUNT_STOBJ 32
 # define COUNT_PICS 14
-# define COUNT_SKY 3
+# define COUNT_SKY 4
 # define COUNT_SP 6
 # define COUNT_OP 16
 # define COUNT_WP 3
@@ -472,6 +472,7 @@ void					load_sector(t_doom *doom, char *line);
 void					load_obj(t_doom *doom, char *line);
 void					load_spr(t_doom *doom, char *line);
 void					import_player(t_doom *doom, char *line);
+int						load_sky(t_txt *txt, t_sdl *sdl);
 
 /*
 **	Math

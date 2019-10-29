@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loadgame.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:13:26 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 15:08:12 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 09:42:22 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,33 +57,20 @@ int		load_game(t_doom *doom)
 	loadfonts(doom->hud);
 	while (1)
 	{
-		//printf("1\n");
 		fps(&doom->fps);
-		//printf("2\n");
 		animation(doom, doom->fps);
-		//printf("3\n");
 		doors(doom, doom->player, doom->fps);
-		//printf("4\n");
 		draw_screen(doom);
-		//printf("5\n");
 		objects_update(doom);
-		//printf("6\n");
 		enemies_update(doom);
-		//printf("7\n");
 		player_blood_update(doom);
-		//printf("8\n");
 		calc_jump(&doom->player, doom->sectors, doom->fps);
-		//printf("9\n");
 		if (doom->player.move == 1)
-			calc_is_wall(doom, &doom->player);
-		//printf("10\n");
+			calc_is_wall(doom, &doom->player);;
 		while (SDL_PollEvent(&ev))
-			hooks(doom, ev);
-		//printf("11\n");
-		calc_mouse(&doom->player, doom->player.yaw);
-		//printf("12\n");
-		calc_move(doom, &doom->player);
-		//printf("13\n");
+			hooks(doom, ev);;
+		calc_mouse(&doom->player, doom->player.yaw);;
+		calc_move(doom, &doom->player);;
 		SDL_UpdateWindowSurface(doom->sdl->win);
 		if (doom->a)
 			doom->a = 0;

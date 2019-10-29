@@ -39,6 +39,10 @@ float	line_distance(t_xy l1, t_xy l2, t_xy p)
 	proj.x = l1.x + t * (l2.x - l1.x);
 	proj.y = l1.y + t * (l2.y - l1.y);
 	dist = distance(p, proj);
+	if (distance(l1, p) < dist)
+		dist = distance(l1, p);
+	else if (distance(l2, p) < dist)
+		dist = distance(l2, p);
 	return (dist);
 }
 
