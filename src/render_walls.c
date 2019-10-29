@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 18:59:19 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 02:35:43 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 12:54:59 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,18 +34,25 @@ t_cood *cood)
 		scaler.b = cood->cny.a - 1;
 		vline2(cood->x, scaler, scaler_init(cood->wy, cood->cy.a, 0,
 		doom->img[doom->walls[s->txtw[cood->n]].image].w), doom);
+		doom->item[doom->now.sector].ytop[cood->x] = CLAMP(MAX(cood->cny.a, cood->cy.a), 0, HEIGHT - 1);
 		doom->ytop[cood->x] = CLAMP(MAX(cood->cy.a, cood->cny.a - 1),
 		doom->ytop[cood->x], HEIGHT - 1);
 		scaler.a = cood->cny.b;
 		scaler.b = cood->cy.b;
 		vline2(cood->x, scaler, scaler_init(cood->wy, cood->cny.b, 0,
 		doom->img[doom->walls[s->txtw[cood->n]].image].w), doom);
+		doom->item[doom->now.sector].ybot[cood->x] = CLAMP(MIN(cood->cny.b, cood->cy.b), 0, HEIGHT - 1);
 		doom->ybot[cood->x] = CLAMP(MIN(cood->cy.b, cood->cny.b), 0,
 		doom->ybot[cood->x]);
 	}
 	else
+	{
 		vline2(cood->x, cood->cy, scaler_init(cood->wy, cood->cy.a, 0,
 		doom->img[doom->walls[s->txtw[cood->n]].image].w), doom);
+		//printf("cood->x - %d\n", cood->x);
+		doom->item[doom->now.sector].ytop[cood->x] = CLAMP(cood->cy.a, 0, HEIGHT - 1);
+		doom->item[doom->now.sector].ybot[cood->x] = CLAMP(cood->cy.b, 0, HEIGHT - 1);
+	}
 }
 
 void		render_walls(t_doom *doom, t_sectors *s,

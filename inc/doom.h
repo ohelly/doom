@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 10:55:41 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 12:42:36 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -310,9 +310,10 @@ typedef struct		s_item
 	int				sx;
 	int				ex;
 	int				sector;
-	int				*ytop;
-	int				*ybot;
+	int				ytop[WIDTH];
+	int				ybot[WIDTH];
 }					t_item;
+
 
 typedef struct		s_hudel
 {

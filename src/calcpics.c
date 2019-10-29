@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 20:18:01 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 01:40:19 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 13:13:40 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ t_sectors *s, t_doom *doom)
 	else
 		tmp = 9.f;
 	img = pic_get_image(doom, pic);
-	cood->yceil = pic->p.z + s->floor +
+	cood->yceil = pic->p.z +
 	(float)(img.h) / tmp - doom->player.where.z;
-	cood->yfloor = pic->p.z + s->floor - doom->player.where.z;
+	cood->yfloor = pic->p.z - doom->player.where.z;
 	cood->w1y.a = HEIGHT / 2 -
 	(int)(yaw(cood->yceil, cood->t1.z, doom->player) * cood->scale1.y);
 	cood->w1y.b = HEIGHT / 2 -

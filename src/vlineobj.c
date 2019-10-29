@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 17:24:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 10:24:15 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 12:47:22 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,11 +26,20 @@ void	find_ybord(t_xy *ybord, t_obj *obj, t_doom *doom, t_be px)
 {
 	ybord->y = 0;
 	ybord->x = HEIGHT - 1;
-	//if (obj->sector != doom->player.sector)
-	//{
-	//	ybord->y = doom->item[obj->sector].ytop[px.x];
-	//	ybord->x = doom->item[obj->sector].ybot[px.x];
-	//}
+	if (obj->sector != doom->player.sector)
+	{
+		//if (doom->sectors[doom->player.sector].floor < doom->sectors[obj->sector].floor)
+		//{
+			ybord->y = doom->item[obj->sector].ytop[px.x];
+			ybord->x = doom->item[doom->player.sector].ybot[px.x];
+		//}
+		//else
+		//{
+		//	ybord->y = doom->item[doom->player.sector].ytop[px.x];
+		//	ybord->x = doom->item[doom->player.sector].ybot[px.x];
+		//}
+		
+	}
 }
 
 void	vlineobj(t_be px, t_ab_i wy, t_obj *obj, t_doom *doom)
