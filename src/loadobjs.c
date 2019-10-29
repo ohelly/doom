@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loadobjs.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 12:50:34 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 04:46:21 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 17:37:19 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,11 +89,10 @@ int		loadobjs(t_doom *doom, char *str)
 	o->anim_count = doom->objs_data[o->id].anim_count;
 	o->images = doom->objs_data[o->id].images;
 	o->enabled = 1;
-	o->n = n;
+	o->n = n++;
 	o->scale = 4.0f;
 	if (o->type == OBJ_TYPE_KEY)
 		doom->hud->key = o;
 	create_obj(doom, o);
-	n++;
 	return (0);
 }

@@ -3,15 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   tomapcood.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 20:21:01 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 06:06:00 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 17:45:17 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
-
 
 void	to_absolute_ones(t_xyz *map, t_player player)
 {

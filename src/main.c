@@ -3,28 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:14:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 16:46:53 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 17:43:55 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-int        check_extension(char *av)
+int			check_extension(char *av)
 {
-    int		i;
+	int		i;
 
-    i = ft_strlen(av) - 4;
-    if (!(ft_strcmp(&av[i], ".map")))
-        return (1);
-    return (0);
+	i = ft_strlen(av) - 4;
+	if (!(ft_strcmp(&av[i], ".map")))
+		return (1);
+	return (0);
 }
 
-int		difficulty(t_doom *doom, char *av)
+int			difficulty(t_doom *doom, char *av)
 {
-	
 	if (ft_strequ(av, "Easy"))
 		doom->difficult = 1;
 	if (ft_strequ(av, "Medium"))
@@ -34,21 +33,21 @@ int		difficulty(t_doom *doom, char *av)
 	return (1);
 }
 
-int		validate_av(t_doom *doom, int ac, char **av)
+int			validate_av(t_doom *doom, int ac, char **av)
 {
 	if (!(check_extension(av[0])))
 		return (0);
 	return (1);
 }
 
-int		load_level(t_doom *doom, char **av)
+int			load_level(t_doom *doom, char **av)
 {
 	if (!(load_all(doom, av)))
 		return (0);
 	return (1);
 }
 
-int		main(int ac, char **av)
+int			main(int ac, char **av)
 {
 	t_doom	*doom;
 

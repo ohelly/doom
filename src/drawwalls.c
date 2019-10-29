@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   drawwalls.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 20:14:26 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 14:39:50 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 17:33:13 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,31 +17,25 @@ int			renew2(t_doom *doom, int *rensects)
 	int		x;
 	int		y;
 
-	x = 0;
-	while (x < doom->num.sectors)
+	x = -1;
+	while (++x < doom->num.sectors)
 	{
-		y = 0;
-		while (y < WIDTH)
+		y = -1;
+		while (++y < WIDTH)
 		{
 			doom->item[x].ytop[y] = 0;
 			doom->item[x].ybot[y] = HEIGHT - 1;
-			y++;
 		}
 		doom->lookwall[x] = -1;
 		doom->item[x].sector = 0;
 		rensects[x] = 0;
-		x++;
 	}
-	y = 0;
-	while (y < HEIGHT)
+	y = -1;
+	while (++y < HEIGHT)
 	{
-		x = 0;
-		while (x < WIDTH)
-		{
+		x = -1;
+		while (++x < WIDTH)
 			doom->visible[y][x] = 0;
-			x++;
-		}
-		y++;
 	}
 	return (0);
 }
@@ -99,7 +93,6 @@ int			draw_walls(t_doom *doom)
 		++rensects[doom->now.sector];
 		assign_value(doom->item, doom->now, rensects);
 		s = &doom->sectors[doom->now.sector];
-		//printf("doom->now.sector - %d\n", doom->now.sector);
 		calc_sector(doom, s, &doom->cood, doom->player);
 		++rensects[doom->now.sector];
 	}
