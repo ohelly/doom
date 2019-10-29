@@ -6,7 +6,7 @@
 #    By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/02 20:58:32 by lminta            #+#    #+#              #
-#    Updated: 2019/10/29 01:04:56 by dtoy             ###   ########.fr        #
+#    Updated: 2019/10/29 10:24:31 by dtoy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,7 @@ FRAMEDIR = /Users/$(USER)/Library/Frameworks
 FRAME = $(FRAMEDIR)/SDL2.framework $(FRAMEDIR)/SDL2_image.framework \
 $(FRAMEDIR)/SDL2_mixer.framework $(FRAMEDIR)/SDL2_ttf.framework
 
-FLAGS = -Wall -Werror -Wextra -Ofast -c
+FLAGS =  -Ofast -c
 
 LIBS = lib
 

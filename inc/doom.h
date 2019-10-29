@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 08:42:13 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 10:02:57 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -370,7 +370,7 @@ typedef struct		s_doom
 	t_player		player;
 	t_num			num;
 	t_fps			fps;
-	t_item			queue[64];
+	t_item			queue[32];
 	t_item			*head;
 	t_item			*tail;
 	t_item			*item;
