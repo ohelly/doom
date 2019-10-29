@@ -6,7 +6,7 @@
 /*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 15:33:53 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/29 22:12:55 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/29 22:21:52 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int					load_menu_button1(t_doom *doom, int v_insets)
 {
 	t_menu_button	*b;
 	int				h;
-	
+
 	h = HEIGHT - v_insets * 2;
 	b = &doom->menu.btn1;
 	b->color = 0x00babc;
@@ -34,7 +34,7 @@ int					load_menu_button2(t_doom *doom, int v_insets)
 {
 	t_menu_button	*b;
 	int				h;
-	
+
 	h = HEIGHT - v_insets * 2;
 	b = &doom->menu.btn2;
 	b->color = 0x00babc;
@@ -52,7 +52,7 @@ int					load_menu_button3(t_doom *doom, int v_insets)
 {
 	t_menu_button	*b;
 	int				h;
-	
+
 	h = HEIGHT - v_insets * 2;
 	b = &doom->menu.btn3;
 	b->color = 0x00babc;
@@ -70,7 +70,7 @@ int					load_menu_button4(t_doom *doom, int v_insets)
 {
 	t_menu_button	*b;
 	int				h;
-	
+
 	h = HEIGHT - v_insets * 2;
 	b = &doom->menu.btn4;
 	b->color = 0x00babc;
@@ -88,7 +88,7 @@ int					load_menu_button5(t_doom *doom, int v_insets)
 {
 	t_menu_button	*b;
 	int				h;
-	
+
 	h = HEIGHT - v_insets * 2;
 	b = &doom->menu.btn5;
 	b->color = 0x00babc;

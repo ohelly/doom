@@ -6,7 +6,7 @@
 /*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 15:33:43 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/29 22:01:28 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/29 22:22:49 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,9 @@ void		load_menu_button(t_doom *doom, t_menu_button *b)
 
 int			load_menu(t_doom *doom)
 {
-	int		v_insets = 	HEIGHT / 10;
+	int		v_insets;
+
+	v_insets = HEIGHT / 10;
 	SDL_SetRelativeMouseMode(0);
 	doom->menu.s = 0;
 	doom->menu.p = (t_ab_i){ 20, 20 };
