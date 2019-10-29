@@ -6,7 +6,7 @@
 /*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 15:33:43 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/29 21:55:28 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/29 22:01:28 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void		load_menu_button(t_doom *doom, t_menu_button *b)
 	b->d_color = 0xaaaaaa;
 	b->he.f = doom->menu.font;
 	b->he.b = 0;
+	b->click = 0;
 }
 
 int			load_menu(t_doom *doom)

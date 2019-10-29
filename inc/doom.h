@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 21:54:18 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/29 22:02:47 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -366,6 +366,7 @@ typedef struct		s_menu_button
 	int				h_color;
 	int				a_color;
 	int				d_color;
+	void			(*click)(struct s_doom *doom, struct s_menu_button *b);
 }					t_menu_button;
 
 typedef struct		s_menu
