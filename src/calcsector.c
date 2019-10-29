@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 20:15:57 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 10:09:23 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 11:15:20 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ t_cood *cood, t_player player)
 	if (cood->t1.z <= 0 && cood->t2.z <= 0)
 		return (0);
 	cood->u0 = 0;
-	cood->u1 = (int)sqrt(powf(cood->v1.x - cood->v2.x, 2) +
-	powf(cood->v1.y - cood->v2.y, 2)) / ((s->ceil + s->floor) / 256) * 2;
+	cood->u1 = 128;//; / ((s->ceil - s->floor) / 142) * 3;
 	if (cood->t1.z <= 0 || cood->t2.z <= 0)
 		intersect(&cood->t1, &cood->t2, cood);
 	if (!(find_scales(cood)))
