@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:14:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 16:39:46 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 16:46:53 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@ int        check_extension(char *av)
 
 int		difficulty(t_doom *doom, char *av)
 {
+	
 	if (ft_strequ(av, "Easy"))
 		doom->difficult = 1;
 	if (ft_strequ(av, "Medium"))
@@ -52,15 +53,17 @@ int		main(int ac, char **av)
 	t_doom	*doom;
 
 	if (ac < 2 || ac > 3)
+	{
+		ft_putendl("Usage :\n\t./doom-nukem [map] [difficulty]");
 		return (0);
+	}
 	if (!(validate_av(doom, ac, &av[1])))
 		return (0);
 	if (!(doom = (t_doom*)ft_memalloc(sizeof(t_doom))))
 		return (0);
-		if (ac == 3)
-	difficulty(doom, av[2]);
-	doom->ac = ac;
-	doom->av = av;
+	doom->difficult = 1;
+	if (ac == 3)
+		difficulty(doom, av[2]);
 	if (!(doom->sdl = (t_sdl*)ft_memalloc(sizeof(t_sdl))))
 		return (0);
 	load_level(doom, av);
