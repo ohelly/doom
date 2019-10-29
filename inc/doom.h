@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 20:58:07 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/29 21:17:29 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -635,8 +635,8 @@ int					load_menu_button4(t_doom *doom);
 int					load_menu_button5(t_doom *doom);
 void				draw_menu(t_doom *doom);
 void				menu_mouse(t_doom *doom, int a);
-void				menu_click(t_doom *doom, t_menu_button *b);
-void				menu_hover(t_doom *doom, t_menu_button *b);
-void				menu_active(t_doom *doom, t_menu_button *b);
+void				menu_click(t_doom *doom, t_menu_button *cb);
+void				menu_hover(t_doom *doom, t_menu_button *hb);
+void				menu_active(t_doom *doom, t_menu_button *ab);
 
 #endif

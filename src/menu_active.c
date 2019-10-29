@@ -6,13 +6,22 @@
 /*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 20:04:39 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/29 20:04:56 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/29 21:23:05 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-void			menu_active(t_doom *doom, t_menu_button *b)
+static void		menu_active_button(t_menu_button *b, t_menu_button *ab)
 {
-	doom->menu.btn.a = b == &doom->menu.btn && !doom->menu.btn.d;
+	b->a = !b->d && ab == b;
+}
+
+void			menu_active(t_doom *doom, t_menu_button *ab)
+{
+	menu_active_button(&doom->menu.btn1, ab);
+	menu_active_button(&doom->menu.btn2, ab);
+	menu_active_button(&doom->menu.btn3, ab);
+	menu_active_button(&doom->menu.btn4, ab);
+	menu_active_button(&doom->menu.btn5, ab);
 }
