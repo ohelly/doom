@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 02:36:04 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 04:06:20 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -427,7 +427,6 @@ void					correction_height_sprite(t_doom *doom);
 void					height_spr(int x, int y, t_all_spr_wall *aspr,
 													t_all_sect *sectors);
 int						lines_intersect_loop(t_doom *doom, t_v2 p1, t_v2 p2);
-int						load_header(t_doom *doom, char *line);
 int						scalar_product(t_v2 v1, t_v2 v2, t_v2 v3);
 void					export_vert(t_doom *doom);
 int						sorted_vert(t_doom *doom, int index);
@@ -469,6 +468,10 @@ void					export_objs(t_doom *doom);
 void					export_pospics(t_doom *doom);
 void					export_player(t_doom *doom);
 void					health_player(int x, int y, t_player *player);
+void					load_sector(t_doom *doom, char *line);
+void					load_obj(t_doom *doom, char *line);
+void					load_spr(t_doom *doom, char *line);
+void					import_player(t_doom *doom, char *line);
 
 /*
 **	Math
