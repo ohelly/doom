@@ -39,8 +39,3 @@ int			intersect_box(t_xy p, t_xy d, t_xy v1, t_xy v2)
 {
 	return (overlap(p.x, d.x, v1.x, v2.x) && overlap(p.y, d.y, v1.y, v2.y));
 }
-
-int			point_side(t_xy d, t_xy v1, t_xy v2)
-{
-	return (vxs(v2.x - v1.x, v2.y - v1.y, d.x - v1.x, d.y - v1.y));
-}

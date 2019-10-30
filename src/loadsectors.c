@@ -12,27 +12,6 @@
 
 #include "doom.h"
 
-int		takencount(char *str)
-{
-	int		j;
-	int		count;
-
-	j = 0;
-	count = 0;
-	while (str[j])
-	{
-		if (ft_isdigit(str[j]) || str[j] == '-')
-		{
-			count++;
-			while (ft_isdigit(str[j]) || str[j] == '-')
-				j++;
-		}
-		else
-			j++;
-	}
-	return (count);
-}
-
 char	*vertinsect(char *str, t_xy *vert, t_xy *v, int vnum)
 {
 	int		j;
@@ -79,20 +58,12 @@ char	*wallsinsect(char *str, t_sectors *s, int vnum)
 	return (str);
 }
 
-int		loadsectors(t_sectors *s, t_xy *v, char *str)
+int		get_sector(t_sectors *s, t_xy *v, char *str, int n)
 {
-	static int	n = 0;
-	float		tmp;
-	int			vnum;
+	float	tmp;
+	int		vnum;
 
 	vnum = ((takencount(str) - 7) / 3);
-	s[n].npoints = vnum;
-	if (!(s[n].vert = ft_memalloc(sizeof(t_xy) * (vnum + 1))))
-		return (0);
-	if (!(s[n].neighbors = ft_memalloc(sizeof(int) * vnum)))
-		return (0);
-	if (!(s[n].txtw = ft_memalloc(sizeof(int) * vnum)))
-		return (0);
 	str = todigit(str, &s[n].floor);
 	str = todigit(str, &s[n].ceil);
 	s[n].constceil = s[n].ceil;
@@ -113,6 +84,23 @@ int		loadsectors(t_sectors *s, t_xy *v, char *str)
 	s[n].sky = (int)tmp;
 	s[n].open = 0;
 	s[n].close = 1;
+	return (1);
+}
+
+int		loadsectors(t_sectors *s, t_xy *v, char *str)
+{
+	static int	n = 0;
+	int			vnum;
+
+	vnum = ((takencount(str) - 7) / 3);
+	s[n].npoints = vnum;
+	if (!(s[n].vert = ft_memalloc(sizeof(t_xy) * (vnum + 1))))
+		return (0);
+	if (!(s[n].neighbors = ft_memalloc(sizeof(int) * vnum)))
+		return (0);
+	if (!(s[n].txtw = ft_memalloc(sizeof(int) * vnum)))
+		return (0);
+	get_sector(s, v, str, n);
 	n++;
 	return (1);
 }
