@@ -71,10 +71,14 @@ static int		load_hud_message(t_doom *doom)
 	e = &doom->hud->message;
 	e->f = doom->hud->font;
 	e->t = "LEVEL COMPLETED";
+	if (doom->player.hp <= 0)
+		e->t = "YOU DIED";
 	load_hudel(e);
 	e->x = WIDTH / 2 - e->w / 2;
 	e->y = e->h - 20;
 	e->c = 0xffffff;
+	if (doom->player.hp <= 0)
+		e->c = 0xff0000;
 	e->b = 0x000000;
 	return (1);
 }
