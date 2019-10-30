@@ -62,9 +62,25 @@ static int		load_hud_ammo(t_doom *doom)
 	return (1);
 }
 
+static int		load_hud_message(t_doom *doom)
+{
+	t_hudel		*e;
+
+	e = &doom->hud->message;
+	e->f = doom->hud->font;
+	e->t = "LEVEL COMPLETED";
+	load_hudel(e);
+	e->x = WIDTH / 2 - e->w / 2;
+	e->y = e->h - 20;
+	e->c = 0xffffff;
+	e->b = 0x000000;
+	return (1);
+}
+
 int				load_hud(t_doom *doom)
 {
-	if (!(load_hud_health(doom)) || !(load_hud_ammo(doom)))
+	if (!(load_hud_health(doom)) || !(load_hud_ammo(doom)) ||
+		!(load_hud_message(doom)))
 		return (0);
 	return (1);
 }

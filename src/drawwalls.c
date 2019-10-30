@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 20:14:26 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 17:33:13 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 17:27:31 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,12 +81,12 @@ int			draw_walls(t_doom *doom)
 	doom->head = doom->queue;
 	doom->tail = doom->queue;
 	renew(doom->head, doom, rensects);
-	if (++doom->head == doom->queue + 32)
+	if (++doom->head == doom->queue + 128)
 		doom->head = doom->queue;
 	while (doom->head != doom->tail)
 	{
 		doom->now = *doom->tail;
-		if (++doom->tail == doom->queue + 32)
+		if (++doom->tail == doom->queue + 128)
 			doom->tail = doom->queue;
 		if (rensects[doom->now.sector] & 0x21)
 			continue ;

@@ -48,6 +48,23 @@ t_xy	find_t(t_player player, t_xyz p)
 	return (t);
 }
 
+int		spawn_bullet_decal(t_doom *doom, t_sectors *s, int sector, t_pics *pic)
+{
+	if (s->neighbors[doom->lookwall[sector]] < 0)
+	{
+		if (doom->shot_pics.p.z > s->ceil ||
+		doom->shot_pics.p.z < s->floor)
+			return (0);
+		findpicpoints(doom, &doom->shot_pics,
+		(float)(doom->img[doom->shot_pics.images[0][0]].w) / 270.f);
+	}
+	else
+		return (0);
+	pic[doom->num.pics + doom->num_shots] = doom->shot_pics;
+	doom->num_shots++;
+	return (1);
+}
+
 int		shoot_wall(t_doom *doom, t_player player, t_sectors *sect, t_pics *pic)
 {
 	int			sector;
@@ -68,21 +85,9 @@ int		shoot_wall(t_doom *doom, t_player player, t_sectors *sect, t_pics *pic)
 		return (0);
 	doom->shot_pics.p = i;
 	doom->shot_pics.p.z = player.where.z + tanf(atanf(-player.yaw)) *
-	(sqrtf(powf(i.x - doom->player.where.x, 2) +
-	powf(i.y - doom->player.where.y, 2)));
+		(sqrtf(powf(i.x - doom->player.where.x, 2) +
+		powf(i.y - doom->player.where.y, 2)));
 	doom->shot_pics.wall = doom->lookwall[sector];
 	doom->shot_pics.sector = sector;
-	if (s->neighbors[doom->lookwall[sector]] < 0)
-	{
-		if (doom->shot_pics.p.z > s->ceil ||
-		doom->shot_pics.p.z < s->floor)
-			return (0);
-		findpicpoints(doom, &doom->shot_pics,
-		(float)(doom->img[doom->shot_pics.images[0][0]].w) / 270.f);
-	}
-	else
-		return (0);
-	pic[doom->num.pics + doom->num_shots] = doom->shot_pics;
-	doom->num_shots++;
-	return (0);
+	return (spawn_bullet_decal(doom, s, sector, pic));
 }

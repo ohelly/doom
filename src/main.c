@@ -6,13 +6,13 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:14:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 17:43:55 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/29 17:48:45 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-int			check_extension(char *av)
+int		check_extension(char *av)
 {
 	int		i;
 
@@ -22,7 +22,7 @@ int			check_extension(char *av)
 	return (0);
 }
 
-int			difficulty(t_doom *doom, char *av)
+int		difficulty(t_doom *doom, char *av)
 {
 	if (ft_strequ(av, "Easy"))
 		doom->difficult = 1;
@@ -33,21 +33,21 @@ int			difficulty(t_doom *doom, char *av)
 	return (1);
 }
 
-int			validate_av(t_doom *doom, int ac, char **av)
+int		validate_av(char **av)
 {
 	if (!(check_extension(av[0])))
 		return (0);
 	return (1);
 }
 
-int			load_level(t_doom *doom, char **av)
+int		load_level(t_doom *doom, char **av)
 {
 	if (!(load_all(doom, av)))
 		return (0);
 	return (1);
 }
 
-int			main(int ac, char **av)
+int		main(int ac, char **av)
 {
 	t_doom	*doom;
 
@@ -56,7 +56,7 @@ int			main(int ac, char **av)
 		ft_putendl("Usage :\n\t./doom-nukem [map] [difficulty]");
 		return (0);
 	}
-	if (!(validate_av(doom, ac, &av[1])))
+	if (!(validate_av(&av[1])))
 		return (0);
 	if (!(doom = (t_doom*)ft_memalloc(sizeof(t_doom))))
 		return (0);

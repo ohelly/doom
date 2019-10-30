@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:21:04 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 10:57:59 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 18:08:59 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,9 +38,7 @@ int		load_data(t_doom *doom, char **map)
 		else if (ft_strcmp(map[i], "weapon_data") == 0)
 			load_weapon_data(map, doom, i + 1);
 		else if (ft_strcmp(map[i], "obj_data") == 0)
-		{
 			load_obj_data(map, doom, i + 1);
-		}
 		else if (ft_strcmp(map[i], "pic_data") == 0)
 			load_pic_data(map, doom, i + 1);
 		else
@@ -57,9 +55,12 @@ int		load_all(t_doom *doom, char **av)
 	load_data(doom, doom->map);
 	load_params(doom, doom->map);
 	if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 1024) < 0)
-		printf("Error opening audio! %s\n", Mix_GetError());
+	{
+		ft_putstr("Error opening audio! ");
+		ft_putendl(Mix_GetError());
+	}
 	else
-		printf("Audio loaded successfully!\n");
+		ft_putendl("Audio loaded successfully!");
 	load_music(doom);
 	play_music(doom, 0);
 	load_game(doom);

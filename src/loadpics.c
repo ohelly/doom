@@ -25,15 +25,6 @@ void	pic_anim_next(t_pics *pic)
 		pic->anim_frame = 0;
 }
 
-int		findvx(t_xy *v1, t_xy *v2, t_xy *vert, int wall)
-{
-	v1->x = vert[wall].x;
-	v1->y = vert[wall].y;
-	v2->x = vert[wall + 1].x;
-	v2->y = vert[wall + 1].y;
-	return (0);
-}
-
 int		findpicpoints(t_doom *doom, t_pics *pic, float w)
 {
 	t_xy	d1;
@@ -56,14 +47,11 @@ int		findpicpoints(t_doom *doom, t_pics *pic, float w)
 	return (0);
 }
 
-int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str)
+int		get_pic(t_pics *pic, char *str, int n)
 {
-	static int	n = 0;
-	float		tmp;
-	int			id;
-	int			i;
+	float	tmp;
+	int		id;
 
-	i = -1;
 	str = todigit(str, &tmp);
 	id = (int)tmp;
 	str = todigit(str, &tmp);
@@ -75,6 +63,17 @@ int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str)
 	pic[n].wall = (int)tmp;
 	str = todigit(str, &tmp);
 	pic[n].sector = (int)tmp;
+	return (id);
+}
+
+int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str)
+{
+	static int	n = 0;
+	int			id;
+	int			i;
+
+	i = -1;
+	id = get_pic(pic, str, n);
 	while (++i < pic[n].sector)
 		pic[n].wall -= doom->sectors[i].npoints;
 	pic[n].wall++;
@@ -83,7 +82,7 @@ int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str)
 	pic[n].anim_count = pics_data[id].anim_count;
 	pic[n].states_count = pics_data[id].states_count;
 	findpicpoints(doom, &pic[n],
-	(float)(doom->img[pic[n].images[0][0]].w) / (64.f));
+		(float)(doom->img[pic[n].images[0][0]].w) / (64.f));
 	n++;
 	return (0);
 }

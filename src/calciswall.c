@@ -34,12 +34,11 @@ int		calc_newsector(t_xy d, t_doom *doom, t_player *player)
 	n = -1;
 	while (++n < sect->npoints)
 	{
-		if (sect->neighbors[n] >= 0 &&
-		IntersectBox(p.x, p.y, p1.x, p1.y, v[n].x,
-						v[n].y, v[n + 1].x, v[n + 1].y) &&
-		PointSide(p1.x, p1.y, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) < 0)
+		if (sect->neighbors[n] >= 0 && collision_box_dir(p, p1, v[n], v[n + 1]))
 		{
 			player->sector = sect->neighbors[n];
+			if (player->sector == player->end)
+				player_win(doom);
 			if (player->where.z != doom->sectors[player->sector].floor)
 				doom->player.fall = 1;
 			break ;
@@ -88,9 +87,7 @@ int		is_wall(t_doom *doom, t_sectors *sect, t_xy *d, int n)
 	p.y = doom->player.where.y;
 	p1.x = doom->player.where.x + d->x;
 	p1.y = doom->player.where.y + d->y;
-	if ((IntersectBox(p.x, p.y, p1.x, p1.y,
-	v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) &&
-	PointSide(p1.x, p1.y, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) < 0))
+	if (collision_box_dir(p, p1, v[n], v[n + 1]))
 		if (glide_on_wall(d, doom, sect, n))
 			return (1);
 	return (0);
