@@ -6,7 +6,7 @@
 /*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 17:00:43 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/30 20:41:43 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 20:46:03 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,9 +40,9 @@ static void			load_menu_button(t_doom *doom, t_menu_button *b)
 	b->h = 0;
 	b->a = 0;
 	b->d = 0;
-	b->s_color = (int)((b->color & 255) * 1.15) +
-				((int)((b->color >> 8 & 255) * 1.15) << 8) +
-				((int)((b->color >> 16 & 255) * 1.15) << 16);
+	b->s_color = (int)((b->color & 255) * 1.25) +
+				((int)((b->color >> 8 & 255) * 1.25) << 8) +
+				((int)((b->color >> 16 & 255) * 1.25) << 16);
 	b->h_color = (int)((b->color & 255) * 0.75) +
 				((int)((b->color >> 8 & 255) * 0.75) << 8) +
 				((int)((b->color >> 16 & 255) * 0.75) << 16);
