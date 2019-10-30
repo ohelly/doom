@@ -6,7 +6,7 @@
 /*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 17:00:43 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/30 17:04:11 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 19:06:39 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,19 @@
 
 static void			load_menu_button_hudel(t_doom *doom, t_menu_button *b)
 {
-	t_menu	m;
+	t_hudel		*e;
+	t_menu		m;
+	SDL_Color	color;
 
+	e = &b->he;
 	m = doom->menu;
-	load_hudel(&b->he);
+	color = (SDL_Color) { 255, 255, 255, 0};
+	SDL_FreeSurface(e->s);
+	if (!(e->s = TTF_RenderText_Solid(e->f, e->t, color)))
+		return ;
+	e->p = e->s->pixels;
+	e->w = e->s->w;
+	e->h = e->s->h;
 	b->he.x = m.p.a + b->p.a + b->s.a / 2 - b->he.w / 2;
 	b->he.y = m.p.b + b->p.b + b->s.b / 2 - b->he.h / 2;
 }
