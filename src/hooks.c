@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 01:50:20 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 20:14:46 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,17 +82,27 @@ int		hooks(t_doom *doom, SDL_Event ev)
 {
 	if (ev.type == SDL_MOUSEBUTTONDOWN)
 	{
-		left_mouse_keydown(doom, ev,
-		&doom->weapon[doom->player.weapon], &doom->player);
-		if (ev.button.button == SDL_BUTTON_RIGHT)
-			doom->rkey = 1;
+		if (doom->menu.s)
+			menu_mouse(doom, 1);
+		else
+		{
+			left_mouse_keydown(doom, ev,
+					&doom->weapon[doom->player.weapon], &doom->player);
+			if (ev.button.button == SDL_BUTTON_RIGHT)
+				doom->rkey = 1;
+		}
 	}
 	if (ev.type == SDL_MOUSEBUTTONUP)
 	{
-		if (ev.button.button == SDL_BUTTON_LEFT)
-			doom->lkey = 0;
-		if (ev.button.button == SDL_BUTTON_RIGHT)
-			doom->rkey = 0;
+		if (doom->menu.s)
+			menu_mouse(doom, 2);
+		else
+		{
+			if (ev.button.button == SDL_BUTTON_LEFT)
+				doom->lkey = 0;
+			if (ev.button.button == SDL_BUTTON_RIGHT)
+				doom->rkey = 0;
+		}
 	}
 	if (ev.type == SDL_KEYDOWN)
 		keydown(doom, ev);
