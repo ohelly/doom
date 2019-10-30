@@ -12,15 +12,18 @@
 
 #include "doom.h"
 
+/*
+**	printf("Frametime: %f ms\n", doom->fps.time_frame);
+**	printf("FPS is %f\n", 1 / doom->fps.time_frame);
+**	printf("Average FPS is %f\n", 1 /
+**			(doom->fps.fps_total / doom->fps.fps_count));
+*/
+
 int		profile_output(t_doom *doom)
 {
-	printf("===Profiling results===\n");
-	printf("Frametime: %f ms\n", doom->fps.time_frame);
-	printf("FPS is %f\n", 1 / doom->fps.time_frame);
-	printf("Average FPS is %f\n", 1 /
-			(doom->fps.fps_total / doom->fps.fps_count));
+	ft_putendl("===Profiling results===");
 	doom->fps.fps_count = 0;
 	doom->fps.fps_total = 0;
-	printf("===Profiling completed===\n");
+	ft_putendl("===Profiling completed===");
 	return (1);
 }

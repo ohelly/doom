@@ -36,8 +36,8 @@ int		countall(t_doom *doom, char **map)
 {
 	int		i;
 
-	i = 0;
-	while (map[i])
+	i = -1;
+	while (map[++i])
 	{
 		if (*map[i] == '#')
 			i++;
@@ -49,11 +49,14 @@ int		countall(t_doom *doom, char **map)
 			doom->num.objs++;
 		if (ft_strncmp(map[i], "Pics", ft_strlen("pics")) == 0)
 			doom->num.pics++;
-		i++;
 	}
-	printf("NumVertexes - %d\n", doom->num.vertexes);
-	printf("NumSectors - %d\n", doom->num.sectors);
-	printf("NumObjs - %d\n", doom->num.objs);
-	printf("NumPics - %d\n", doom->num.pics);
+	ft_putnbr(doom->num.vertexes);
+	ft_putendl(" - numVertexes");
+	ft_putnbr(doom->num.sectors);
+	ft_putendl(" - numSectors");
+	ft_putnbr(doom->num.objs);
+	ft_putendl(" - numObjects");
+	ft_putnbr(doom->num.pics);
+	ft_putendl(" - numPics");
 	return (0);
 }

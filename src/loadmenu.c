@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loadmenu.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 15:33:43 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/30 17:17:42 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 17:30:54 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,4 +43,5 @@ int					load_menu(t_doom *doom)
 	doom->menu.h = HEIGHT - doom->menu.i * 2;
 	doom->menu.p = (t_ab_i){ 0, 0 };
 	load_buttons(doom);
+	return (0);
 }

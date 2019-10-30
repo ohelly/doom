@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   t_menu_button.h                                    :+:      :+:    :+:   */
+/*   menu.h                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
+/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 14:07:27 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/30 15:21:17 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 17:27:16 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,8 @@
 # define MENU_WIDTH				300
 # define MENU_HEIGHT			240
 # define BTN_HEIGHT				40
+
+typedef struct				s_doom	t_doom;
 
 typedef struct				s_menu_button
 {

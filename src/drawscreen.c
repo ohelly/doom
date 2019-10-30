@@ -3,7 +3,7 @@
 /*                                                        :::      ::::::::   */
 /*   drawscreen.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:33:12 by dtoy              #+#    #+#             */
 /*   Updated: 2019/10/29 16:04:33 by glormell         ###   ########.fr       */

@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/30 17:05:20 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 17:28:42 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,12 +40,10 @@
 # define KNEEHEIGHT 3
 # define HFOV (0.73f * HEIGHT / WIDTH)
 # define VFOV (0.2f)
-# define MIN(a,b)             (((a) < (b)) ? (a) : (b))
-# define MAX(a,b)             (((a) > (b)) ? (a) : (b))
-# define CLAMP(a, mi,ma)      MIN(MAX(a,mi),ma)
-# define Overlap(a0,a1,b0,b1) (MIN(a0,a1) <= MAX(b0,b1) && MIN(b0,b1) <= MAX(a0,a1))
-# define IntersectBox(x0,y0, x1,y1, x2,y2, x3,y3) (Overlap(x0,x1,x2,x3) && Overlap(y0,y1,y2,y3))
-# define PointSide(px,py, x0,y0, x1,y1) vxs((x1)-(x0), (y1)-(y0), (px)-(x0), (py)-(y0))
+# define MIN(a,b)				(((a) < (b)) ? (a) : (b))
+# define MAX(a,b)				(((a) > (b)) ? (a) : (b))
+# define CLAMP(a, mi,ma)		MIN(MAX(a,mi),ma)
+# define OVERLAP(a0,a1,b0,b1)	(overlap(a0,a1,b0,b1))
 
 # define SOUND_SHOOT			0
 # define SOUND_PICKUP			1
@@ -201,13 +199,15 @@ typedef struct		s_player
 	int				weapon;
 	int				allweapons[4];
 	int				hp;
-	float			blood;
 	float			col_size;
 	int				reload;
 	int				shoots;
 	int				wall;
 	int				key;
 	int				dead;
+	int				f_col;
+	float			f_dur;
+	int				won;
 }					t_player;
 
 typedef struct		s_sectors
@@ -278,7 +278,6 @@ typedef struct		s_item
 	int				ybot[WIDTH];
 }					t_item;
 
-
 typedef struct		s_music
 {
 	Mix_Music		*music;
@@ -313,7 +312,7 @@ typedef struct		s_doom
 	t_player		player;
 	t_num			num;
 	t_fps			fps;
-	t_item			queue[32];
+	t_item			queue[128];
 	t_item			*head;
 	t_item			*tail;
 	t_item			*item;
@@ -342,6 +341,8 @@ typedef struct		s_doom
 	int				ac;
 	int				level;
 	char			**av;
+	int				enem_n[WIDTH];
+	int				difficult;
 	struct s_enemy	*enemies;
 	t_music			music[2];
 	t_sound			sound[17];
@@ -408,8 +409,6 @@ int					calc_jump(t_player *player, t_sectors *sectors, t_fps fps);
 int					doors(t_doom *doom, t_player player, t_fps fps);
 int					animation(t_doom *doom, t_fps fps);
 int					intersect(t_xyz *t1, t_xyz *t2, t_cood *cood);
-//int					point_side(t_xy d, t_xy v1, t_xy v2);
-//int					intersect_box(t_xy p, t_xy d, t_xy v1, t_xy v2);
 int					find_scales(t_cood *cood);
 int					find_yceil_yfloor(t_doom *doom, t_sectors *s,
 t_cood *cood, t_player player);
@@ -555,5 +554,8 @@ void				menu_mouse(t_doom *doom, int a);
 void				menu_click(t_doom *doom, t_menu_button *cb);
 void				menu_hover(t_doom *doom, t_menu_button *hb);
 void				menu_active(t_doom *doom, t_menu_button *ab);
+int					player_win(t_doom *doom);
+int					takencount(char *str);
+int					findvx(t_xy *v1, t_xy *v2, t_xy *vert, int wall);
 
 #endif

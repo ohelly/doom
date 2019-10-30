@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 17:24:41 by njacobso          #+#    #+#             */
-/*   Updated: 2019/10/29 04:02:49 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 17:49:07 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,20 +70,19 @@ int		walls_collision(t_doom *doom, t_xy pl)
 int		player_move(t_doom *doom, t_xy delta)
 {
 	t_xy		player;
-	t_xy		move_pos;
 	t_xy		pl;
 
+	if (doom->player.velocity.x == 0 || doom->player.velocity.y == 0)
+		return (0);
 	player = (t_xy){doom->player.where.x, doom->player.where.y};
-	move_pos = v2_add(player, (t_xy){delta.x, 0});
-	pl = move_pos;
+	pl = v2_add(player, (t_xy){delta.x, 0});
 	delta.x *= walls_collision(doom, pl);
-	move_pos = v2_add(player, (t_xy){0, delta.y});
-	pl = move_pos;
+	pl = v2_add(player, (t_xy){0, delta.y});
 	delta.y *= walls_collision(doom, pl);
-	move_pos = v2_add(player, (t_xy){delta.x, 0});
-	delta.x *= obj_collision(doom, move_pos);
-	move_pos = v2_add(player, (t_xy){0, delta.y});
-	delta.y *= obj_collision(doom, move_pos);
+	pl = v2_add(player, (t_xy){delta.x, 0});
+	delta.x *= obj_collision(doom, pl);
+	pl = v2_add(player, (t_xy){0, delta.y});
+	delta.y *= obj_collision(doom, pl);
 	doom->player.where.x = player.x + delta.x;
 	doom->player.where.y = player.y + delta.y;
 	doom->player.psin = sinf(doom->player.angle);
@@ -97,40 +96,46 @@ int		player_move(t_doom *doom, t_xy delta)
 
 int		player_blood_update(t_doom *doom)
 {
-	int		i;
-	int		size;
-	float	intensity;
+	int			i;
+	int			size;
+	float		intensity;
+	t_player	*pl;
 
-	intensity = doom->player.blood;
+	pl = &doom->player;
+	intensity = pl->f_dur;
 	if (intensity <= 0)
 		return (0);
 	size = WIDTH * HEIGHT;
 	i = 0;
 	while (i < size)
 	{
-		doom->sdl->pix[i] = rgb_mix(0xff0000, doom->sdl->pix[i], intensity);
+		doom->sdl->pix[i] = rgb_mix(pl->f_col, doom->sdl->pix[i], intensity);
 		i++;
 	}
-	doom->player.blood -= doom->fps.time_frame;
-	doom->player.blood = CLAMP(doom->player.blood, 0.0f, 1.0f);
+	pl->f_dur -= doom->fps.time_frame;
+	pl->f_dur = CLAMP(pl->f_dur, 0.0f, 1.0f);
 	return (1);
 }
 
 int		player_take_damage(t_doom *doom, int damage)
 {
-	if (doom->player.hp < 0)
+	t_player *pl;
+
+	pl = &doom->player;
+	if (pl->hp < 0)
 		return (0);
-	doom->player.blood = 0.4f;
-	doom->player.hp -= damage;
-	if (!doom->player.dead)
+	pl->f_col = 0xff0000;
+	pl->f_dur = 0.4f;
+	pl->hp -= damage;
+	if (!pl->dead)
 		play_sound(doom, SOUND_DAMAGE);
-	if (doom->player.hp <= 0)
+	if (pl->hp <= 0)
 	{
-		if (!doom->player.dead)
+		if (!pl->dead)
 			play_sound(doom, SOUND_SCREAM);
-		doom->player.blood = 1.0f;
-		doom->player.dead = 1;
-		doom->player.where.z = doom->sectors[doom->player.sector].floor + 2;
+		pl->f_dur = 1.5f;
+		pl->dead = 1;
+		pl->where.z = doom->sectors[pl->sector].floor + 2;
 	}
 	return (1);
 }

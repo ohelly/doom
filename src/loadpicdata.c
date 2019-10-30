@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 17:21:12 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 01:34:58 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/30 16:16:37 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,8 @@ int		load_pic(char **map, t_data *pic, t_img *img)
 	i = 0;
 	t = 1;
 	n = 0;
+	if (*map[0] == '.')
+		return (0);
 	count_params_pic(map[i], pic);
 	while (n < pic->states_count)
 	{
