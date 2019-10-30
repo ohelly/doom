@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 22:57:53 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/28 23:03:46 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/30 17:36:56 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,5 +28,5 @@ void		export_player(t_doom *doom)
 	ft_putnbr_fd(doom->player->weapon, doom->file->fd);
 	ft_putstr_fd("\t\t", doom->file->fd);
 	ft_putnbr_fd(doom->player->end, doom->file->fd);
-	ft_putstr_fd("\n", doom->file->fd);
+	ft_putstr_fd("\n\n", doom->file->fd);
 }
