@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 22:17:12 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 14:18:19 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@
 # include <SDL_ttf.h>
 # include <SDL_mixer.h>
 # include <get_next_line.h>
+# include "utils.h"
+# include "hud.h"
+# include "menu.h"
 
 # define WIDTH 1280
 # define HEIGHT 720
@@ -93,10 +96,6 @@
 
 # define SHOTS_NUM				128
 
-# define MENU_WIDTH				300
-# define MENU_HEIGHT			240
-# define BTN_HEIGHT				40
-
 typedef struct		s_scaler
 {
 	int				result;
@@ -105,45 +104,6 @@ typedef struct		s_scaler
 	int				ca;
 	int				cache;
 }					t_scaler;
-
-typedef struct		s_be
-{
-	int				x;
-	int				begin;
-	int				end;
-}					t_be;
-
-typedef struct		s_cf
-{
-	float			hei;
-	int				x;
-	int				y;
-}					t_cf;
-
-typedef struct		s_py_i
-{
-	int				y1;
-	int				y2;
-}					t_py_i;
-
-typedef struct		s_xy
-{
-	float			x;
-	float			y;
-}					t_xy;
-
-typedef	struct		s_xyz
-{
-	float			x;
-	float			y;
-	float			z;
-}					t_xyz;
-
-typedef	struct		s_ab_i
-{
-	int				a;
-	int				b;
-}					t_ab_i;
 
 typedef struct		s_img
 {
@@ -319,29 +279,6 @@ typedef struct		s_item
 }					t_item;
 
 
-typedef struct		s_hudel
-{
-	TTF_Font		*f;
-	char			*t;
-	SDL_Surface		*s;
-	unsigned char	*p;
-	int				w;
-	int				h;
-	int				x;
-	int				y;
-	int				c;
-	int				b;
-	int				bc;
-}					t_hudel;
-
-typedef struct		s_hud
-{
-	TTF_Font		*font;
-	t_hudel			health;
-	t_hudel			ammo;
-	struct s_obj	*key;
-}					t_hud;
-
 typedef struct		s_music
 {
 	Mix_Music		*music;
@@ -353,33 +290,6 @@ typedef struct		s_sound
 	Mix_Chunk		*sound;
 	id_t			volume;
 }					t_sound;
-
-typedef struct		s_menu_button
-{
-	t_ab_i			p;
-	t_ab_i			s;
-	t_hudel			he;
-	int				h;
-	int				a;
-	int				d;
-	int				color;
-	int				h_color;
-	int				a_color;
-	int				d_color;
-	void			(*click)(struct s_doom *doom, struct s_menu_button *b);
-}					t_menu_button;
-
-typedef struct		s_menu
-{
-	TTF_Font		*font;
-	int				s;
-	t_ab_i			p;
-	t_menu_button	btn1;
-	t_menu_button	btn2;
-	t_menu_button	btn3;
-	t_menu_button	btn4;
-	t_menu_button	btn5;
-}					t_menu;
 
 typedef struct		s_doom
 {
