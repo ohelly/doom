@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:13:26 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/30 17:25:38 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/30 19:00:47 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ int		load_game(t_doom *doom)
 
 	init_sdl(doom->sdl);
 	load_fonts(doom);
-	load_menu(doom);
-	calc_mouse(doom, doom->player.yaw);
-	doom->menu.s = 1;
+	//load_menu(doom);
+	//calc_mouse(doom, doom->player.yaw);
+	//doom->menu.s = 1;
 	while (1)
 	{
 		fps(&doom->fps);

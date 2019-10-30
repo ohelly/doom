@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calciswall.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 19:23:01 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 17:31:50 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/30 19:20:43 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,10 +54,11 @@ int		calc_is_wall(t_doom *doom, t_player *player)
 
 	d.x = player->velocity.x;
 	d.y = player->velocity.y;
+//	printf("d.x - %f, d.y - %f\n", d.x, d.y);
 	sect = &doom->sectors[player->sector];
 	d = player_move(doom, d);
 	d = (t_xy){CLAMP(d.x, -1.0f, 1.0f), CLAMP(d.y, -1.0f, 1.0f)};
-	if (d.x == 0 || d.y == 0)
+	if (d.x == 0 && d.y == 0)
 		return (0);
 	calc_newsector(d, doom, player);
 	doom->player.where.x = doom->player.where.x + d.x;

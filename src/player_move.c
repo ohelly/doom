@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 17:24:41 by njacobso          #+#    #+#             */
-/*   Updated: 2019/10/29 17:49:07 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/30 19:26:51 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,10 +79,12 @@ t_xy	player_move(t_doom *doom, t_xy delta)
 	delta.x *= walls_collision(doom, pl);
 	pl = v2_add(player, (t_xy){0, delta.y});
 	delta.y *= walls_collision(doom, pl);
+	printf("d.x - %f, d.y - %f\n", delta.x, delta.y);
 	pl = v2_add(player, (t_xy){delta.x, 0});
 	delta.x *= obj_collision(doom, pl);
 	pl = v2_add(player, (t_xy){0, delta.y});
 	delta.y *= obj_collision(doom, pl);
+	
 	return (delta);
 }
 
