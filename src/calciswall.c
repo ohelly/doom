@@ -56,6 +56,7 @@ int		calc_is_wall(t_doom *doom, t_player *player)
 	d.y = player->velocity.y;
 	sect = &doom->sectors[player->sector];
 	d = player_move(doom, d);
+	d = (t_xy){CLAMP(d.x, -1.0f, 1.0f), CLAMP(d.y, -1.0f, 1.0f)};
 	if (d.x == 0 || d.y == 0)
 		return (0);
 	calc_newsector(d, doom, player);
