@@ -65,9 +65,9 @@ int		load_game(t_doom *doom)
 
 	init_sdl(doom->sdl);
 	load_fonts(doom);
-	//load_menu(doom);
-	//calc_mouse(doom, doom->player.yaw);
-	//doom->menu.s = 1;
+	load_menu(doom);
+	calc_mouse(doom, doom->player.yaw);
+	doom->menu.s = 1;
 	while (1)
 	{
 		SDL_SetRelativeMouseMode(!doom->menu.s);

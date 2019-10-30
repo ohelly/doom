@@ -110,6 +110,8 @@ int		hooks(t_doom *doom, SDL_Event ev)
 				doom->rkey = 0;
 		}
 	}
+	if (ev.type == SDL_QUIT)
+		quit(doom);
 	if (ev.type == SDL_KEYDOWN)
 		keydown(doom, ev);
 	if (ev.type == SDL_KEYUP)

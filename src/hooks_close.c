@@ -23,6 +23,6 @@ void	quit(t_doom *doom)
 
 void	close_program(SDL_Event ev, t_doom *doom)
 {
-	if (ev.key.keysym.sym == '\033' || ev.type == SDL_QUIT)
+	if (ev.key.keysym.sym == '\033')
 		quit(doom);
 }
