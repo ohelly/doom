@@ -86,8 +86,6 @@ t_enemy	*create_enemy_default(t_doom *doom, t_obj *obj)
 	enemy->state = 0;
 	enemy->health = 10;
 	enemy->attack_speed = 3.0f;
-	enemy->attack_damage = (int)random_range(doom->difficult * 4,
-												doom->difficult * 7);
 	enemy->move_speed = 8;
 	enemy->view_distance = 25.0f;
 	enemy->on_framestart = enemy_on_framestart;

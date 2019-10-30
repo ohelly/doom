@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loadmap.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 16:46:56 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 17:35:57 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/30 21:20:46 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ static int	count_map_lines(char *av)
 
 	i = 0;
 	if ((fd = open(av, O_RDONLY)) == -1)
-		return (0);
+		exit(0);
 	while (get_next_line(fd, &line))
 	{
 		free(line);

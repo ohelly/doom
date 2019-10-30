@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/30 19:56:32 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 21:44:26 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -410,6 +410,8 @@ int					doors(t_doom *doom, t_player player, t_fps fps);
 int					animation(t_doom *doom, t_fps fps);
 int					intersect(t_xyz *t1, t_xyz *t2, t_cood *cood);
 int					find_scales(t_cood *cood);
+int					left_mouse(t_doom *doom, SDL_Event ev);
+int					calc_mouse(t_doom *doom, float yaw);
 int					find_yceil_yfloor(t_doom *doom, t_sectors *s,
 t_cood *cood, t_player player);
 int					calc_pics(t_doom *doom, t_pics *pic);
@@ -521,6 +523,7 @@ float				rad_to_deg(float rad);
 int					sqr(int x);
 int					rgb_mix(int rgb1, int rgb2, float percent);
 float				line_distance(t_xy l1, t_xy l2, t_xy p);
+void				quit(t_doom *doom);
 void				close_program(SDL_Event ev, t_doom *doom);
 void				jump_sprint_crouch(t_doom *doom, SDL_Event ev,
 t_player *player, t_sectors *s);
