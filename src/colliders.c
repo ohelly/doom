@@ -48,3 +48,18 @@ int		collision_box_dir(t_xy pos1, t_xy pos2, t_xy col_pos1, t_xy col_pos2)
 		return (1);
 	return (0);
 }
+
+int		collision_player_dir(t_doom *doom, t_xy pl, int i)
+{
+	t_xy		pos1;
+	t_xy		pos2;
+	t_sectors	*sect;
+
+	sect = &doom->sectors[doom->player.sector];
+	pos1 = sect->vert[i];
+	pos2 = sect->vert[i + 1];
+	if (line_distance(pos1, pos2, pl) < doom->player.col_size &&
+		point_side(pl, pos1, pos2) <= 0)
+		return (1);
+	return (0);
+}

@@ -37,7 +37,7 @@ void	default_player_params(t_player *player)
 	player->velocity.x = 0;
 	player->velocity.y = 0;
 	player->velocity.z = 0;
-	player->col_size = 1.5f;
+	player->col_size = 1.0f;
 }
 
 int		loadplayer(t_player *player, char *str)
