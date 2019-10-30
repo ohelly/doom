@@ -6,7 +6,7 @@
 /*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 22:11:29 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/29 22:19:23 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 16:39:52 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,13 +15,13 @@
 void				menu_button1_click(struct s_doom *doom,
 										struct s_menu_button *b)
 {
-	exit(0);
+	printf("Click 1\n");
 }
 
 void				menu_button2_click(struct s_doom *doom,
 										struct s_menu_button *b)
 {
-	exit(0);
+	printf("ti pidor\n");
 }
 
 void				menu_button3_click(struct s_doom *doom,

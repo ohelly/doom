@@ -6,7 +6,7 @@
 /*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 19:26:50 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/29 21:20:36 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 17:08:47 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,9 +19,12 @@ static void		menu_hover_button(t_menu_button *b, t_menu_button *hb)
 
 void			menu_hover(t_doom *doom, t_menu_button *hb)
 {
-	menu_hover_button(&doom->menu.btn1, hb);
-	menu_hover_button(&doom->menu.btn2, hb);
-	menu_hover_button(&doom->menu.btn3, hb);
-	menu_hover_button(&doom->menu.btn4, hb);
-	menu_hover_button(&doom->menu.btn5, hb);
+	t_menu_button	*b;
+
+	b = doom->menu.btns;
+	while (b)
+	{
+		menu_hover_button(b, hb);
+		b = b->next;
+	}
 }

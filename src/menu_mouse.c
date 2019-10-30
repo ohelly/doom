@@ -6,7 +6,7 @@
 /*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 19:08:42 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/29 20:46:03 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 17:09:03 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,16 +25,15 @@ static t_menu_button	*is_menu_button(t_doom *d, t_ab_i p, t_menu_button *b)
 
 static t_menu_button	*is_main_menu(t_doom *doom, t_ab_i p)
 {
-	if (is_menu_button(doom, p, &doom->menu.btn1))
-		return (&doom->menu.btn1);
-	if (is_menu_button(doom, p, &doom->menu.btn2))
-		return (&doom->menu.btn2);
-	if (is_menu_button(doom, p, &doom->menu.btn3))
-		return (&doom->menu.btn3);
-	if (is_menu_button(doom, p, &doom->menu.btn4))
-		return (&doom->menu.btn4);
-	if (is_menu_button(doom, p, &doom->menu.btn5))
-		return (&doom->menu.btn5);
+	t_menu_button		*b;
+
+	b = doom->menu.btns;
+	while (b)
+	{
+		if (is_menu_button(doom, p, b))
+			return (b);
+		b = b->next;
+	}
 	return (0);
 }
 

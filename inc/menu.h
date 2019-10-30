@@ -6,7 +6,7 @@
 /*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 14:07:27 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/30 14:18:26 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 15:21:17 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,11 @@ typedef struct				s_menu
 {
 	TTF_Font				*font;
 	int						s;
+	int						h;
 	t_ab_i					p;
+	int						i;
+	int						c;
+	int						l;
 	t_menu_button			*btns;
 	t_menu_button			btn1;
 	t_menu_button			btn2;

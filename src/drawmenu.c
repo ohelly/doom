@@ -6,7 +6,7 @@
 /*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 15:33:31 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/29 22:09:09 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 16:17:45 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,11 +37,14 @@ static void			draw_menu_button(t_doom *d, t_menu m, t_menu_button b)
 
 static void			draw_menu_main(t_doom *doom)
 {
-	draw_menu_button(doom, doom->menu, doom->menu.btn1);
-	draw_menu_button(doom, doom->menu, doom->menu.btn2);
-	draw_menu_button(doom, doom->menu, doom->menu.btn3);
-	draw_menu_button(doom, doom->menu, doom->menu.btn4);
-	draw_menu_button(doom, doom->menu, doom->menu.btn5);
+	t_menu_button	*b;
+
+	b = doom->menu.btns;
+	while (b)
+	{
+		draw_menu_button(doom, doom->menu, *b);
+		b = b->next;
+	}
 }
 
 static void			draw_menu_background(t_doom *doom)

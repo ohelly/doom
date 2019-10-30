@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/30 14:18:19 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 17:05:20 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -538,13 +538,8 @@ t_sectors *sect, t_pics *pic);
 void				left_mouse_keydown(t_doom *doom, SDL_Event ev,
 t_weapon *weapon, t_player *player);
 int					load_menu(t_doom *doom);
-void				load_menu_button(t_doom *doom, t_menu_button *b);
-void				load_menu_button_hudel(t_doom *doom, t_menu_button *b);
-int					load_menu_button1(t_doom *doom, int v_insets);
-int					load_menu_button2(t_doom *doom, int v_insets);
-int					load_menu_button3(t_doom *doom, int v_insets);
-int					load_menu_button4(t_doom *doom, int v_insets);
-int					load_menu_button5(t_doom *doom, int v_insets);
+t_menu_button		*menu_button(t_doom *doom, char *title, int color,
+		int he_color);
 void				menu_button1_click(struct s_doom *doom,
 										struct s_menu_button *b);
 void				menu_button2_click(struct s_doom *doom,
