@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/13 16:02:38 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/29 00:58:29 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/30 17:34:58 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static void	init_default_value(t_doom *doom)
 	doom->aspr->select_spr = -1;
 	doom->obj->select_obj = -1;
 	doom->hud->msg = 0;
+	doom->verts->cs = -1;
 }
 
 static int	sdl_init_part_two(t_doom *doom)
