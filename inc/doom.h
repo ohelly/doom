@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/30 17:28:42 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/30 19:56:32 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -463,6 +463,7 @@ int					loadplayer(t_player *player, char *str);
 int					load_hud(t_doom *doom);
 int					load_hudel(t_hudel *e);
 int					load_fonts(t_doom *doom);
+void				close_fonts(t_doom *doom);
 int					load_game(t_doom *doom);
 int					hooks(t_doom *doom, SDL_Event ev);
 int					profile_output(t_doom *doom);
@@ -551,6 +552,7 @@ void				menu_button5_click(struct s_doom *doom,
 										struct s_menu_button *b);
 void				draw_menu(t_doom *doom);
 void				menu_mouse(t_doom *doom, int a);
+int					menu_keys(t_doom *doom, SDL_Event ev);
 void				menu_click(t_doom *doom, t_menu_button *cb);
 void				menu_hover(t_doom *doom, t_menu_button *hb);
 void				menu_active(t_doom *doom, t_menu_button *ab);

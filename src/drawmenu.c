@@ -6,33 +6,37 @@
 /*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 15:33:31 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/30 16:17:45 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 20:43:40 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-static void			draw_menu_button(t_doom *d, t_menu m, t_menu_button b)
+static void			draw_menu_button(t_doom *d, t_menu m, t_menu_button *b)
 {
 	t_ab_i			p;
 	t_ab_i			l;
 	int				n;
 
-	p = (t_ab_i){ m.p.a + b.p.a, m.p.b + b.p.b };
-	l = (t_ab_i){ m.p.a + b.p.a + b.s.a, m.p.b + b.p.b + b.s.b };
+	p = (t_ab_i){ m.p.a + b->p.a, m.p.b + b->p.b };
+	l = (t_ab_i){ m.p.a + b->p.a + b->s.a, m.p.b + b->p.b + b->s.b };
 	while (++p.b < l.b)
 	{
 		n = p.b * WIDTH;
-		p.a = m.p.a + b.p.a;
+		p.a = m.p.a + b->p.a;
 		while (++p.a < l.a)
-			if (b.d)
-				d->sdl->pix[n + p.a] = b.d_color;
-			else if (b.a)
-				d->sdl->pix[n + p.a] = b.a_color;
+			if (b->d)
+				d->sdl->pix[n + p.a] = b->d_color;
+			else if (b->a)
+				d->sdl->pix[n + p.a] = b->a_color;
+			else if (b->h)
+				d->sdl->pix[n + p.a] = b->h_color;
+			else if (b == m.s_btn)
+				d->sdl->pix[n + p.a] = b->s_color;
 			else
-				d->sdl->pix[n + p.a] = b.h ? b.h_color : b.color;
+				d->sdl->pix[n + p.a] = b->color;
 	}
-	drawhudel(b.he, d->sdl->pix);
+	drawhudel(b->he, d->sdl->pix);
 }
 
 static void			draw_menu_main(t_doom *doom)
@@ -42,7 +46,7 @@ static void			draw_menu_main(t_doom *doom)
 	b = doom->menu.btns;
 	while (b)
 	{
-		draw_menu_button(doom, doom->menu, *b);
+		draw_menu_button(doom, doom->menu, b);
 		b = b->next;
 	}
 }
