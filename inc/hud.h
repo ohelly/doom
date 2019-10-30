@@ -1,27 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   loadfonts.c                                        :+:      :+:    :+:   */
+/*   hud.h                                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/17 17:05:50 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/29 16:53:36 by glormell         ###   ########.fr       */
+/*   Created: 2019/10/30 14:11:31 by glormell          #+#    #+#             */
+/*   Updated: 2019/10/30 17:30:23 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "doom.h"
+#ifndef HUD_H
+# define HUD_H
 
-int			load_fonts(t_doom *doom)
+typedef struct		s_hudel
 {
-	char	*env;
-	char	*doom_f;
+	TTF_Font		*f;
+	char			*t;
+	SDL_Surface		*s;
+	unsigned char	*p;
+	int				w;
+	int				h;
+	int				x;
+	int				y;
+	int				c;
+	int				b;
+	int				bc;
+}					t_hudel;
 
-	env = ft_strjoin(getenv("HOME"), "/Documents/DoomNukem");
-	doom_f = ft_strjoinc(env, "/DooM.ttf");
-	doom->hud->font = TTF_OpenFont(doom_f, 20);
-	doom->menu.font = TTF_OpenFont(doom_f, 14);
-	free(env);
-	free(doom_f);
-	return (1);
-}
+typedef struct		s_hud
+{
+	TTF_Font		*font;
+	t_hudel			health;
+	t_hudel			ammo;
+	t_hudel			message;
+	struct s_obj	*key;
+}					t_hud;
+
+#endif

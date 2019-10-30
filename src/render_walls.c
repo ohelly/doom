@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   render_walls.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 18:59:19 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 17:33:14 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/30 16:29:06 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ t_cood *cood, t_player player)
 
 	cood->beginx = MAX(cood->w1x, doom->now.sx);
 	cood->endx = MIN(cood->w2x, doom->now.ex);
-	x = cood->beginx - 1;
+	x = cood->beginx;
 	while (++x <= cood->endx)
 	{
 		if (x == WIDTH / 2)

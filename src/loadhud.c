@@ -6,13 +6,13 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 20:36:12 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/29 01:33:38 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 18:06:57 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-static int		load_hudel(t_hudel *e)
+int				load_hudel(t_hudel *e)
 {
 	SDL_Color	color;
 
@@ -41,7 +41,8 @@ static int		load_hud_health(t_doom *doom)
 	e->x = 20;
 	e->y = HEIGHT - e->h - 20;
 	e->c = 0xf50f3f;
-	e->b = 0x000000;
+	e->b = 1;
+	e->bc = 0x000000;
 	return (1);
 }
 
@@ -58,7 +59,8 @@ static int		load_hud_ammo(t_doom *doom)
 	e->x = WIDTH - e->w - 20;
 	e->y = HEIGHT - e->h - 20;
 	e->c = 0xf5f03f;
-	e->b = 0x000000;
+	e->b = 1;
+	e->bc = 0x000000;
 	return (1);
 }
 
