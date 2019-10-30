@@ -37,7 +37,7 @@
 # define EYEHEIGHT  15
 # define DUCKHEIGHT 4.5
 # define HEADMARGIN 1
-# define KNEEHEIGHT 3
+# define KNEEHEIGHT 6
 # define HFOV (0.73f * HEIGHT / WIDTH)
 # define VFOV (0.2f)
 # define MIN(a,b)				(((a) < (b)) ? (a) : (b))
@@ -476,7 +476,7 @@ void				drawhud(t_doom *doom);
 void				drawhudel(t_hudel e, int *pix);
 int					drawsprites(t_doom *doom, t_obj *objs);
 t_img				weapon_get_image(t_doom *doom, t_weapon *weapon);
-int					player_move(t_doom *doom, t_xy move_pos);
+t_xy				player_move(t_doom *doom, t_xy move_pos);
 int					player_take_damage(t_doom *doom, int damage);
 int					player_blood_update(t_doom *doom);
 char				*ft_strjoinc(char *s1, char const *s2);
@@ -557,5 +557,7 @@ void				menu_active(t_doom *doom, t_menu_button *ab);
 int					player_win(t_doom *doom);
 int					takencount(char *str);
 int					findvx(t_xy *v1, t_xy *v2, t_xy *vert, int wall);
+int					intersect_walls(t_doom *doom, t_xy pl, int i);
+int					collision_player_dir(t_doom *doom, t_xy pl, int i);
 
 #endif

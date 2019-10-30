@@ -25,7 +25,7 @@ int		intersect_walls(t_doom *doom, t_xy pl, int i)
 	sect = &doom->sectors[doom->player.sector];
 	pos1 = sect->vert[i];
 	pos2 = sect->vert[i + 1];
-	if (line_distance(pos1, pos2, pl) < doom->player.col_size)
+	if (line_distance(pos1, pos2, pl) < doom->player.col_size + 0.05f)
 		return (1);
 	return (0);
 }
@@ -51,9 +51,9 @@ int		walls_collision(t_doom *doom, t_xy pl)
 		if (intersect_walls(doom, pl, n) == 1)
 		{
 			hole.x = sect->neighbors[n] < 0 ? 9e9 :
-			MAX(sect->floor, doom->sectors[sect->neighbors[n]].floor);
+				MAX(sect->floor, doom->sectors[sect->neighbors[n]].floor);
 			hole.y = sect->neighbors[n] < 0 ? -9e9 :
-			MIN(sect->ceil, doom->sectors[sect->neighbors[n]].ceil);
+				MIN(sect->ceil, doom->sectors[sect->neighbors[n]].ceil);
 			if (hole.y < doom->player.where.z + HEADMARGIN ||
 				hole.x > doom->player.where.z - height + KNEEHEIGHT)
 				return (0);
@@ -67,13 +67,13 @@ int		walls_collision(t_doom *doom, t_xy pl)
 ** returns 0 if quad pl1-pl2 intersected with obj collider
 */
 
-int		player_move(t_doom *doom, t_xy delta)
+t_xy	player_move(t_doom *doom, t_xy delta)
 {
 	t_xy		player;
 	t_xy		pl;
 
 	if (doom->player.velocity.x == 0 || doom->player.velocity.y == 0)
-		return (0);
+		return ((t_xy){0, 0});
 	player = (t_xy){doom->player.where.x, doom->player.where.y};
 	pl = v2_add(player, (t_xy){delta.x, 0});
 	delta.x *= walls_collision(doom, pl);
@@ -83,11 +83,7 @@ int		player_move(t_doom *doom, t_xy delta)
 	delta.x *= obj_collision(doom, pl);
 	pl = v2_add(player, (t_xy){0, delta.y});
 	delta.y *= obj_collision(doom, pl);
-	doom->player.where.x = player.x + delta.x;
-	doom->player.where.y = player.y + delta.y;
-	doom->player.psin = sinf(doom->player.angle);
-	doom->player.pcos = cosf(doom->player.angle);
-	return (1);
+	return (delta);
 }
 
 /*

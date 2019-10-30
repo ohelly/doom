@@ -34,7 +34,7 @@ int		calc_newsector(t_xy d, t_doom *doom, t_player *player)
 	n = -1;
 	while (++n < sect->npoints)
 	{
-		if (sect->neighbors[n] >= 0 && collision_box_dir(p, p1, v[n], v[n + 1]))
+		if (sect->neighbors[n] >= 0 && collision_player_dir(doom, p1, n))
 		{
 			player->sector = sect->neighbors[n];
 			if (player->sector == player->end)
@@ -44,52 +44,6 @@ int		calc_newsector(t_xy d, t_doom *doom, t_player *player)
 			break ;
 		}
 	}
-	player_move(doom, d);
-	return (0);
-}
-
-int		glide_on_wall(t_xy *d, t_doom *doom, t_sectors *sect, int n)
-{
-	float		hole_low;
-	float		hole_high;
-	float		tmp;
-	t_xy		a;
-
-	tmp = doom->player.sit ? DUCKHEIGHT : EYEHEIGHT;
-	doom->player.velocity.x = 0;
-	doom->player.velocity.y = 0;
-	hole_low = sect->neighbors[n] < 0 ? 9e9 :
-	MAX(sect->floor, doom->sectors[sect->neighbors[n]].floor);
-	hole_high = sect->neighbors[n] < 0 ? -9e9 :
-	MIN(sect->ceil, doom->sectors[sect->neighbors[n]].ceil);
-	if (hole_high < doom->player.where.z + HEADMARGIN
-	|| hole_low > doom->player.where.z - tmp + KNEEHEIGHT)
-	{
-		d->x = d->x - doom->player.where.x;
-		d->y = d->y - doom->player.where.y;
-		a.x = sect->vert[n + 1].x - sect->vert[n].x;
-		a.y = sect->vert[n + 1].y - sect->vert[n].y;
-		d->x = a.x * (d->x * a.x + a.y * d->y) / (pow(a.x, 2) + pow(a.y, 2));
-		d->y = a.y * (d->x * a.x + a.y * d->y) / (pow(a.x, 2) + pow(a.y, 2));
-		return (1);
-	}
-	return (0);
-}
-
-int		is_wall(t_doom *doom, t_sectors *sect, t_xy *d, int n)
-{
-	t_xy		p;
-	t_xy		p1;
-	t_xy		*v;
-
-	v = sect->vert;
-	p.x = doom->player.where.x;
-	p.y = doom->player.where.y;
-	p1.x = doom->player.where.x + d->x;
-	p1.y = doom->player.where.y + d->y;
-	if (collision_box_dir(p, p1, v[n], v[n + 1]))
-		if (glide_on_wall(d, doom, sect, n))
-			return (1);
 	return (0);
 }
 
@@ -97,18 +51,17 @@ int		calc_is_wall(t_doom *doom, t_player *player)
 {
 	t_sectors	*sect;
 	t_xy		d;
-	int			n;
 
 	d.x = player->velocity.x;
 	d.y = player->velocity.y;
 	sect = &doom->sectors[player->sector];
-	n = 0;
-	while (n < sect->npoints)
-	{
-		if ((is_wall(doom, sect, &d, n)))
-			break ;
-		n++;
-	}
+	d = player_move(doom, d);
+	if (d.x == 0 || d.y == 0)
+		return (0);
 	calc_newsector(d, doom, player);
-	return (0);
+	doom->player.where.x = doom->player.where.x + d.x;
+	doom->player.where.y = doom->player.where.y + d.y;
+	doom->player.psin = sinf(doom->player.angle);
+	doom->player.pcos = cosf(doom->player.angle);
+	return (1);
 }
