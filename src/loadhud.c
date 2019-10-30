@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 20:36:12 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/30 19:32:04 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 20:20:37 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,6 @@ int				load_hudel(t_hudel *e)
 
 	color = (SDL_Color) { 255, 255, 255, 0};
 	SDL_FreeSurface(e->s);
-	printf("%p\n", e->f);
-	printf("%s\n", e->t);
-	printf("%p\n", &color);
 	if (!(e->s = TTF_RenderText_Solid(e->f, e->t, color)))
 		return (0);
 	e->p = e->s->pixels;
@@ -33,7 +30,6 @@ static int		load_hud_health(t_doom *doom)
 {
 	t_hudel		*e;
 
-	printf("load_hud_health\n");
 	e = &doom->hud->health;
 	e->f = doom->hud->font;
 	if (e->t)
@@ -47,7 +43,6 @@ static int		load_hud_health(t_doom *doom)
 	e->c = 0xf50f3f;
 	e->b = 1;
 	e->bc = 0x000000;
-	printf("load_hud_health\n");
 	return (1);
 }
 
@@ -55,7 +50,6 @@ static int		load_hud_ammo(t_doom *doom)
 {
 	t_hudel		*e;
 
-	printf("load_hud_ammo\n");
 	e = &doom->hud->ammo;
 	e->f = doom->hud->font;
 	if (e->t)
@@ -67,7 +61,6 @@ static int		load_hud_ammo(t_doom *doom)
 	e->c = 0xf5f03f;
 	e->b = 1;
 	e->bc = 0x000000;
-	printf("load_hud_ammo\n");
 	return (1);
 }
 
@@ -75,7 +68,6 @@ static int		load_hud_message(t_doom *doom)
 {
 	t_hudel		*e;
 
-	printf("load_hud_message\n");
 	e = &doom->hud->message;
 	e->f = doom->hud->font;
 	e->t = "LEVEL COMPLETED";
@@ -84,7 +76,6 @@ static int		load_hud_message(t_doom *doom)
 	e->y = e->h - 20;
 	e->c = 0xffffff;
 	e->b = 0x000000;
-	printf("load_hud_message\n");
 	return (1);
 }
 
