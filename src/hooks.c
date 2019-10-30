@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 20:14:46 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 18:02:55 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ void	player_move_keydown(SDL_Event ev, int *wsad)
 int		keydown(t_doom *doom, SDL_Event ev)
 {
 	close_program(ev, doom);
+	if (doom->menu.s)
+		return menu_keys(doom, ev);
 	if (doom->player.dead)
 		return (0);
 	change_all_weapons(doom->weapon, ev,
@@ -60,6 +62,8 @@ void	player_move_keyup(SDL_Event ev, int *wsad)
 
 int		keyup(t_doom *doom, SDL_Event ev)
 {
+	if (doom->menu.s)
+		return (0);
 	if (doom->player.dead)
 		return (0);
 	player_move_keyup(ev, doom->wsad);
@@ -105,7 +109,7 @@ int		hooks(t_doom *doom, SDL_Event ev)
 		}
 	}
 	if (ev.type == SDL_KEYDOWN)
-		keydown(doom, ev);
+			keydown(doom, ev);
 	if (ev.type == SDL_KEYUP)
 		keyup(doom, ev);
 	return (0);

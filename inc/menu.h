@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 14:07:27 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/30 17:27:16 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/30 18:28:07 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,7 @@ typedef struct				s_menu
 	int						c;
 	int						l;
 	t_menu_button			*btns;
-	t_menu_button			btn1;
-	t_menu_button			btn2;
-	t_menu_button			btn3;
-	t_menu_button			btn4;
-	t_menu_button			btn5;
+	t_menu_button			*s_btn;
 }							t_menu;
 
 #endif
