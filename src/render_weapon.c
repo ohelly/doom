@@ -14,27 +14,27 @@
 
 void		render_weapon2(t_doom *doom, t_xy scale, t_img img, int *pix)
 {
-	int		y;
 	int		x;
+	int		y;
 	t_xy	t;
+	int		index;
 
-	x = 0;
+	x = WIDTH - (img.w / scale.x);
+	t.x = 0;
 	while (x < WIDTH)
 	{
 		t.y = 0;
-		t.x = (x - WIDTH / 2) * scale.x;
-		y = 0 + doom->shakey;
+		y = (HEIGHT - (img.h / scale.y)) + doom->shakey;
 		while (y < HEIGHT)
 		{
-			if ((int)t.y > 0 && (int)t.y < img.h &&
-			(int)t.x > 0 && (int)t.x < img.w)
-			{
-				if (img.data[(int)t.y * img.w + (int)t.x])
-					pix[y * WIDTH + x] = img.data[(int)t.y * img.w + (int)t.x];
-			}
+			x = CLAMP(x, 0, WIDTH - 1);
+			index = (int)t.x + (int)t.y * img.w;
+			if (img.data[index])
+				pix[x + CLAMP(y, 0, HEIGHT - 1) * WIDTH] = img.data[index];
 			t.y += scale.y;
 			y++;
 		}
+		t.x += scale.x;
 		x++;
 	}
 }
@@ -45,8 +45,8 @@ int			render_weapon(t_doom *doom, t_weapon *wpn)
 	t_img	img;
 
 	img = wpn_get_image(doom, wpn);
-	scale.x = (float)img.w / (WIDTH / 2);
-	scale.y = (float)img.h / (HEIGHT);
+	scale.x = (float)img.w / (HEIGHT * 1.2f);
+	scale.y = (float)img.h / (HEIGHT * 1.2f);
 	if (!doom->player.weapon &&
 	doom->weapon[doom->player.weapon].states_frame == 0)
 		return (0);
