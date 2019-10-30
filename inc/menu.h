@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 14:07:27 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/30 21:17:18 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 21:45:55 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@
 # define MENU_HEIGHT			240
 # define BTN_HEIGHT				40
 
-typedef struct				s_doom	t_doom;
+typedef struct s_doom	t_doom;
 
 typedef struct				s_menu_button
 {

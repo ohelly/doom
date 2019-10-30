@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:21:04 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 17:27:38 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 21:37:27 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,9 @@ int		load_all(t_doom *doom, char **av)
 	load_params(doom, doom->map);
 	if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 1024) < 0)
 	{
-		ft_putstr("Error opening audio! ");
+		ft_putstr("Error opening audio!");
 		ft_putendl(Mix_GetError());
 	}
-	else
-		ft_putendl("Audio loaded successfully!");
 	load_music(doom);
 	play_music(doom, 0);
 	load_game(doom);

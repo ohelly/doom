@@ -1,20 +1,27 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   profiling.c                                        :+:      :+:    :+:   */
+/*   left_mouse.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2019/10/23 17:35:24 by njacobso          #+#    #+#             */
-/*   Updated: 2019/10/30 21:37:43 by dtoy             ###   ########.fr       */
+/*   Created: 2019/10/30 21:42:10 by dtoy              #+#    #+#             */
+/*   Updated: 2019/10/30 21:42:30 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-int		profile_output(t_doom *doom)
+int		left_mouse(t_doom *doom, SDL_Event ev)
 {
-	doom->fps.fps_count = 0;
-	doom->fps.fps_total = 0;
-	return (1);
+	if (doom->menu.s)
+		menu_mouse(doom, 1);
+	else
+	{
+		left_mouse_keydown(doom, ev,
+		&doom->weapon[doom->player.weapon], &doom->player);
+		if (ev.button.button == SDL_BUTTON_RIGHT)
+			doom->rkey = 1;
+	}
+	return (0);
 }

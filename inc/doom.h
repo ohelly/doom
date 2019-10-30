@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/30 20:49:15 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 21:44:26 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -410,6 +410,8 @@ int					doors(t_doom *doom, t_player player, t_fps fps);
 int					animation(t_doom *doom, t_fps fps);
 int					intersect(t_xyz *t1, t_xyz *t2, t_cood *cood);
 int					find_scales(t_cood *cood);
+int					left_mouse(t_doom *doom, SDL_Event ev);
+int					calc_mouse(t_doom *doom, float yaw);
 int					find_yceil_yfloor(t_doom *doom, t_sectors *s,
 t_cood *cood, t_player player);
 int					calc_pics(t_doom *doom, t_pics *pic);

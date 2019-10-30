@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 22:11:29 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/30 21:17:09 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 21:38:32 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,6 @@ void				menu_button1_click(struct s_doom *doom,
 	(void)b;
 	doom->menu.s = 0;
 	doom->difficult = 1;
-	
 }
 
 void				menu_button2_click(struct s_doom *doom,

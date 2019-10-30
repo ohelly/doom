@@ -6,7 +6,7 @@
 #    By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/02 20:58:32 by lminta            #+#    #+#              #
-#    Updated: 2019/10/30 19:34:04 by glormell         ###   ########.fr        #
+#    Updated: 2019/10/30 21:42:54 by dtoy             ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -40,7 +40,7 @@ src/render_walls.o src/calcpics.o src/intersect.o src/calcsector.o src/render_we
 src/drawobj.o src/render_pics.o src/hooks_move.o src/hooks_weapons.o src/hooks_interact.o src/hooks_close.o src/shoot_wall.o \
 src/mouse_hooks.o src/ft_strjoinc.o src/sound_free.o src/utils2.o src/vector_math2.o src/utils3.o \
 src/loadmenu.o src/loadmenubuttons.o src/loadmenuclick.o src/drawmenu.o src/menu_mouse.o \
-src/menu_click.o src/menu_hover.o src/menu_active.o src/menu_keys.o
+src/menu_click.o src/menu_hover.o src/menu_active.o src/menu_keys.o src/left_mouse.o
 
 
 all: $(FRAMEDIR) $(LIBS) $(FRAME) $(NAME)

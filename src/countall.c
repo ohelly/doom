@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:26:30 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/28 16:37:30 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/30 21:35:59 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,13 +50,5 @@ int		countall(t_doom *doom, char **map)
 		if (ft_strncmp(map[i], "Pics", ft_strlen("pics")) == 0)
 			doom->num.pics++;
 	}
-	ft_putnbr(doom->num.vertexes);
-	ft_putendl(" - numVertexes");
-	ft_putnbr(doom->num.sectors);
-	ft_putendl(" - numSectors");
-	ft_putnbr(doom->num.objs);
-	ft_putendl(" - numObjects");
-	ft_putnbr(doom->num.pics);
-	ft_putendl(" - numPics");
 	return (0);
 }
