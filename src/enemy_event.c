@@ -14,6 +14,8 @@
 
 void	enemy_on_attack(t_doom *doom, t_enemy *enemy)
 {
+	enemy->attack_damage = (int)random_range(doom->difficult * 4,
+												doom->difficult * 7);
 	enemy->attack_cd = enemy->attack_speed;
 	player_take_damage(doom, enemy->attack_damage);
 	play_sound(doom, SOUND_E_ATTACK);
