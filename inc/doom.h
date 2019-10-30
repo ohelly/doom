@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/30 17:05:20 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 17:28:42 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -277,7 +277,6 @@ typedef struct		s_item
 	int				ytop[WIDTH];
 	int				ybot[WIDTH];
 }					t_item;
-
 
 typedef struct		s_music
 {

@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:13:26 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 20:02:12 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 17:25:38 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,9 +76,9 @@ int		load_game(t_doom *doom)
 		if (doom->player.move == 1)
 			calc_is_wall(doom, &doom->player);
 		while (SDL_PollEvent(&ev))
-			hooks(doom, ev);;
-		calc_mouse(doom, doom->player.yaw);;
-		calc_move(doom, &doom->player);;
+			hooks(doom, ev);
+		calc_mouse(doom, doom->player.yaw);
+		calc_move(doom, &doom->player);
 		SDL_UpdateWindowSurface(doom->sdl->win);
 		if (doom->a)
 			doom->a = 0;
