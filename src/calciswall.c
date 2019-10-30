@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 19:23:01 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/30 19:20:43 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/30 20:08:08 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,6 @@ int		calc_is_wall(t_doom *doom, t_player *player)
 
 	d.x = player->velocity.x;
 	d.y = player->velocity.y;
-//	printf("d.x - %f, d.y - %f\n", d.x, d.y);
 	sect = &doom->sectors[player->sector];
 	d = player_move(doom, d);
 	d = (t_xy){CLAMP(d.x, -1.0f, 1.0f), CLAMP(d.y, -1.0f, 1.0f)};
