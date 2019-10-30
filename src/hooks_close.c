@@ -14,7 +14,7 @@
 
 void	close_program(SDL_Event ev, t_doom *doom)
 {
-	if (ev.key.keysym.sym == '\033')
+	if (ev.key.keysym.sym == '\033' || ev.type == SDL_QUIT)
 	{
 		sound_free_everything(doom);
 		Mix_Quit();

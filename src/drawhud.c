@@ -72,7 +72,7 @@ void			drawhud(t_doom *doom)
 	load_hud(doom);
 	drawhudel(doom->hud->health, doom->sdl->pix);
 	drawhudel(doom->hud->ammo, doom->sdl->pix);
-	if (doom->player.won)
+	if (doom->player.won || doom->player.hp <= 0)
 		drawhudel(doom->hud->message, doom->sdl->pix);
 	if (doom->player.key)
 		drawkey(doom, doom->hud->key);
