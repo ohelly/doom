@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 17:05:50 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/29 16:53:36 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 19:38:21 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int			load_fonts(t_doom *doom)
 	doom_f = ft_strjoinc(env, "/DooM.ttf");
 	doom->hud->font = TTF_OpenFont(doom_f, 20);
 	doom->menu.font = TTF_OpenFont(doom_f, 14);
-	free(env);
 	free(doom_f);
 	return (1);
 }
