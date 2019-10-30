@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/08/11 18:17:38 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 15:25:49 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/30 17:34:23 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -166,6 +166,7 @@ typedef struct			s_all_vert
 	int					built_v_count_used;
 	int					built_v_index[2048];
 	t_vertex			projected_v;
+	int					cs;
 }						t_all_vert;
 
 /*

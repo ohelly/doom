@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 14:03:00 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/29 15:26:32 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/30 17:41:25 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,11 @@ void	save(t_doom *doom)
 	export_objs(doom);
 	export_pospics(doom);
 	export_player(doom);
+	ft_putstr_fd("CVerts\t", doom->file->fd);
+	ft_putnbr_fd(doom->verts->count, doom->file->fd);
+	ft_putstr_fd("\n", doom->file->fd);
 	close(doom->file->fd);
 	doom->hud->msg = "Saved file!";
+	if (doom->verts->count != doom->verts->cs)
+		exit(0);
 }

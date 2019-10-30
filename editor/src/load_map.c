@@ -6,7 +6,7 @@
 /*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/12 16:27:03 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/29 04:08:48 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/30 17:36:23 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ int		read_map(int fd, t_doom *doom)
 			load_spr(doom, line);
 		else if (ft_strnstr(line, "Player", 6))
 			import_player(doom, line);
+		else if (ft_strnstr(line, "CVerts", 6))
+			doom->verts->cs = ft_atoi(&line[7]);
 		free(line);
 	}
 	return (0);

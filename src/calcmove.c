@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 19:23:25 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/27 19:23:44 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/30 19:15:01 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int		direction(t_doom *doom, t_player *player, float *move_vec, t_fps fps)
 {
 	float	speed;
 
-	speed = player->sprint ? 0.7f : 0.4f;
+	speed = player->sprint ? 0.5f : 0.4f;
 	if (doom->wsad[0])
 		change_move_vec(move_vec, player, speed, '+');
 	if (doom->wsad[1])

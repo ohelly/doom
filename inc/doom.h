@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 17:27:08 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/30 19:56:32 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@
 # include <SDL_ttf.h>
 # include <SDL_mixer.h>
 # include <get_next_line.h>
+# include "utils.h"
+# include "hud.h"
+# include "menu.h"
 
 # define WIDTH 1280
 # define HEIGHT 720
@@ -34,7 +37,7 @@
 # define EYEHEIGHT  15
 # define DUCKHEIGHT 4.5
 # define HEADMARGIN 1
-# define KNEEHEIGHT 3
+# define KNEEHEIGHT 6
 # define HFOV (0.73f * HEIGHT / WIDTH)
 # define VFOV (0.2f)
 # define MIN(a,b)				(((a) < (b)) ? (a) : (b))
@@ -99,45 +102,6 @@ typedef struct		s_scaler
 	int				ca;
 	int				cache;
 }					t_scaler;
-
-typedef struct		s_be
-{
-	int				x;
-	int				begin;
-	int				end;
-}					t_be;
-
-typedef struct		s_cf
-{
-	float			hei;
-	int				x;
-	int				y;
-}					t_cf;
-
-typedef struct		s_py_i
-{
-	int				y1;
-	int				y2;
-}					t_py_i;
-
-typedef struct		s_xy
-{
-	float			x;
-	float			y;
-}					t_xy;
-
-typedef	struct		s_xyz
-{
-	float			x;
-	float			y;
-	float			z;
-}					t_xyz;
-
-typedef	struct		s_ab_i
-{
-	int				a;
-	int				b;
-}					t_ab_i;
 
 typedef struct		s_img
 {
@@ -314,29 +278,6 @@ typedef struct		s_item
 	int				ybot[WIDTH];
 }					t_item;
 
-typedef struct		s_hudel
-{
-	TTF_Font		*f;
-	char			*t;
-	SDL_Surface		*s;
-	unsigned char	*p;
-	int				w;
-	int				h;
-	int				x;
-	int				y;
-	int				c;
-	int				b;
-}					t_hudel;
-
-typedef struct		s_hud
-{
-	TTF_Font		*font;
-	t_hudel			health;
-	t_hudel			ammo;
-	t_hudel			message;
-	struct s_obj	*key;
-}					t_hud;
-
 typedef struct		s_music
 {
 	Mix_Music		*music;
@@ -405,6 +346,7 @@ typedef struct		s_doom
 	struct s_enemy	*enemies;
 	t_music			music[2];
 	t_sound			sound[17];
+	t_menu			menu;
 }					t_doom;
 
 typedef struct		s_obj
@@ -519,7 +461,9 @@ t_img				pic_get_image(t_doom *doom, t_pics *pic);
 void				pic_anim_next(t_pics *pic);
 int					loadplayer(t_player *player, char *str);
 int					load_hud(t_doom *doom);
-int					loadfonts(t_hud *hud);
+int					load_hudel(t_hudel *e);
+int					load_fonts(t_doom *doom);
+void				close_fonts(t_doom *doom);
 int					load_game(t_doom *doom);
 int					hooks(t_doom *doom, SDL_Event ev);
 int					profile_output(t_doom *doom);
@@ -530,9 +474,10 @@ float				vxs(float x0, float y0, float x1, float y1);
 float				yaw(float y, float z, t_player player);
 void				drawweapon(t_doom *doom, t_weapon *weapon);
 void				drawhud(t_doom *doom);
+void				drawhudel(t_hudel e, int *pix);
 int					drawsprites(t_doom *doom, t_obj *objs);
 t_img				weapon_get_image(t_doom *doom, t_weapon *weapon);
-int					player_move(t_doom *doom, t_xy move_pos);
+t_xy				player_move(t_doom *doom, t_xy move_pos);
 int					player_take_damage(t_doom *doom, int damage);
 int					player_blood_update(t_doom *doom);
 char				*ft_strjoinc(char *s1, char const *s2);
@@ -592,8 +537,29 @@ int					shoot_wall(t_doom *doom, t_player player,
 t_sectors *sect, t_pics *pic);
 void				left_mouse_keydown(t_doom *doom, SDL_Event ev,
 t_weapon *weapon, t_player *player);
+int					load_menu(t_doom *doom);
+t_menu_button		*menu_button(t_doom *doom, char *title, int color,
+		int he_color);
+void				menu_button1_click(struct s_doom *doom,
+										struct s_menu_button *b);
+void				menu_button2_click(struct s_doom *doom,
+										struct s_menu_button *b);
+void				menu_button3_click(struct s_doom *doom,
+										struct s_menu_button *b);
+void				menu_button4_click(struct s_doom *doom,
+										struct s_menu_button *b);
+void				menu_button5_click(struct s_doom *doom,
+										struct s_menu_button *b);
+void				draw_menu(t_doom *doom);
+void				menu_mouse(t_doom *doom, int a);
+int					menu_keys(t_doom *doom, SDL_Event ev);
+void				menu_click(t_doom *doom, t_menu_button *cb);
+void				menu_hover(t_doom *doom, t_menu_button *hb);
+void				menu_active(t_doom *doom, t_menu_button *ab);
 int					player_win(t_doom *doom);
 int					takencount(char *str);
 int					findvx(t_xy *v1, t_xy *v2, t_xy *vert, int wall);
+int					intersect_walls(t_doom *doom, t_xy pl, int i);
+int					collision_player_dir(t_doom *doom, t_xy pl, int i);
 
 #endif

@@ -6,7 +6,7 @@
 #    By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2019/04/02 20:58:32 by lminta            #+#    #+#              #
-#    Updated: 2019/10/29 17:50:33 by dtoy             ###   ########.fr        #
+#    Updated: 2019/10/30 19:34:04 by glormell         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,7 @@ FLAGS = -Wall -Werror -Wextra -Ofast -c
 
 LIBS = lib
 
-FLAGS2 = -F ~/Library/Frameworks/ -framework SDL2 -framework SDL2_image \
+FLAGS2 = -g -F ~/Library/Frameworks/ -framework SDL2 -framework SDL2_image \
 -framework SDL2_ttf -framework SDL2_mixer -lftgnl -lft -lm
 
 OBJ = src/main.o src/loadall.o src/countall.o src/loadsectors.o src/loadvertexes.o src/utils.o \
@@ -38,7 +38,10 @@ src/doors.o src/calcmove.o src/calciswall.o src/calcjump.o src/animation.o src/d
 src/drawwalls.o src/vline2.o src/vline3.o src/tomapcood.o src/scaler.o src/drawceilandfloor.o src/findscales.o \
 src/render_walls.o src/calcpics.o src/intersect.o src/calcsector.o src/render_weapon.o src/weapon_utils.o src/vlineobj.o \
 src/drawobj.o src/render_pics.o src/hooks_move.o src/hooks_weapons.o src/hooks_interact.o src/hooks_close.o src/shoot_wall.o \
-src/mouse_hooks.o src/ft_strjoinc.o src/sound_free.o src/utils2.o src/vector_math2.o src/utils3.o
+src/mouse_hooks.o src/ft_strjoinc.o src/sound_free.o src/utils2.o src/vector_math2.o src/utils3.o \
+src/loadmenu.o src/loadmenubuttons.o src/loadmenuclick.o src/drawmenu.o src/menu_mouse.o \
+src/menu_click.o src/menu_hover.o src/menu_active.o src/menu_keys.o
+
 
 all: $(FRAMEDIR) $(LIBS) $(FRAME) $(NAME)
 

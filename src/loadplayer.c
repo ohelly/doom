@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 14:22:21 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 04:46:08 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/30 19:21:20 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,7 +37,7 @@ void	default_player_params(t_player *player)
 	player->velocity.x = 0;
 	player->velocity.y = 0;
 	player->velocity.z = 0;
-	player->col_size = 1.5f;
+	player->col_size = 1.0f;
 }
 
 int		loadplayer(t_player *player, char *str)
@@ -54,6 +54,7 @@ int		loadplayer(t_player *player, char *str)
 	player->start = player->sector;
 	str = todigit(str, &tmp);
 	player->hp = (int)tmp;
+	printf("hp - %d\n", player->hp);
 	str = todigit(str, &tmp);
 	player->weapon = (int)tmp;
 	str = todigit(str, &tmp);

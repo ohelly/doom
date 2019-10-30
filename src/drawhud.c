@@ -6,13 +6,13 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/17 17:27:54 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/27 20:11:21 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/30 18:47:23 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "doom.h"
 
-static void		drawhudel(t_hudel e, int *pix)
+void			drawhudel(t_hudel e, int *pix)
 {
 	int			i;
 	int			j;
@@ -29,11 +29,11 @@ static void		drawhudel(t_hudel e, int *pix)
 			m = i * e.s->pitch + j * e.s->format->BytesPerPixel;
 			if (e.p[m] != 0 && j >= 0)
 				pix[n] = e.c;
-			else if ((j < 0 && e.p[m + 1] != 0) || (j >= 0 && (e.p[m + 1] != 0
-					|| e.p[m - 1] != 0) && j + 1 < e.w && j - 1 >= 0) ||
-					((e.p[m + e.w] != 0 || e.p[m - e.w] != 0) &&
-					(i + 1 < e.h && i - 1 >= 0)))
-				pix[n] = e.b;
+			else if (e.b && ((j < 0 && e.p[m + 1] != 0) || (j >= 0 &&
+					(e.p[m + 1] != 0 || e.p[m - 1] != 0) && j + 1 < e.w &&
+					j - 1 >= 0) || ((e.p[m + e.w] != 0 || e.p[m - e.w] != 0) &&
+					(i + 1 < e.h && i - 1 >= 0))))
+				pix[n] = e.bc;
 		}
 	}
 }
@@ -72,7 +72,7 @@ void			drawhud(t_doom *doom)
 	load_hud(doom);
 	drawhudel(doom->hud->health, doom->sdl->pix);
 	drawhudel(doom->hud->ammo, doom->sdl->pix);
-	if (doom->player.won)
+	if (doom->player.won || doom->player.hp <= 0)
 		drawhudel(doom->hud->message, doom->sdl->pix);
 	if (doom->player.key)
 		drawkey(doom, doom->hud->key);
