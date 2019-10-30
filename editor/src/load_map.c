@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   load_map.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
+/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/12 16:27:03 by ohelly            #+#    #+#             */
-/*   Updated: 2019/10/30 17:36:23 by ohelly           ###   ########.fr       */
+/*   Updated: 2019/10/30 21:59:42 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ int		check_extension(char *av)
 	int		i;
 
 	i = ft_strlen(av) - 4;
+	if (i <= 0)
+		exit(0);
 	if (!(ft_strcmp(&av[i], ".map")))
 		return (0);
 	return (1);

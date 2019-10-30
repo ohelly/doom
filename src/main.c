@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 11:14:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/30 21:32:08 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/30 22:00:30 by dtoy             ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int		check_extension(char *av)
 	int		i;
 
 	i = ft_strlen(av) - 4;
-	if (i < 0)
+	if (i <= 0)
 		return (0);
 	if (!(ft_strcmp(&av[i], ".map")))
 		return (1);
