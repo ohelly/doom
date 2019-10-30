@@ -55,9 +55,12 @@ int		load_all(t_doom *doom, char **av)
 	load_data(doom, doom->map);
 	load_params(doom, doom->map);
 	if (Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 1024) < 0)
-		printf("Error opening audio! %s\n", Mix_GetError());
+	{
+		ft_putstr("Error opening audio! ");
+		ft_putendl(Mix_GetError());
+	}
 	else
-		printf("Audio loaded successfully!\n");
+		ft_putendl("Audio loaded successfully!");
 	load_music(doom);
 	play_music(doom, 0);
 	load_game(doom);

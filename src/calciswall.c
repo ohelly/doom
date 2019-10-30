@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   calciswall.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/27 19:23:01 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 08:49:52 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 17:31:50 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,23 +31,18 @@ int		calc_newsector(t_xy d, t_doom *doom, t_player *player)
 	px_p1x(&p, &p1, d, player);
 	sect = &doom->sectors[player->sector];
 	v = sect->vert;
-	n = 0;
-	while (n < sect->npoints)
+	n = -1;
+	while (++n < sect->npoints)
 	{
 		if (sect->neighbors[n] >= 0 && collision_box_dir(p, p1, v[n], v[n + 1]))
 		{
 			player->sector = sect->neighbors[n];
 			if (player->sector == player->end)
-			{
-				doom->player.flash_color = 0x0000ff;
-				doom->player.flash_duration = 2.0f;
-				doom->player.won = 1;
-			}
+				player_win(doom);
 			if (player->where.z != doom->sectors[player->sector].floor)
 				doom->player.fall = 1;
 			break ;
 		}
-		n++;
 	}
 	player_move(doom, d);
 	return (0);
@@ -92,8 +87,7 @@ int		is_wall(t_doom *doom, t_sectors *sect, t_xy *d, int n)
 	p.y = doom->player.where.y;
 	p1.x = doom->player.where.x + d->x;
 	p1.y = doom->player.where.y + d->y;
-	if ((IntersectBox(p.x, p.y, p1.x, p1.y, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) &&
-	PointSide(p1.x, p1.y, v[n].x, v[n].y, v[n + 1].x, v[n + 1].y) < 0))
+	if (collision_box_dir(p, p1, v[n], v[n + 1]))
 		if (glide_on_wall(d, doom, sect, n))
 			return (1);
 	return (0);

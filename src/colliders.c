@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   colliders.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/23 17:19:06 by njacobso          #+#    #+#             */
-/*   Updated: 2019/10/29 03:49:37 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 17:28:55 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,12 @@ int		collision_circle(t_xy pos1, float rad1, t_xy pos2, float rad2)
 
 int		collision_box(t_xy p1, t_xy p2, t_xy v1, t_xy v2)
 {
-	return (Overlap(p1.x, p2.x, v1.x, v2.x) && Overlap(p1.y, p2.y, v1.y, v2.y));
+	return (OVERLAP(p1.x, p2.x, v1.x, v2.x) && OVERLAP(p1.y, p2.y, v1.y, v2.y));
+}
+
+int		point_side(t_xy p, t_xy x0, t_xy x1)
+{
+	return (vxs((x1.x - x0.x), (x1.y - x0.y), (p.x - x0.x), (p.y - x0.y)));
 }
 
 /*
@@ -38,8 +43,8 @@ int		collision_box(t_xy p1, t_xy p2, t_xy v1, t_xy v2)
 
 int		collision_box_dir(t_xy pos1, t_xy pos2, t_xy col_pos1, t_xy col_pos2)
 {
-	if (IntersectBox(pos1.x, pos1.y, pos2.x, pos2.y, col_pos1.x, col_pos1.y, col_pos2.x, col_pos2.y) &&
-		PointSide(pos2.x, pos2.y, col_pos1.x, col_pos1.y, col_pos2.x, col_pos2.y) <= 0)
+	if (collision_box(pos1, pos2, col_pos1, col_pos2) &&
+		point_side(pos2, col_pos1, col_pos2) <= 0)
 		return (1);
 	return (0);
 }

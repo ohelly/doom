@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils2.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 00:51:11 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 01:59:48 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 17:58:34 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ float	line_distance(t_xy l1, t_xy l2, t_xy p)
 	return (dist);
 }
 
-int     overlap(float a0, float a1, float b0, float b1)
+int		overlap(float a0, float a1, float b0, float b1)
 {
-    return ((MIN(a0,a1) <= MAX(b0,b1) && MIN(b0,b1) <= MAX(a0,a1)));
+	return ((MIN(a0, a1) <= MAX(b0, b1) && MIN(b0, b1) <= MAX(a0, a1)));
 }

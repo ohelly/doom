@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loadobjs_hit.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/28 21:13:01 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/29 01:22:53 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 17:38:23 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,8 @@ void	obj_hit_explosive(t_doom *doom, t_obj *obj)
 	while (i < doom->num.objs)
 	{
 		o = &doom->objs[i];
-		if (o->enabled && obj->n != i && o->on_hit != NULL && distance(o->p, obj->p) < 20.0f)
+		if (o->enabled && obj->n != i && o->on_hit != NULL &&
+			distance(o->p, obj->p) < 20.0f)
 			o->on_hit(doom, o);
 		i++;
 	}

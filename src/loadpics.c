@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   loadpics.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
+/*   By: ohelly <ohelly@student.42.fr>              +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 13:47:25 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/29 05:34:21 by dtoy             ###   ########.fr       */
+/*   Updated: 2019/10/29 17:41:32 by ohelly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,15 +23,6 @@ void	pic_anim_next(t_pics *pic)
 	if (pic->anim_frame >= pic->anim_count[pic->states_frame] ||
 		pic->images[pic->states_frame][pic->anim_frame] == -1)
 		pic->anim_frame = 0;
-}
-
-int		findvx(t_xy *v1, t_xy *v2, t_xy *vert, int wall)
-{
-	v1->x = vert[wall].x;
-	v1->y = vert[wall].y;
-	v2->x = vert[wall + 1].x;
-	v2->y = vert[wall + 1].y;
-	return (0);
 }
 
 int		findpicpoints(t_doom *doom, t_pics *pic, float w)
@@ -56,11 +47,10 @@ int		findpicpoints(t_doom *doom, t_pics *pic, float w)
 	return (0);
 }
 
-int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str)
+int		get_pic(t_pics *pic, char *str, int n)
 {
-	static int	n = 0;
-	float		tmp;
-	int			id;
+	float	tmp;
+	int		id;
 
 	str = todigit(str, &tmp);
 	id = (int)tmp;
@@ -73,22 +63,26 @@ int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str)
 	pic[n].wall = (int)tmp;
 	str = todigit(str, &tmp);
 	pic[n].sector = (int)tmp;
-	int		i;
+	return (id);
+}
 
-	i = 0;
-	while (i < pic[n].sector)
-	{
+int		loadpics(t_doom *doom, t_pics *pic, t_data *pics_data, char *str)
+{
+	static int	n = 0;
+	int			id;
+	int			i;
+
+	i = -1;
+	id = get_pic(pic, str, n);
+	while (++i < pic[n].sector)
 		pic[n].wall -= doom->sectors[i].npoints;
-		i++;
-	}
 	pic[n].wall++;
-	printf("wall - %d\n", pic[n].wall);
 	pic[n].type = pics_data[id].type;
 	pic[n].images = pics_data[id].images;
 	pic[n].anim_count = pics_data[id].anim_count;
 	pic[n].states_count = pics_data[id].states_count;
 	findpicpoints(doom, &pic[n],
-	(float)(doom->img[pic[n].images[0][0]].w) / (64.f));
+		(float)(doom->img[pic[n].images[0][0]].w) / (64.f));
 	n++;
 	return (0);
 }
