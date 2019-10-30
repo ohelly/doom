@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:28:42 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/30 18:02:55 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 20:57:10 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void	player_move_keyup(SDL_Event ev, int *wsad)
 
 int		keyup(t_doom *doom, SDL_Event ev)
 {
+	if (ev.key.keysym.sym == 'p')
+		doom->menu.s = !doom->menu.s;
 	if (doom->menu.s)
 		return (0);
 	if (doom->player.dead)
@@ -109,7 +111,7 @@ int		hooks(t_doom *doom, SDL_Event ev)
 		}
 	}
 	if (ev.type == SDL_KEYDOWN)
-			keydown(doom, ev);
+		keydown(doom, ev);
 	if (ev.type == SDL_KEYUP)
 		keyup(doom, ev);
 	return (0);

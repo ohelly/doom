@@ -23,12 +23,10 @@ int			load_fonts(t_doom *doom)
 	char	*env;
 	char	*doom_f;
 
-	printf("load_fonts\n");
 	env = ft_strjoin(getenv("HOME"), "/Documents/DoomNukem");
 	doom_f = ft_strjoinc(env, "/DooM.ttf");
 	doom->hud->font = TTF_OpenFont(doom_f, 20);
 	doom->menu.font = TTF_OpenFont(doom_f, 14);
 	free(doom_f);
-	printf("load_fonts\n");
 	return (1);
 }

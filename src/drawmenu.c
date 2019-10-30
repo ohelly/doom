@@ -6,7 +6,7 @@
 /*   By: glormell <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 15:33:31 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/30 18:30:36 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 20:43:40 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,9 +29,12 @@ static void			draw_menu_button(t_doom *d, t_menu m, t_menu_button *b)
 				d->sdl->pix[n + p.a] = b->d_color;
 			else if (b->a)
 				d->sdl->pix[n + p.a] = b->a_color;
+			else if (b->h)
+				d->sdl->pix[n + p.a] = b->h_color;
+			else if (b == m.s_btn)
+				d->sdl->pix[n + p.a] = b->s_color;
 			else
-				d->sdl->pix[n + p.a] = (b->h || b == m.s_btn) ? b->h_color
-					: b->color;
+				d->sdl->pix[n + p.a] = b->color;
 	}
 	drawhudel(b->he, d->sdl->pix);
 }

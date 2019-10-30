@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/27 18:13:26 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/30 18:53:02 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 21:11:53 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ int		init_sdl(t_sdl *sdl)
 	sdl->win = SDL_CreateWindow("Doom", 0, 0, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
 	surface = SDL_GetWindowSurface(sdl->win);
 	sdl->pix = (int*)surface->pixels;
-	SDL_SetRelativeMouseMode(1);
 	return (0);
 }
 
@@ -44,6 +43,12 @@ int		calc_mouse(t_doom *doom, float yaw)
 	else
 	{
 		SDL_GetRelativeMouseState(&x, &y);
+		/*if (doom->menu.r)
+		{
+			doom->menu.r = 0;
+			x = 0;
+			y = 0;
+		}*/
 		if (doom->player.dead)
 			return (0);
 		doom->player.yaw = CLAMP(yaw + y * 0.01f, -5, 5);
@@ -65,6 +70,7 @@ int		load_game(t_doom *doom)
 	//doom->menu.s = 1;
 	while (1)
 	{
+		SDL_SetRelativeMouseMode(!doom->menu.s);
 		fps(&doom->fps);
 		animation(doom, doom->fps);
 		doors(doom, doom->player, doom->fps);

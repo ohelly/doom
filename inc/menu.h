@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/30 14:07:27 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/30 18:28:07 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 21:17:18 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ typedef struct				s_menu_button
 	int						a;
 	int						d;
 	int						color;
+	int						s_color;
 	int						h_color;
 	int						a_color;
 	int						d_color;
