@@ -38,11 +38,7 @@ int		calc_newsector(t_xy d, t_doom *doom, t_player *player)
 		{
 			player->sector = sect->neighbors[n];
 			if (player->sector == player->end)
-			{
-				doom->player.f_col = 0x0000ff;
-				doom->player.f_dur = 2.0f;
-				doom->player.won = 1;
-			}
+				player_win(doom);
 			if (player->where.z != doom->sectors[player->sector].floor)
 				doom->player.fall = 1;
 			break ;
