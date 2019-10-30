@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/09/26 19:45:10 by dtoy              #+#    #+#             */
-/*   Updated: 2019/10/30 19:56:32 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 20:49:15 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -521,6 +521,7 @@ float				rad_to_deg(float rad);
 int					sqr(int x);
 int					rgb_mix(int rgb1, int rgb2, float percent);
 float				line_distance(t_xy l1, t_xy l2, t_xy p);
+void				quit(t_doom *doom);
 void				close_program(SDL_Event ev, t_doom *doom);
 void				jump_sprint_crouch(t_doom *doom, SDL_Event ev,
 t_player *player, t_sectors *s);

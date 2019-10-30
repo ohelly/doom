@@ -6,7 +6,7 @@
 /*   By: dtoy <dtoy@student.42.fr>                  +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2019/10/29 15:33:43 by glormell          #+#    #+#             */
-/*   Updated: 2019/10/30 20:44:47 by glormell         ###   ########.fr       */
+/*   Updated: 2019/10/30 21:16:55 by glormell         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,6 @@ static void			load_buttons(t_doom *doom)
 
 int					load_menu(t_doom *doom)
 {
-	SDL_SetRelativeMouseMode(0);
 	doom->menu.s = 0;
 	doom->menu.c = 4;
 	doom->menu.l = 0;
