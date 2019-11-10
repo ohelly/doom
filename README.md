@@ -26,3 +26,9 @@ editor$ ./doom-editor [file.map]
 ![Alt text](/screens/game/scr3.png?raw=true "game")
 ![Alt text](/screens/game/scr4.png?raw=true "game")
 
+#### Level-editor
+![Alt text](/screens/editor/scr5.png?raw=true "leve-editor")
+![Alt text](/screens/editor/scr6.png?raw=true "leve-editor")
+![Alt text](/screens/editor/scr7.png?raw=true "leve-editor")
+![Alt text](/screens/editor/scr8.png?raw=true "leve-editor")
+![Alt text](/screens/editor/scr9.png?raw=true "leve-editor")
